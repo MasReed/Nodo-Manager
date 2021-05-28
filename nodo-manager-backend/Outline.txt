@@ -1,0 +1,36 @@
+# Nodo Manager Web Application
+
+Backend
+  -Control (node/express)
+
+    -Admin (all crud ops)
+      -Menu Items
+      -Costs
+      -Ingredients/Recipes?
+
+    -User
+      -Get menu items
+      -Get item Costs
+      -Get ingredients list?
+
+  -Data (mongoDB/mongoose)
+    Menu items
+    Item costs
+    Ingredients / Recipes?
+
+
+Frontend (React)
+  -Control
+    -Admin interface
+    -User interface
+      -create orders
+      -calculate purchases
+
+
+--------------------------------------
+Procedure
+--------------------------------------
++ setup basic node/express
+  -use temp data & postman
+- setup MongoDB/Mongoose and schemas
+- update this list
