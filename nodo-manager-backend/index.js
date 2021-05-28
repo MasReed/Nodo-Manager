@@ -1,42 +1,35 @@
 require('dotenv').config()
 const express = require('express')
 const app = express()
-const mongoose = require('mongoose')
 const middleware = require('./utils/middleware')
+const itemsRouter = require('./controllers/items')
+const mongoose = require('mongoose')
 
 const PORT = 3000
-
-app.use(express.json())
-app.use(middleware.requestLogger)
-
 
 // DB connection
 mongoose.connect(process.env.MONGODB_URI_NODO, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+})
+.then(() => {
+  console.log('connected to MongoDB')
+})
+.catch((error) => {
+  console.error('error connection to MongoDB:', error.message)
 })
 
-const db = mongoose.connection
-db.on('error', console.error.bind(console, 'connection error:'))
-db.once('open', () => {
-  console.log('connected to MongoDB Atlas')
-})
+
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(middleware.requestLogger)
+
+// Abstracted Controllers
+app.use('/api/items', itemsRouter)
 
 
-
-
-const fakeItem = {
-  name: 'Hamburger',
-  description: 'A plain old hamburger, delicous.',
-  ingredients: ['Bun', 'Patty', 'Lettuce', 'Tomato', 'Pickle', 'Ketchup']
-}
-
-const items = [
-  fakeItem,
-  fakeItem
-]
-
-
+// Misc. Routes
 app.get('/', (req, res) => {
   res.send('<h1>Hello World</h1>')
 })
@@ -45,11 +38,7 @@ app.get('/api', (req, res) => {
   res.send('API')
 })
 
-app.get('/api/items/', (req, res) => {
-  res.json(items)
-})
-
-
+// Server Connection
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
