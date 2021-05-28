@@ -34,3 +34,4 @@ Procedure
   -use temp data & postman
 - setup MongoDB/Mongoose and schemas
 - update this list
+- implement linter/rules
