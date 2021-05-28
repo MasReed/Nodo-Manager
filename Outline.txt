@@ -14,9 +14,8 @@ Backend
       -Get ingredients list?
 
   -Data (mongoDB/mongoose)
-    Menu items
-    Item costs
-    Ingredients / Recipes?
+    Menu items, cost, ingredients
+    Sales
 
 
 Frontend (React)
