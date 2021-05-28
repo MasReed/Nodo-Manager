@@ -3,6 +3,7 @@ const express = require('express')
 const app = express()
 const middleware = require('./utils/middleware')
 const itemsRouter = require('./controllers/items')
+const usersRouter = require('./controllers/users')
 const mongoose = require('mongoose')
 
 const PORT = 3000
@@ -27,6 +28,7 @@ app.use(middleware.requestLogger)
 
 // Abstracted Controllers
 app.use('/api/items', itemsRouter)
+app.use('/api/users', usersRouter)
 
 
 // Misc. Routes
