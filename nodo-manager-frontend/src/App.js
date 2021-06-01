@@ -1,5 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { newItemActionCreator } from './reducers/itemReducer'
+import itemService from './services/items'
+
 
 const ItemInfo = ({ item }) => {
   return (
@@ -8,7 +12,7 @@ const ItemInfo = ({ item }) => {
       <h4>{item.description}</h4>
       <p>{item.category}</p>
       <ul>
-        {item.ingredients.map(ingredient => (
+        {(item.ingredients) && item.ingredients.map(ingredient => (
           <li key={ingredient}>{ingredient}</li>
         ))
         }
@@ -19,23 +23,34 @@ const ItemInfo = ({ item }) => {
 
 function App() {
 
-  const [items, setItems] = useState()
+  const dispatch = useDispatch()
+  const state = useSelector(state => state)
 
   useEffect(() => {
-      axios
-        .get('http://localhost:3000/api/items')
-        .then(response => {
-          setItems(response.data)
-        })
-  }, [])
+      itemService
+        .getAll()
+        .then(items => items.map(item =>
+          dispatch(newItemActionCreator(item))
+        ))
+  }, [ dispatch ])
 
-  console.log('ITEMS', items)
 
+  const handlePost = (event) => {
+    event.preventDefault()
+    const newContent = {
+      name: 'SOME CONTENT',
+      description: 'A test',
+      category: 'testing',
+      ingredients: ['bread']
+    }
+    dispatch(newItemActionCreator(newContent))
+  }
 
 
   return (
     <div>
-      {items && items.map(item => <ItemInfo key={item._id} item={item} />)}
+    <button onClick={ handlePost }>DISPATCH</button>
+      {state.items && state.items.map(item => <ItemInfo key={item._id} item={item} />)}
     </div>
   );
 }
