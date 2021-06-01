@@ -12,6 +12,16 @@ const create = async (newObject) => {
   return response.data
 }
 
-const exps = { getAll, create }
+const update = async (id, updatedObject) => {
+  const response = await axios.put(`${baseUrl}/${id}`, updatedObject)
+  return response.data
+}
+
+const destroy = async (id) => {
+  const response = await axios.delete(`${baseUrl}/${id}`)
+  return response.data
+}
+
+const exps = { getAll, create, update, destroy }
 
 export default exps
