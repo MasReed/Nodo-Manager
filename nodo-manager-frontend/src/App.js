@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { newItemActionCreator } from './reducers/itemReducer'
+import { newItemActionCreator, updateItemActionCreator, destroyItemActionCreator } from './reducers/itemReducer'
 import itemService from './services/items'
 
 
@@ -47,10 +47,32 @@ function App() {
     dispatch(newItemActionCreator(newItem))
   }
 
+  const updateItem = async (event, id) => {
+    event.preventDefault()
+    const itemWithUpdates = {
+      name: 'U1',
+      description: 'UPDATED0',
+      category: 'testing',
+      ingredients: ['updated']
+    }
+    const response = await itemService.update(id, itemWithUpdates)
+    console.log('RESPONSE', response)
+    dispatch(updateItemActionCreator(response._id, response))
+  }
+
+  const destroyItem = async (event, id) => {
+    event.preventDefault()
+    await itemService.destroy(id)
+    dispatch(destroyItemActionCreator(id))
+  }
+
+  const id = '60b6a8c812760235bcfc56f8'
 
   return (
     <div>
-    <button onClick={ addItem }>DISPATCH</button>
+    <button onClick={ addItem }>ADD ITEM</button>
+    <button onClick={ (event) => updateItem(event, id) }>UPDATE</button>
+    <button onClick={ (event) => destroyItem(event, id) }>DESTROY</button>
       {state.items && state.items.map(item => <ItemInfo key={item._id} item={item} />)}
     </div>
   );
