@@ -1,25 +1,14 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { newItemActionCreator, updateItemActionCreator, destroyItemActionCreator } from './reducers/itemReducer'
-import itemService from './services/items'
+import {
+  initializeItems,
+  addItemActionCreator,
+  updateItemActionCreator,
+  destroyItemActionCreator
+} from './reducers/itemReducer'
 
 
-const ItemInfo = ({ item }) => {
-  return (
-    <div>
-      <h2>{item.name}</h2>
-      <h4>{item.description}</h4>
-      <p>{item.category}</p>
-      <ul>
-        {(item.ingredients) && item.ingredients.map(ingredient => (
-          <li key={ingredient}>{ingredient}</li>
-        ))
-        }
-      </ul>
-    </div>
-  )
-}
 
 function App() {
 
@@ -27,52 +16,63 @@ function App() {
   const state = useSelector(state => state)
 
   useEffect(() => {
-      itemService
-        .getAll()
-        .then(items => items.map(item =>
-          dispatch(newItemActionCreator(item))
-        ))
+      dispatch(initializeItems())
   }, [ dispatch ])
 
 
-  const addItem = async (event) => {
-    event.preventDefault()
-    const newContent = {
-      name: 'SOME CONTENT',
-      description: 'A test',
-      category: 'testing',
-      ingredients: ['bread']
-    }
-    const newItem = await itemService.create(newContent)
-    dispatch(newItemActionCreator(newItem))
+  //TEMP Data
+  const id = '60b6bc7812760235bcfc56ff'
+  const newContent = {
+    name: 'SOME CONTENT',
+    description: 'A test',
+    category: 'testing',
+    ingredients: ['bread']
+  }
+  const itemWithUpdates = {
+    name: 'U1',
+    description: 'UPDATED0',
+    category: 'testing',
+    ingredients: ['updated']
   }
 
-  const updateItem = async (event, id) => {
+  const addItem = (event) => {
     event.preventDefault()
-    const itemWithUpdates = {
-      name: 'U1',
-      description: 'UPDATED0',
-      category: 'testing',
-      ingredients: ['updated']
-    }
-    const response = await itemService.update(id, itemWithUpdates)
-    console.log('RESPONSE', response)
-    dispatch(updateItemActionCreator(response._id, response))
+    dispatch(addItemActionCreator(newContent))
   }
 
-  const destroyItem = async (event, id) => {
+  const updateItem = (event) => {
     event.preventDefault()
-    await itemService.destroy(id)
+    dispatch(updateItemActionCreator(id, itemWithUpdates))
+  }
+
+  const deleteItem = (id) => {
+    console.log('deleteitemCalled', id)
     dispatch(destroyItemActionCreator(id))
   }
 
-  const id = '60b6a8c812760235bcfc56f8'
+
+  const ItemInfo = ({ item }) => {
+    return (
+      <div>
+        <h2>{item.name}</h2>
+        <button onClick={ () => deleteItem(item._id) }>DESTROY</button>
+        <h4>{item.description}</h4>
+        <p>{item.category}</p>
+        <ul>
+          {(item.ingredients) && item.ingredients.map(ingredient => (
+            <li key={ingredient}>{ingredient}</li>
+          ))
+          }
+        </ul>
+      </div>
+    )
+  }
 
   return (
     <div>
-    <button onClick={ addItem }>ADD ITEM</button>
-    <button onClick={ (event) => updateItem(event, id) }>UPDATE</button>
-    <button onClick={ (event) => destroyItem(event, id) }>DESTROY</button>
+      <button onClick={ addItem }>ADD ITEM</button>
+      <button onClick={ updateItem }>UPDATE</button>
+      <button onClick={ deleteItem }>DESTROY</button>
       {state.items && state.items.map(item => <ItemInfo key={item._id} item={item} />)}
     </div>
   );
