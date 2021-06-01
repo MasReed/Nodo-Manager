@@ -31,6 +31,7 @@ Procedure
 --------------------------------------
 + setup basic node/express
   -use temp data & postman
-- setup MongoDB/Mongoose and schemas
++ setup MongoDB/Mongoose and schemas
++ CRUD operations for items/users API
 - update this list
 - implement linter/rules

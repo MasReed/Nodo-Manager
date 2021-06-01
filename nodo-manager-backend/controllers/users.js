@@ -22,5 +22,27 @@ usersRouter.get('/', async (req, res) => {
   res.json(users)
 })
 
+// UPDATE a user
+usersRouter.put('/:id', async (req, res) => {
+  const body = req.body
+
+  const userWithUpdates = {
+    name: body.name,
+    username: body.username,
+    passwordHash: body.passwordHash,
+    clearance: body.clearance,
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(req.params.id, userWithUpdates, { new: true })
+
+  res.json(updatedUser.toJSON())
+})
+
+// DELETE a user
+usersRouter.delete('/:id', async (req, res) => {
+  const deletedUser = await User.findByIdAndDelete(req.params.id)
+  res.json(deletedUser.toJSON())
+})
+
 
 module.exports = usersRouter
