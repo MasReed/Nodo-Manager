@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express')
+const cors = require('cors')
 const app = express()
 const middleware = require('./utils/middleware')
 const itemsRouter = require('./controllers/items')
@@ -21,7 +22,7 @@ mongoose.connect(process.env.MONGODB_URI_NODO, {
   console.error('error connection to MongoDB:', error.message)
 })
 
-
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(middleware.requestLogger)
