@@ -7,6 +7,11 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
-const exps = { getAll }
+const create = async (newObject) => {
+  const response = await axios.post(baseUrl, newObject)
+  return response.data
+}
+
+const exps = { getAll, create }
 
 export default exps

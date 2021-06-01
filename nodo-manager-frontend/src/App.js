@@ -35,7 +35,7 @@ function App() {
   }, [ dispatch ])
 
 
-  const handlePost = (event) => {
+  const addItem = async (event) => {
     event.preventDefault()
     const newContent = {
       name: 'SOME CONTENT',
@@ -43,13 +43,14 @@ function App() {
       category: 'testing',
       ingredients: ['bread']
     }
-    dispatch(newItemActionCreator(newContent))
+    const newItem = await itemService.create(newContent)
+    dispatch(newItemActionCreator(newItem))
   }
 
 
   return (
     <div>
-    <button onClick={ handlePost }>DISPATCH</button>
+    <button onClick={ addItem }>DISPATCH</button>
       {state.items && state.items.map(item => <ItemInfo key={item._id} item={item} />)}
     </div>
   );
