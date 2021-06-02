@@ -31,16 +31,19 @@ Procedure
 --------------------------------------
 + setup basic node/express
 + setup MongoDB/Mongoose and schemas
-  - Implement orders schema
+  + Implement orders schema
+    - add in: orderName, orderCategory, orderDescription
   + CRUD operations for items/users API backend
-    - error handling
+    - express async error handling
 - CRUD ops for frontend
   -items
     +itemService comms working
     -create a form to add new item
     -create a form/way to update items
   -orders
+    +orderService comms working
   -users
+- Frontend Routing w/ react-router-dom
 - Unit Testing backend
 - Unit Testing frontend
 - update this list
