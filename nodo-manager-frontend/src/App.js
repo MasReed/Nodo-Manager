@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 // import {
 //   Switch,
@@ -22,15 +22,14 @@ import {
   addUserActionCreator,
 } from './reducers/userReducer'
 
-import ItemInfo from './components/items/ItemInfo'
-import OrderInfo from './components/orders/OrderInfo'
-import UserInfo from './components/users/UserInfo'
+import ItemsList from './components/items/ItemsList'
+import OrdersList from './components/orders/OrdersList'
+import UsersList from './components/users/UsersList'
 
 
 function App() {
 
   const dispatch = useDispatch()
-  const state = useSelector(state => state)
 
   useEffect(() => {
       dispatch(initializeItems())
@@ -73,9 +72,9 @@ function App() {
       <button onClick={ addItem }>ADD ITEM</button>
       <button onClick={ addOrder }>ADD ORDER</button>
       <button onClick={ addUser }>ADD USER</button>
-      {!state.items && state.items.map(item => <ItemInfo key={item._id} item={item} />)}
-      {!state.orders && state.orders.map(order => <OrderInfo key={order._id} order={order} />)}
-      {state.users && state.users.map(user => <UserInfo  key={user.id} user={user} />)}
+      <ItemsList />
+      <OrdersList />
+      <UsersList />
     </div>
   );
 }

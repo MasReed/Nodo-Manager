@@ -30,7 +30,7 @@ const ItemInfo = ({ item }) => {
   return (
     <div>
       <h2>{item.name}</h2>
-      <button onClick={ () => deleteItem(item._id) }>DESTROY</button>
+      <button onClick={ () => deleteItem(item._id) }>DELETE</button>
       <button onClick={ () => updateItem(item._id) }>UPDATE</button>
       <h4>{item.description}</h4>
       <p>{item.category}</p>
