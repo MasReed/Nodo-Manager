@@ -4,10 +4,12 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 
 import itemReducer from './reducers/itemReducer'
 import orderReducer from './reducers/orderReducer'
+import userReducer from './reducers/userReducer'
 
 const reducer = combineReducers({
   items: itemReducer,
-  orders: orderReducer
+  orders: orderReducer,
+  users: userReducer
 })
 
 const store = createStore(

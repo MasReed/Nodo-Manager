@@ -1,6 +1,12 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+// import {
+//   Switch,
+//   Route,
+//   Link
+// } from "react-router-dom";
+
 import {
   initializeItems,
   addItemActionCreator,
@@ -15,6 +21,13 @@ import {
   deleteOrderActionCreator
 } from './reducers/orderReducer'
 
+import {
+  initializeUsers,
+  addUserActionCreator,
+  updateUserActionCreator,
+  deleteUserActionCreator
+} from './reducers/userReducer'
+
 
 function App() {
 
@@ -24,6 +37,7 @@ function App() {
   useEffect(() => {
       dispatch(initializeItems())
       dispatch(initializeOrders())
+      dispatch(initializeUsers())
   }, [ dispatch ])
 
 
@@ -47,7 +61,12 @@ function App() {
   	"taxRate": 0.07,
   	"taxAmount": 0.75,
   	"Total": 10.25
-}
+  }
+  const userWithUpdates = {
+    name: 'updatedName',
+    username: 'updatedUsername',
+    clearance: 'LICENSE TO CODE'
+  }
 
   // Item action dispatchers
   const addItem = (event) => {
@@ -75,6 +94,24 @@ function App() {
 
   const deleteOrder = (id) => {
     dispatch(deleteOrderActionCreator(id))
+  }
+
+  // User action dispatchers
+  const addUser = (event) => {
+    event.preventDefault()
+    dispatch(addUserActionCreator({
+      name: 'newName',
+      username: 'newUser',
+      clearance: 'peon'
+    }))
+  }
+
+  const updateUser = (id) => {
+    dispatch(updateUserActionCreator(id, userWithUpdates))
+  }
+
+  const deleteUser = (id) => {
+    dispatch(deleteUserActionCreator(id))
   }
 
 
@@ -110,12 +147,25 @@ function App() {
     )
   }
 
+  const UserInfo = ({ user }) => {
+    return (
+      <div>
+        <h2>{user.username}</h2>
+        <p>{user.clearance}</p>
+        <button onClick={ () => deleteUser(user.id) }>DESTROY</button>
+        <button onClick={ () => updateUser(user.id) }>UPDATE</button>
+      </div>
+    )
+  }
+
   return (
     <div>
       <button onClick={ addItem }>ADD ITEM</button>
       <button onClick={ addOrder }>ADD ORDER</button>
+      <button onClick={ addUser }>ADD USER</button>
       {!state.items && state.items.map(item => <ItemInfo key={item._id} item={item} />)}
-      {state.orders && state.orders.map(order => <OrderInfo key={order._id} order={order} />)}
+      {!state.orders && state.orders.map(order => <OrderInfo key={order._id} order={order} />)}
+      {state.users && state.users.map(user => <UserInfo  key={user.id} user={user} />)}
     </div>
   );
 }
