@@ -3,9 +3,11 @@ import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
 import itemReducer from './reducers/itemReducer'
+import orderReducer from './reducers/orderReducer'
 
 const reducer = combineReducers({
-  items: itemReducer
+  items: itemReducer,
+  orders: orderReducer
 })
 
 const store = createStore(

@@ -8,6 +8,12 @@ import {
   destroyItemActionCreator
 } from './reducers/itemReducer'
 
+import {
+  initializeOrders,
+  addOrderActionCreator,
+  updateOrderActionCreator,
+  deleteOrderActionCreator
+} from './reducers/orderReducer'
 
 
 function App() {
@@ -17,6 +23,7 @@ function App() {
 
   useEffect(() => {
       dispatch(initializeItems())
+      dispatch(initializeOrders())
   }, [ dispatch ])
 
 
@@ -33,8 +40,16 @@ function App() {
     category: 'testing',
     ingredients: ['updated']
   }
+  const orderWithUpdates = {
+  	"foodItems": [{ "item1": "food1" }],
+  	"drinkItems": [{ "item1": "drink1" }, { "item2": "drink2" }],
+  	"subTotal": 9.50,
+  	"taxRate": 0.07,
+  	"taxAmount": 0.75,
+  	"Total": 10.25
+}
 
-  // Action dispatchers
+  // Item action dispatchers
   const addItem = (event) => {
     event.preventDefault()
     dispatch(addItemActionCreator(newContent))
@@ -46,6 +61,20 @@ function App() {
 
   const deleteItem = (id) => {
     dispatch(destroyItemActionCreator(id))
+  }
+
+  // Order action dispatchers
+  const addOrder = (event) => {
+    event.preventDefault()
+    dispatch(addOrderActionCreator())
+  }
+
+  const updateOrder = (id) => {
+    dispatch(updateOrderActionCreator(id, orderWithUpdates))
+  }
+
+  const deleteOrder = (id) => {
+    dispatch(deleteOrderActionCreator(id))
   }
 
 
@@ -67,10 +96,26 @@ function App() {
     )
   }
 
+  const OrderInfo = ({ order }) => {
+    return (
+      <div>
+        <h2>ID: {order._id}</h2>
+        <button onClick={ () => deleteOrder(order._id) }>DESTROY</button>
+        <button onClick={ () => updateOrder(order._id) }>UPDATE</button>
+        <h4>Food Items: {order.foodItems && order.foodItems.length}</h4>
+        <h4>Drink Items: {order.foodItems && order.drinkItems.length}</h4>
+        <p>Subtotal: {order.subTotal}</p>
+        <p>Total: {order.Total}</p>
+      </div>
+    )
+  }
+
   return (
     <div>
       <button onClick={ addItem }>ADD ITEM</button>
-      {state.items && state.items.map(item => <ItemInfo key={item._id} item={item} />)}
+      <button onClick={ addOrder }>ADD ORDER</button>
+      {!state.items && state.items.map(item => <ItemInfo key={item._id} item={item} />)}
+      {state.orders && state.orders.map(order => <OrderInfo key={order._id} order={order} />)}
     </div>
   );
 }
