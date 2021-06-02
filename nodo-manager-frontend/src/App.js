@@ -7,24 +7,13 @@ import {
   Link
 } from "react-router-dom";
 
-import {
-  initializeItems,
-  addItemActionCreator
-} from './reducers/itemReducer'
+import { initializeItems } from './reducers/itemReducer'
+import { initializeOrders } from './reducers/orderReducer'
+import { initializeUsers } from './reducers/userReducer'
 
-import {
-  initializeOrders,
-  addOrderActionCreator,
-} from './reducers/orderReducer'
-
-import {
-  initializeUsers,
-  addUserActionCreator,
-} from './reducers/userReducer'
-
-import ItemsList from './components/items/ItemsList'
-import OrdersList from './components/orders/OrdersList'
-import UsersList from './components/users/UsersList'
+import ItemsPage from './components/items/ItemsPage'
+import OrdersPage from './components/orders/OrdersPage'
+import UsersPage from './components/users/UsersPage'
 
 
 function App() {
@@ -38,35 +27,6 @@ function App() {
   }, [ dispatch ])
 
 
-  // Item action dispatchers
-  const addItem = (event) => {
-    event.preventDefault()
-    dispatch(addItemActionCreator(
-      {
-        name: 'SOME CONTENT',
-        description: 'A test',
-        category: 'testing',
-        ingredients: ['bread']
-      }
-    ))
-  }
-
-  // Order action dispatchers
-  const addOrder = (event) => {
-    event.preventDefault()
-    dispatch(addOrderActionCreator())
-  }
-
-  // User action dispatchers
-  const addUser = (event) => {
-    event.preventDefault()
-    dispatch(addUserActionCreator({
-      name: 'newName',
-      username: 'newUser',
-      clearance: 'peon'
-    }))
-  }
-
   const navBtnStyle = {
     padding: '10px',
     margin: '10px 0'
@@ -75,7 +35,7 @@ function App() {
   return (
     <div>
       <React.Fragment>
-        <nav  style={navBtnStyle}>
+        <nav style={navBtnStyle}>
           <Link to='/' style={navBtnStyle}>Home</Link>
           <Link to='/items' style={navBtnStyle}>Items</Link>
           <Link to='/orders' style={navBtnStyle}>Orders</Link>
@@ -88,18 +48,15 @@ function App() {
         <Switch>
 
           <Route path='/items'>
-            <button onClick={ addItem }>ADD ITEM</button>
-            <ItemsList />
+            <ItemsPage />
           </Route>
 
           <Route path='/orders'>
-            <button onClick={ addOrder }>ADD ORDER</button>
-            <OrdersList />
+            <OrdersPage />
           </Route>
 
           <Route path='/users'>
-            <button onClick={ addUser }>ADD USER</button>
-            <UsersList />
+            <UsersPage />
           </Route>
 
           <Route path='/'>

@@ -28,7 +28,7 @@ const UserInfo = ({ user }) => {
     <div>
       <h2>{user.username}</h2>
       <p>{user.clearance}</p>
-      <button onClick={ () => deleteUser(user.id) }>DESTROY</button>
+      <button onClick={ () => deleteUser(user.id) }>DELETE</button>
       <button onClick={ () => updateUser(user.id) }>UPDATE</button>
     </div>
   )

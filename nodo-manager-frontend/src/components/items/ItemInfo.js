@@ -6,7 +6,6 @@ import {
   destroyItemActionCreator
 } from '../../reducers/itemReducer'
 
-
 const ItemInfo = ({ item }) => {
 
   const dispatch = useDispatch()
@@ -17,7 +16,6 @@ const ItemInfo = ({ item }) => {
     category: 'testing',
     ingredients: ['updated']
   }
-
 
   const updateItem = (id) => {
     dispatch(updateItemActionCreator(id, itemWithUpdates))

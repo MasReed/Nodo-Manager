@@ -30,7 +30,7 @@ const OrderInfo = ({ order }) => {
   return (
     <div>
       <h2>ID: {order._id}</h2>
-      <button onClick={ () => deleteOrder(order._id) }>DESTROY</button>
+      <button onClick={ () => deleteOrder(order._id) }>DELETE</button>
       <button onClick={ () => updateOrder(order._id) }>UPDATE</button>
       <h4>Food Items: {order.foodItems && order.foodItems.length}</h4>
       <h4>Drink Items: {order.foodItems && order.drinkItems.length}</h4>
