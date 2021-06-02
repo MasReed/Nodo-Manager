@@ -1,9 +1,9 @@
 import itemService from '../services/items'
 
 const itemReducer = (state = [], action) => {
-  console.log('---itemReducer---')
-  console.log('stateB4:', state)
-  console.log('action:', action)
+  // console.log('---itemReducer---')
+  // console.log('stateB4:', state)
+  // console.log('action:', action)
   switch (action.type) {
 
     case 'INIT_ITEMS':
@@ -14,10 +14,10 @@ const itemReducer = (state = [], action) => {
 
     case 'UPDATE_ITEM':
       return state.map(item =>
-        (item.id !== action.data.id)
+        (item._id !== action.data._id)
         ? item
-        : action.data.object
-        )
+        : action.data
+      )
 
     case 'DESTROY_ITEM':
       return state.filter(item => item._id !== action.data.id)
@@ -42,7 +42,6 @@ export const initializeItems = () => {
 export const addItemActionCreator = (newContent) => {
   return async dispatch => {
     const newItem = await itemService.create(newContent)
-    console.log(newItem)
     dispatch({
       type: 'MAKE_ITEM',
       data: newItem
@@ -50,17 +49,12 @@ export const addItemActionCreator = (newContent) => {
   }
 }
 
-
 export const updateItemActionCreator = (id, updatedObject) => {
   return async dispatch => {
     const updatedItem = await itemService.update(id, updatedObject)
-    console.log('updated item', updatedItem)
     dispatch({
       type: 'UPDATE_ITEM',
-      data: {
-        id: id,
-        object: updatedObject
-      }
+      data: updatedItem
     })
   }
 }

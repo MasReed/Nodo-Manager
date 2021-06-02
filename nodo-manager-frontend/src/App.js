@@ -21,7 +21,6 @@ function App() {
 
 
   //TEMP Data
-  const id = '60b6bc7812760235bcfc56ff'
   const newContent = {
     name: 'SOME CONTENT',
     description: 'A test',
@@ -35,18 +34,17 @@ function App() {
     ingredients: ['updated']
   }
 
+  // Action dispatchers
   const addItem = (event) => {
     event.preventDefault()
     dispatch(addItemActionCreator(newContent))
   }
 
-  const updateItem = (event) => {
-    event.preventDefault()
+  const updateItem = (id) => {
     dispatch(updateItemActionCreator(id, itemWithUpdates))
   }
 
   const deleteItem = (id) => {
-    console.log('deleteitemCalled', id)
     dispatch(destroyItemActionCreator(id))
   }
 
@@ -56,6 +54,7 @@ function App() {
       <div>
         <h2>{item.name}</h2>
         <button onClick={ () => deleteItem(item._id) }>DESTROY</button>
+        <button onClick={ () => updateItem(item._id) }>UPDATE</button>
         <h4>{item.description}</h4>
         <p>{item.category}</p>
         <ul>
@@ -71,8 +70,6 @@ function App() {
   return (
     <div>
       <button onClick={ addItem }>ADD ITEM</button>
-      <button onClick={ updateItem }>UPDATE</button>
-      <button onClick={ deleteItem }>DESTROY</button>
       {state.items && state.items.map(item => <ItemInfo key={item._id} item={item} />)}
     </div>
   );
