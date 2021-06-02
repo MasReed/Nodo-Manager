@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-// import {
-//   Switch,
-//   Route,
-//   Link
-// } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 import {
   initializeItems,
@@ -67,16 +67,54 @@ function App() {
     }))
   }
 
+  const navBtnStyle = {
+    padding: '10px',
+    margin: '10px 0'
+  }
+
   return (
     <div>
-      <button onClick={ addItem }>ADD ITEM</button>
-      <button onClick={ addOrder }>ADD ORDER</button>
-      <button onClick={ addUser }>ADD USER</button>
-      <ItemsList />
-      <OrdersList />
-      <UsersList />
+      <React.Fragment>
+        <nav  style={navBtnStyle}>
+          <Link to='/' style={navBtnStyle}>Home</Link>
+          <Link to='/items' style={navBtnStyle}>Items</Link>
+          <Link to='/orders' style={navBtnStyle}>Orders</Link>
+          <Link to='/users' style={navBtnStyle}>Users</Link>
+        </nav>
+        <hr />
+      </React.Fragment>
+
+      <React.Fragment>
+        <Switch>
+
+          <Route path='/items'>
+            <button onClick={ addItem }>ADD ITEM</button>
+            <ItemsList />
+          </Route>
+
+          <Route path='/orders'>
+            <button onClick={ addOrder }>ADD ORDER</button>
+            <OrdersList />
+          </Route>
+
+          <Route path='/users'>
+            <button onClick={ addUser }>ADD USER</button>
+            <UsersList />
+          </Route>
+
+          <Route path='/'>
+            {<h2>Signup or Login</h2>}
+          </Route>
+
+          <Route path="*">
+            {<h2>Not Found</h2>}
+          </Route>
+
+        </Switch>
+      </React.Fragment>
+
     </div>
-  );
+  )
 }
 
 export default App;
