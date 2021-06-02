@@ -43,7 +43,8 @@ Procedure
   -orders
     +orderService comms working
   -users
-- Frontend Routing w/ react-router-dom
+    +userService comms working
++ Frontend Routing w/ react-router-dom
 - Unit Testing backend
 - Unit Testing frontend
 - update this list
