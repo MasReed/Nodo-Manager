@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import Button from 'react-bootstrap/Button'
+import Container from 'react-bootstrap/Container'
 
 import ItemsList from './ItemsList'
 import NewItemForm from './NewItemForm'
@@ -10,7 +11,7 @@ const ItemsPage = () => {
   const [show, setShow] = useState(false)
 
   return (
-    <div style={{ margin: '1% 20%'}}>
+    <Container>
       <h2>Items Page</h2>
 
       <NewItemForm show={show} setShow={setShow}/>
@@ -19,7 +20,7 @@ const ItemsPage = () => {
 
       <hr />
       <ItemsList />
-    </div>
+    </Container>
   )
 }
 

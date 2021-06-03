@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
+import Card from 'react-bootstrap/Card'
 
 import {
   updateItemActionCreator,
@@ -28,19 +29,23 @@ const ItemInfo = ({ item }) => {
   }
 
   return (
-    <div>
-      <h2>{item.name}</h2>
-      <Button onClick={ () => deleteItem(item._id) } size='sm' variant='outline-secondary'>DELETE</Button>
-      <Button onClick={ () => updateItem(item._id) } size='sm' variant='outline-secondary'>UPDATE</Button>
-      <h4>{item.description}</h4>
-      <p>{item.category}</p>
-      <ul>
-        {(item.ingredients) && item.ingredients.map(ingredient => (
-          <li key={ingredient}>{ingredient}</li>
-        ))
-        }
-      </ul>
-    </div>
+    <Card style={{ width: '18rem' }}>
+      <Card.Body>
+        <Card.Title>{item.name}</Card.Title>
+        <Card.Subtitle className="mb-2 text-muted">{item.category}</Card.Subtitle>
+        <Card.Text>{item.description}</Card.Text>
+
+        <ul>
+          {(item.ingredients) && item.ingredients.map(ingredient => (
+            <li key={ingredient}>{ingredient}</li>
+          ))
+          }
+        </ul>
+
+        <Button onClick={ () => deleteItem(item._id) } size='sm' variant='outline-secondary'>DELETE</Button>
+        <Button onClick={ () => updateItem(item._id) } size='sm' variant='outline-secondary'>UPDATE</Button>
+      </Card.Body>
+    </Card>
   )
 }
 
