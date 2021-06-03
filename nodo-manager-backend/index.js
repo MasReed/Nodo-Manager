@@ -1,27 +1,27 @@
-require('dotenv').config()
+const config = require('./utils/config')
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const app = express()
 
+const rolesInitializer = require('./utils/rolesInitializer')
 const middleware = require('./utils/middleware')
 const itemsRouter = require('./controllers/items')
 const ordersRouter = require('./controllers/orders')
 const usersRouter = require('./controllers/users')
 
-const PORT = 3000
-
 // DB connection
-mongoose.connect(process.env.MONGODB_URI_NODO, {
+mongoose.connect(config.MONGODB_URI_NODO, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
 })
 .then(() => {
   console.log('connected to MongoDB')
+  rolesInitializer()
 })
 .catch((error) => {
-  console.error('error connection to MongoDB:', error.message)
+  console.error('error connecting to MongoDB:', error.message)
 })
 
 app.use(cors())
@@ -45,6 +45,6 @@ app.get('/api', (req, res) => {
 })
 
 // Server Connection
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+app.listen(config.PORT, () => {
+  console.log(`Server running on port ${config.PORT}`)
 })

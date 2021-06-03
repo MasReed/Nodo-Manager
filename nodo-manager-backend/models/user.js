@@ -7,8 +7,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     unique: true
   },
+  email: String,
   passwordHash: String,
-  clearance: String
+  roles: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Role'
+    }
+  ]
 })
 
 userSchema.plugin(uniqueValidator)
@@ -23,4 +29,4 @@ userSchema.set('toJSON', {
   }
 })
 
-module.exports = mongoose.model('User', userSchema, 'blog-users')
+module.exports = mongoose.model('User', userSchema)
