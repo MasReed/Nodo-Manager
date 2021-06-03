@@ -14,6 +14,7 @@ import { initializeUsers } from './reducers/userReducer'
 import ItemsPage from './components/items/ItemsPage'
 import OrdersPage from './components/orders/OrdersPage'
 import UsersPage from './components/users/UsersPage'
+import HomePage from './components/HomePage'
 
 
 function App() {
@@ -60,7 +61,7 @@ function App() {
           </Route>
 
           <Route path='/'>
-            {<h2>Signup or Login</h2>}
+            <HomePage />
           </Route>
 
           <Route path="*">

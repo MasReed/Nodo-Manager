@@ -38,12 +38,13 @@ Procedure
 - CRUD ops for frontend
   -items
     +itemService comms working
-    -create a form to add new item
+    +create a form to add new item
     -create a form/way to update items
   -orders
     +orderService comms working
   -users
     +userService comms working
+    +create user form
 + Frontend Routing w/ react-router-dom
 - Unit Testing backend
 - Unit Testing frontend
