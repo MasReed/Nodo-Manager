@@ -15,6 +15,7 @@ import ItemsPage from './components/items/ItemsPage'
 import OrdersPage from './components/orders/OrdersPage'
 import UsersPage from './components/users/UsersPage'
 import HomePage from './components/HomePage'
+import RegisterPage from './components/RegisterPage'
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
           <Link to='/items' style={navBtnStyle}>Items</Link>
           <Link to='/orders' style={navBtnStyle}>Orders</Link>
           <Link to='/users' style={navBtnStyle}>Users</Link>
+          <Link to='/register' style={navBtnStyle}>Register</Link>
         </nav>
         <hr />
       </React.Fragment>
@@ -58,6 +60,10 @@ function App() {
 
           <Route path='/users'>
             <UsersPage />
+          </Route>
+
+          <Route path='/register'>
+            <RegisterPage />
           </Route>
 
           <Route path='/'>
