@@ -1,6 +1,8 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
+import Button from 'react-bootstrap/Button'
+
 import {
   updateItemActionCreator,
   destroyItemActionCreator
@@ -28,8 +30,8 @@ const ItemInfo = ({ item }) => {
   return (
     <div>
       <h2>{item.name}</h2>
-      <button onClick={ () => deleteItem(item._id) }>DELETE</button>
-      <button onClick={ () => updateItem(item._id) }>UPDATE</button>
+      <Button onClick={ () => deleteItem(item._id) } size='sm' variant='outline-secondary'>DELETE</Button>
+      <Button onClick={ () => updateItem(item._id) } size='sm' variant='outline-secondary'>UPDATE</Button>
       <h4>{item.description}</h4>
       <p>{item.category}</p>
       <ul>

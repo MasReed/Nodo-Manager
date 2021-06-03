@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import Modal from 'react-bootstrap/Modal'
+
 import { addItemActionCreator } from '../../reducers/itemReducer'
 
-const NewItemForm = () => {
+const NewItemForm = ({ show, setShow }) => {
 
   const dispatch = useDispatch()
 
@@ -14,7 +19,7 @@ const NewItemForm = () => {
   const createItem = (event) => {
     event.preventDefault()
 
-    const ingredientsArray = ingredients.split(/\s*(?:,|$)\s*/)
+    const ingredientsArray = (ingredients.length > 1) && ingredients.split(/\s*(?:,|$)\s*/)
 
     const newItemObject = {
       name: name,
@@ -29,40 +34,67 @@ const NewItemForm = () => {
     setDescription('')
     setCategory('')
     setIngredients([])
+    setShow(false) // state from parent
   }
 
 
   return (
-    <div>
-      <h4>New Item</h4>
-      <form onSubmit={ createItem } style={{ margin: '2% 0' }}>
-        <label>Name:</label>
-        <input
-          value={name}
-          onChange={ ({ target }) => setName(target.value) }
-        />
+    <React.Fragment>
+      <Modal
+        show={show}
+        onHide={ () => setShow(false) }
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Make A New Creation</Modal.Title>
+        </Modal.Header>
 
-        <label>Description:</label>
-        <input
-          value={description}
-          onChange={ ({ target }) => setDescription(target.value) }
-        />
+        <Modal.Body>
+          <Form id='newItemForm' onSubmit={ createItem } style={{ margin: '2% 0' }}>
+            <Form.Group>
+              <Form.Label>Name:</Form.Label>
+              <Form.Control
+                value={name}
+                onChange={ ({ target }) => setName(target.value) }
+              />
+            </Form.Group>
 
-        <label>Category:</label>
-        <input
-          value={category}
-          onChange={ ({ target }) => setCategory(target.value) }
-        />
+            <Form.Group>
+              <Form.Label>Description:</Form.Label>
+              <Form.Control
+                value={description}
+                onChange={ ({ target }) => setDescription(target.value) }
+              />
+            </Form.Group>
 
-        <label>Ingredients:</label>
-        <input
-          value={ingredients}
-          onChange={ ({ target }) => setIngredients(target.value) }
-          placeholder='Separate with a comma'
-        />
-        <button type='submit'>Create Item</button>
-      </form>
-    </div>
+            <Form.Group>
+              <Form.Label>Category:</Form.Label>
+              <Form.Control
+                value={category}
+                onChange={ ({ target }) => setCategory(target.value) }
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Ingredients:</Form.Label>
+              <Form.Control
+                value={ingredients}
+                onChange={ ({ target }) => setIngredients(target.value) }
+                placeholder='Separate with a comma'
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="secondary" onClick={ () => setShow(false) }>
+            Close
+          </Button>
+          <Button type='submit' form='newItemForm' variant='secondary'>Save</Button>
+        </Modal.Footer>
+      </Modal>
+    </React.Fragment>
   )
 }
 
