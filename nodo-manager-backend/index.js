@@ -6,6 +6,7 @@ const app = express()
 
 const rolesInitializer = require('./utils/rolesInitializer')
 const middleware = require('./utils/middleware')
+const authenticationsRouter = require('./controllers/authentications')
 const itemsRouter = require('./controllers/items')
 const ordersRouter = require('./controllers/orders')
 const usersRouter = require('./controllers/users')
@@ -33,6 +34,7 @@ app.use(middleware.requestLogger)
 app.use('/api/items', itemsRouter)
 app.use('/api/orders', ordersRouter)
 app.use('/api/users', usersRouter)
+app.use('/api/auth', authenticationsRouter)
 
 
 // Misc. Routes
