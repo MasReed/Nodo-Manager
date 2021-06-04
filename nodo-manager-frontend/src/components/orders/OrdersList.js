@@ -8,13 +8,13 @@ const OrdersList = () => {
   const orders = useSelector(state => state.orders)
 
   return (
-    <React.Fragment>
+    <>
       {
         orders && orders.map(order =>
           <OrderInfo key={order._id} order={order} />
         )
       }
-    </React.Fragment>
+    </>
   )
 }
 

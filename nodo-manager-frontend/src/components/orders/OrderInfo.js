@@ -1,6 +1,8 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
+import Button from 'react-bootstrap/Button'
+
 import {
   updateOrderActionCreator,
   deleteOrderActionCreator
@@ -30,8 +32,8 @@ const OrderInfo = ({ order }) => {
   return (
     <div>
       <h2>ID: {order._id}</h2>
-      <button onClick={ () => deleteOrder(order._id) }>DELETE</button>
-      <button onClick={ () => updateOrder(order._id) }>UPDATE</button>
+      <Button onClick={ () => updateOrder(order._id) } variant='outline-secondary' size='sm'>Edit</Button>
+      <Button onClick={ () => deleteOrder(order._id) } variant='outline-secondary' size='sm'>Remove</Button>
       <h4>Food Items: {order.foodItems && order.foodItems.length}</h4>
       <h4>Drink Items: {order.foodItems && order.drinkItems.length}</h4>
       <p>Subtotal: {order.subTotal}</p>
