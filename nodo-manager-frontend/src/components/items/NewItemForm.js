@@ -88,11 +88,12 @@ const NewItemForm = ({ show, setShow }) => {
         </Modal.Body>
 
         <Modal.Footer>
+          <Button type='submit' form='newItemForm'>Create Item</Button>
           <Button variant="secondary" onClick={ () => setShow(false) }>
-            Close
+            Cancel
           </Button>
-          <Button type='submit' form='newItemForm' variant='secondary'>Save</Button>
         </Modal.Footer>
+
       </Modal>
     </React.Fragment>
   )

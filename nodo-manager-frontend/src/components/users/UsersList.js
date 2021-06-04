@@ -8,9 +8,9 @@ const UsersList = () => {
   const users = useSelector(state => state.users)
 
   return (
-    <React.Fragment>
+    <div>
       {users && users.map(user => <UserInfo key={user.id} user={user} />)}
-    </React.Fragment>
+    </div>
   )
 }
 

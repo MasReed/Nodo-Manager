@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import Modal from 'react-bootstrap/Modal'
+
 import { addUserActionCreator } from '../../reducers/userReducer'
 
-const NewUserForm = () => {
+const NewUserForm = ({ show, setShow }) => {
 
   const dispatch = useDispatch()
 
@@ -13,7 +18,6 @@ const NewUserForm = () => {
 
   const createUser = (event) => {
     event.preventDefault()
-
 
     const newUserObject = {
       name: name,
@@ -26,33 +30,61 @@ const NewUserForm = () => {
     setName('')
     setUsername('')
     setClearance('')
+    setShow(false)
   }
 
 
   return (
+
     <div>
-      <h4>New User</h4>
-      <form onSubmit={ createUser } style={{ margin: '2% 0' }}>
-        <label>Name:</label>
-        <input
-          value={name}
-          onChange={ ({ target }) => setName(target.value) }
-        />
+      <Modal
+        show={show}
+        onHide={ () => setShow(false) }
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Add A New User</Modal.Title>
+        </Modal.Header>
 
-        <label>Username:</label>
-        <input
-          value={username}
-          onChange={ ({ target }) => setUsername(target.value) }
-        />
+        <Modal.Body>
+          <Form id='newUserForm' onSubmit={ createUser }>
+            <Form.Group>
+              <Form.Label>Full Name:</Form.Label>
+              <Form.Control
+                value={name}
+                onChange={ ({ target }) => setName(target.value) }
+              />
+            </Form.Group>
 
-        <label>Clearance:</label>
-        <input
-          value={clearance}
-          onChange={ ({ target }) => setClearance(target.value) }
-        />
+            <Form.Group>
+              <Form.Label>Username:</Form.Label>
+              <Form.Control
+                value={username}
+                onChange={ ({ target }) => setUsername(target.value) }
+              />
+            </Form.Group>
 
-        <button type='submit'>Create User</button>
-      </form>
+            <Form.Group>
+              <Form.Label>Clearance:</Form.Label>
+              <Form.Control
+                value={clearance}
+                onChange={ ({ target }) => setClearance(target.value) }
+              />
+            </Form.Group>
+
+
+          </Form>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button type='submit' form='newUserForm'>Create User</Button>
+          <Button variant="secondary" onClick={ () => setShow(false) }>
+            Cancel
+          </Button>
+        </Modal.Footer>
+
+      </Modal>
     </div>
   )
 }

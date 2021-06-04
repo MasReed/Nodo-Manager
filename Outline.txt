@@ -48,5 +48,6 @@ Procedure
 + Frontend Routing w/ react-router-dom
 - Unit Testing backend
 - Unit Testing frontend
+- item CardDeck layout -> autowrap?
 - update this list
 - implement linter/rules
