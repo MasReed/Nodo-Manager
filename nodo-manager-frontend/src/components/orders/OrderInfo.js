@@ -13,12 +13,14 @@ const OrderInfo = ({ order }) => {
   const dispatch = useDispatch()
 
   const orderWithUpdates = {
-    "foodItems": [{ "item1": "food1" }],
-    "drinkItems": [{ "item1": "drink1" }, { "item2": "drink2" }],
-    "subTotal": 9.50,
-    "taxRate": 0.07,
-    "taxAmount": 0.75,
-    "Total": 10.25
+    category: 'Carry Out',
+    name: 'Ahun Gryper Son',
+    items: [{ "item1": "food1" }, { "item2": "drink1" }],
+    notes: 'n/a',
+    subTotal: 9.50,
+    taxRate: 0.07,
+    taxAmount: 0.75,
+    total: 10.25
   }
 
   const updateOrder = (id) => {
@@ -31,13 +33,31 @@ const OrderInfo = ({ order }) => {
 
   return (
     <div>
-      <h2>ID: {order._id}</h2>
-      <Button onClick={ () => updateOrder(order._id) } variant='outline-secondary' size='sm'>Edit</Button>
-      <Button onClick={ () => deleteOrder(order._id) } variant='outline-secondary' size='sm'>Remove</Button>
-      <h4>Food Items: {order.foodItems && order.foodItems.length}</h4>
-      <h4>Drink Items: {order.foodItems && order.drinkItems.length}</h4>
-      <p>Subtotal: {order.subTotal}</p>
-      <p>Total: {order.Total}</p>
+      <div style={{ display: 'flex', justifyContent: 'space-between'}}>
+        <div>
+          <h2>{order.name}</h2>
+          <h6>ID: {order._id}</h6>
+        </div>
+        <div>
+          <h2>{order.category}</h2>
+          <h4 style={{ textAlign: 'right' }}>Items: {order.items && order.items.length}</h4>
+        </div>
+      </div>
+
+      <p>Notes: {order.notes}</p>
+
+      <div style={{ display: 'flex', justifyContent: 'space-between'}}>
+        <div>
+          <Button onClick={ () => deleteOrder(order._id) } variant='outline-danger' size='sm' style={{ border: 'hidden', marginTop: '8px'}}>Remove</Button>
+          <Button onClick={ () => updateOrder(order._id) } variant='outline-secondary' size='sm' style={{ border: 'hidden', marginTop: '8px'}}>Edit</Button>
+        </div>
+        <div>
+          <p style={{ margin: '0' }}>Subtotal: {order.subTotal}</p>
+          <p style={{ margin: '0', textAlign: 'right' }}>Total: {order.total}</p>
+        </div>
+      </div>
+
+      <hr />
     </div>
   )
 }

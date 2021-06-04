@@ -9,7 +9,7 @@ const orderSchema = new mongoose.Schema({
   subTotal: Number,
   taxRate: Number,
   taxAmount: Number,
-  Total: Number
+  total: Number
 })
 
 module.exports = mongoose.model('Order', orderSchema)
