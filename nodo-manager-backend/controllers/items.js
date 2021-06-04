@@ -9,9 +9,10 @@ itemsRouter.post('/', async (req, res) => {
   const newItem = new MenuItem ({
     name: body.name,
     description: body.description,
-    price: body.price,
     ingredients: body.ingredients,
     category: body.category,
+    price: body.price,
+    availability: body.availability
   })
 
   const savedItem = await newItem.save()
@@ -31,9 +32,10 @@ itemsRouter.put('/:id', async (req, res) => {
   const itemWithUpdates = {
     name: body.name,
     description: body.description,
-    price: body.price,
     ingredients: body.ingredients,
     category: body.category,
+    price: body.price,
+    availability: body.availability
   }
 
   const updatedItem = await MenuItem.findByIdAndUpdate(req.params.id, itemWithUpdates, { new: true })

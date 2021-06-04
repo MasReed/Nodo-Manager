@@ -1,9 +1,11 @@
 const mongoose = require('mongoose')
 
 const orderSchema = new mongoose.Schema({
-  orderTime: { type: Date, default: Date.now },
-  foodItems: Array,
-  drinkItems: Array,
+  time: { type: Date, default: Date.now },
+  category: String,
+  name: String,
+  items: Array,
+  notes: String,
   subTotal: Number,
   taxRate: Number,
   taxAmount: Number,

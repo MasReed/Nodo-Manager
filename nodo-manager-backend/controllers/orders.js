@@ -7,13 +7,15 @@ ordersRouter.post('/', async (req, res) => {
   const body = req.body
 
   const newOrderObject = new Order({
-    orderTime: Date.now(),
-    foodItems: body.foodItems,
-    drinkItems: body.drinkItems,
+    time: Date.now(),
+    category: body.category,
+    name: body.name,
+    items: body.items,
+    notes: body.notes,
     subTotal: body.subTotal,
     taxRate: body.taxRate,
     taxAmount: body.taxAmount,
-    Total: body.total
+    total: body.total
   })
   //SOME OF THESE GET CALCULATED IN MIDDLEWARE...?
 
@@ -37,13 +39,15 @@ ordersRouter.get('/:id', async (req, res) => {
 ordersRouter.put('/:id', async (req, res) => {
   const body = req.body
   const orderWithUpdates = {
-    orderTime: Date.now(),
-    foodItems: body.foodItems,
-    drinkItems: body.drinkItems,
+    time: Date.now(),
+    category: body.category,
+    name: body.name,
+    items: body.items,
+    notes: body.notes,
     subTotal: body.subTotal,
     taxRate: body.taxRate,
     taxAmount: body.taxAmount,
-    Total: body.Total
+    total: body.total
   }
   const updatedOrder = await Order.findByIdAndUpdate(req.params.id, orderWithUpdates, { new: true })
   res.json(updatedOrder.toJSON())
