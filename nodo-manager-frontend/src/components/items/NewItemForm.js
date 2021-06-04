@@ -13,8 +13,10 @@ const NewItemForm = ({ show, setShow }) => {
 
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
-  const [category, setCategory] = useState('')
   const [ingredients, setIngredients] = useState([])
+  const [category, setCategory] = useState('')
+  const [price, setPrice] = useState(0)
+  const [availability, setAvailability] = useState('')
 
   const createItem = (event) => {
     event.preventDefault()
@@ -24,16 +26,20 @@ const NewItemForm = ({ show, setShow }) => {
     const newItemObject = {
       name: name,
       description: description,
+      ingredients: ingredientsArray,
       category: category,
-      ingredients: ingredientsArray
+      price: price,
+      availability: availability
     }
 
     dispatch(addItemActionCreator(newItemObject))
 
     setName('')
     setDescription('')
-    setCategory('')
     setIngredients([])
+    setCategory('')
+    setPrice(0)
+    setAvailability('')
     setShow(false) // state from parent
   }
 
@@ -61,18 +67,18 @@ const NewItemForm = ({ show, setShow }) => {
             </Form.Group>
 
             <Form.Group>
-              <Form.Label>Description:</Form.Label>
-              <Form.Control
-                value={description}
-                onChange={ ({ target }) => setDescription(target.value) }
-              />
-            </Form.Group>
-
-            <Form.Group>
               <Form.Label>Category:</Form.Label>
               <Form.Control
                 value={category}
                 onChange={ ({ target }) => setCategory(target.value) }
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Description:</Form.Label>
+              <Form.Control
+                value={description}
+                onChange={ ({ target }) => setDescription(target.value) }
               />
             </Form.Group>
 
@@ -82,6 +88,22 @@ const NewItemForm = ({ show, setShow }) => {
                 value={ingredients}
                 onChange={ ({ target }) => setIngredients(target.value) }
                 placeholder='Separate with a comma'
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Price:</Form.Label>
+              <Form.Control
+                value={price}
+                onChange={ ({ target }) => setPrice(target.value) }
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Availability:</Form.Label>
+              <Form.Control
+                value={availability}
+                onChange={ ({ target }) => setAvailability(target.value) }
               />
             </Form.Group>
           </Form>

@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Card from 'react-bootstrap/Card'
 
 import {
@@ -14,10 +15,12 @@ const ItemInfo = ({ item }) => {
   const dispatch = useDispatch()
 
   const itemWithUpdates = {
-    name: 'U1',
-    description: 'UPDATED0',
-    category: 'testing',
-    ingredients: ['updated']
+    name: 'Updated',
+    description: 'A simple update',
+    ingredients: ['updated', 'this', 'one'],
+    category: 'Food',
+    price: 9.99,
+    availability: 'available'
   }
 
   const updateItem = (id) => {
@@ -29,10 +32,15 @@ const ItemInfo = ({ item }) => {
   }
 
   return (
-    <Card style={{ width: '18rem' }}>
+    <Card style={{ width: '18rem'}}>
       <Card.Body>
-        <Card.Title>{item.name}</Card.Title>
+        <Card.Title style={{ display: 'flex', justifyContent: 'space-between' }}>
+          {item.name}
+          <span>${item.price}</span>
+        </Card.Title>
+
         <Card.Subtitle className="mb-2 text-muted">{item.category}</Card.Subtitle>
+
         <Card.Text>{item.description}</Card.Text>
 
         <ul>
@@ -42,11 +50,19 @@ const ItemInfo = ({ item }) => {
           }
         </ul>
 
-        <Button onClick={ () => deleteItem(item._id) } size='sm' variant='outline-secondary'>DELETE</Button>
-        <Button onClick={ () => updateItem(item._id) } size='sm' variant='outline-secondary'>UPDATE</Button>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Button onClick={ () => deleteItem(item._id) } size='sm' variant='outline-danger' style={{border: 'hidden'}}>Delete</Button>
+          <Button onClick={ () => updateItem(item._id) } size='sm' variant='outline-primary' style={{ border: 'hidden'}}>Edit</Button>
+          <h6 style={{ margin: '0', padding: '6px 0' }}>{item.availability}</h6>
+        </div>
+
+
       </Card.Body>
     </Card>
   )
 }
 
 export default ItemInfo
+
+// style={{ border: '0', margin: '0', padding: '0' }}
+// <Button onClick={ () => updateItem(item._id) } size='sm' variant='outline-secondary' style={{ padding: '0 2px'}}>Edit</Button>

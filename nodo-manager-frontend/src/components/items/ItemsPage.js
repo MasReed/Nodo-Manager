@@ -11,7 +11,7 @@ const ItemsPage = () => {
   const [show, setShow] = useState(false)
 
   return (
-    <Container>
+    <Container style={{ padding: '0' }}>
       <h2>Items Page</h2>
 
       <NewItemForm show={show} setShow={setShow}/>

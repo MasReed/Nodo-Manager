@@ -16,7 +16,7 @@ const ItemList = () => {
   return (
     <Container>
       <Row>
-        <Col>
+        <Col style={{ padding: '0' }}>
           <CardDeck>
             {
               items.map(item =>
