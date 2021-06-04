@@ -43,12 +43,14 @@ const ItemInfo = ({ item }) => {
 
         <Card.Text>{item.description}</Card.Text>
 
-        <ul>
-          {(item.ingredients) && item.ingredients.map(ingredient => (
-            <li key={ingredient}>{ingredient}</li>
-          ))
-          }
-        </ul>
+        <Card.Text style={{ height: '220px', width: '220px', border: 'solid 1px'}}>
+          <ul>
+            {(item.ingredients) && item.ingredients.map(ingredient => (
+              <li key={ingredient}>{ingredient}</li>
+            ))
+            }
+          </ul>
+        </Card.Text>
 
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Button onClick={ () => deleteItem(item._id) } size='sm' variant='outline-danger' style={{border: 'hidden'}}>Delete</Button>
