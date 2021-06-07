@@ -11,19 +11,17 @@ import ItemInfo from './ItemInfo'
 
 const ItemList = () => {
 
-  const items = useSelector(state => state.items)
+  const itemsAsComponents = useSelector(
+    state => state.items.map(item =>
+      <ItemInfo key={item._id} item={item} />
+    )
+  )
 
   return (
     <Container>
       <Row>
         <Col style={{ padding: '0' }}>
-          <CardDeck>
-            {
-              items.map(item =>
-                <ItemInfo key={item._id} item={item} />
-              )
-            }
-          </CardDeck>
+          <CardDeck>{itemsAsComponents}</CardDeck>
         </Col>
       </Row>
     </Container>

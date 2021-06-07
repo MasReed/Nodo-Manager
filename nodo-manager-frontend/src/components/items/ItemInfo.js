@@ -2,8 +2,8 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
-import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Card from 'react-bootstrap/Card'
+import ListGroup from 'react-bootstrap/ListGroup'
 
 import {
   updateItemActionCreator,
@@ -43,21 +43,28 @@ const ItemInfo = ({ item }) => {
 
         <Card.Text>{item.description}</Card.Text>
 
-        <Card.Text style={{ height: '220px', width: '220px', border: 'solid 1px'}}>
-          <ul>
+        <hr />
+
+        <Card.Text>
+          <Card.Subtitle className="mb-1 text-muted">Ingredients</Card.Subtitle>
+          <ListGroup variant="flush">
             {(item.ingredients) && item.ingredients.map(ingredient => (
-              <li key={ingredient}>{ingredient}</li>
-            ))
+              <ListGroup.Item
+                key={ingredient}
+                style={{ border: 'none', padding: '1px'}}
+              >- {ingredient}</ListGroup.Item>
+              ))
             }
-          </ul>
+          </ListGroup>
         </Card.Text>
 
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <hr />
+
+        <Card.Text style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Button onClick={ () => deleteItem(item._id) } size='sm' variant='outline-danger' style={{border: 'hidden'}}>Delete</Button>
           <Button onClick={ () => updateItem(item._id) } size='sm' variant='outline-primary' style={{ border: 'hidden'}}>Edit</Button>
           <h6 style={{ margin: '0', padding: '6px 0' }}>{item.availability}</h6>
-        </div>
-
+        </Card.Text>
 
       </Card.Body>
     </Card>
