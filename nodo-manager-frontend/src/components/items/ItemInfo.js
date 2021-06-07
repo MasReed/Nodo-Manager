@@ -43,26 +43,24 @@ const ItemInfo = ({ item }) => {
 
         <hr />
 
-        <Card.Text>
-          <Card.Subtitle className="mb-1 text-muted">Ingredients</Card.Subtitle>
-          <ListGroup variant="flush">
-            {(item.ingredients) && item.ingredients.map(ingredient => (
-              <ListGroup.Item
-                key={ingredient}
-                style={{ border: 'none', padding: '1px'}}
-              >- {ingredient}</ListGroup.Item>
-              ))
-            }
-          </ListGroup>
-        </Card.Text>
+        <Card.Subtitle className="mb-1 text-muted">Ingredients</Card.Subtitle>
+        <ListGroup variant="flush">
+          {(item.ingredients) && item.ingredients.map(ingredient => (
+            <ListGroup.Item
+              key={ingredient}
+              style={{ border: 'none', padding: '1px'}}
+            >- {ingredient}</ListGroup.Item>
+            ))
+          }
+        </ListGroup>
 
         <hr />
 
-        <Card.Text style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Button onClick={ () => deleteItem(item._id) } size='sm' variant='outline-danger' style={{border: 'hidden'}}>Delete</Button>
           <Button onClick={ () => setShowUpdateForm(true) } size='sm' variant='outline-primary' style={{ border: 'hidden'}}>Edit</Button>
           <h6 style={{ margin: '0', padding: '6px 0' }}>{item.availability}</h6>
-        </Card.Text>
+        </div>
 
         <UpdateItemForm item={item} updateItem={updateItem} show={showUpdateForm} setShow={setShowUpdateForm}/>
 
