@@ -8,18 +8,18 @@ import NewItemForm from './NewItemForm'
 
 const ItemsPage = () => {
 
-  const [show, setShow] = useState(false)
+  const [showNewItemForm, setShowNewItemForm] = useState(false)
 
   return (
     <Container style={{ padding: '0' }}>
       <h2>Items Page</h2>
 
-      <NewItemForm show={show} setShow={setShow}/>
-
-      <Button onClick={ () => setShow(true) } variant='secondary'>Create</Button>
+      <NewItemForm show={showNewItemForm} setShow={setShowNewItemForm}/>
+      <Button onClick={ () => setShowNewItemForm(true) } variant='secondary'>Create</Button>
 
       <hr />
       <ItemsList />
+
     </Container>
   )
 }

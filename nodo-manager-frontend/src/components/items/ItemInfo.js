@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
@@ -10,21 +10,19 @@ import {
   destroyItemActionCreator
 } from '../../reducers/itemReducer'
 
+import UpdateItemForm from './UpdateItemForm'
+
 const ItemInfo = ({ item }) => {
 
   const dispatch = useDispatch()
 
-  const itemWithUpdates = {
-    name: 'Updated',
-    description: 'A simple update',
-    ingredients: ['updated', 'this', 'one'],
-    category: 'Food',
-    price: 9.99,
-    availability: 'available'
-  }
+  const [showUpdateForm, setShowUpdateForm] = useState(false)
 
-  const updateItem = (id) => {
-    dispatch(updateItemActionCreator(id, itemWithUpdates))
+
+  const updateItem = (item) => {
+    setShowUpdateForm(true)
+    console.log('UPDATEDITEM IN ITEMINFO', item)
+    dispatch(updateItemActionCreator(item._id, item))
   }
 
   const deleteItem = (id) => {
@@ -62,9 +60,11 @@ const ItemInfo = ({ item }) => {
 
         <Card.Text style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Button onClick={ () => deleteItem(item._id) } size='sm' variant='outline-danger' style={{border: 'hidden'}}>Delete</Button>
-          <Button onClick={ () => updateItem(item._id) } size='sm' variant='outline-primary' style={{ border: 'hidden'}}>Edit</Button>
+          <Button onClick={ () => setShowUpdateForm(true) } size='sm' variant='outline-primary' style={{ border: 'hidden'}}>Edit</Button>
           <h6 style={{ margin: '0', padding: '6px 0' }}>{item.availability}</h6>
         </Card.Text>
+
+        <UpdateItemForm item={item} updateItem={updateItem} show={showUpdateForm} setShow={setShowUpdateForm}/>
 
       </Card.Body>
     </Card>
@@ -72,6 +72,3 @@ const ItemInfo = ({ item }) => {
 }
 
 export default ItemInfo
-
-// style={{ border: '0', margin: '0', padding: '0' }}
-// <Button onClick={ () => updateItem(item._id) } size='sm' variant='outline-secondary' style={{ padding: '0 2px'}}>Edit</Button>

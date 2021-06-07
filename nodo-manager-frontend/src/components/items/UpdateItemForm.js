@@ -1,29 +1,28 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 
-import { addItemActionCreator } from '../../reducers/itemReducer'
+// import { updateItemActionCreator } from '../../reducers/itemReducer'
 
-const NewItemForm = ({ show, setShow }) => {
+const UpdateItemForm = ({ item, updateItem, show, setShow }) => {
 
-  const dispatch = useDispatch()
+  const [name, setName] = useState(item.name)
+  const [description, setDescription] = useState(item.description)
+  const [ingredients, setIngredients] = useState(item.ingredients)
+  const [category, setCategory] = useState(item.category)
+  const [price, setPrice] = useState(item.price)
+  const [availability, setAvailability] = useState(item.availability)
 
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [ingredients, setIngredients] = useState([])
-  const [category, setCategory] = useState('')
-  const [price, setPrice] = useState(0)
-  const [availability, setAvailability] = useState('')
-
-  const createItem = (event) => {
+  const callUpdateItem = (event) => {
     event.preventDefault()
 
     const ingredientsArray = Array.isArray(ingredients) ? ingredients : ingredients.split(/\s*(?:,|$)\s*/)
 
-    const newItemObject = {
+    const updatedItemObject = {
+      ...item,
       name: name,
       description: description,
       ingredients: ingredientsArray,
@@ -32,14 +31,8 @@ const NewItemForm = ({ show, setShow }) => {
       availability: availability
     }
 
-    dispatch(addItemActionCreator(newItemObject))
+    updateItem(updatedItemObject)
 
-    setName('')
-    setDescription('')
-    setIngredients([])
-    setCategory('')
-    setPrice(0)
-    setAvailability('')
     setShow(false) // state from parent
   }
 
@@ -53,11 +46,11 @@ const NewItemForm = ({ show, setShow }) => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Make A New Creation</Modal.Title>
+          <Modal.Title>Make Updates to {item.name}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          <Form id='newItemForm' onSubmit={ createItem } style={{ margin: '2% 0' }}>
+          <Form id='updateItemForm' onSubmit={ callUpdateItem } style={{ margin: '2% 0' }}>
             <Form.Group>
               <Form.Label>Name:</Form.Label>
               <Form.Control
@@ -110,7 +103,7 @@ const NewItemForm = ({ show, setShow }) => {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button type='submit' form='newItemForm'>Create Item</Button>
+          <Button type='submit' form='updateItemForm'>Save</Button>
           <Button variant="secondary" onClick={ () => setShow(false) }>
             Cancel
           </Button>
@@ -121,4 +114,4 @@ const NewItemForm = ({ show, setShow }) => {
   )
 }
 
-export default NewItemForm
+export default UpdateItemForm
