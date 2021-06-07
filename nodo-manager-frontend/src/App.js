@@ -15,6 +15,7 @@ import ItemsPage from './components/items/ItemsPage'
 import OrdersPage from './components/orders/OrdersPage'
 import UsersPage from './components/users/UsersPage'
 import HomePage from './components/HomePage'
+import MenuPage from './components/MenuPage'
 import RegisterPage from './components/RegisterPage'
 
 
@@ -40,6 +41,7 @@ function App() {
         <nav style={navBtnStyle}>
           <Link to='/' style={navBtnStyle}>Home</Link>
           <Link to='/items' style={navBtnStyle}>Items</Link>
+          <Link to='/menu' style={navBtnStyle}>Menu</Link>
           <Link to='/orders' style={navBtnStyle}>Orders</Link>
           <Link to='/users' style={navBtnStyle}>Users</Link>
           <Link to='/register' style={navBtnStyle}>Register</Link>
@@ -54,16 +56,20 @@ function App() {
             <ItemsPage />
           </Route>
 
+          <Route path='/menu'>
+            <MenuPage />
+          </Route>
+
           <Route path='/orders'>
             <OrdersPage />
           </Route>
 
-          <Route path='/users'>
-            <UsersPage />
-          </Route>
-
           <Route path='/register'>
             <RegisterPage />
+          </Route>
+
+          <Route path='/users'>
+            <UsersPage />
           </Route>
 
           <Route path='/'>
