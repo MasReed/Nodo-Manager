@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
-import ListGroup from 'react-bootstrap/ListGroup'
 
 import {
   updateItemActionCreator,
@@ -29,6 +28,7 @@ const ItemInfo = ({ item }) => {
     dispatch(destroyItemActionCreator(id))
   }
 
+
   return (
     <Col className='container-fluid mb-4 px-2'>
       <Card
@@ -46,21 +46,10 @@ const ItemInfo = ({ item }) => {
           </Card.Title>
 
           <Card.Subtitle className="mb-2 text-muted">{item.category}</Card.Subtitle>
-
-          <Card.Text>{item.description}</Card.Text>
-
           <hr />
-
-          <Card.Subtitle className="mb-1 text-muted">Ingredients</Card.Subtitle>
-          <ListGroup variant="flush">
-            {(item.ingredients) && item.ingredients.map(ingredient => (
-              <ListGroup.Item
-                key={ingredient}
-                style={{ border: 'none', padding: '1px'}}
-              >- {ingredient}</ListGroup.Item>
-              ))
-            }
-          </ListGroup>
+          <Card.Img variant='top' src='/assets/burger.svg' Height='55%'/>
+          <hr />
+          <Card.Text>{item.description}</Card.Text>
 
         </Card.Body>
 
@@ -81,3 +70,14 @@ const ItemInfo = ({ item }) => {
 }
 
 export default ItemInfo
+
+//
+// <ListGroup variant="flush">
+//   {(item.ingredients) && item.ingredients.map(ingredient => (
+//     <ListGroup.Item
+//       key={ingredient}
+//       style={{ border: 'none', padding: '1px'}}
+//     >- {ingredient}</ListGroup.Item>
+//     ))
+//   }
+// </ListGroup>

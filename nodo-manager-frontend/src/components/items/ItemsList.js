@@ -2,9 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 import CardDeck from 'react-bootstrap/CardDeck'
-import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
 
 import ItemInfo from './ItemInfo'
 
