@@ -21,7 +21,10 @@ const NewItemForm = ({ show, setShow }) => {
   const createItem = (event) => {
     event.preventDefault()
 
-    const ingredientsArray = Array.isArray(ingredients) ? ingredients : ingredients.split(/\s*(?:,|$)\s*/)
+    const ingredientsArray = Array.isArray(ingredients)
+      //convert comma-separated items into array if neccessary
+      ? ingredients
+      : ingredients.split(/\s*(?:,|$)\s*/)
 
     const newItemObject = {
       name: name,
@@ -43,7 +46,6 @@ const NewItemForm = ({ show, setShow }) => {
     setShow(false) // state from parent
   }
 
-
   return (
     <React.Fragment>
       <Modal
@@ -57,7 +59,7 @@ const NewItemForm = ({ show, setShow }) => {
         </Modal.Header>
 
         <Modal.Body>
-          <Form id='newItemForm' onSubmit={ createItem } style={{ margin: '2% 0' }}>
+          <Form id='newItemForm' onSubmit={ createItem }>
             <Form.Group>
               <Form.Label>Name:</Form.Label>
               <Form.Control

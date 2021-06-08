@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
-// import { useDispatch } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
-
-// import { updateItemActionCreator } from '../../reducers/itemReducer'
 
 const UpdateItemForm = ({ item, updateItem, show, setShow }) => {
 
@@ -19,7 +16,10 @@ const UpdateItemForm = ({ item, updateItem, show, setShow }) => {
   const callUpdateItem = (event) => {
     event.preventDefault()
 
-    const ingredientsArray = Array.isArray(ingredients) ? ingredients : ingredients.split(/\s*(?:,|$)\s*/)
+    const ingredientsArray = Array.isArray(ingredients)
+      //convert comma-separated items into array if neccessary
+      ? ingredients
+      : ingredients.split(/\s*(?:,|$)\s*/)
 
     const updatedItemObject = {
       ...item,
@@ -32,15 +32,8 @@ const UpdateItemForm = ({ item, updateItem, show, setShow }) => {
     }
 
     updateItem(updatedItemObject)
-
     setShow(false) // state from parent
   }
-
-  // const radios = [
-  //   { name: 'Available', value: 'Available' },
-  //   { name: 'Unavailable', value: 'Unavailable' },
-  //   { name: 'Coming Soon', value: 'Coming Soon' }
-  // ]
 
   return (
     <React.Fragment>
@@ -55,7 +48,7 @@ const UpdateItemForm = ({ item, updateItem, show, setShow }) => {
         </Modal.Header>
 
         <Modal.Body>
-          <Form id='updateItemForm' onSubmit={ callUpdateItem } style={{ margin: '2% 0' }}>
+          <Form id='updateItemForm' onSubmit={ callUpdateItem }>
             <Form.Group>
               <Form.Label>Name:</Form.Label>
               <Form.Control
@@ -108,7 +101,6 @@ const UpdateItemForm = ({ item, updateItem, show, setShow }) => {
                 onChange={ ({ target }) => setAvailability(target.value) }
               />
             </Form.Group>
-
           </Form>
         </Modal.Body>
 

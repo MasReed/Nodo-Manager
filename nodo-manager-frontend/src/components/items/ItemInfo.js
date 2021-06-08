@@ -51,14 +51,13 @@ const ItemInfo = ({ item }) => {
             {item.category}
           </Card.Subtitle>
 
-          <Card.Text>
-            {item.description}
-          </Card.Text>
+          <Card.Text>{item.description}</Card.Text>
         </Card.Header>
 
         <Card.Body>
           <Card.Img variant='top' src='/assets/burger.svg' Height='55%'/>
           <hr />
+
           <Card.Text className='mb-0'>
             <u>Ingredients:</u>
           </Card.Text>
@@ -78,15 +77,15 @@ const ItemInfo = ({ item }) => {
               style={{border: 'hidden'}}
             >Delete
             </Button>
+
             <Button
               onClick={ () => setShowUpdateForm(true) }
               size='sm' variant='outline-primary'
               style={{ border: 'hidden'}}
             >Edit
             </Button>
-            <h6 style={{ margin: '0', padding: '6px 0' }}>
-              {item.availability}
-            </h6>
+            
+            <h6 className='m-0 py-1'>{item.availability}</h6>
           </div>
         </Card.Footer>
       </Card>
