@@ -62,6 +62,7 @@ const NewItemForm = ({ show, setShow }) => {
               <Form.Label>Name:</Form.Label>
               <Form.Control
                 value={name}
+                maxLength='40'
                 onChange={ ({ target }) => setName(target.value) }
               />
             </Form.Group>
@@ -70,6 +71,7 @@ const NewItemForm = ({ show, setShow }) => {
               <Form.Label>Category:</Form.Label>
               <Form.Control
                 value={category}
+                maxLength='50'
                 onChange={ ({ target }) => setCategory(target.value) }
               />
             </Form.Group>
@@ -78,6 +80,7 @@ const NewItemForm = ({ show, setShow }) => {
               <Form.Label>Description:</Form.Label>
               <Form.Control
                 value={description}
+                maxLength='90'
                 onChange={ ({ target }) => setDescription(target.value) }
               />
             </Form.Group>
@@ -95,6 +98,7 @@ const NewItemForm = ({ show, setShow }) => {
               <Form.Label>Price:</Form.Label>
               <Form.Control
                 value={price}
+                maxLength='7'
                 onChange={ ({ target }) => setPrice(target.value) }
               />
             </Form.Group>
