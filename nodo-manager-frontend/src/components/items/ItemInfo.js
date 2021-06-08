@@ -18,7 +18,6 @@ const ItemInfo = ({ item }) => {
 
   const [showUpdateForm, setShowUpdateForm] = useState(false)
 
-
   const updateItem = (item) => {
     setShowUpdateForm(true)
     console.log('UPDATEDITEM IN ITEMINFO', item)
@@ -59,7 +58,9 @@ const ItemInfo = ({ item }) => {
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Button onClick={ () => deleteItem(item._id) } size='sm' variant='outline-danger' style={{border: 'hidden'}}>Delete</Button>
           <Button onClick={ () => setShowUpdateForm(true) } size='sm' variant='outline-primary' style={{ border: 'hidden'}}>Edit</Button>
-          <h6 style={{ margin: '0', padding: '6px 0' }}>{item.availability}</h6>
+          <h6 style={{ margin: '0', padding: '6px 0' }}>
+            {item.availability}
+          </h6>
         </div>
 
         <UpdateItemForm item={item} updateItem={updateItem} show={showUpdateForm} setShow={setShowUpdateForm}/>

@@ -32,14 +32,14 @@ Procedure
 + setup basic node/express
 + setup MongoDB/Mongoose and schemas
   + Implement orders schema
-    - add in: orderName, orderCategory, orderDescription, onMenu
+    + add in: orderName, orderCategory, orderDescription, onMenu
   + CRUD operations for items/users API backend
     - express async error handling
 - CRUD ops for frontend
   -items
     +itemService comms working
     +create a form to add new item
-    -create a form/way to update items
+    +create a form/way to update items
   -orders
     +orderService comms working
   -users

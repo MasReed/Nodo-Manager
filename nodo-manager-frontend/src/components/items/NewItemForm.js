@@ -106,7 +106,9 @@ const NewItemForm = ({ show, setShow }) => {
                 onChange={ ({ target }) => setAvailability(target.value) }
               />
             </Form.Group>
+
           </Form>
+
         </Modal.Body>
 
         <Modal.Footer>

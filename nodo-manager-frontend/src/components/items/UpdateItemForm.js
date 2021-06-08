@@ -36,6 +36,11 @@ const UpdateItemForm = ({ item, updateItem, show, setShow }) => {
     setShow(false) // state from parent
   }
 
+  const radios = [
+    { name: 'Available', value: 'Available' },
+    { name: 'Unavailable', value: 'Unavailable' },
+    { name: 'Coming Soon', value: 'Coming Soon' }
+  ]
 
   return (
     <React.Fragment>
@@ -99,6 +104,7 @@ const UpdateItemForm = ({ item, updateItem, show, setShow }) => {
                 onChange={ ({ target }) => setAvailability(target.value) }
               />
             </Form.Group>
+
           </Form>
         </Modal.Body>
 
