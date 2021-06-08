@@ -55,7 +55,7 @@ const ItemInfo = ({ item }) => {
         </Card.Header>
 
         <Card.Body>
-          <Card.Img variant='top' src='/assets/burger.svg' Height='55%'/>
+          <Card.Img variant='top' src='/assets/burger.svg' height='55%'/>
           <hr />
 
           <Card.Text className='mb-0'>
@@ -84,7 +84,7 @@ const ItemInfo = ({ item }) => {
               style={{ border: 'hidden'}}
             >Edit
             </Button>
-            
+
             <h6 className='m-0 py-1'>{item.availability}</h6>
           </div>
         </Card.Footer>

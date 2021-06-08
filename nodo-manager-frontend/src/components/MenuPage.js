@@ -1,12 +1,13 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 
+import { useAccordionToggle } from 'react-bootstrap/AccordionToggle';
+
+import Accordion from 'react-bootstrap/Accordion'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import CardDeck from 'react-bootstrap/CardDeck'
 import Container from 'react-bootstrap/Container'
-import ListGroup from 'react-bootstrap/ListGroup'
-
 
 const MenuPage = () => {
 
@@ -19,59 +20,90 @@ const MenuPage = () => {
     console.log('custimze with modal window')
   }
 
+  const truncateIngredients = (str) => {
+    return str.length > 130 ? str.substring(0, 131) + ' ...' : str
+  }
+
+  function CustomToggle({ children, eventKey }) {
+    const decoratedOnClick = useAccordionToggle(eventKey, () =>
+      console.log('totally custom!'),
+    );
+
+    return (
+      <div
+        type="button"
+        onClick={decoratedOnClick}
+      >
+        {children}
+      </div>
+    );
+  }
+
+
   return (
     <Container style={{ padding: '0' }}>
       <h2>Menu</h2>
+      <hr />
 
       {
         categories.map(category => (
           <div key={category}>
-            <div>
-              <hr />
-              <h4 className='mtb-4 text-muted'>{category}</h4>
-              <hr />
-            </div>
 
-            <CardDeck>
-              {menuItems.map(item => item.category === category
-                ? <Card key={item._id} style={{ width: '18rem' }}>
-                <Card.Body>
-                  <Card.Title style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    {item.name}
-                    <span>${item.price}</span>
-                  </Card.Title>
+            <Accordion>
+              <Card className='mb-2' style={{ border: 'hidden' }}>
+                  <CustomToggle eventKey="0">
+                    <h4 className='mtb-4 text-muted'>{category}</h4>
+                    <hr />
+                  </CustomToggle>
 
-                  <Card.Subtitle className="mb-2 text-muted">{item.category}</Card.Subtitle>
+                <Accordion.Collapse eventKey="0">
+                  <Card.Body className='p-0'>
+                    <CardDeck>
+                      {menuItems.map(item => item.category === category
+                        ? <Card key={item._id} style={{ width: '18rem' }}>
+                        <Card.Body>
+                          <Card.Title style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            {item.name}
+                            <span>${item.price}</span>
+                          </Card.Title>
 
-                  <Card.Text>{item.description}</Card.Text>
+                          <Card.Subtitle className="mb-2 text-muted">{item.category}</Card.Subtitle>
 
-                  <hr />
+                          <Card.Text>{item.description}</Card.Text>
 
-                  <Card.Subtitle className="mb-1 text-muted">Ingredients</Card.Subtitle>
-                  <ListGroup variant="flush">
-                    {(item.ingredients) && item.ingredients.map(ingredient => (
-                      <ListGroup.Item
-                        key={ingredient}
-                        style={{ border: 'none', padding: '1px'}}
-                      >- {ingredient}</ListGroup.Item>
-                      ))
-                    }
-                  </ListGroup>
+                          <hr />
+                          <Card.Img variant='top' src='/assets/burger.svg' height='55%'/>
+                          <hr />
 
-                  <hr />
+                          <Card.Text className='mb-0'>
+                            <u>Ingredients:</u>
+                          </Card.Text>
 
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <h6 style={{ margin: '0', padding: '6px 0' }}>{item.availability}</h6>
-                    {(item.availability === 'Available')
-                      ? <Button onClick={ customizeItem }>Add to Order</Button>
-                      : <Button disabled>Add to Order</Button>
-                    }
-                  </div>
+                          <Card.Text>
+                            {
+                              truncateIngredients(item.ingredients.join(', '))
+                            }
+                          </Card.Text>
 
-                </Card.Body>
-                  </Card>
-                : null)}
-              </CardDeck>
+                          <hr />
+
+                          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <h6 style={{ margin: '0', padding: '6px 0' }}>{item.availability}</h6>
+                            {(item.availability === 'Available')
+                              ? <Button onClick={ customizeItem }>Add to Order</Button>
+                              : <Button disabled>Add to Order</Button>
+                            }
+                          </div>
+
+                        </Card.Body>
+                          </Card>
+                        : null)}
+                    </CardDeck>
+                    <hr />
+                  </Card.Body>
+                </Accordion.Collapse>
+              </Card>
+            </Accordion>
           </div>
           ))
       }
