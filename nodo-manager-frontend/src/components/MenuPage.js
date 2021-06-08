@@ -7,6 +7,7 @@ import Accordion from 'react-bootstrap/Accordion'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import CardDeck from 'react-bootstrap/CardDeck'
+import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 
 const MenuPage = () => {
@@ -25,9 +26,7 @@ const MenuPage = () => {
   }
 
   function CustomToggle({ children, eventKey }) {
-    const decoratedOnClick = useAccordionToggle(eventKey, () =>
-      console.log('totally custom!'),
-    );
+    const decoratedOnClick = useAccordionToggle(eventKey);
 
     return (
       <div
@@ -58,48 +57,62 @@ const MenuPage = () => {
 
                 <Accordion.Collapse eventKey="0">
                   <Card.Body className='p-0'>
-                    <CardDeck>
-                      {menuItems.map(item => item.category === category
-                        ? <Card key={item._id} style={{ width: '18rem' }}>
-                        <Card.Body>
-                          <Card.Title style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            {item.name}
-                            <span>${item.price}</span>
-                          </Card.Title>
+                    <Container>
+                      <CardDeck>
+                        {menuItems.map(item => item.category === category
+                          ? <Col className='container-fluid mb-4 px-2'>
+                            <Card key={item._id}
+                                className='mx-0 my-0'
+                                style={{
+                                  height: '32rem',
+                                  minWidth: '18rem',
+                                  maxWidth: '32rem'
+                                }}
+                            >
 
-                          <Card.Subtitle className="mb-2 text-muted">{item.category}</Card.Subtitle>
+                              <Card.Header style={{height: '12rem'}}>
+                                <Card.Title style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                  {item.name}
+                                  <span>${item.price}</span>
+                                </Card.Title>
 
-                          <Card.Text>{item.description}</Card.Text>
+                                <Card.Subtitle className="mb-2 text-muted">
+                                  {item.category}
+                                </Card.Subtitle>
 
-                          <hr />
-                          <Card.Img variant='top' src='/assets/burger.svg' height='55%'/>
-                          <hr />
+                                <Card.Text>{item.description}</Card.Text>
+                              </Card.Header>
 
-                          <Card.Text className='mb-0'>
-                            <u>Ingredients:</u>
-                          </Card.Text>
+                              <Card.Body>
+                                <Card.Img variant='top' src='/assets/burger.svg' height='55%'/>
+                                <hr />
 
-                          <Card.Text>
-                            {
-                              truncateIngredients(item.ingredients.join(', '))
-                            }
-                          </Card.Text>
+                                <Card.Text className='mb-0'>
+                                  <u>Ingredients:</u>
+                                </Card.Text>
 
-                          <hr />
+                                <Card.Text>
+                                  {
+                                    truncateIngredients(item.ingredients.join(', '))
+                                  }
+                                </Card.Text>
+                              </Card.Body>
 
-                          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <h6 style={{ margin: '0', padding: '6px 0' }}>{item.availability}</h6>
-                            {(item.availability === 'Available')
-                              ? <Button onClick={ customizeItem }>Add to Order</Button>
-                              : <Button disabled>Add to Order</Button>
-                            }
-                          </div>
-
-                        </Card.Body>
-                          </Card>
-                        : null)}
-                    </CardDeck>
-                    <hr />
+                              <Card.Footer>
+                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                  <h6 style={{ margin: '0', padding: '6px 0' }}>{item.availability}</h6>
+                                  {(item.availability === 'Available')
+                                    ? <Button onClick={ customizeItem }>Add to Order</Button>
+                                    : <Button disabled>Add to Order</Button>
+                                  }
+                                </div>
+                              </Card.Footer>
+                            </Card>
+                          </Col>
+                          : null)}
+                      </CardDeck>
+                      <hr />
+                    </Container>
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>
