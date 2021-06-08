@@ -19,11 +19,7 @@ const ItemList = () => {
 
   return (
     <Container>
-      <Row>
-        <Col style={{ padding: '0' }}>
-          <CardDeck>{itemsAsComponents}</CardDeck>
-        </Col>
-      </Row>
+      <CardDeck>{itemsAsComponents}</CardDeck>
     </Container>
   )
 }
