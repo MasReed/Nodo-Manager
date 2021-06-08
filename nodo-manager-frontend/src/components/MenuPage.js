@@ -66,7 +66,7 @@ const MenuPage = () => {
                                 style={{
                                   height: '32rem',
                                   minWidth: '18rem',
-                                  maxWidth: '32rem'
+                                  maxWidth: '35rem'
                                 }}
                             >
 
