@@ -35,6 +35,11 @@ const UpdateItemForm = ({ item, updateItem, show, setShow }) => {
     setShow(false) // state from parent
   }
 
+  const charactersRemaining = (str, limit) => {
+    const diff = limit - str.length
+    return (diff < 21) ? diff + ' character(s) remaining' : null
+    }
+
   return (
     <React.Fragment>
       <Modal
@@ -56,6 +61,7 @@ const UpdateItemForm = ({ item, updateItem, show, setShow }) => {
                 maxLength='40'
                 onChange={ ({ target }) => setName(target.value) }
               />
+              <Form.Text>{charactersRemaining(name, 40)}</Form.Text>
             </Form.Group>
 
             <Form.Group>
@@ -65,6 +71,7 @@ const UpdateItemForm = ({ item, updateItem, show, setShow }) => {
                 maxLength='50'
                 onChange={ ({ target }) => setCategory(target.value) }
               />
+              <Form.Text>{charactersRemaining(category, 50)}</Form.Text>
             </Form.Group>
 
             <Form.Group>
@@ -74,6 +81,7 @@ const UpdateItemForm = ({ item, updateItem, show, setShow }) => {
                 maxLength='90'
                 onChange={ ({ target }) => setDescription(target.value) }
               />
+              <Form.Text>{charactersRemaining(description, 90)}</Form.Text>
             </Form.Group>
 
             <Form.Group>
