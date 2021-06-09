@@ -18,14 +18,17 @@ const MenuPage = () => {
   const categories = useSelector(state => [...new Set(state.items.map(item => item.category))])
 
   const [showMyOrder, setShowMyOrder] = useState(false)
+  const [showCustomize, setShowCustomize] = useState(false)
   const [orderItems, setOrderItems] = useState([])
 
   const customizeItem = () => {
     console.log('custimze with modal window')
+    setShowCustomize(true)
   }
 
-  const addItem = (event) => {
+  const addCustomItem = (event) => {
     event.preventDefault()
+    setShowCustomize(false)
     setOrderItems([...orderItems, 'newItem'])
   }
 
@@ -157,7 +160,7 @@ const MenuPage = () => {
         scrollable={true}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Add Items to Order</Modal.Title>
+          <Modal.Title>Your Order</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
@@ -175,10 +178,41 @@ const MenuPage = () => {
               }}
             >Cancel</Button>
           <div>
-            <Button onClick={ addItem } style={{ margin: '0 10px'}} variant="outline-secondary">Add Item</Button>
-            <Button onClick={ addOrder } style={{ margin: '0 10px'}}>Done</Button>
+            <Button onClick={() => setShowMyOrder(false) } style={{ margin: '0 10px'}} variant="outline-secondary">Add More</Button>
+            <Button onClick={ addOrder } style={{ margin: '0 10px'}}>Checkout</Button>
           </div>
         </Modal.Footer>
+      </Modal>
+
+
+      <Modal
+        show={showCustomize}
+        onHide={() => {
+          setShowCustomize(false)
+        }}
+        dialogClassName='modal-60w'
+        backdrop="static"
+        keyboard={false}
+        scrollable={true}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Customize</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          ADD FORM HERE
+        </Modal.Body>
+
+        <Modal.Footer style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Button
+              variant="outline-warning"
+              onClick={ () => {
+                setShowCustomize(false)
+              }}
+            >Cancel</Button>
+            <Button onClick={ addCustomItem } style={{ margin: '0 10px'}}>Add to Order</Button>
+        </Modal.Footer>
+
       </Modal>
 
     </Container>

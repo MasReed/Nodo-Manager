@@ -13,5 +13,9 @@ code {
 }
 
 .modal-80w {
-  max-width: 90% !important;
+  max-width: 80% !important;
+}
+
+.modal-60w {
+  max-width: 60% !important;
 }
