@@ -8,10 +8,10 @@ import Card from 'react-bootstrap/Card'
 import CardDeck from 'react-bootstrap/CardDeck'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
-import Modal from 'react-bootstrap/Modal'
 
 import MenuHeader from './MenuHeader'
 import YourOrderModal from './YourOrderModal'
+import CustomizeItemModal from './CustomizeItemModal'
 
 
 const MenuPage = () => {
@@ -26,12 +26,6 @@ const MenuPage = () => {
   const customizeItem = () => {
     console.log('custimze with modal window')
     setShowCustomize(true)
-  }
-
-  const addCustomItem = (event) => {
-    event.preventDefault()
-    setShowCustomize(false)
-    setOrderItems([...orderItems, 'newItem'])
   }
 
 
@@ -141,35 +135,12 @@ const MenuPage = () => {
         setOrderItems={setOrderItems}
       />
 
-      <Modal
+      <CustomizeItemModal
         show={showCustomize}
-        onHide={() => {
-          setShowCustomize(false)
-        }}
-        dialogClassName='modal-60w'
-        backdrop="static"
-        keyboard={false}
-        scrollable={true}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Customize</Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
-          ADD FORM HERE
-        </Modal.Body>
-
-        <Modal.Footer style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Button
-              variant="outline-warning"
-              onClick={ () => {
-                setShowCustomize(false)
-              }}
-            >Cancel</Button>
-            <Button onClick={ addCustomItem } style={{ margin: '0 10px'}}>Add to Order</Button>
-        </Modal.Footer>
-
-      </Modal>
+        setShow={setShowCustomize}
+        orderItems={orderItems}
+        setOrderItems={setOrderItems}
+      />
 
     </Container>
   )
