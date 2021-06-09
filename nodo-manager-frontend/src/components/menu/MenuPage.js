@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import { useAccordionToggle } from 'react-bootstrap/AccordionToggle';
 import Accordion from 'react-bootstrap/Accordion'
@@ -10,9 +10,11 @@ import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Modal from 'react-bootstrap/Modal'
 
-import { addOrderActionCreator } from '../reducers/orderReducer'
+import MenuHeader from './MenuHeader'
+import YourOrderModal from './YourOrderModal'
+
+
 const MenuPage = () => {
-  const dispatch = useDispatch()
   const menuItems = useSelector(state => state.items)
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set#remove_duplicate_elements_from_the_array
   const categories = useSelector(state => [...new Set(state.items.map(item => item.category))])
@@ -30,19 +32,6 @@ const MenuPage = () => {
     event.preventDefault()
     setShowCustomize(false)
     setOrderItems([...orderItems, 'newItem'])
-  }
-
-  // Order action dispatchers
-  const addOrder = (event) => {
-    event.preventDefault()
-
-    const orderObject = {
-      foodItems: orderItems,
-    }
-
-    dispatch(addOrderActionCreator(orderObject))
-    setShowMyOrder(false)
-    setOrderItems([])
   }
 
 
@@ -66,10 +55,7 @@ const MenuPage = () => {
 
   return (
     <Container className='p-0'>
-      <div className='m-0 p-0' style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <h2 className='m-0 p-0'>Menu</h2>
-        <Button onClick={() => setShowMyOrder(true)} variant='outline-secondary'>My Order</Button>
-      </div>
+      <MenuHeader show={showMyOrder} setShow={setShowMyOrder} />
       <hr />
 
       {
@@ -148,42 +134,12 @@ const MenuPage = () => {
           ))
       }
 
-      <Modal
+      <YourOrderModal
         show={showMyOrder}
-        onHide={() => {
-          setShowMyOrder(false)
-          setOrderItems([])
-        }}
-        dialogClassName='modal-80w'
-        backdrop="static"
-        keyboard={false}
-        scrollable={true}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Your Order</Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
-          {
-            orderItems.map(item => <p key={item}>{item}</p>)
-          }
-        </Modal.Body>
-
-        <Modal.Footer style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Button
-              variant="outline-warning"
-              onClick={ () => {
-                setShowMyOrder(false)
-                setOrderItems([])
-              }}
-            >Cancel</Button>
-          <div>
-            <Button onClick={() => setShowMyOrder(false) } style={{ margin: '0 10px'}} variant="outline-secondary">Add More</Button>
-            <Button onClick={ addOrder } style={{ margin: '0 10px'}}>Checkout</Button>
-          </div>
-        </Modal.Footer>
-      </Modal>
-
+        setShow={setShowMyOrder}
+        orderItems={orderItems}
+        setOrderItems={setOrderItems}
+      />
 
       <Modal
         show={showCustomize}

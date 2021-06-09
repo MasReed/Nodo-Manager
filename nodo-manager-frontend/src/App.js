@@ -15,7 +15,7 @@ import ItemsPage from './components/items/ItemsPage'
 import OrdersPage from './components/orders/OrdersPage'
 import UsersPage from './components/users/UsersPage'
 import HomePage from './components/HomePage'
-import MenuPage from './components/MenuPage'
+import MenuPage from './components/menu/MenuPage'
 import RegisterPage from './components/RegisterPage'
 
 
