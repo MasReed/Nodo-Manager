@@ -29,7 +29,6 @@ const YourOrderModal = ({ show, setShow, orderItems, setOrderItems }) => {
       show={show}
       onHide={() => {
         setShow(false)
-        setOrderItems([])
       }}
       dialogClassName='modal-80w'
       backdrop="static"

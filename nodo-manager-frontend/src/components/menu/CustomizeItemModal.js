@@ -39,7 +39,6 @@ const CustomizeItemModal = ({ show, setShow, orderItems, setOrderItems }) => {
           >Cancel</Button>
           <Button onClick={ addCustomItem } style={{ margin: '0 10px'}}>Add to Order</Button>
       </Modal.Footer>
-
     </Modal>
   )
 }
