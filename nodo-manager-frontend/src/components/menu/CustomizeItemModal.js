@@ -38,7 +38,7 @@ const CustomizeItemModal = ({ show, setShow, orderItems, setOrderItems, selected
     }
 
     console.log('customitem', customItemObject)
-    setOrderItems([...orderItems, 'NEW ITEM'])
+    setOrderItems([...orderItems, customItemObject])
 
     setShow(false)
     setForName('')

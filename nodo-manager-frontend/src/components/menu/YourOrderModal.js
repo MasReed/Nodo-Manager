@@ -41,7 +41,7 @@ const YourOrderModal = ({ show, setShow, orderItems, setOrderItems }) => {
 
       <Modal.Body>
         {
-          orderItems.map(item => <p key={item}>{item}</p>)
+          orderItems.map(item => <p key={item.baseItemId + Math.random()}>{JSON.stringify(item)}</p>)
         }
       </Modal.Body>
 
