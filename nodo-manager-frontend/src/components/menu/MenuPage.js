@@ -17,7 +17,7 @@ const MenuPage = () => {
 
   const [orderItems, setOrderItems] = useState([])
   const [showMyOrder, setShowMyOrder] = useState(false)
-  const [selectedItem, setSelectedItem] = useState('')
+  const [selectedItem, setSelectedItem] = useState({})
   const [showCustomize, setShowCustomize] = useState(false)
 
 
