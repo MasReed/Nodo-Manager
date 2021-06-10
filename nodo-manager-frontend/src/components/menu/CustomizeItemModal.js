@@ -7,6 +7,8 @@ import Modal from 'react-bootstrap/Modal'
 const CustomizeItemModal = ({ show, setShow, orderItems, setOrderItems, selectedItem, setSelectedItem }) => {
 
   const [checkedMods, setCheckedMods] = useState({})
+  const [forName, setForName] = useState('')
+  const [notes, setNotes] = useState('')
 
   useEffect(() => {
     const ingredientsWithCheck = selectedItem.ingredients
@@ -17,14 +19,32 @@ const CustomizeItemModal = ({ show, setShow, orderItems, setOrderItems, selected
       setCheckedMods(ingredientsWithCheck)
   }, [ selectedItem ])
 
+  useEffect(() => {
+    console.log('This is the updated checkedMods: ', checkedMods)
+  }, [ checkedMods ])
+
 
   const addCustomItem = (event) => {
     event.preventDefault()
 
-    console.log('SELECTED', selectedItem)
+    const customItemObject = {
+      baseItemId: selectedItem._id,
+      baseName: selectedItem.name,
+      baseIngredients: selectedItem.ingredients,
+      basePrice: selectedItem.price,
+      modIngredients: checkedMods,
+      whos: forName,
+      notes: notes
+    }
+
+    console.log('customitem', customItemObject)
+    setOrderItems([...orderItems, 'NEW ITEM'])
 
     setShow(false)
-    setOrderItems([...orderItems, 'newItem'])
+    setForName('')
+    setNotes('')
+    setCheckedMods({})
+    setSelectedItem({})
   }
 
   return (
@@ -32,6 +52,9 @@ const CustomizeItemModal = ({ show, setShow, orderItems, setOrderItems, selected
       show={show}
       onHide={() => {
         setShow(false)
+        setSelectedItem({})
+        setForName('')
+        setNotes('')
       }}
       dialogClassName='modal-60w'
       backdrop="static"
@@ -48,6 +71,8 @@ const CustomizeItemModal = ({ show, setShow, orderItems, setOrderItems, selected
           <Form.Group>
             <Form.Label>Who's is it?</Form.Label>
             <Form.Control
+              value={forName}
+              onChange={ ({ target }) => setForName(target.value) }
             />
             <Form.Text>(optional)</Form.Text>
           </Form.Group>
@@ -55,28 +80,33 @@ const CustomizeItemModal = ({ show, setShow, orderItems, setOrderItems, selected
           <Form.Group>
             <Form.Label>Comes With</Form.Label>
             {
-              (Object.keys(checkedMods).length !== 0) ?
-              checkedMods.map(object => (
+              selectedItem.ingredients &&
+              selectedItem.ingredients.map(ingredient =>
                 <Form.Check
-                  key={object.ingredient}
-                  id={object.ingredient}
+                  key={ingredient}
+                  id={ingredient}
                   type='checkbox'
-                  label={object.ingredient}
-                  defaultChecked={object.checked}
+                  label={ingredient}
+                  defaultChecked={true}
                   onChange={ (event) => {
-                    console.log('eventId', event.target.id)
-                    console.log('status', event.target.checked)
+
+                    setCheckedMods(checkedMods.map(object =>
+                      object.ingredient === event.target.id
+                      ? {...object, checked: event.target.checked}
+                      : object
+                    ))
                   }}
                 />
-              ))
-              : null
+              )
             }
           </Form.Group>
 
           <Form.Group>
             <Form.Label>Anything else we should know?</Form.Label>
             <Form.Control
+              value={notes}
               placeholder='e.g. peanut allergy'
+              onChange={ ({ target }) => setNotes(target.value) }
             />
           </Form.Group>
 
@@ -89,6 +119,9 @@ const CustomizeItemModal = ({ show, setShow, orderItems, setOrderItems, selected
             onClick={ () => {
               setShow(false)
               setCheckedMods([])
+              setSelectedItem({})
+              setForName('')
+              setNotes('')
             }}
           >Cancel</Button>
           <Button type='submit' form='customizeItemForm'>Add to Order</Button>
