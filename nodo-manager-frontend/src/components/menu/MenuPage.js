@@ -17,6 +17,7 @@ const MenuPage = () => {
 
   const [orderItems, setOrderItems] = useState([])
   const [showMyOrder, setShowMyOrder] = useState(false)
+  const [selectedItem, setSelectedItem] = useState('')
   const [showCustomize, setShowCustomize] = useState(false)
 
 
@@ -32,6 +33,7 @@ const MenuPage = () => {
             category={category}
             showCustomize={showCustomize}
             setShowCustomize={setShowCustomize}
+            setSelectedItem={setSelectedItem}
           />
         ))
       }
@@ -48,6 +50,8 @@ const MenuPage = () => {
         setShow={setShowCustomize}
         orderItems={orderItems}
         setOrderItems={setOrderItems}
+        selectedItem={selectedItem}
+        setSelectedItem={setSelectedItem}
       />
 
     </Container>

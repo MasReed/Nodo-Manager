@@ -1,12 +1,16 @@
 import React from 'react'
 
 import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 
-const CustomizeItemModal = ({ show, setShow, orderItems, setOrderItems }) => {
+const CustomizeItemModal = ({ show, setShow, orderItems, setOrderItems, selectedItem, setSelectedItem }) => {
 
   const addCustomItem = (event) => {
     event.preventDefault()
+
+    console.log('SELECTED', selectedItem)
+
     setShow(false)
     setOrderItems([...orderItems, 'newItem'])
   }
@@ -23,11 +27,11 @@ const CustomizeItemModal = ({ show, setShow, orderItems, setOrderItems }) => {
       scrollable={true}
     >
       <Modal.Header closeButton>
-        <Modal.Title>Customize</Modal.Title>
+        <Modal.Title>Customize Your {selectedItem.name}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        ADD FORM HERE
+        {selectedItem.name}
       </Modal.Body>
 
       <Modal.Footer style={{ display: 'flex', justifyContent: 'space-between' }}>

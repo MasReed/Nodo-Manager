@@ -11,7 +11,7 @@ import Container from 'react-bootstrap/Container'
 import MenuItemCard from './MenuItemCard'
 
 
-const MenuCategoryAccordion = ({ category, showCustomize, setShowCustomize }) => {
+const MenuCategoryAccordion = ({ category, showCustomize, setShowCustomize, setSelectedItem }) => {
 
   const menuItems = useSelector(state => state.items)
 
@@ -46,6 +46,7 @@ const MenuCategoryAccordion = ({ category, showCustomize, setShowCustomize }) =>
                       item={item}
                       show={showCustomize}
                       setShow={setShowCustomize}
+                      setSelectedItem={setSelectedItem}
                     />
                   </Col>
                   : null)

@@ -4,9 +4,10 @@ import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 
 
-const MenuItemCard = ({ item, show, setShow }) => {
+const MenuItemCard = ({ item, show, setShow, setSelectedItem }) => {
 
-  const customizeItem = () => {
+  const callCustomizeModal = () => {
+    setSelectedItem(item)
     setShow(true)
   }
 
@@ -55,7 +56,7 @@ const MenuItemCard = ({ item, show, setShow }) => {
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <h6 style={{ margin: '0', padding: '6px 0' }}>{item.availability}</h6>
           {(item.availability === 'Available')
-            ? <Button onClick={ customizeItem }>Add to Order</Button>
+            ? <Button onClick={ callCustomizeModal }>Make it Yours</Button>
             : <Button disabled>Add to Order</Button>
           }
         </div>
