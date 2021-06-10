@@ -1,21 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import Col from 'react-bootstrap/Col'
+import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
+import ToggleButton from 'react-bootstrap/ToggleButton'
 
 import { addOrderActionCreator } from '../../reducers/orderReducer'
-
 
 const YourOrderModal = ({ show, setShow, orderItems, setOrderItems }) => {
 
   const dispatch = useDispatch()
 
+  const [orderName, setOrderName] = useState('')
+  const [orderNotes, setOrderNotes] = useState('')
+  const [orderCategory, setOrderCategory] = useState('Carry Out')
+
+
   const addOrder = (event) => {
     event.preventDefault()
 
+    // category: "Carry Out"
+    // items: (2) [{…}, {…}]
+    // name: "Ahun Gryper Son"
+    // notes: "n/a"
+    // subTotal: 9.5
+    // taxAmount: 0.75
+    // taxRate: 0.07
+    // total: 10.25
+
+    console.log('ORDER ITEMS', orderItems)
+
     const orderObject = {
-      foodItems: orderItems,
+      items: orderItems,
     }
 
     dispatch(addOrderActionCreator(orderObject))
@@ -40,9 +59,62 @@ const YourOrderModal = ({ show, setShow, orderItems, setOrderItems }) => {
       </Modal.Header>
 
       <Modal.Body>
+
+        <Form id='yourOrderForm' onSubmit={ addOrder }>
+          <Form.Group>
+            <ButtonGroup toggle>
+              <ToggleButton
+                type='radio'
+                name='carry-out-toggle'
+                variant='outline-primary'
+                value={orderCategory}
+                checked={orderCategory === 'Carry Out'}
+                onChange={ () => setOrderCategory('Carry Out') }
+              >Carry Out
+              </ToggleButton>
+
+              <ToggleButton
+                type='radio'
+                name='delivery-toggle'
+                variant='outline-primary'
+                value={orderCategory}
+                checked={orderCategory === 'Delivery'}
+                onChange={ () => setOrderCategory('Delivery') }
+              >Delivery
+              </ToggleButton>
+            </ButtonGroup>
+            <Form.Text>{orderCategory} selected.</Form.Text>
+          </Form.Group>
+
+          <Form.Row>
+            <Col lg='auto'>
+              <Form.Group>
+                <Form.Label>Name: </Form.Label>
+                <Form.Control
+                  value={orderName}
+                  onChange={ ({ target }) => setOrderName(target.value) }
+                  placeholder='e.g. Jane Doe'
+                />
+              </Form.Group>
+            </Col>
+
+            <Col>
+              <Form.Group>
+                <Form.Label>Order Notes:</Form.Label>
+                <Form.Control
+                  value={orderNotes}
+                  onChange={ ({ target }) => setOrderNotes(target.value) }
+                />
+              </Form.Group>
+            </Col>
+          </Form.Row>
+        </Form>
+
         {
           orderItems.map(item => <p key={item.baseItemId + Math.random()}>{JSON.stringify(item)}</p>)
         }
+
+
       </Modal.Body>
 
       <Modal.Footer style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -55,7 +127,7 @@ const YourOrderModal = ({ show, setShow, orderItems, setOrderItems }) => {
           >Cancel</Button>
         <div>
           <Button onClick={() => setShow(false) } style={{ margin: '0 10px'}} variant="outline-secondary">Add More</Button>
-          <Button onClick={ addOrder } style={{ margin: '0 10px'}}>Checkout</Button>
+          <Button type='submit' form='yourOrderForm' style={{ margin: '0 10px'}}>Checkout</Button>
         </div>
       </Modal.Footer>
     </Modal>
