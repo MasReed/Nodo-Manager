@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import {
   Switch,
   Route,
-  Link
+  Link,
 } from "react-router-dom";
 
 import Col from 'react-bootstrap/Col'

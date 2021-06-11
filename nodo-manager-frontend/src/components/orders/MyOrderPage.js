@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
@@ -9,13 +10,14 @@ import Form from 'react-bootstrap/Form'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 
 import { addOrderActionCreator } from '../../reducers/orderReducer'
+import { resetCart } from '../../reducers/cartReducer'
 
 const MyOrderPage = () => {
 
   const dispatch = useDispatch()
-  const myOrder = useSelector(state => state.cart)
+  const history = useHistory()
+  const myOrderItems = useSelector(state => state.cart)
 
-  const [orderItems, setOrderItems] = useState(myOrder)
   const [orderName, setOrderName] = useState('')
   const [orderNotes, setOrderNotes] = useState('')
   const [orderCategory, setOrderCategory] = useState('Carry Out')
@@ -25,7 +27,7 @@ const MyOrderPage = () => {
 
     const orderObject = {
       category: orderCategory,
-      items: orderItems,
+      items: myOrderItems,
       name: orderName,
       notes: orderNotes,
       subTotal: 2.01,
@@ -35,12 +37,23 @@ const MyOrderPage = () => {
     }
 
     dispatch(addOrderActionCreator(orderObject))
-    setOrderItems([])
+    dispatch(resetCart())
+    // Temporarily push to all orders page
+    console.log('ORDER SUBMITTED')
+    history.push('/orders')
+  }
+
+  const cancelOrderSequence = () => {
+    dispatch(resetCart())
+    history.push('/menu')
   }
 
   return (
     <Container  className='pt-5'>
-      <h1>Your Order</h1>
+      <div className='m-0 p-0' style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <h1 className='m-0 p-0'>Your Order</h1>
+        <Button onClick={() => history.push('/menu')} variant='outline-secondary'>Menu</Button>
+      </div>
       <hr />
 
       <Form id='yourOrderForm' onSubmit={ addOrder }>
@@ -95,7 +108,8 @@ const MyOrderPage = () => {
 
       <hr />
       {
-        orderItems.map(item =>
+        (myOrderItems.length > 0) &&
+        myOrderItems.map(item =>
           (
             <>
               <div>
@@ -150,12 +164,10 @@ const MyOrderPage = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Button
             variant="outline-warning"
-            onClick={ () => {
-              setOrderItems([])
-            }}
+            onClick={ cancelOrderSequence }
           >Cancel</Button>
         <div>
-          <Button onClick={() => console.log('add more') } style={{ margin: '0 10px'}} variant="outline-secondary">Add More</Button>
+          <Button onClick={() => history.push('/menu') } style={{ margin: '0 10px'}} variant="outline-secondary">Add More</Button>
           <Button type='submit' form='yourOrderForm' style={{ margin: '0 10px'}}>Checkout</Button>
         </div>
       </div>

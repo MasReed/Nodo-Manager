@@ -6,8 +6,8 @@ const cartReducer = (state = [], action) => {
   // console.log('action:', action)
   switch (action.type) {
 
-    case 'INIT_CART':
-      return action.data
+    case 'RESET_CART':
+      return []
 
     case 'ADD_CART_ITEM':
       return [...state, action.data]
@@ -49,6 +49,14 @@ export const addItemToCartActionCreator = (customItem) => {
   }
 }
 
+export const resetCart = () => {
+  return async dispatch => {
+    dispatch({
+      type: 'RESET_CART'
+    })
+  }
+}
+
 // export const updateItemActionCreator = (id, updatedObject) => {
 //   return async dispatch => {
 //     const updatedItem = await itemService.update(id, updatedObject)
@@ -59,9 +67,8 @@ export const addItemToCartActionCreator = (customItem) => {
 //   }
 // }
 //
-// export const destroyItemActionCreator = (id) => {
+// export const destroyCartItemActionCreator = (id) => {
 //   return async dispatch => {
-//     await itemService.destroy(id)
 //     dispatch({
 //       type: 'DESTROY_ITEM',
 //       data: {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
@@ -10,8 +10,6 @@ import { addItemToCartActionCreator } from '../../reducers/cartReducer'
 const CustomizeItemModal = ({ show, setShow, selectedItem, setSelectedItem }) => {
 
   const dispatch = useDispatch()
-  const orderItems = useSelector(state => state.cart)
-  console.log('order items', orderItems)
 
   const [checkedMods, setCheckedMods] = useState({})
   const [forName, setForName] = useState('')
@@ -25,11 +23,6 @@ const CustomizeItemModal = ({ show, setShow, selectedItem, setSelectedItem }) =>
 
       setCheckedMods(ingredientsWithCheck)
   }, [ selectedItem ])
-
-  // useEffect(() => {
-  //   console.log('This is the updated checkedMods: ', checkedMods)
-  // }, [ checkedMods ])
-
 
   const addCustomItem = (event) => {
     event.preventDefault()

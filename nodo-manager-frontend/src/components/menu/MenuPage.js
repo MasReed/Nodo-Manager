@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
+import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 
-import MenuHeader from './MenuHeader'
 import MenuCategoryAccordion from './MenuCategoryAccordion'
-import YourOrderModal from './YourOrderModal'
 import CustomizeItemModal from './CustomizeItemModal'
 
 
@@ -15,14 +15,17 @@ const MenuPage = () => {
     [...new Set(state.items.map(item => item.category))]
   )
 
-  const [showMyOrder, setShowMyOrder] = useState(false)
   const [selectedItem, setSelectedItem] = useState({})
   const [showCustomize, setShowCustomize] = useState(false)
 
+  let history = useHistory()
 
   return (
     <Container className='pt-5'>
-      <MenuHeader show={showMyOrder} setShow={setShowMyOrder} />
+      <div className='m-0 p-0' style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <h1 className='m-0 p-0'>Menu</h1>
+        <Button onClick={() => history.push('/my-order')} variant='outline-secondary'>My Order</Button>
+      </div>
       <hr />
 
       {
@@ -49,8 +52,3 @@ const MenuPage = () => {
 }
 
 export default MenuPage
-//
-// <YourOrderModal
-//   show={showMyOrder}
-//   setShow={setShowMyOrder}
-// />
