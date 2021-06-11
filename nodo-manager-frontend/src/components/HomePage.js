@@ -9,7 +9,7 @@ import Row from 'react-bootstrap/Row'
 const HomePage = () => {
 
   return (
-    <Container className='mb-0'>
+    <Container className='pt-5'>
       <h1>Welcome!</h1>
       <hr />
       <Row>

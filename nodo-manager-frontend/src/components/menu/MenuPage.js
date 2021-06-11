@@ -15,14 +15,13 @@ const MenuPage = () => {
     [...new Set(state.items.map(item => item.category))]
   )
 
-  const [orderItems, setOrderItems] = useState([])
   const [showMyOrder, setShowMyOrder] = useState(false)
   const [selectedItem, setSelectedItem] = useState({})
   const [showCustomize, setShowCustomize] = useState(false)
 
 
   return (
-    <Container className='p-0'>
+    <Container className='pt-5'>
       <MenuHeader show={showMyOrder} setShow={setShowMyOrder} />
       <hr />
 
@@ -38,18 +37,9 @@ const MenuPage = () => {
         ))
       }
 
-      <YourOrderModal
-        show={showMyOrder}
-        setShow={setShowMyOrder}
-        orderItems={orderItems}
-        setOrderItems={setOrderItems}
-      />
-
       <CustomizeItemModal
         show={showCustomize}
         setShow={setShowCustomize}
-        orderItems={orderItems}
-        setOrderItems={setOrderItems}
         selectedItem={selectedItem}
         setSelectedItem={setSelectedItem}
       />
@@ -59,3 +49,8 @@ const MenuPage = () => {
 }
 
 export default MenuPage
+//
+// <YourOrderModal
+//   show={showMyOrder}
+//   setShow={setShowMyOrder}
+// />

@@ -87,8 +87,8 @@ const YourOrderModal = ({ show, setShow, orderItems, setOrderItems }) => {
             <Form.Text>{orderCategory} selected.</Form.Text>
           </Form.Group>
 
-          <Form.Row>
-            <Col lg='auto'>
+          <Form.Row className='ml-0 mr-0'>
+            <Col lg='auto' className='pl-0'>
               <Form.Group>
                 <Form.Label>Name: </Form.Label>
                 <Form.Control
@@ -99,7 +99,7 @@ const YourOrderModal = ({ show, setShow, orderItems, setOrderItems }) => {
               </Form.Group>
             </Col>
 
-            <Col>
+            <Col className='pr-0'>
               <Form.Group>
                 <Form.Label>Order Notes:</Form.Label>
                 <Form.Control
@@ -110,10 +110,6 @@ const YourOrderModal = ({ show, setShow, orderItems, setOrderItems }) => {
             </Col>
           </Form.Row>
         </Form>
-
-        {
-          orderItems.map(item => <p key={item.baseItemId + Math.random()}>{JSON.stringify(item)}</p>)
-        }
 
         <hr />
         {
@@ -126,32 +122,42 @@ const YourOrderModal = ({ show, setShow, orderItems, setOrderItems }) => {
                     <h2 className='my-0 py-2 text-capitalize'>{item.whos}</h2>
                   </div>
 
-                  <div className='my-0'>
-                    <h6 className='my-0 pt-2 pb-1'>Ingredients:</h6>
-                    <p className='my-0 px-4 py-0'>
-                      {item.modIngredients.filter(obj =>
-                        obj.checked).map(obj =>
-                          obj.ingredient).join(', ')
-                      }
-                    </p>
-                    <p className='my-0 px-4 py-0'>
-                      <small>Exclusions:&nbsp;
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div className='my-0'>
+                      <h6 className='my-0 pt-2 pb-1'>Ingredients:</h6>
+                      <p className='my-0 px-4 py-0'>
                         {item.modIngredients.filter(obj =>
-                          !obj.checked).map(obj =>
+                          obj.checked).map(obj =>
                             obj.ingredient).join(', ')
                         }
-                      </small>
-                    </p>
+                      </p>
+                      <p className='my-0 px-4 py-0'>
+                        <small>Exclusions:&nbsp;
+                          {item.modIngredients.filter(obj =>
+                            !obj.checked).map(obj =>
+                              obj.ingredient).join(', ')
+                          }
+                        </small>
+                      </p>
+                    </div>
+
+                    <div className='align-self-end'>
+                      <p className='my-0 py-2'>base price: {item.basePrice}</p>
+                      <hr style={{ margin: '2px 0px'}} />
+                    </div>
+
                   </div>
 
                   <div style={{ display: 'flex', justifyContent: 'space-between'}}>
-                    <h6 className='my-0 py-2 align-self-start'>Notes: {item.notes}</h6>
-                    <div className='my-0 py-0'>
-                      <p className='my-0 py-2'>base price: {item.basePrice}</p>
-                      <hr style={{ margin: '2px 0px'}} />
-                      <p className='my-0 py-2'>Item Total: {item.subTotal}</p>
-                    </div>
+                    <h6 className='my-0 py-2'>Notes: {item.notes}</h6>
+                    <p className='my-0 py-2'>Item Total: {item.subTotal}</p>
                   </div>
+
+                  <div>
+                    <Button onClick={ () => console.log('deleteItem') } variant='outline-danger' size='sm' style={{ border: 'hidden', marginTop: '8px'}}>Remove</Button>
+                    <Button onClick={ () => console.log('updateItem') } variant='outline-secondary' size='sm' style={{ border: 'hidden', marginTop: '8px'}}>Edit</Button>
+                  </div>
+
                 </div>
                 <hr />
               </>
