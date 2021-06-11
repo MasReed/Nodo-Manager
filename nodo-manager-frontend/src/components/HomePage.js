@@ -1,27 +1,74 @@
 import React from 'react'
 
+import Col from 'react-bootstrap/Col'
+import Container from 'react-bootstrap/Container'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import Row from 'react-bootstrap/Row'
+
 const HomePage = () => {
 
-  // const [pin, setPin] = useState('')
-  // <div style={{ margin: '50px 0'}}>
-  //   <form>
-  //     <label>Enter User Pin</label>
-  //     <input
-  //       type='password'
-  //       pattern={/[0-9]*/}
-  //       maxLength='4'
-  //       onChange={ ({ target }) => setPin(target.value) }
-  //     />
-  //     <label>{pin}</label>
-  //   </form>
-  // </div>
-
   return (
-    <div style={{ margin: '1% 20%'}}>
-      <h2>Welcome!</h2>
-      <h4>Signup or Login</h4>
+    <Container className='mb-0'>
+      <h1>Welcome!</h1>
       <hr />
-    </div>
+      <Row>
+        <Col className='px-5 py-5'>
+          <h2>Login</h2>
+          <hr />
+
+          <Form controlId='loginForm'>
+            <Form.Group controlId='loginUsername'>
+              <Form.Label>Username</Form.Label>
+              <Form.Control type='email' placeholder='Username' />
+            </Form.Group>
+
+            <Form.Group controlId='loginPassword'>
+              <Form.Label>Password</Form.Label>
+              <Form.Control type='password' placeholder='Password' />
+            </Form.Group>
+
+            <Button variant='primary' type='submit'>
+              Login
+            </Button>
+          </Form>
+        </Col>
+
+        <Col style={{ borderLeft: '1px solid', borderRight: '1px solid', borderColor: 'rgba(0,0,0, 0.1)' }}>
+        </Col>
+
+        <Col className='px-5 py-5'>
+          <h2>Register Today!</h2>
+          <hr />
+
+          <Form>
+            <Form.Group controlId='signupEmail'>
+              <Form.Label>Email address</Form.Label>
+              <Form.Control type='email' placeholder='Enter email' />
+            </Form.Group>
+
+            <Form.Group controlId='signupUsername'>
+              <Form.Label>Username</Form.Label>
+              <Form.Control type='email' placeholder='Username' />
+            </Form.Group>
+
+            <Form.Group controlId='signupPassword'>
+              <Form.Label>Password</Form.Label>
+              <Form.Control type='password' placeholder='Password' />
+            </Form.Group>
+
+            <Form.Group controlId='signupPasswordVerify'>
+              <Form.Label>Repeat Password</Form.Label>
+              <Form.Control type='password' placeholder='Password' />
+            </Form.Group>
+
+            <Button variant='primary' type='submit'>
+              Sign Up
+            </Button>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   )
 }
 

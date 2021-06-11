@@ -55,7 +55,7 @@ function App() {
         </Navbar.Collapse>
       </Navbar>
 
-      <React.Fragment>
+      <div style={{ minHeight: 'calc(100vh - 200px)' }}>
         <Switch>
 
           <Route path='/items'>
@@ -91,9 +91,9 @@ function App() {
           </Route>
 
         </Switch>
-      </React.Fragment>
+      </div>
 
-      <footer className='mt-5 p-5' style={{ backgroundColor: 'gray', height: '200px' }}>
+      <footer className='p-5' style={{ backgroundColor: 'gray', height: '200px' }}>
         <Container>
           <Row>
             <Col>

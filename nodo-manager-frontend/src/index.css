@@ -27,3 +27,7 @@ code {
 .modal-40w {
   max-width: 40% !important;
 }
+
+.content {
+  min-height: calc(100vh - 200px)
+}
