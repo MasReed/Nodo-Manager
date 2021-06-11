@@ -22,10 +22,6 @@ const YourOrderModal = ({ show, setShow, orderItems, setOrderItems }) => {
   const addOrder = (event) => {
     event.preventDefault()
 
-    // category: "Carry Out"
-    // items: (2) [{…}, {…}]
-    // name: "Ahun Gryper Son"
-    // notes: "n/a"
     // subTotal: 9.5
     // taxAmount: 0.75
     // taxRate: 0.07
@@ -34,7 +30,14 @@ const YourOrderModal = ({ show, setShow, orderItems, setOrderItems }) => {
     console.log('ORDER ITEMS', orderItems)
 
     const orderObject = {
+      category: orderCategory,
       items: orderItems,
+      name: orderName,
+      notes: orderNotes,
+      subTotal: 2.01,
+      taxRate: 0.07,
+      taxAmount: 1.23,
+      total: 4.00
     }
 
     dispatch(addOrderActionCreator(orderObject))
@@ -114,6 +117,29 @@ const YourOrderModal = ({ show, setShow, orderItems, setOrderItems }) => {
           orderItems.map(item => <p key={item.baseItemId + Math.random()}>{JSON.stringify(item)}</p>)
         }
 
+        {
+          orderItems.map(item =>
+            (
+              <div>
+                <h4>For: {item.whos}</h4>
+                <p>{item.baseItemId}</p>
+                <p>{item.baseName}</p>
+                <p>{item.baseIngredients}</p>
+                <p>Notes: {item.notes}</p>
+
+
+                <div style={{ display: 'flex', justifyContent: 'space-between'}}>
+                  <div>
+                    <p className='m-0'>base price: {item.basePrice}</p>
+                    <p style={{ margin: '0' }}>Subtotal: {item.subTotal}</p>
+                  </div>
+                </div>
+
+                <hr />
+              </div>
+            )
+          )
+        }
 
       </Modal.Body>
 
