@@ -48,6 +48,7 @@ function App() {
 
           <Nav className='ml-auto'>
             <Nav.Link as={Link} to='/orders'>Orders</Nav.Link>
+            <Nav.Link as={Link} to='/items'>Items</Nav.Link>
             <Nav.Link as={Link} to='/users'>Users</Nav.Link>
           </Nav>
         </Navbar.Collapse>
