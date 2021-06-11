@@ -48,8 +48,8 @@ Procedure
 + Frontend Routing w/ react-router-dom
 - Frontend uses/design
   + item CardDeck layout -> autowrap?
-  - implement 'Shopping Cart' / current order
-  - implement add to order -> modal item modification
+  + implement 'Shopping Cart' / current order
+  + implement add to order -> modal item modification
 
 - update this list
 - Unit Testing backend

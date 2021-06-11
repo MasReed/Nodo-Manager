@@ -19,9 +19,9 @@ const CustomizeItemModal = ({ show, setShow, orderItems, setOrderItems, selected
       setCheckedMods(ingredientsWithCheck)
   }, [ selectedItem ])
 
-  useEffect(() => {
-    console.log('This is the updated checkedMods: ', checkedMods)
-  }, [ checkedMods ])
+  // useEffect(() => {
+  //   console.log('This is the updated checkedMods: ', checkedMods)
+  // }, [ checkedMods ])
 
 
   const addCustomItem = (event) => {
@@ -37,7 +37,6 @@ const CustomizeItemModal = ({ show, setShow, orderItems, setOrderItems, selected
       notes: notes
     }
 
-    console.log('customitem', customItemObject)
     setOrderItems([...orderItems, customItemObject])
 
     setShow(false)

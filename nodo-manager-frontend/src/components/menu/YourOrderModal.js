@@ -18,7 +18,6 @@ const YourOrderModal = ({ show, setShow, orderItems, setOrderItems }) => {
   const [orderNotes, setOrderNotes] = useState('')
   const [orderCategory, setOrderCategory] = useState('Carry Out')
 
-
   const addOrder = (event) => {
     event.preventDefault()
 
@@ -45,14 +44,13 @@ const YourOrderModal = ({ show, setShow, orderItems, setOrderItems }) => {
     setOrderItems([])
   }
 
-
   return (
     <Modal
       show={show}
       onHide={() => {
         setShow(false)
       }}
-      dialogClassName='modal-80w'
+      dialogClassName='modal-70w'
       backdrop="static"
       keyboard={false}
       scrollable={true}
@@ -117,26 +115,46 @@ const YourOrderModal = ({ show, setShow, orderItems, setOrderItems }) => {
           orderItems.map(item => <p key={item.baseItemId + Math.random()}>{JSON.stringify(item)}</p>)
         }
 
+        <hr />
         {
           orderItems.map(item =>
             (
-              <div>
-                <h4>For: {item.whos}</h4>
-                <p>{item.baseItemId}</p>
-                <p>{item.baseName}</p>
-                <p>{item.baseIngredients}</p>
-                <p>Notes: {item.notes}</p>
+              <>
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <h2 className='my-0 py-2'>{item.baseName}</h2>
+                    <h2 className='my-0 py-2 text-capitalize'>{item.whos}</h2>
+                  </div>
 
+                  <div className='my-0'>
+                    <h6 className='my-0 pt-2 pb-1'>Ingredients:</h6>
+                    <p className='my-0 px-4 py-0'>
+                      {item.modIngredients.filter(obj =>
+                        obj.checked).map(obj =>
+                          obj.ingredient).join(', ')
+                      }
+                    </p>
+                    <p className='my-0 px-4 py-0'>
+                      <small>Exclusions:&nbsp;
+                        {item.modIngredients.filter(obj =>
+                          !obj.checked).map(obj =>
+                            obj.ingredient).join(', ')
+                        }
+                      </small>
+                    </p>
+                  </div>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between'}}>
-                  <div>
-                    <p className='m-0'>base price: {item.basePrice}</p>
-                    <p style={{ margin: '0' }}>Subtotal: {item.subTotal}</p>
+                  <div style={{ display: 'flex', justifyContent: 'space-between'}}>
+                    <h6 className='my-0 py-2 align-self-start'>Notes: {item.notes}</h6>
+                    <div className='my-0 py-0'>
+                      <p className='my-0 py-2'>base price: {item.basePrice}</p>
+                      <hr style={{ margin: '2px 0px'}} />
+                      <p className='my-0 py-2'>Item Total: {item.subTotal}</p>
+                    </div>
                   </div>
                 </div>
-
                 <hr />
-              </div>
+              </>
             )
           )
         }

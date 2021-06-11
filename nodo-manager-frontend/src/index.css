@@ -16,6 +16,14 @@ code {
   max-width: 80% !important;
 }
 
+.modal-70w {
+  max-width: 70% !important;
+}
+
 .modal-60w {
   max-width: 60% !important;
+}
+
+.modal-40w {
+  max-width: 40% !important;
 }
