@@ -7,8 +7,11 @@ import {
   Link
 } from "react-router-dom";
 
+import Col from 'react-bootstrap/Col'
+import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
+import Row from 'react-bootstrap/Row'
 
 import { initializeItems } from './reducers/itemReducer'
 import { initializeOrders } from './reducers/orderReducer'
@@ -35,8 +38,7 @@ function App() {
 
   return (
     <div>
-
-      <Navbar bg="light" expand="lg" sticky='top'>
+      <Navbar bg="light" expand="lg" sticky='top' className='mb-5'>
         <Navbar.Brand as={Link} to='/'>Nodo-Manager</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -90,6 +92,27 @@ function App() {
 
         </Switch>
       </React.Fragment>
+
+      <footer className='mt-5 p-5' style={{ backgroundColor: 'gray', height: '200px' }}>
+        <Container>
+          <Row>
+            <Col>
+              <h6>About</h6>
+              <p>Words Here</p>
+            </Col>
+
+            <Col>
+              <h6>Categories</h6>
+              <p>Words Here</p>
+            </Col>
+
+            <Col>
+              <h6>Quick Links</h6>
+              <p>Words Here</p>
+            </Col>
+          </Row>
+        </Container>
+      </footer>
 
     </div>
   )
