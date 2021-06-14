@@ -50,11 +50,12 @@ Procedure
   + item CardDeck layout -> autowrap?
   + implement 'Shopping Cart' / current order
   + implement add to order -> modal item modification
+  + complete cart reducer with update/delete functionality
+  + reflect in front end on my-order page
+  + include redirect navigation for item edits in myOrder
 
-  * complete cart reducer with update/delete functionality
-  * reflect in front end on my-order page
+  * calculate totals
   * create order confirmation page and redirect to it
-  * include redirect navigation for item edits in myOrder
 
 - update this list
 - Unit Testing backend

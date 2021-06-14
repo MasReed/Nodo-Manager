@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
@@ -23,29 +23,45 @@ const MyOrderPage = () => {
   const [showCustomize, setShowCustomize] = useState(false)
   const [selectedItem, setSelectedItem] = useState({})
 
-  const [orderName, setOrderName] = useState('')
+  const [orderName, setOrderName] = useState()
   const [orderNotes, setOrderNotes] = useState('')
   const [orderCategory, setOrderCategory] = useState('Carry Out')
+
+  useEffect(() => {
+    const name = myOrderItems.map(item => item.whos).find(name => name !== '')
+
+    if (name) {
+      setOrderName(name.charAt(0).toUpperCase() + name.slice(1))
+    } else {
+      setOrderName('')
+    }
+
+  }, [ myOrderItems ])
 
   const addOrder = (event) => {
     event.preventDefault()
 
-    const orderObject = {
-      category: orderCategory,
-      items: myOrderItems,
-      name: orderName,
-      notes: orderNotes,
-      subTotal: 2.01,
-      taxRate: 0.07,
-      taxAmount: 1.23,
-      total: 4.00
-    }
+    if (myOrderItems.length > 0) {
+      const orderObject = {
+        category: orderCategory,
+        items: myOrderItems,
+        name: orderName,
+        notes: orderNotes,
+        subTotal: 2.01,
+        taxRate: 0.07,
+        taxAmount: 1.23,
+        total: 4.00
+      }
 
-    dispatch(addOrderActionCreator(orderObject))
-    dispatch(resetCart())
-    // Temporarily push to all orders page
-    console.log('ORDER SUBMITTED')
-    history.push('/orders')
+      dispatch(addOrderActionCreator(orderObject))
+      dispatch(resetCart())
+      // Temporarily push to all orders page
+      console.log('ORDER SUBMITTED')
+      history.push('/orders')
+    } else {
+      window.alert('No items in order!')
+      history.push('/menu')
+    }
   }
 
   const cancelOrderSequence = () => {
@@ -60,8 +76,9 @@ const MyOrderPage = () => {
   }
 
   const deleteCartItem = (id) => {
-    window.confirm('add functionality')
-    dispatch(deleteCartItemActionCreator(id))
+    if (window.confirm('OK to confirm removal')) {
+      dispatch(deleteCartItemActionCreator(id))
+    }
   }
 
   return (
