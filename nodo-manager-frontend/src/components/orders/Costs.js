@@ -22,7 +22,7 @@ const Costs = ({ setCosts }) => {
       setTotal(total)
 
       setCosts({
-        subtotal: subTotal,
+        subTotal: subTotal,
         taxRate: TAX_RATE,
         taxAmount: taxAmount,
         total: total
@@ -39,7 +39,7 @@ const Costs = ({ setCosts }) => {
       </div>
       <div className='ml-2 text-right'>
         <h6 className='m-0 p-0'>${subTotal}</h6>
-        <p className='m-0 p-0'><small>${TAX_RATE}</small></p>
+        <p className='m-0 p-0'><small>x{TAX_RATE}</small></p>
         <h6 className='m-0 p-0'>${taxAmount}</h6>
       </div>
       <h4 className='m-0 ml-auto mt-auto pt-auto font-weight-bold text-right'>Total: ${total}</h4>
