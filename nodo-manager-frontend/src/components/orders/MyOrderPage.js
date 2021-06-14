@@ -10,7 +10,7 @@ import Form from 'react-bootstrap/Form'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 
 import { addOrderActionCreator } from '../../reducers/orderReducer'
-import { resetCart } from '../../reducers/cartReducer'
+import { resetCart, deleteCartItemActionCreator } from '../../reducers/cartReducer'
 
 const MyOrderPage = () => {
 
@@ -46,6 +46,11 @@ const MyOrderPage = () => {
   const cancelOrderSequence = () => {
     dispatch(resetCart())
     history.push('/menu')
+  }
+
+  const deleteCartItem = (id) => {
+    console.log('deleteCartItem Call')
+    dispatch(deleteCartItemActionCreator(id))
   }
 
   return (
@@ -107,11 +112,12 @@ const MyOrderPage = () => {
       </Form>
 
       <hr />
+
       {
         (myOrderItems.length > 0) &&
         myOrderItems.map(item =>
           (
-            <>
+            <div key={item.uniqueId}>
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <h2 className='my-0 py-2'>{item.baseName}</h2>
@@ -150,13 +156,13 @@ const MyOrderPage = () => {
                 </div>
 
                 <div>
-                  <Button onClick={ () => console.log('deleteItem') } variant='outline-danger' size='sm' style={{ border: 'hidden', marginTop: '8px'}}>Remove</Button>
+                  <Button onClick={ () => deleteCartItem(item.uniqueId) } variant='outline-danger' size='sm' style={{ border: 'hidden', marginTop: '8px'}}>Remove</Button>
                   <Button onClick={ () => console.log('updateItem') } variant='outline-secondary' size='sm' style={{ border: 'hidden', marginTop: '8px'}}>Edit</Button>
                 </div>
 
               </div>
               <hr />
-            </>
+            </div>
           )
         )
       }

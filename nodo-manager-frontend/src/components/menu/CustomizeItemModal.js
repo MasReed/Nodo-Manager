@@ -34,7 +34,8 @@ const CustomizeItemModal = ({ show, setShow, selectedItem, setSelectedItem }) =>
       basePrice: selectedItem.price,
       modIngredients: checkedMods,
       whos: forName,
-      notes: notes
+      notes: notes,
+      uniqueId: selectedItem._id + forName + Math.random()
     }
 
     dispatch(addItemToCartActionCreator(customItemObject))

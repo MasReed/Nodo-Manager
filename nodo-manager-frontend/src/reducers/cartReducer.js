@@ -19,8 +19,8 @@ const cartReducer = (state = [], action) => {
         : action.data
       )
 
-    case 'DESTROY_CART_ITEM':
-      return state.filter(item => item._id !== action.data.id)
+    case 'DELETE_CART_ITEM':
+      return state.filter(item => item.uniqueId !== action.data.id)
 
     default:
       return state
@@ -67,13 +67,13 @@ export const resetCart = () => {
 //   }
 // }
 //
-// export const destroyCartItemActionCreator = (id) => {
-//   return async dispatch => {
-//     dispatch({
-//       type: 'DESTROY_ITEM',
-//       data: {
-//         id: id
-//       }
-//     })
-//   }
-// }
+export const deleteCartItemActionCreator = (id) => {
+  return async dispatch => {
+    dispatch({
+      type: 'DELETE_CART_ITEM',
+      data: {
+        id: id
+      }
+    })
+  }
+}
