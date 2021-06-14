@@ -12,6 +12,7 @@ import ToggleButton from 'react-bootstrap/ToggleButton'
 import { addOrderActionCreator } from '../../reducers/orderReducer'
 import { resetCart, deleteCartItemActionCreator } from '../../reducers/cartReducer'
 
+import Costs from './Costs'
 import UpdateCustomItemModal from './UpdateCustomItemModal'
 
 const MyOrderPage = () => {
@@ -23,14 +24,11 @@ const MyOrderPage = () => {
   const [showCustomize, setShowCustomize] = useState(false)
   const [selectedItem, setSelectedItem] = useState({})
 
+  const [costs, setCosts] = useState([])
   const [orderName, setOrderName] = useState('')
-  const [subTotal, setSubTotal] = useState(0)
-  const [taxAmount, setTaxAmount] = useState(0)
-  const [total, setTotal] = useState(0)
   const [orderNotes, setOrderNotes] = useState('')
   const [orderCategory, setOrderCategory] = useState('Carry Out')
 
-  const TAX_RATE = 0.07
 
   useEffect(() => {
     const name = myOrderItems.map(item => item.whos).find(name => name !== '')
@@ -40,18 +38,6 @@ const MyOrderPage = () => {
     } else {
       setOrderName('')
     }
-  }, [myOrderItems])
-
-  useEffect(() => {
-    const subTotal = myOrderItems.map(item =>
-      item.basePrice).reduce((sum, val) => (sum + val))
-
-    const taxAmount = Math.round(subTotal * TAX_RATE * 100) / 100
-    const total = subTotal + taxAmount
-
-    setSubTotal(subTotal)
-    setTaxAmount(taxAmount)
-    setTotal(total)
   }, [myOrderItems])
 
 
@@ -64,10 +50,10 @@ const MyOrderPage = () => {
         items: myOrderItems,
         name: orderName,
         notes: orderNotes,
-        subTotal: subTotal,
+        subTotal: costs.subTotal,
         taxRate: 0.07,
-        taxAmount: taxAmount,
-        total: total
+        taxAmount: costs.taxAmount,
+        total: costs.total
       }
 
       dispatch(addOrderActionCreator(orderObject))
@@ -231,20 +217,7 @@ const MyOrderPage = () => {
         )
       }
 
-
-      <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-        <div className='mr-2 text-left'>
-          <h6 className='m-0 p-0'>Sub Total:</h6>
-          <p className='m-0 p-0'><small>Tax Rate:</small></p>
-          <h6 className='m-0 py-0'>Tax Amount:</h6>
-        </div>
-        <div className='ml-2 text-right'>
-          <h6 className='m-0 p-0'>${subTotal}</h6>
-          <p className='m-0 p-0'><small>${TAX_RATE}</small></p>
-          <h6 className='m-0 p-0'>${taxAmount}</h6>
-        </div>
-        <h4 className='m-0 ml-auto mt-auto pt-auto font-weight-bold text-right'>Total: ${total}</h4>
-      </div>
+      <Costs setCosts={setCosts} />
 
       <hr style={{ marginTop: '8px' }} />
 
