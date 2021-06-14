@@ -5,45 +5,39 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 
-import { addItemToCartActionCreator } from '../../reducers/cartReducer'
+import { updateCartItemActionCreator } from '../../reducers/cartReducer'
 
 const CustomizeItemModal = ({ show, setShow, selectedItem, setSelectedItem }) => {
 
   const dispatch = useDispatch()
 
-  const [checkedMods, setCheckedMods] = useState([])
+  const [modList, setModList] = useState([])
   const [forName, setForName] = useState('')
   const [notes, setNotes] = useState('')
 
   useEffect(() => {
-    const ingredientsWithCheck = selectedItem.ingredients
-      ? selectedItem.ingredients.map(ingredient =>
-        ({ ingredient: ingredient, checked: true }))
-      : {}
-
-      setCheckedMods(ingredientsWithCheck)
+    setModList(selectedItem.modIngredients)
+    setForName(selectedItem.whos)
+    setNotes(selectedItem.notes)
   }, [ selectedItem ])
 
-  const addCustomItem = (event) => {
+
+  const updateCustomItem = (event) => {
     event.preventDefault()
 
     const customItemObject = {
-      baseItemId: selectedItem._id,
-      baseName: selectedItem.name,
-      baseIngredients: selectedItem.ingredients,
-      basePrice: selectedItem.price,
-      modIngredients: checkedMods,
+      ...selectedItem,
+      modIngredients: modList,
       whos: forName,
       notes: notes,
-      uniqueId: selectedItem.uniqueId || selectedItem._id + forName + Math.random()
     }
 
-    dispatch(addItemToCartActionCreator(customItemObject))
+    dispatch(updateCartItemActionCreator(customItemObject))
 
     setShow(false)
     setForName('')
     setNotes('')
-    setCheckedMods([])
+    setModList([])
     setSelectedItem({})
   }
 
@@ -62,11 +56,11 @@ const CustomizeItemModal = ({ show, setShow, selectedItem, setSelectedItem }) =>
       scrollable={true}
     >
       <Modal.Header closeButton>
-        <Modal.Title>Customize Your {selectedItem.name}</Modal.Title>
+        <Modal.Title>Customize Your {selectedItem.baseName}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        <Form id='customizeItemForm' onSubmit={ addCustomItem }>
+        <Form id='updateCustomItemForm' onSubmit={ updateCustomItem }>
 
           <Form.Group>
             <Form.Label>Who's is it?</Form.Label>
@@ -80,17 +74,17 @@ const CustomizeItemModal = ({ show, setShow, selectedItem, setSelectedItem }) =>
           <Form.Group>
             <Form.Label>Comes With</Form.Label>
             {
-              selectedItem.ingredients &&
-              selectedItem.ingredients.map(ingredient =>
+              selectedItem.modIngredients &&
+              selectedItem.modIngredients.map(obj =>
                 <Form.Check
-                  key={ingredient}
-                  id={ingredient}
+                  key={obj.ingredient}
+                  id={obj.ingredient}
                   type='checkbox'
-                  label={ingredient}
-                  defaultChecked={true}
+                  label={obj.ingredient}
+                  defaultChecked={obj.checked}
                   onChange={ (event) => {
 
-                    setCheckedMods(checkedMods.map(object =>
+                    setModList(modList.map(object =>
                       object.ingredient === event.target.id
                       ? {...object, checked: event.target.checked}
                       : object
@@ -118,13 +112,13 @@ const CustomizeItemModal = ({ show, setShow, selectedItem, setSelectedItem }) =>
             variant="outline-warning"
             onClick={ () => {
               setShow(false)
-              setCheckedMods([])
+              setModList([])
               setSelectedItem({})
               setForName('')
               setNotes('')
             }}
           >Cancel</Button>
-          <Button type='submit' form='customizeItemForm'>Add to Order</Button>
+          <Button type='submit' form='updateCustomItemForm'>Update</Button>
       </Modal.Footer>
     </Modal>
   )

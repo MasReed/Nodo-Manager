@@ -14,7 +14,7 @@ const cartReducer = (state = [], action) => {
 
     case 'UPDATE_CART_ITEM':
       return state.map(item =>
-        (item._id !== action.data._id)
+        item.uniqueId !== action.data.uniqueId
         ? item
         : action.data
       )
@@ -57,16 +57,16 @@ export const resetCart = () => {
   }
 }
 
-// export const updateItemActionCreator = (id, updatedObject) => {
-//   return async dispatch => {
-//     const updatedItem = await itemService.update(id, updatedObject)
-//     dispatch({
-//       type: 'UPDATE_ITEM',
-//       data: updatedItem
-//     })
-//   }
-// }
-//
+export const updateCartItemActionCreator = (updatedObject) => {
+  return async dispatch => {
+    console.log('UPDATED OBJECT IN ACTION CREATOR', updatedObject)
+    dispatch({
+      type: 'UPDATE_CART_ITEM',
+      data: updatedObject
+    })
+  }
+}
+
 export const deleteCartItemActionCreator = (id) => {
   return async dispatch => {
     dispatch({

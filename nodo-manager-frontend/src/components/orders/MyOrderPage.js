@@ -12,11 +12,16 @@ import ToggleButton from 'react-bootstrap/ToggleButton'
 import { addOrderActionCreator } from '../../reducers/orderReducer'
 import { resetCart, deleteCartItemActionCreator } from '../../reducers/cartReducer'
 
+import UpdateCustomItemModal from './UpdateCustomItemModal'
+
 const MyOrderPage = () => {
 
   const dispatch = useDispatch()
   const history = useHistory()
   const myOrderItems = useSelector(state => state.cart)
+
+  const [showCustomize, setShowCustomize] = useState(false)
+  const [selectedItem, setSelectedItem] = useState({})
 
   const [orderName, setOrderName] = useState('')
   const [orderNotes, setOrderNotes] = useState('')
@@ -48,8 +53,14 @@ const MyOrderPage = () => {
     history.push('/menu')
   }
 
+  const updateCartItem = (id) => {
+    setSelectedItem(myOrderItems.find(item => item.uniqueId === id))
+    setShowCustomize(true)
+
+  }
+
   const deleteCartItem = (id) => {
-    console.log('deleteCartItem Call')
+    window.confirm('add functionality')
     dispatch(deleteCartItemActionCreator(id))
   }
 
@@ -57,7 +68,12 @@ const MyOrderPage = () => {
     <Container  className='pt-5'>
       <div className='m-0 p-0' style={{ display: 'flex', justifyContent: 'space-between' }}>
         <h1 className='m-0 p-0'>Your Order</h1>
-        <Button onClick={() => history.push('/menu')} variant='outline-secondary'>Menu</Button>
+        <Button
+          onClick={() => history.push('/menu')}
+          variant='outline-secondary'
+        >
+          Menu
+        </Button>
       </div>
       <hr />
 
@@ -156,8 +172,22 @@ const MyOrderPage = () => {
                 </div>
 
                 <div>
-                  <Button onClick={ () => deleteCartItem(item.uniqueId) } variant='outline-danger' size='sm' style={{ border: 'hidden', marginTop: '8px'}}>Remove</Button>
-                  <Button onClick={ () => console.log('updateItem') } variant='outline-secondary' size='sm' style={{ border: 'hidden', marginTop: '8px'}}>Edit</Button>
+                  <Button
+                    onClick={ () => deleteCartItem(item.uniqueId) }
+                    variant='outline-danger'
+                    size='sm'
+                    style={{ border: 'hidden', marginTop: '8px'}}
+                  >
+                    Remove
+                  </Button>
+                  <Button
+                    onClick={ () => updateCartItem(item.uniqueId) }
+                    variant='outline-secondary'
+                    size='sm'
+                    style={{ border: 'hidden', marginTop: '8px'}}
+                    >
+                      Edit
+                    </Button>
                 </div>
 
               </div>
@@ -177,6 +207,13 @@ const MyOrderPage = () => {
           <Button type='submit' form='yourOrderForm' style={{ margin: '0 10px'}}>Checkout</Button>
         </div>
       </div>
+
+      <UpdateCustomItemModal
+        show={showCustomize}
+        setShow={setShowCustomize}
+        selectedItem={selectedItem}
+        setSelectedItem={setSelectedItem}
+      />
     </Container>
   )
 }
