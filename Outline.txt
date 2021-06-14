@@ -53,8 +53,9 @@ Procedure
   + complete cart reducer with update/delete functionality
   + reflect in front end on my-order page
   + include redirect navigation for item edits in myOrder
+  + calculate totals
+  + abstract order page components
 
-  * calculate totals
   * create order confirmation page and redirect to it
 
 - update this list
