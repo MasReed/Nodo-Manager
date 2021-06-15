@@ -58,6 +58,7 @@ Procedure
   + footer sitemap links
   + unify page layouts/padding
   + component abstractions
+  + Login / Registration forms working
 
   - create order confirmation page and redirect to it
   - update orders page / editing ability
@@ -65,6 +66,7 @@ Procedure
   - make itemInfo/card responsive
   - Make users page functional
 
+- create currentUserReducer to manage in redux
 - calculate totals serverside
 - update this list
 - Unit Testing backend
