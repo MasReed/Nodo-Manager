@@ -122,6 +122,14 @@ const NewItemForm = ({ show, setShow }) => {
               />
             </Form.Group>
 
+            <Form.Group>
+              <Form.File
+                id='itemImageFile'
+                label='Upload an item image'
+                onChange={ (event) => console.log(event.target.files)}
+              />
+            </Form.Group>
+
           </Form>
 
         </Modal.Body>

@@ -4,11 +4,11 @@ const baseUrl = '/api/auth'
 
 
 // Register new user
-const register = async (username, email, password) => {
+const register = async (email, username, password) => {
 
   const newUserObject = {
-    username,
     email,
+    username,
     password
   }
 
@@ -29,7 +29,7 @@ const login = async (username, password) => {
   return response.data
 }
 
-// remove use from local storage
+// remove user from local storage
 const logout = () => {
   localStorage.removeItem('user')
 }

@@ -34,7 +34,7 @@ const SiteFooter = () => {
 
           <Col>
             <h6>About</h6>
-            <p>Words Here</p>
+            <p className='text-light'>Words Here</p>
           </Col>
 
         </Row>
