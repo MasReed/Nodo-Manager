@@ -58,9 +58,9 @@ Procedure
 
   - create order confirmation page and redirect to it
   - update orders page / editing ability
-  - footer sitemap links
+  + footer sitemap links
   - component abstractions
-  - unify page layouts/padding
+  + unify page layouts/padding
 
 - update this list
 - Unit Testing backend

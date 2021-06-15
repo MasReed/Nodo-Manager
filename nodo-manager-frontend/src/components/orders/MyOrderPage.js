@@ -29,9 +29,9 @@ const MyOrderPage = () => {
 
 
   return (
-    <Container  className='pt-5'>
-      <div className='m-0 p-0' style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <h1 className='m-0 p-0'>Your Order</h1>
+    <Container className='pt-5'>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <h1 className='m-0'>Your Order</h1>
         <Button
           onClick={() => history.push('/menu')}
           variant='outline-secondary'

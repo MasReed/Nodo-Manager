@@ -35,9 +35,9 @@ const OrdersPage = () => {
 
 
   return (
-    <Container style={{ padding: '0' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', margin: '0', padding: '0' }}>
-        <h2 style={{ margin: '0', padding: '0' }}>Orders</h2>
+    <Container className='pt-5'>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <h1 className='m-0'>Orders</h1>
         <Button onClick={ () => setShow(true) } variant='outline-secondary'>NEW ORDER</Button>
       </div>
 
@@ -87,17 +87,3 @@ const OrdersPage = () => {
 }
 
 export default OrdersPage
-
-// time: { type: Date, default: Date.now },
-// category: String,
-// name: String,
-// items: Array,
-// notes: String,
-// subTotal: Number,
-// taxRate: Number,
-// taxAmount: Number,
-// Total: Number
-// })
-
-//send data to dispatch
-//get items and display in add item menu

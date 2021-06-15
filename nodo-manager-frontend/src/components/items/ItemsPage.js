@@ -11,12 +11,12 @@ const ItemsPage = () => {
   const [showNewItemForm, setShowNewItemForm] = useState(false)
 
   return (
-    <Container className='p-0'>
+    <Container className='pt-5'>
 
       <div style={{ display: 'flex', justifyContent: 'space-between'}}>
-        <h2 className='mb-0'>Items Page</h2>
-        <Button onClick={ () => setShowNewItemForm(true) } variant='secondary'>
-          Create
+        <h1 className='m-0'>Items Page</h1>
+        <Button onClick={ () => setShowNewItemForm(true) } variant='outline-secondary'>
+          CREATE
         </Button>
       </div>
 
