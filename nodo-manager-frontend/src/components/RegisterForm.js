@@ -14,19 +14,23 @@ const RegisterForm = () => {
 
   const handleRegister = (event) => {
     event.preventDefault()
-    console.log('email:', email)
-    console.log('username:', username)
-    console.log('pw:', password)
-    console.log('passCopy:', passCopy)
 
     if (password === passCopy) {
-      authServices.register(email, username, password)
+      try {
+        authServices.register(email, username, password)
+        setEmail('')
+        setUsername('')
+      } catch (exception) {
+        console.log(exception)
+      } finally {
+        setPassword('')
+        setPassCopy('')
+      }
     } else {
       console.log('Your passwords did not match')
+      setPassword('')
+      setPassCopy('')
     }
-
-    setPassword('')
-    setPassCopy('')
   }
 
   return (

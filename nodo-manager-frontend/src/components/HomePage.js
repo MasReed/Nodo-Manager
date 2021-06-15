@@ -1,37 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 
+import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
 
-import authServices from '../services/authentications'
-
 const HomePage = () => {
-
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-
-  const handleLogin = (event) => {
-    event.preventDefault()
-    console.log('login called')
-    console.log('username', username)
-    console.log('pw', password)
-
-    try {
-      authServices.login(username, password)
-    } catch (exception) {
-      console.log(exception)
-    } finally {
-      setPassword('')
-    }
-
-    setUsername('')
-
-  }
 
   return (
     <Container className='pt-5'>
@@ -41,30 +18,7 @@ const HomePage = () => {
         <Col className='p-5'>
           <h2>Login</h2>
           <hr />
-
-          <Form id='loginForm' onSubmit={ handleLogin }>
-            <Form.Group controlId='loginUsername'>
-              <Form.Label>Username</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Username'
-                onChange={ ({ target }) => setUsername(target.value) }
-              />
-            </Form.Group>
-
-            <Form.Group controlId='loginPassword'>
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type='password'
-                placeholder='Password'
-                onChange={ ({ target }) => setPassword(target.value) }
-              />
-            </Form.Group>
-
-            <Button variant='primary' type='submit'>
-              Login
-            </Button>
-          </Form>
+          <LoginForm />
         </Col>
 
         <Col
