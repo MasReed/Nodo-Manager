@@ -56,7 +56,11 @@ Procedure
   + calculate totals
   + abstract order page components
 
-  * create order confirmation page and redirect to it
+  - create order confirmation page and redirect to it
+  - update orders page / editing ability
+  - footer sitemap links
+  - component abstractions
+  - unify page layouts/padding
 
 - update this list
 - Unit Testing backend
