@@ -27,18 +27,30 @@ const UserInfo = ({ user }) => {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0' }}>
-        <h2>{user.username}</h2>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div>
-          <Button onClick={ () => updateUser(user.id) } size='sm' variant='outline-secondary'>UPDATE</Button>
-          <Button onClick={ () => deleteUser(user.id) } size='sm' variant='outline-secondary'>DELETE</Button>
+          <h2>{user.username}</h2>
+          <p>{user.clearance}</p>
+        </div>
+        <div>
+          <Button
+            onClick={ () => updateUser(user.id) }
+            size='sm'
+            variant='outline-secondary'
+          >
+            UPDATE
+          </Button>
+          <Button
+            onClick={ () => deleteUser(user.id) }
+            size='sm'
+            variant='outline-secondary'
+          >
+            DELETE
+          </Button>
         </div>
       </div>
-      <p>{user.clearance}</p>
     </div>
   )
 }
-
-
 
 export default UserInfo

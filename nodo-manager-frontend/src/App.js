@@ -10,15 +10,15 @@ import { initializeItems } from './reducers/itemReducer'
 import { initializeOrders } from './reducers/orderReducer'
 import { initializeUsers } from './reducers/userReducer'
 
-import ItemsPage from './components/items/ItemsPage'
-import OrdersPage from './components/orders/OrdersPage'
-import UsersPage from './components/users/UsersPage'
 import HomePage from './components/HomePage'
+import ItemsPage from './components/items/ItemsPage'
 import MenuPage from './components/menu/MenuPage'
+import OrdersPage from './components/orders/OrdersPage'
 import MyOrderPage from './components/orders/MyOrderPage'
-import SiteFooter from './components/SiteFooter'
-import SiteNavBar from './components/SiteNavBar'
-
+import UsersPage from './components/users/UsersPage'
+import ScrollToTop from './components/site-wide/ScrollToTop'
+import SiteFooter from './components/site-wide/SiteFooter'
+import SiteNavBar from './components/site-wide/SiteNavBar'
 
 function App() {
 
@@ -35,6 +35,7 @@ function App() {
       <SiteNavBar />
 
       <div style={{ minHeight: 'calc(100vh - 200px)' }}>
+        <ScrollToTop />
         <Switch>
 
           <Route path='/items'>

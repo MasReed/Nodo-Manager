@@ -32,15 +32,15 @@ const OrderInfo = ({ order }) => {
   }
 
   return (
-    <div>
+    <>
       <div style={{ display: 'flex', justifyContent: 'space-between'}}>
         <div>
           <h2>{order.name}</h2>
           <h6>ID: {order._id}</h6>
         </div>
-        <div>
+        <div className='text-right'>
           <h2>{order.category}</h2>
-          <h4 style={{ textAlign: 'right' }}>Items: {order.items && order.items.length}</h4>
+          <h4 >Items: {order.items && order.items.length}</h4>
         </div>
       </div>
 
@@ -48,17 +48,31 @@ const OrderInfo = ({ order }) => {
 
       <div style={{ display: 'flex', justifyContent: 'space-between'}}>
         <div>
-          <Button onClick={ () => deleteOrder(order._id) } variant='outline-danger' size='sm' style={{ border: 'hidden', marginTop: '8px'}}>Remove</Button>
-          <Button onClick={ () => updateOrder(order._id) } variant='outline-secondary' size='sm' style={{ border: 'hidden', marginTop: '8px'}}>Edit</Button>
+          <Button
+            onClick={ () => deleteOrder(order._id) }
+            variant='outline-danger'
+            size='sm'
+            style={{ border: 'hidden', marginTop: '8px'}}
+          >
+            Remove
+          </Button>
+          <Button
+            onClick={ () => updateOrder(order._id) }
+            variant='outline-secondary'
+            size='sm'
+            style={{ border: 'hidden', marginTop: '8px'}}
+          >
+            Edit
+          </Button>
         </div>
         <div>
-          <p style={{ margin: '0' }}>Subtotal: {order.subTotal}</p>
-          <p style={{ margin: '0', textAlign: 'right' }}>Total: {order.total}</p>
+          <p className='m-0'>Subtotal: {order.subTotal}</p>
+          <p className='m-0 text-right'>Total: {order.total}</p>
         </div>
       </div>
 
       <hr />
-    </div>
+    </>
   )
 }
 

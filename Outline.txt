@@ -55,12 +55,14 @@ Procedure
   + include redirect navigation for item edits in myOrder
   + calculate totals
   + abstract order page components
-
   - create order confirmation page and redirect to it
   - update orders page / editing ability
   + footer sitemap links
   - component abstractions
   + unify page layouts/padding
+  - stylize new item form
+  - make itemInfo/card responsive
+  - Make users page functional
 
 - update this list
 - Unit Testing backend

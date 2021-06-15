@@ -83,7 +83,6 @@ const CustomizeItemModal = ({ show, setShow, selectedItem, setSelectedItem }) =>
                   label={obj.ingredient}
                   defaultChecked={obj.checked}
                   onChange={ (event) => {
-
                     setModList(modList.map(object =>
                       object.ingredient === event.target.id
                       ? {...object, checked: event.target.checked}

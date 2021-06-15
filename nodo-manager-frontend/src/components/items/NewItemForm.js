@@ -21,8 +21,8 @@ const NewItemForm = ({ show, setShow }) => {
   const createItem = (event) => {
     event.preventDefault()
 
+    //convert comma-separated items into array if neccessary
     const ingredientsArray = Array.isArray(ingredients)
-      //convert comma-separated items into array if neccessary
       ? ingredients
       : ingredients.split(/\s*(?:,|$)\s*/)
 
@@ -58,7 +58,7 @@ const NewItemForm = ({ show, setShow }) => {
         onHide={ () => setShow(false) }
         backdrop="static"
         keyboard={false}
-        dialogClassName='modal-80w'
+        dialogClassName='modal-70w'
       >
         <Modal.Header closeButton>
           <Modal.Title>Make A New Creation</Modal.Title>

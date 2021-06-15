@@ -6,7 +6,6 @@ import Container from 'react-bootstrap/Container'
 
 import ItemInfo from './ItemInfo'
 
-
 const ItemList = () => {
 
   const itemsAsComponents = useSelector(

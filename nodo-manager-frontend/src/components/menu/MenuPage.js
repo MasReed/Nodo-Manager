@@ -8,23 +8,25 @@ import Container from 'react-bootstrap/Container'
 import MenuCategoryAccordion from './MenuCategoryAccordion'
 import CustomizeItemModal from './CustomizeItemModal'
 
-
 const MenuPage = () => {
+
+  const history = useHistory()
 
   const categories = useSelector(state =>
     [...new Set(state.items.map(item => item.category))]
+    // Array of unique item categories
   )
 
   const [selectedItem, setSelectedItem] = useState({})
   const [showCustomize, setShowCustomize] = useState(false)
 
-  let history = useHistory()
-
   return (
     <Container className='pt-5'>
-      <div className='m-0 p-0' style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <h1 className='m-0 p-0'>Menu</h1>
-        <Button onClick={() => history.push('/my-order')} variant='outline-secondary'>My Order</Button>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <h1 className='m-0'>Menu</h1>
+        <Button onClick={() => history.push('/my-order')} variant='outline-secondary'>
+          My Order
+        </Button>
       </div>
       <hr />
 
