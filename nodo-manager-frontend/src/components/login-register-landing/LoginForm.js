@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 
-import { loginUserActionCreator } from '../reducers/currentUserReducer'
+import { loginUserActionCreator } from '../../reducers/currentUserReducer'
 
 
 const LoginForm = () => {
@@ -26,7 +26,6 @@ const LoginForm = () => {
       setPassword('')
     }
   }
-
 
   return (
     <Form id='loginForm' onSubmit={ handleLogin }>

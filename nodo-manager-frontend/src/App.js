@@ -10,7 +10,7 @@ import { initializeItems } from './reducers/itemReducer'
 import { initializeOrders } from './reducers/orderReducer'
 import { initializeUsers } from './reducers/userReducer'
 
-import HomePage from './components/HomePage'
+import HomePage from './components/login-register-landing/HomePage'
 import ItemsPage from './components/items/ItemsPage'
 import MenuPage from './components/menu/MenuPage'
 import OrdersPage from './components/orders/OrdersPage'

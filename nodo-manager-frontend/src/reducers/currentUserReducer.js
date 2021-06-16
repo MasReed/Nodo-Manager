@@ -35,3 +35,12 @@ export const logoutUserActionCreator = () => {
     })
   }
 }
+
+export const guestUserActionCreator = () => {
+  return ({
+    type: 'SET_USER',
+    data: {
+      username: 'Guest'
+    }
+  })
+}
