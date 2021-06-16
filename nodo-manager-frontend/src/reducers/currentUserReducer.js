@@ -1,13 +1,17 @@
 import authServices from '../services/authentications'
 
-const currentUserReducer = (state = {}, action) => {
+const storedUser = JSON.parse(window.localStorage.getItem('loggedBlogappUser'))
+
+const currentUserReducer = (state = storedUser, action) => {
+  console.log('=====User=====')
+  console.log('state now: ', state)
+  console.log('action', action)
   switch (action.type) {
     case 'SET_USER':
       return action.data
 
     case 'UNSET_USER':
-      console.log('unset called')
-      return []
+      return ['no user']
 
     default:
       return state
@@ -16,17 +20,32 @@ const currentUserReducer = (state = {}, action) => {
 
 export default currentUserReducer
 
+export const loginUserActionCreator = (username, password) => {
+  console.log('login called')
+  return async dispatch => {
+    const loggedInUser = await authServices.login(username, password)
+    dispatch({
+      type: 'SET_USER',
+      data: loggedInUser
+    })
+  }
+}
+
+export const setUserActionCreator = (username) => {
+  console.log('setUser called')
+  return ({
+    type: 'SET_USER',
+    data: username
+    })
+  }
+
 export const unsetUserActionCreator = () => {
   console.log('unsetUser called')
-  authServices.logout()
-  return ({
-  type: 'UNSET_USER'
-  })
-  // return async dispatch => {
-  //   await authServices.logout()
-  //   console.log('unset return dispatch')
-  //   dispatch({
-  //   type: 'UNSET_USER'
-  //   })
-  // }
+
+  return async dispatch => {
+    await authServices.logout()
+    dispatch({
+      type: 'UNSET_USER'
+    })
+  }
 }

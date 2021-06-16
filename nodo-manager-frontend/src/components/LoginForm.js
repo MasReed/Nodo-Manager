@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 
-import authServices from '../services/authentications'
+import { loginUserActionCreator } from '../reducers/currentUserReducer'
+
 
 const LoginForm = () => {
+
+  const dispatch = useDispatch()
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -13,14 +17,9 @@ const LoginForm = () => {
   const handleLogin = (event) => {
     event.preventDefault()
 
-    try {
-      authServices.login(username, password)
-      setUsername('')
-    } catch (exception) {
-      console.log(exception)
-    } finally {
-      setPassword('')
-    }
+    dispatch(loginUserActionCreator(username, password))
+    setUsername('')
+    setPassword('')
   }
 
   return (
