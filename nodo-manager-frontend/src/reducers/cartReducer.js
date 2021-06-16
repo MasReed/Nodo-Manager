@@ -1,9 +1,6 @@
 import orderService from '../services/orders'
 
 const cartReducer = (state = [], action) => {
-  // console.log('---cartReducer---')
-  // console.log('stateB4:', state)
-  // console.log('action:', action)
   switch (action.type) {
 
     case 'RESET_CART':

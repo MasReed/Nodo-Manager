@@ -1,9 +1,6 @@
 import itemService from '../services/items'
 
 const itemReducer = (state = [], action) => {
-  // console.log('---itemReducer---')
-  // console.log('stateB4:', state)
-  // console.log('action:', action)
   switch (action.type) {
 
     case 'INIT_ITEMS':
