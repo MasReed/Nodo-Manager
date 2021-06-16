@@ -2,13 +2,13 @@ import React from 'react'
 
 import Button from 'react-bootstrap/Button'
 
-import authServices from '../../services/authentications'
+import { unsetUserActionCreator } from '../../reducers/currentUserReducer'
 
 const LogoutButton = () => {
 
   return (
     <Button
-      onSubmit={ () => authServices.logout() }
+      onClick={ unsetUserActionCreator }
       variant='outline-secondary'
       size='sm'
     >
