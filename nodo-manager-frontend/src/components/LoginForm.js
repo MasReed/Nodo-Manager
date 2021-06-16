@@ -14,13 +14,19 @@ const LoginForm = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault()
 
-    dispatch(loginUserActionCreator(username, password))
-    setUsername('')
-    setPassword('')
+    try {
+      await dispatch(loginUserActionCreator(username, password))
+      setUsername('')
+    } catch (exception) {
+      console.log(exception)
+    } finally {
+      setPassword('')
+    }
   }
+
 
   return (
     <Form id='loginForm' onSubmit={ handleLogin }>

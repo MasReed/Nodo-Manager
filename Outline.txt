@@ -66,7 +66,7 @@ Procedure
   - make itemInfo/card responsive
   - Make users page functional
 
-- create currentUserReducer to manage in redux
++ create currentUserReducer to manage in redux
 - calculate totals serverside
 - update this list
 - Unit Testing backend
