@@ -13,23 +13,28 @@ const NewUserForm = ({ show, setShow }) => {
 
   const [name, setName] = useState('')
   const [username, setUsername] = useState('')
-  const [clearance, setClearance] = useState('')
-  // const [credentials, setCredentials] = useState('')
+  const [roles, setRoles] = useState([])
 
   const createUser = (event) => {
     event.preventDefault()
 
+    //convert comma-separated items into array if neccessary
+    const rolesArray = Array.isArray(roles)
+      ? roles
+      : roles.split(/\s*(?:,|$)\s*/)
+
     const newUserObject = {
       name: name,
       username: username,
-      clearance: clearance
+      password: 1234,
+      roles: rolesArray
     }
 
     dispatch(addUserActionCreator(newUserObject))
 
     setName('')
     setUsername('')
-    setClearance('')
+    setRoles('')
     setShow(false)
   }
 
@@ -64,13 +69,12 @@ const NewUserForm = ({ show, setShow }) => {
           </Form.Group>
 
           <Form.Group>
-            <Form.Label>Clearance:</Form.Label>
+            <Form.Label>Roles:</Form.Label>
             <Form.Control
-              value={clearance}
-              onChange={ ({ target }) => setClearance(target.value) }
+              value={roles}
+              onChange={ ({ target }) => setRoles(target.value) }
             />
           </Form.Group>
-
 
         </Form>
       </Modal.Body>
