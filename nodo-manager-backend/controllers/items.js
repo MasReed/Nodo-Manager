@@ -21,7 +21,7 @@ itemsRouter.post('/', async (req, res) => {
 })
 
 // READ all menu items
-itemsRouter.get('/', authJwt.verifyToken, async (req, res) => {
+itemsRouter.get('/', async (req, res) => {
   const items = await MenuItem.find({})
   res.json(items)
 })
