@@ -19,6 +19,9 @@ const itemReducer = (state = [], action) => {
     case 'DESTROY_ITEM':
       return state.filter(item => item._id !== action.data.id)
 
+    case 'RESET_ITEMS':
+      return []
+
     default:
       return state
   }
@@ -66,4 +69,10 @@ export const destroyItemActionCreator = (id) => {
       }
     })
   }
+}
+
+export const resetItems = () => {
+  return ({
+    type: 'RESET_ITEMS'
+  })
 }

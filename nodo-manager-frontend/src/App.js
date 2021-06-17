@@ -6,9 +6,9 @@ import {
   Route
 } from "react-router-dom";
 
-import { initializeItems } from './reducers/itemReducer'
-import { initializeOrders } from './reducers/orderReducer'
-import { initializeUsers } from './reducers/userReducer'
+import { initializeItems, resetItems } from './reducers/itemReducer'
+import { initializeOrders, resetOrders } from './reducers/orderReducer'
+import { initializeUsers, resetUsers } from './reducers/userReducer'
 
 import HomePage from './components/login-register-landing/HomePage'
 import ItemsPage from './components/items/ItemsPage'
@@ -26,6 +26,9 @@ function App() {
   const currentUser = useSelector(state => state.currentUser)
 
   useEffect(() => {
+    dispatch(resetItems())
+    dispatch(resetOrders())
+    dispatch(resetUsers())
     dispatch(initializeItems())
     dispatch(initializeOrders())
     dispatch(initializeUsers())

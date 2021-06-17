@@ -19,6 +19,9 @@ const userReducer = (state = [], action) => {
       case 'DELETE_USER':
         return state.filter(user => user.id !== action.data.id)
 
+      case 'RESET_USERS':
+        return []
+
     default:
       return state
   }
@@ -66,4 +69,10 @@ export const deleteUserActionCreator = (id) => {
       }
     })
   }
+}
+
+export const resetUsers = () => {
+  return ({
+    type: 'RESET_USERS'
+  })
 }

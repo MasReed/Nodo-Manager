@@ -36,6 +36,9 @@ export const loginUserActionCreator = (username, password) => {
 export const logoutUserActionCreator = () => {
   return async dispatch => {
     await authServices.logout()
+    itemService.setToken(null)
+    orderService.setToken(null)
+    userService.setToken(null)
     dispatch({
       type: 'UNSET_USER'
     })

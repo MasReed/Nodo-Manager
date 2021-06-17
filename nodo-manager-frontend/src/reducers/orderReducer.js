@@ -19,6 +19,9 @@ const orderReducer = (state = [], action) => {
     case 'DELETE_ORDER':
       return state.filter(order => order._id !== action.data.id)
 
+    case 'RESET_ORDERS':
+      return []
+
     default:
       return state
   }
@@ -66,4 +69,10 @@ export const deleteOrderActionCreator = (id) => {
       }
     })
   }
+}
+
+export const resetOrders = () => {
+  return ({
+    type: 'RESET_ORDERS'
+  })
 }
