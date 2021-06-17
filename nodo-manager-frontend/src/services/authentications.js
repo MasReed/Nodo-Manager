@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = '/api/auth'
+const baseUrl = '/api/authenticate'
 
 
 // Register new user

@@ -2,6 +2,7 @@ const authorizationsRouter = require('express').Router()
 
 const authJwt = require('../utils/auth/authJWT')
 
+
 const allAccess = (req, res) => {
   res.status(200).send("Public Content.");
 };
@@ -21,7 +22,7 @@ const managerBoard = (req, res) => {
 
 authorizationsRouter.get('/all', allAccess)
 authorizationsRouter.get('/user', [authJwt.verifyToken], userBoard)
-authorizationsRouter.get('/mod', [authJwt.verifyToken, authJwt.isModerator], managerBoard)
+authorizationsRouter.get('/mod', [authJwt.verifyToken, authJwt.isManager], managerBoard)
 authorizationsRouter.get('/admin', [authJwt.verifyToken, authJwt.isAdmin], adminBoard)
 
 

@@ -66,7 +66,7 @@ const RegisterForm = () => {
       </Form.Group>
 
       <Form.Group controlId='signupPasswordVerify'>
-        <Form.Label>Repeat Password</Form.Label>
+        <Form.Label>Confirm Password</Form.Label>
         <Form.Control
           type='password'
           value={passCopy}

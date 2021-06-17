@@ -54,3 +54,9 @@ const UserInfo = ({ user }) => {
 }
 
 export default UserInfo
+
+// 
+// name
+// username
+// email
+// role

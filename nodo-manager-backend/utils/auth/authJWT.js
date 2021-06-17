@@ -37,7 +37,7 @@ const isAdmin = (req, res, next) => {
         }
 
         for (let i = 0; i < roles.length; i++) {
-          if (roles[i].name === "admin") {
+          if (roles[i].name === 'admin') {
             next();
             return;
           }
@@ -49,7 +49,7 @@ const isAdmin = (req, res, next) => {
   })
 }
 
-const isModerator = (req, res, next) => {
+const isManager = (req, res, next) => {
   User.findById(req.userId).exec((err, user) => {
     if (err) {
       res.status(500).send({ message: err })
@@ -67,13 +67,13 @@ const isModerator = (req, res, next) => {
         }
 
         for (let i = 0; i < roles.length; i++) {
-          if (roles[i].name === "moderator") {
+          if (roles[i].name === 'manager') {
             next()
             return
           }
         }
 
-        res.status(403).send({ message: 'Require Moderator Role' })
+        res.status(403).send({ message: 'Require Manager Role' })
         return
       }
     )
@@ -83,7 +83,7 @@ const isModerator = (req, res, next) => {
 const authJwt = {
   verifyToken,
   isAdmin,
-  isModerator
+  isManager
 }
 
 module.exports = authJwt

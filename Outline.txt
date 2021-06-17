@@ -67,6 +67,9 @@ Procedure
   - Make users page functional
 
 + create currentUserReducer to manage in redux
+- page restrictions for user roles
+- confirm account registration w/ email?
+- implement OAuth for registration/login
 - calculate totals serverside
 - update this list
 - Unit Testing backend

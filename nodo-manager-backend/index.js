@@ -35,8 +35,8 @@ app.use(middleware.requestLogger)
 app.use('/api/items', itemsRouter)
 app.use('/api/orders', ordersRouter)
 app.use('/api/users', usersRouter)
-app.use('/api/auth', authenticationsRouter)
-app.use('/api/test', authorizationsRouter)
+app.use('/api/authenticate', authenticationsRouter)
+app.use('/api/authorize', authorizationsRouter)
 
 
 // Misc. Routes

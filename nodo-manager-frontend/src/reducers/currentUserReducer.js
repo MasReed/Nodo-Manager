@@ -1,4 +1,5 @@
 import authServices from '../services/authentications'
+import userService from '../services/users'
 
 const storedUser = JSON.parse(window.localStorage.getItem('loggedBlogappUser'))
 
@@ -20,6 +21,7 @@ export default currentUserReducer
 export const loginUserActionCreator = (username, password) => {
   return async dispatch => {
     const loggedInUser = await authServices.login(username, password)
+    userService.setToken(loggedInUser.accessToken)
     dispatch({
       type: 'SET_USER',
       data: loggedInUser

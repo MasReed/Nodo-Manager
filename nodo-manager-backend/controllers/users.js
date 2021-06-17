@@ -1,5 +1,7 @@
 const usersRouter = require('express').Router()
 const User = require('../models/user')
+const authJwt = require('../utils/auth/authJWT')
+
 
 // CREATE new user
 usersRouter.post('/', async (req, res) => {
@@ -17,7 +19,7 @@ usersRouter.post('/', async (req, res) => {
 })
 
 // READ all users
-usersRouter.get('/', async (req, res) => {
+usersRouter.get('/', authJwt.verifyToken, async (req, res) => {
   const users = await User.find({})
   res.json(users)
 })

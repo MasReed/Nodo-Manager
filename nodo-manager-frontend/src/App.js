@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import {
   Switch,
@@ -23,12 +23,13 @@ import SiteNavBar from './components/site-wide/SiteNavBar'
 function App() {
 
   const dispatch = useDispatch()
+  const currentUser = useSelector(state => state.currentUser)
 
   useEffect(() => {
-      dispatch(initializeItems())
-      dispatch(initializeOrders())
-      dispatch(initializeUsers())
-  }, [ dispatch ])
+    dispatch(initializeItems())
+    dispatch(initializeOrders())
+    dispatch(initializeUsers())
+  }, [ dispatch, currentUser ])
 
   return (
     <>
