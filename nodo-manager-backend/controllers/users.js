@@ -10,8 +10,7 @@ usersRouter.post('/', async (req, res) => {
   const newUser = new User({
     name: body.name,
     username: body.username,
-    passwordHash: body.password,
-    clearance: body.clearance || 'standard'
+    passwordHash: body.password
   })
 
   const savedUser = await newUser.save()
@@ -20,7 +19,7 @@ usersRouter.post('/', async (req, res) => {
 
 // READ all users
 usersRouter.get('/', authJwt.verifyToken, async (req, res) => {
-  const users = await User.find({})
+  const users = await User.find({}).populate('roles')
   res.json(users)
 })
 
@@ -32,7 +31,6 @@ usersRouter.put('/:id', async (req, res) => {
     name: body.name,
     username: body.username,
     passwordHash: body.passwordHash,
-    clearance: body.clearance,
   }
 
   const updatedUser = await User.findByIdAndUpdate(req.params.id, userWithUpdates, { new: true })

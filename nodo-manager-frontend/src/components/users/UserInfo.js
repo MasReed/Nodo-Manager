@@ -30,7 +30,11 @@ const UserInfo = ({ user }) => {
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div>
           <h2>{user.username}</h2>
-          <p>{user.clearance}</p>
+          {
+            user.roles.map(role =>
+            <p key={role._id}>{role.name}</p>
+            )
+          }
         </div>
         <div>
           <Button
@@ -55,7 +59,7 @@ const UserInfo = ({ user }) => {
 
 export default UserInfo
 
-// 
+//
 // name
 // username
 // email
