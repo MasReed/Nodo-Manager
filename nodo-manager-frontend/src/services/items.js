@@ -2,8 +2,18 @@ import axios from 'axios'
 
 const baseUrl = '/api/items'
 
+let token = null
+const setToken = newToken => {
+  token = `${newToken}`
+}
+
+
 const getAll = () => {
-  const request = axios.get(baseUrl)
+  const config = {
+    headers: { 'x-access-token': token }
+  }
+
+  const request = axios.get(baseUrl, config)
   return request.then(response => response.data)
 }
 
@@ -22,6 +32,6 @@ const destroy = async (id) => {
   return response.data
 }
 
-const exps = { getAll, create, update, destroy }
+const exps = { setToken, getAll, create, update, destroy }
 
 export default exps

@@ -3,14 +3,14 @@ import axios from 'axios'
 const baseUrl = '/api/users'
 
 let token = null
-
 const setToken = newToken => {
   token = `${newToken}`
 }
 
+
 const getAll = () => {
   const config = {
-    headers: { 'x-access-token': token },
+    headers: { 'x-access-token': token }
   }
 
   const request = axios.get(baseUrl, config)

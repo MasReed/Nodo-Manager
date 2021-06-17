@@ -1,5 +1,6 @@
 const ordersRouter = require('express').Router()
 const Order = require('../models/order')
+const authJwt = require('../utils/auth/authJWT')
 
 
 // CREATE new order
@@ -24,7 +25,7 @@ ordersRouter.post('/', async (req, res) => {
 })
 
 // READ all orders
-ordersRouter.get('/', async (req, res) => {
+ordersRouter.get('/', authJwt.verifyToken, async (req, res) => {
   const orders = await Order.find({})
   res.json(orders)
 })

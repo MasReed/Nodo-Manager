@@ -1,5 +1,6 @@
 const itemsRouter = require('express').Router()
 const MenuItem = require('../models/menuItem')
+const authJwt = require('../utils/auth/authJWT')
 
 
 // CREATE new menu item
@@ -20,7 +21,7 @@ itemsRouter.post('/', async (req, res) => {
 })
 
 // READ all menu items
-itemsRouter.get('/', async (req, res) => {
+itemsRouter.get('/', authJwt.verifyToken, async (req, res) => {
   const items = await MenuItem.find({})
   res.json(items)
 })
