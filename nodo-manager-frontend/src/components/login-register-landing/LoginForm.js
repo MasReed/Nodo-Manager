@@ -18,7 +18,7 @@ const LoginForm = () => {
       ...form,
       [field]: value
     })
-    // Check and see if errors exist, and remove them from the error object:
+    // Remove any errors from the error object
     if ( !!errors[field] ) setErrors({
       ...errors,
       [field]: null
@@ -30,6 +30,7 @@ const LoginForm = () => {
 
     const newErrors = findFormErrors()
 
+    // Check for any form errors
     if ( Object.keys(newErrors).length > 0 ) {
       setErrors(newErrors)
     } else {
@@ -49,6 +50,7 @@ const LoginForm = () => {
     // name errors
     if ( !name || name === '' ) newErrors.name = 'Enter a username!'
     else if ( name.length > 30 ) newErrors.name = 'Username is too long'
+    else if ( name.lenght < 3 ) newErrors.name = 'Username is too short'
     // password errors
     if ( !password || password === '' ) newErrors.password = 'Enter a password!'
 
@@ -61,6 +63,7 @@ const LoginForm = () => {
         <Form.Label>Username</Form.Label>
         <Form.Control
           type='text'
+          placeholder='Username'
           onChange={ e => setField('name', e.target.value) }
           isInvalid={ !!errors.name }
         />
@@ -71,6 +74,7 @@ const LoginForm = () => {
         <Form.Label>Password</Form.Label>
         <Form.Control
           type='password'
+          placeholder='Password'
           onChange={ e => setField('password', e.target.value) }
           isInvalid={ !!errors.password }
         >
