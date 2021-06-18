@@ -11,6 +11,13 @@ const PaymentModal = ({ order, addOrder, show, setShow }) => {
 
   const history = useHistory()
 
+  const handlePaymentSubmission = (event) => {
+    event.preventDefault()
+    setShow(false)
+    // history.push('/order-confirmed')
+    history.push('/orders')
+  }
+
   return (
     <Modal
       show={show}
@@ -27,7 +34,7 @@ const PaymentModal = ({ order, addOrder, show, setShow }) => {
       </Modal.Header>
 
       <Modal.Body>
-        <Form id='payment' onSubmit={ () => console.log('form submitted') }>
+        <Form id='paymentInfoForm' onSubmit={ handlePaymentSubmission }>
 
           <Form.Group>
             <Form.Label>Payment Type</Form.Label>
@@ -101,11 +108,6 @@ const PaymentModal = ({ order, addOrder, show, setShow }) => {
           <Button
             type='submit'
             form='myOrderForm'
-            onClick={(event) => {
-              event.preventDefault()
-              setShow(false)
-              history.push('/order-confirmed')
-            }}
           >
             Place Order
           </Button>

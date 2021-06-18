@@ -49,6 +49,7 @@ const MyOrderForm = ({ costs }) => {
 
       dispatch(addOrderActionCreator(orderObject))
       dispatch(resetCart())
+      history.push('/order-confirmed')
     } else {
       window.alert('No items in order!')
       history.push('/menu')

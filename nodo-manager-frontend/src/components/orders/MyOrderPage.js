@@ -68,7 +68,8 @@ const MyOrderPage = () => {
           </Button>
           <Button
             className='mx-2'
-            onClick={ () => setShowPayment(true) }
+            type='submit'
+            form='myOrderForm'
           >
             Checkout
           </Button>
