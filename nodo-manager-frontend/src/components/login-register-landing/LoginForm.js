@@ -6,54 +6,84 @@ import Form from 'react-bootstrap/Form'
 
 import { loginUserActionCreator } from '../../reducers/currentUserReducer'
 
-
 const LoginForm = () => {
 
   const dispatch = useDispatch()
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [ form, setForm ] = useState({})
+  const [ errors, setErrors ] = useState({})
 
-  const handleLogin = async (event) => {
+  const setField = (field, value) => {
+    setForm({
+      ...form,
+      [field]: value
+    })
+    // Check and see if errors exist, and remove them from the error object:
+    if ( !!errors[field] ) setErrors({
+      ...errors,
+      [field]: null
+    })
+  }
+
+  const handleSubmit = (event) => {
     event.preventDefault()
 
-    try {
-      await dispatch(loginUserActionCreator(username, password))
-      setUsername('')
-    } catch (exception) {
-      console.log(exception)
-    } finally {
-      setPassword('')
+    const newErrors = findFormErrors()
+
+    if ( Object.keys(newErrors).length > 0 ) {
+      setErrors(newErrors)
+    } else {
+      try {
+        dispatch(loginUserActionCreator(form.name, form.password))
+      } catch (exception) {
+        console.log(exception)
+      } finally {
+        setForm({})
+      }
     }
   }
 
+  const findFormErrors = () => {
+    const { name, password } = form
+    const newErrors = {}
+    // name errors
+    if ( !name || name === '' ) newErrors.name = 'Enter a username!'
+    else if ( name.length > 30 ) newErrors.name = 'Username is too long'
+    // password errors
+    if ( !password || password === '' ) newErrors.password = 'Enter a password!'
+
+    return newErrors
+  }
+
   return (
-    <Form id='loginForm' onSubmit={ handleLogin }>
-      <Form.Group controlId='loginUsername'>
+    <Form>
+      <Form.Group>
         <Form.Label>Username</Form.Label>
         <Form.Control
           type='text'
-          value={username}
-          placeholder='Username'
-          onChange={ ({ target }) => setUsername(target.value) }
+          onChange={ e => setField('name', e.target.value) }
+          isInvalid={ !!errors.name }
         />
+        <Form.Control.Feedback type='invalid'>{ errors.name }</Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group controlId='loginPassword'>
+      <Form.Group>
         <Form.Label>Password</Form.Label>
         <Form.Control
           type='password'
-          value={password}
-          placeholder='Password'
-          onChange={ ({ target }) => setPassword(target.value) }
-        />
+          onChange={ e => setField('password', e.target.value) }
+          isInvalid={ !!errors.password }
+        >
+        </Form.Control>
+        <Form.Control.Feedback type='invalid'>{ errors.password }</Form.Control.Feedback>
       </Form.Group>
 
-      <Button variant='primary' type='submit'>
-        Login
-      </Button>
+      <Button type='submit' onClick={ handleSubmit }>Login</Button>
     </Form>
   )
 }
 
 export default LoginForm
+
+
+// Form validation built on work from: https://github.com/AlecGrey/demo-form-for-blog
