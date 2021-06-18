@@ -9,6 +9,7 @@ ordersRouter.post('/', async (req, res) => {
 
   const newOrderObject = new Order({
     time: Date.now(),
+    status: body.status,
     category: body.category,
     name: body.name,
     items: body.items,
@@ -41,6 +42,7 @@ ordersRouter.put('/:id', async (req, res) => {
   const body = req.body
   const orderWithUpdates = {
     time: Date.now(),
+    status: body.status,
     category: body.category,
     name: body.name,
     items: body.items,

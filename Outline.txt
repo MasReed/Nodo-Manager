@@ -60,8 +60,8 @@ Procedure
   + component abstractions
   + Login / Registration forms working
   + logout now redirects to menu
+  + create order confirmation page and redirect to it
 
-  - create order confirmation page and redirect to it
   - update orders page / editing ability
   - stylize new item form
   - decouple items and menu?
@@ -73,7 +73,9 @@ Procedure
     - default password
 
 + create currentUserReducer to manage in redux
+- refactor userAuth and signup
 * page restrictions for user roles
+  - update user roles to be: guest, user, employee, manager, admin
   + functionality works
   - choose and implement restrictions
   - error handling for unauth'd reqs

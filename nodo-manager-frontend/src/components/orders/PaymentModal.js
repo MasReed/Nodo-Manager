@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 
-const PaymentModal = ({ order, show, setShow }) => {
+const PaymentModal = ({ order, addOrder, show, setShow }) => {
 
   const history = useHistory()
 
@@ -101,12 +101,13 @@ const PaymentModal = ({ order, show, setShow }) => {
           <Button
             type='submit'
             form='myOrderForm'
-            onClick={() => {
+            onClick={(event) => {
+              event.preventDefault()
               setShow(false)
               history.push('/order-confirmed')
             }}
           >
-            Confirm
+            Place Order
           </Button>
       </Modal.Footer>
     </Modal>
