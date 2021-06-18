@@ -27,6 +27,10 @@ const MyOrderPage = () => {
     history.push('/menu')
   }
 
+  const purchaseOrderSequence = () => {
+    history.push('/checkout')
+  }
+
 
   return (
     <Container className='pt-5'>
@@ -58,8 +62,21 @@ const MyOrderPage = () => {
             onClick={ cancelOrderSequence }
           >Cancel</Button>
         <div>
-          <Button onClick={() => history.push('/menu') } style={{ margin: '0 10px'}} variant="outline-secondary">Add More</Button>
-          <Button type='submit' form='myOrderForm' style={{ margin: '0 10px'}}>Checkout</Button>
+          <Button
+            onClick={() => history.push('/menu') }
+            className='mx-2'
+            variant="outline-secondary"
+          >
+            Add More
+          </Button>
+          <Button
+            type='submit'
+            form='myOrderForm'
+            className='mx-2'
+            onClick={ purchaseOrderSequence }
+          >
+            Checkout
+          </Button>
         </div>
       </div>
 

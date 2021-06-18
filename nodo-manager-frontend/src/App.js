@@ -13,6 +13,7 @@ import { initializeUsers, resetUsers } from './reducers/userReducer'
 import HomePage from './components/login-register-landing/HomePage'
 import ItemsPage from './components/items/ItemsPage'
 import MenuPage from './components/menu/MenuPage'
+import OrderConfirmationPage from './components/orders/OrderConfirmationPage'
 import OrdersPage from './components/orders/OrdersPage'
 import MyOrderPage from './components/orders/MyOrderPage'
 import UsersPage from './components/users/UsersPage'
@@ -52,6 +53,10 @@ function App() {
 
           <Route path='/my-order'>
             <MyOrderPage />
+          </Route>
+
+          <Route path='/checkout'>
+            <OrderConfirmationPage />
           </Route>
 
           <Route path='/orders'>

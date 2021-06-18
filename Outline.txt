@@ -59,18 +59,28 @@ Procedure
   + unify page layouts/padding
   + component abstractions
   + Login / Registration forms working
+  + logout now redirects to menu
 
   - create order confirmation page and redirect to it
   - update orders page / editing ability
   - stylize new item form
+  - decouple items and menu?
+
   - make itemInfo/card responsive
   - Make users page functional
+    + new user button follows registration on backend
+    - implement restrictions on new user roles setting
+    - default password
 
 + create currentUserReducer to manage in redux
-- page restrictions for user roles
+* page restrictions for user roles
+  + functionality works
+  - choose and implement restrictions
+  - error handling for unauth'd reqs
 - confirm account registration w/ email?
 - implement OAuth for registration/login
 - calculate totals serverside
+
 - update this list
 - Unit Testing backend
 - Unit Testing frontend
