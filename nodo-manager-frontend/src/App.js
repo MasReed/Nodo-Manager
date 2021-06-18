@@ -55,7 +55,7 @@ function App() {
             <MyOrderPage />
           </Route>
 
-          <Route path='/checkout'>
+          <Route path='/order-confirmed'>
             <OrderConfirmationPage />
           </Route>
 

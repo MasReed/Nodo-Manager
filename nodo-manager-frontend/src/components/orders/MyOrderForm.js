@@ -49,9 +49,6 @@ const MyOrderForm = ({ costs }) => {
 
       dispatch(addOrderActionCreator(orderObject))
       dispatch(resetCart())
-      // Temporarily push to all orders page
-      console.log('ORDER SUBMITTED')
-      history.push('/orders')
     } else {
       window.alert('No items in order!')
       history.push('/menu')

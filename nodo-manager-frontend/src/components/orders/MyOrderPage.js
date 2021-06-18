@@ -10,6 +10,7 @@ import { resetCart } from '../../reducers/cartReducer'
 import Costs from './Costs'
 import MyOrderForm from './MyOrderForm'
 import MyOrderItems from './MyOrderItems'
+import PaymentModal from './PaymentModal'
 import UpdateCustomItemModal from './UpdateCustomItemModal'
 
 const MyOrderPage = () => {
@@ -18,6 +19,7 @@ const MyOrderPage = () => {
   const history = useHistory()
 
   const [showCustomize, setShowCustomize] = useState(false)
+  const [showPayment, setShowPayment] = useState(false)
   const [selectedItem, setSelectedItem] = useState({})
 
   const [costs, setCosts] = useState({})
@@ -26,11 +28,6 @@ const MyOrderPage = () => {
     dispatch(resetCart())
     history.push('/menu')
   }
-
-  const purchaseOrderSequence = () => {
-    history.push('/checkout')
-  }
-
 
   return (
     <Container className='pt-5'>
@@ -70,15 +67,19 @@ const MyOrderPage = () => {
             Add More
           </Button>
           <Button
-            type='submit'
-            form='myOrderForm'
             className='mx-2'
-            onClick={ purchaseOrderSequence }
+            onClick={ () => setShowPayment(true) }
           >
             Checkout
           </Button>
         </div>
       </div>
+
+      <PaymentModal
+        costs={costs}
+        show={showPayment}
+        setShow={setShowPayment}
+      />
 
       <UpdateCustomItemModal
         show={showCustomize}
@@ -86,6 +87,7 @@ const MyOrderPage = () => {
         selectedItem={selectedItem}
         setSelectedItem={setSelectedItem}
       />
+
     </Container>
   )
 }
