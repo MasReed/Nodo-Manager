@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
@@ -6,9 +7,16 @@ import Container from 'react-bootstrap/Container'
 import NewUserForm from './NewUserForm'
 import UsersList from './UsersList'
 
+import { initializeUsers } from '../../reducers/userReducer'
+
 const UsersPage = () => {
 
+  const dispatch = useDispatch()
   const [show, setShow] = useState(false)
+
+  useEffect(() => {
+    dispatch(initializeUsers())
+  }, [dispatch])
 
   return (
     <Container className='pt-5'>

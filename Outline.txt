@@ -77,7 +77,8 @@ Procedure
 * page restrictions for user roles
   + update user roles to be: guest, user, employee, manager, admin
   + functionality works
-  - choose and implement restrictions
+  + choose and implement restrictions
+    - have roles encompass subsequent roles i.e admin is also a manager by default
   - error handling for unauth'd reqs
 - confirm account registration w/ email?
 - implement OAuth for registration/login

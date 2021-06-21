@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Modal from 'react-bootstrap/Modal'
 
-import { addOrderActionCreator } from '../../reducers/orderReducer'
+import { initializeOrders, addOrderActionCreator } from '../../reducers/orderReducer'
+
 import OrdersList from './OrdersList'
 
 const OrdersPage = () => {
@@ -14,6 +15,10 @@ const OrdersPage = () => {
 
   const [show, setShow] = useState(false)
   const [items, setItems] = useState([])
+
+  useEffect(() => {
+    dispatch(initializeOrders())
+  }, [dispatch])
 
   // Order action dispatchers
   const addOrder = (event) => {

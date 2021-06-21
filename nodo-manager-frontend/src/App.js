@@ -7,8 +7,8 @@ import {
 } from "react-router-dom";
 
 import { initializeItems, resetItems } from './reducers/itemReducer'
-import { initializeOrders, resetOrders } from './reducers/orderReducer'
-import { initializeUsers, resetUsers } from './reducers/userReducer'
+import { resetOrders } from './reducers/orderReducer'
+import { resetUsers } from './reducers/userReducer'
 
 import HomePage from './components/login-register-landing/HomePage'
 import ItemsPage from './components/items/ItemsPage'
@@ -32,8 +32,6 @@ function App() {
     dispatch(resetOrders())
     dispatch(resetUsers())
     dispatch(initializeItems())
-    dispatch(initializeOrders())
-    dispatch(initializeUsers())
   }, [ dispatch, currentUser ])
 
   return (
@@ -80,7 +78,6 @@ function App() {
       </div>
 
       <SiteFooter />
-
     </>
   )
 }
