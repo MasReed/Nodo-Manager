@@ -44,9 +44,9 @@ function App() {
         <ScrollToTop />
         <Switch>
 
-          <Route path='/items'>
+          <AuthRoute path='/items' authGroup='employee'>
             <ItemsPage />
-          </Route>
+          </AuthRoute>
 
           <Route path='/menu'>
             <MenuPage />
@@ -60,9 +60,9 @@ function App() {
             <OrderConfirmationPage />
           </Route>
 
-          <Route path='/orders'>
+          <AuthRoute path='/orders' authGroup='employee'>
             <OrdersPage />
-          </Route>
+          </AuthRoute>
 
           <AuthRoute path='/users' authGroup='admin'>
             <UsersPage />
