@@ -60,6 +60,7 @@ Procedure
   + component abstractions
   + Login / Registration forms working
   + logout now redirects to menu
+  + login success now redirects
   + create order confirmation page and redirect to it
 
   - update orders page / editing ability

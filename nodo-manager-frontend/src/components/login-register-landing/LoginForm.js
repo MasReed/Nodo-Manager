@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
@@ -9,6 +10,7 @@ import { loginUserActionCreator } from '../../reducers/currentUserReducer'
 const LoginForm = () => {
 
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const [ form, setForm ] = useState({ name: '', password: '' })
   const [ errors, setErrors ] = useState({})
@@ -37,9 +39,9 @@ const LoginForm = () => {
       try {
         await dispatch(loginUserActionCreator(form.name, form.password))
         setForm({ name: '', password: '' })
+        history.push('/menu')
       } catch (exception) {
         console.log(exception)
-      } finally {
         setField('password', '')
       }
     }

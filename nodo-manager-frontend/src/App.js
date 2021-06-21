@@ -6,7 +6,7 @@ import {
   Route
 } from "react-router-dom";
 
-import { initializeItems, resetItems } from './reducers/itemReducer'
+import { initializeItems } from './reducers/itemReducer'
 import { resetOrders } from './reducers/orderReducer'
 import { resetUsers } from './reducers/userReducer'
 
@@ -28,7 +28,6 @@ function App() {
   const currentUser = useSelector(state => state.currentUser)
 
   useEffect(() => {
-    dispatch(resetItems())
     dispatch(resetOrders())
     dispatch(resetUsers())
     dispatch(initializeItems())
