@@ -13,7 +13,7 @@ const LogoutButton = () => {
 
   const handleLogout = () => {
     dispatch(logoutUserActionCreator())
-    history.push('/menu')
+    history.push('/')
   }
 
   return (

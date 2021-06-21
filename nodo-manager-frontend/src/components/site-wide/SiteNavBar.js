@@ -11,6 +11,18 @@ const SiteNavBar = () => {
 
   const currentUser = useSelector(state => state.currentUser)
 
+  const userRoles = useSelector(state =>
+    (state.currentUser && state.currentUser.roles)
+    ? state.currentUser.roles
+    : []
+  )
+
+  const authGroups = [
+    'ROLE_ADMIN',
+    'ROLE_MANAGER',
+    'ROLE_EMPLOYEE'
+  ]
+
   return (
     <Navbar expand="lg" sticky='top' bg='warning' variant='light'>
       <Navbar.Brand as={Link} to='/'>Nodo-Manager</Navbar.Brand>
@@ -21,12 +33,18 @@ const SiteNavBar = () => {
           <Nav.Link as={Link} to='/my-order'>My Order</Nav.Link>
         </Nav>
 
-        <Nav className='ml-auto border-right border-secondary'>
-          <Nav.Link as={Link} to='/orders'>Orders</Nav.Link>
-          <Nav.Link as={Link} to='/items'>Items</Nav.Link>
-          <Nav.Link as={Link} to='/users'>Users</Nav.Link>
-        </Nav>
+        {/*Conditionally render links, if user belongs to one of authGroups */}
+        {
+          authGroups.some(group => userRoles.includes(group))
+          ? <Nav className='ml-auto border-right border-secondary'>
+            <Nav.Link as={Link} to='/orders'>Orders</Nav.Link>
+            <Nav.Link as={Link} to='/items'>Items</Nav.Link>
+            <Nav.Link as={Link} to='/users'>Users</Nav.Link>
+          </Nav>
+          : null
+        }
 
+        {/*Conditionally render logout button for any logged in user */}
         {
           currentUser
           ? <>
