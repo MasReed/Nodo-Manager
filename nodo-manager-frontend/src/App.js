@@ -17,6 +17,7 @@ import OrderConfirmationPage from './components/orders/OrderConfirmationPage'
 import OrdersPage from './components/orders/OrdersPage'
 import MyOrderPage from './components/orders/MyOrderPage'
 import UsersPage from './components/users/UsersPage'
+import AuthRoute from './components/site-wide/AuthRoute'
 import ScrollToTop from './components/site-wide/ScrollToTop'
 import SiteFooter from './components/site-wide/SiteFooter'
 import SiteNavBar from './components/site-wide/SiteNavBar'
@@ -63,9 +64,9 @@ function App() {
             <OrdersPage />
           </Route>
 
-          <Route path='/users'>
+          <AuthRoute path='/users' authGroup='admin'>
             <UsersPage />
-          </Route>
+          </AuthRoute>
 
           <Route path='/'>
             <HomePage />

@@ -75,7 +75,7 @@ Procedure
 + create currentUserReducer to manage in redux
 - refactor userAuth and signup
 * page restrictions for user roles
-  - update user roles to be: guest, user, employee, manager, admin
+  + update user roles to be: guest, user, employee, manager, admin
   + functionality works
   - choose and implement restrictions
   - error handling for unauth'd reqs
