@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch} from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
@@ -10,7 +10,7 @@ const LoginForm = () => {
 
   const dispatch = useDispatch()
 
-  const [ form, setForm ] = useState({})
+  const [ form, setForm ] = useState({ name: '', password: '' })
   const [ errors, setErrors ] = useState({})
 
   const setField = (field, value) => {
@@ -25,7 +25,7 @@ const LoginForm = () => {
     })
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
 
     const newErrors = findFormErrors()
@@ -35,11 +35,12 @@ const LoginForm = () => {
       setErrors(newErrors)
     } else {
       try {
-        dispatch(loginUserActionCreator(form.name, form.password))
+        await dispatch(loginUserActionCreator(form.name, form.password))
+        setForm({ name: '', password: '' })
       } catch (exception) {
         console.log(exception)
       } finally {
-        setForm({})
+        setField('password', '')
       }
     }
   }
@@ -63,6 +64,7 @@ const LoginForm = () => {
         <Form.Label>Username</Form.Label>
         <Form.Control
           type='text'
+          value={form.name}
           placeholder='Username'
           onChange={ e => setField('name', e.target.value) }
           isInvalid={ !!errors.name }
@@ -74,6 +76,7 @@ const LoginForm = () => {
         <Form.Label>Password</Form.Label>
         <Form.Control
           type='password'
+          value={form.password}
           placeholder='Password'
           onChange={ e => setField('password', e.target.value) }
           isInvalid={ !!errors.password }
@@ -88,6 +91,5 @@ const LoginForm = () => {
 }
 
 export default LoginForm
-
 
 // Form validation built on work from: https://github.com/AlecGrey/demo-form-for-blog
