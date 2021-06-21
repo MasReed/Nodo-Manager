@@ -12,6 +12,7 @@ usersRouter.post('/', verifySignUp.checkRolesExisted, async (req, res) => {
 
   const newUser = new User({
     name: body.name,
+    email: body.email,
     username: body.username,
     passwordHash: body.password,
     roles: body.rolesArray

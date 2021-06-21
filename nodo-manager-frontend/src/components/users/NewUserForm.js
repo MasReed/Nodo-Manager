@@ -12,6 +12,7 @@ const NewUserForm = ({ show, setShow }) => {
   const dispatch = useDispatch()
 
   const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [roles, setRoles] = useState([])
 
@@ -25,6 +26,7 @@ const NewUserForm = ({ show, setShow }) => {
 
     const newUserObject = {
       name: name,
+      email: email,
       username: username,
       password: 1234,
       roles: rolesArray
@@ -33,6 +35,7 @@ const NewUserForm = ({ show, setShow }) => {
     dispatch(addUserActionCreator(newUserObject))
 
     setName('')
+    setEmail('')
     setUsername('')
     setRoles('')
     setShow(false)
@@ -57,6 +60,14 @@ const NewUserForm = ({ show, setShow }) => {
             <Form.Control
               value={name}
               onChange={ ({ target }) => setName(target.value) }
+            />
+          </Form.Group>
+
+          <Form.Group>
+            <Form.Label>Email:</Form.Label>
+            <Form.Control
+              value={email}
+              onChange={ ({ target }) => setEmail(target.value) }
             />
           </Form.Group>
 
