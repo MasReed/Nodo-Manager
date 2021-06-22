@@ -1,8 +1,7 @@
 
 function rolesInitializer() {
 
-  const db = require("../models");
-  const Role = db.role;
+  const Role = require('../models/role');
 
   Role.estimatedDocumentCount((err, count) => {
     if (!err && count === 0) {

@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken')
 const config = require('../config')
-const db = require('../../models')
-const User = db.user
-const Role = db.role
+const Role = require('../../models/role')
+const User = require('../../models/user')
 
+// Used to verify accessToken supplied by user during requests
 const verifyToken = (req, res, next) => {
   let token = req.headers['x-access-token']
 
@@ -20,6 +20,7 @@ const verifyToken = (req, res, next) => {
   })
 }
 
+// Check if user has admin authorizations
 const isAdmin = (req, res, next) => {
   User.findById(req.userId).exec((err, user) => {
     if (err) {
@@ -49,6 +50,7 @@ const isAdmin = (req, res, next) => {
   })
 }
 
+// Check if user has manager authorizations
 const isManager = (req, res, next) => {
   User.findById(req.userId).exec((err, user) => {
     if (err) {

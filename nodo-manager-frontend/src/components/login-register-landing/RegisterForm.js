@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 
-import authServices from '../../services/authentications'
+import { addUserActionCreator } from '../../reducers/userReducer'
 
 const RegisterForm = () => {
+
+  const dispatch = useDispatch()
 
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
@@ -16,8 +19,15 @@ const RegisterForm = () => {
     event.preventDefault()
 
     if (password === passCopy) {
+
+      const newUser = {
+        email: email,
+        username: username,
+        password: password
+      }
+
       try {
-        authServices.register(email, username, password)
+        dispatch(addUserActionCreator(newUser))
         setEmail('')
         setUsername('')
       } catch (exception) {

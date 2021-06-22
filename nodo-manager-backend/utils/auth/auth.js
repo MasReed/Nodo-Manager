@@ -17,7 +17,7 @@ const signup = async (req, res) => {
   })
 
   try {
-    if (req.body.roles.length > 0) {
+    if (req.body.roles && req.body.roles.length > 0) {
       // Check additional roles given to user at registration
       const queriedRoles = await Role.find({ name: { $in: req.body.roles} })
       newUser.roles = queriedRoles.map(role => role)

@@ -1,45 +1,31 @@
-const db = require('../../models')
-const ROLES = db.ROLES
-const User = db.user
-const Role = db.role
+const Role = require('../../models/role')
+const User = require('../../models/user')
 
-const checkDuplicateUsernameOrEmail = (req, res, next) => {
+
+const checkDuplicateUsernameOrEmail = async (req, res, next) => {
   // Username
-  User.findOne({
-    username: req.body.username
-  }).exec((err, user) => {
-    if (err) {
-      res.status(500).send({ message: err })
-      return
-    }
+  if (await User.findOne({ username: req.body.username })) {
+    res.status(400).send({ message: 'Username is already in use!' })
+    return
+  }
 
-    if (user) {
-      res.status(400).send({ message: 'Username is already in use!' })
-      return
-    }
-
-    // Email
-    User.findOne({
-      email: req.body.email
-    }).exec((err, user) => {
-      if (err) {
-        res.status(500).send({ message: err })
-        return
-      }
-
-      if (user) {
-        res.status(400).send({ message: 'Email is already in use!' })
-        return
-      }
-      next()
-    })
-  })
+  // Email
+  if (await User.findOne({ email: req.body.email })) {
+    res.status(400).send({ message: 'Email is already in use!' })
+    return
+  }
+  next()
 }
 
-const checkRolesExisted = (req, res, next) => {
+const checkRolesExisted = async (req, res, next) => {
   if (req.body.roles) {
+    // Get list of all possible roles from db
+    const possibleRoles = await Role.find({})
+    const possibleRoleNames = possibleRoles.map(obj => obj.name)
+
+    // Any roles not included in db cause 400 Bad Request
     for (let i = 0; i < req.body.roles.length; i++) {
-      if (!ROLES.includes(req.body.roles[i])) {
+      if (!possibleRoleNames.includes(req.body.roles[i])) {
         res.status(400).send({
           message: `Failed: Role ${req.body.roles[i]} does not exist`
         })
@@ -56,21 +42,3 @@ const verifySignUp = {
 }
 
 module.exports = verifySignUp
-
-//
-// const checkEncompassedRoles = (req, res, next) => {
-//
-//   const encompassedRoles = {
-//     admin: ['admin', 'manager', 'employee', 'user', 'guest'],
-//     manager: ['manager', 'employee', 'user', 'guest'],
-//     employee: ['employee', 'user', 'guest'],
-//     user: ['user', 'guest'],
-//     guest: ['guest']
-//   }
-//
-//   if (req.body.roles) {
-//
-//   }
-//
-//   next()
-// }
