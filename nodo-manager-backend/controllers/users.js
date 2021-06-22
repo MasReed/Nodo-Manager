@@ -16,7 +16,7 @@ usersRouter.post('/signup',
 
 // READ all users
 usersRouter.get('/', authJwt.verifyToken, async (req, res) => {
-  const users = await User.find({}).populate('roles')
+  const users = await User.find({}).populate('role')
   res.json(users)
 })
 
@@ -28,6 +28,7 @@ usersRouter.put('/:id', authJwt.isAdmin, async (req, res) => {
     name: body.name,
     username: body.username,
     passwordHash: body.passwordHash,
+    role: body.role
   }
 
   const updatedUser = await User.findByIdAndUpdate(req.params.id, userWithUpdates, { new: true })

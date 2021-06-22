@@ -16,16 +16,16 @@ const signup = async (req, res) => {
     // Note: bcrypt.hash is async
   })
 
-  if (req.body.roles && req.body.roles.length > 0) {
+  if (req.body.role) {
     // Check additional roles given to user at registration
-    const queriedRoles = await Role.find({ name: { $in: req.body.roles} })
-    newUser.roles = queriedRoles.map(role => role)
+    const queriedRole = await Role.find({ name: { $in: req.body.role} })
+    newUser.role = queriedRole
     const savedUser = await newUser.save()
     res.status(201).json(savedUser.toJSON())
   } else {
     // Otherwise set default role to 'user'
     const userRole = await Role.findOne({ name: 'user' })
-    newUser.roles = [userRole]
+    newUser.role = [userRole]
     const savedUser = await newUser.save()
     res.status(201).json(savedUser.toJSON())
   }
@@ -63,10 +63,10 @@ const signin = async (req, res) => {
       expiresIn: 86400 // 24 hours
     })
 
-    // Authorized roles associated with token
-    const authorities = user.roles.map(role =>
-      'ROLE_' + role.name.toUpperCase()
-    )
+    // Authorized roles associated with token CURRENTLY UNUSED
+    // const authorities = user.role.map(role =>
+    //   'ROLE_' + role.name.toUpperCase()
+    // )
 
     // Return user payload with accessToken and authorized roles
     res.status(200).send({
@@ -74,7 +74,7 @@ const signin = async (req, res) => {
       name: user.name,
       username: user.username,
       email: user.email,
-      roles: authorities,
+      role: user.role,
       accessToken: token
     })
 

@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
     unique: true
   },
   passwordHash: String,
-  roles: [
+  role: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Role'

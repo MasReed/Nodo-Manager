@@ -18,19 +18,17 @@ const checkDuplicateUsernameOrEmail = async (req, res, next) => {
 }
 
 const checkRolesExisted = async (req, res, next) => {
-  if (req.body.roles) {
+  if (req.body.role) {
     // Get list of all possible roles from db
     const possibleRoles = await Role.find({})
     const possibleRoleNames = possibleRoles.map(obj => obj.name)
 
     // Any roles not included in db cause 400 Bad Request
-    for (let i = 0; i < req.body.roles.length; i++) {
-      if (!possibleRoleNames.includes(req.body.roles[i])) {
-        res.status(400).send({
-          message: `Failed: Role ${req.body.roles[i]} does not exist`
-        })
-        return
-      }
+    if (!possibleRoleNames.includes(req.body.role)) {
+      res.status(400).send({
+        message: `Failed: Role ${req.body.role} does not exist`
+      })
+      return
     }
   }
   next()

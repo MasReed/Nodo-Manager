@@ -14,22 +14,22 @@ const NewUserForm = ({ show, setShow }) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
-  const [roles, setRoles] = useState([])
+  const [role, setRole] = useState('')
 
   const createUser = (event) => {
     event.preventDefault()
 
     //convert comma-separated items into array if neccessary
-    const rolesArray = Array.isArray(roles)
-      ? roles
-      : roles.split(/\s*(?:,|$)\s*/)
+    // const rolesArray = Array.isArray(roles)
+    //   ? roles
+    //   : roles.split(/\s*(?:,|$)\s*/)
 
     const newUserObject = {
       name: name,
       email: email,
       username: username,
       password: '1234',
-      roles: rolesArray
+      role: role
     }
 
     dispatch(addUserActionCreator(newUserObject))
@@ -37,7 +37,7 @@ const NewUserForm = ({ show, setShow }) => {
     setName('')
     setEmail('')
     setUsername('')
-    setRoles('')
+    setRole('')
     setShow(false)
   }
 
@@ -82,8 +82,8 @@ const NewUserForm = ({ show, setShow }) => {
           <Form.Group>
             <Form.Label>Roles:</Form.Label>
             <Form.Control
-              value={roles}
-              onChange={ ({ target }) => setRoles(target.value) }
+              value={role}
+              onChange={ ({ target }) => setRole(target.value) }
             />
           </Form.Group>
 
