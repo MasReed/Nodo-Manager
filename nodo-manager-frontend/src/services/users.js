@@ -23,7 +23,7 @@ const getOne = (id) => {
 }
 
 const create = async (newObject) => {
-  const response = await axios.post(baseUrl, newObject)
+  const response = await axios.post(`${baseUrl}/signup`, newObject)
   return response.data
 }
 

@@ -28,7 +28,7 @@ const NewUserForm = ({ show, setShow }) => {
       name: name,
       email: email,
       username: username,
-      password: 1234,
+      password: '1234',
       roles: rolesArray
     }
 

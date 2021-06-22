@@ -5,14 +5,14 @@ const authControl = require('../utils/auth/auth')
 
 const User = require('../models/user')
 
-//
-authenticationsRouter.post('/signup',
-  [
-    verifySignUp.checkDuplicateUsernameOrEmail,
-    verifySignUp.checkRolesExisted
-  ],
-  authControl.signup
-)
+// Used in users controller
+// authenticationsRouter.post('/signup',
+//   [
+//     verifySignUp.checkDuplicateUsernameOrEmail,
+//     verifySignUp.checkRolesExisted
+//   ],
+//   authControl.signup
+// )
 
 //
 authenticationsRouter.post('/signin', authControl.signin)

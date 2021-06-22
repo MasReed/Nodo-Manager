@@ -31,7 +31,6 @@ const checkDuplicateUsernameOrEmail = (req, res, next) => {
         res.status(400).send({ message: 'Email is already in use!' })
         return
       }
-
       next()
     })
   })
@@ -57,3 +56,21 @@ const verifySignUp = {
 }
 
 module.exports = verifySignUp
+
+//
+// const checkEncompassedRoles = (req, res, next) => {
+//
+//   const encompassedRoles = {
+//     admin: ['admin', 'manager', 'employee', 'user', 'guest'],
+//     manager: ['manager', 'employee', 'user', 'guest'],
+//     employee: ['employee', 'user', 'guest'],
+//     user: ['user', 'guest'],
+//     guest: ['guest']
+//   }
+//
+//   if (req.body.roles) {
+//
+//   }
+//
+//   next()
+// }

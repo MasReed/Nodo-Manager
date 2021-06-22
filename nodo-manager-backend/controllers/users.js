@@ -1,50 +1,18 @@
 const usersRouter = require('express').Router()
 const User = require('../models/user')
 const Role = require('../models/role')
+const authControl = require('../utils/auth/auth')
 const authJwt = require('../utils/auth/authJWT')
 const verifySignUp = require('../utils/auth/verifySignUp')
 
 
-
-// CREATE new user
-usersRouter.post('/', verifySignUp.checkRolesExisted, async (req, res) => {
-  const body = req.body
-
-  const newUser = new User({
-    name: body.name,
-    email: body.email,
-    username: body.username,
-    passwordHash: body.password,
-    roles: body.rolesArray
-  })
-
-  if (body.roles.length > 0) {
-    Role.find(
-      {
-        name: { $in: body.roles }
-      },
-      (err, roles) => {
-        if (err) {
-          res.status(500).send({ message: err })
-          return
-        }
-
-      newUser.roles = roles
-    })
-  } else {
-    Role.findOne({ name: 'user' }, (err, role) => {
-      if (err) {
-        res.status(500).send({ message: err })
-        return
-      }
-
-      newUser.roles = role
-    })
-  }
-
-  const savedUser = await newUser.save()
-  res.json(savedUser.toJSON())
-})
+// CREATE new user via authentication utility
+usersRouter.post('/signup',
+  [
+    verifySignUp.checkDuplicateUsernameOrEmail,
+    verifySignUp.checkRolesExisted
+  ], authControl.signup
+)
 
 // READ all users
 usersRouter.get('/', authJwt.verifyToken, async (req, res) => {
