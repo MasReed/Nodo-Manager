@@ -21,65 +21,35 @@ const verifyToken = (req, res, next) => {
 }
 
 // Check if user has admin authorizations
-const isAdmin = (req, res, next) => {
-  User.findById(req.userId).exec((err, user) => {
-    if (err) {
-      res.status(500).send({ message: err })
+const isAdmin = async (req, res, next) => {
+
+  const user = await User.findById(req.userId)
+  const userRoles = await Role.find({ _id: { $in: user.roles } })
+
+  console.log('USER ROLES', userRoles)
+
+  for (let i = 0; i < userRoles.length; i++) {
+    if (userRoles[i].name === 'admin') {
+      next()
       return
     }
-
-    Role.find(
-      {
-        _id: { $in: user.roles }
-      },
-      (err, roles) => {
-        if (err) {
-          res.status(500).send({ message: err })
-        }
-
-        for (let i = 0; i < roles.length; i++) {
-          if (roles[i].name === 'admin') {
-            next();
-            return;
-          }
-        }
-
-        res.status(403).send({ message: 'Require Admin Role' })
-      }
-    )
-  })
+  }
+  res.status(403).send({ message: 'Require Admin Role' })
 }
 
 // Check if user has manager authorizations
-const isManager = (req, res, next) => {
-  User.findById(req.userId).exec((err, user) => {
-    if (err) {
-      res.status(500).send({ message: err })
+const isManager = async (req, res, next) => {
+
+  const user = await User.findById(req.userId)
+  const userRoles = await Role.find({ _id: { $in: user.roles } })
+
+  for (let i = 0; i < roles.length; i++) {
+    if (userRoles[i].name === 'manager') {
+      next()
       return
     }
-
-    Role.find(
-      {
-        _id: { $in: user.roles }
-      },
-      (err, roles) => {
-        if (err) {
-          res.status(500).send({ message: err })
-          return;
-        }
-
-        for (let i = 0; i < roles.length; i++) {
-          if (roles[i].name === 'manager') {
-            next()
-            return
-          }
-        }
-
-        res.status(403).send({ message: 'Require Manager Role' })
-        return
-      }
-    )
-  })
+  }
+  res.status(403).send({ message: 'Require Manager Role' })
 }
 
 const authJwt = {

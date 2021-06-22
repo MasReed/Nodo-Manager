@@ -15,7 +15,7 @@ usersRouter.post('/signup',
 )
 
 // READ all users
-usersRouter.get('/', authJwt.verifyToken, async (req, res) => {
+usersRouter.get('/', [authJwt.verifyToken, authJwt.isAdmin], async (req, res) => {
   const users = await User.find({}).populate('roles')
   res.json(users)
 })

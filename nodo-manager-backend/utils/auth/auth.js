@@ -16,23 +16,18 @@ const signup = async (req, res) => {
     // Note: bcrypt.hash is async
   })
 
-  try {
-    if (req.body.roles && req.body.roles.length > 0) {
-      // Check additional roles given to user at registration
-      const queriedRoles = await Role.find({ name: { $in: req.body.roles} })
-      newUser.roles = queriedRoles.map(role => role)
-      const savedUser = await newUser.save()
-      res.status(201).json(savedUser.toJSON())
-    } else {
-      // Otherwise set default role to 'user'
-      const userRole = await Role.findOne({ name: 'user' })
-      newUser.roles = [userRole]
-      const savedUser = await newUser.save()
-      res.status(201).json(savedUser.toJSON())
-    }
-  } catch (exception) {
-    console.log(exception)
-    res.status(500).send({ message: exception })
+  if (req.body.roles && req.body.roles.length > 0) {
+    // Check additional roles given to user at registration
+    const queriedRoles = await Role.find({ name: { $in: req.body.roles} })
+    newUser.roles = queriedRoles.map(role => role)
+    const savedUser = await newUser.save()
+    res.status(201).json(savedUser.toJSON())
+  } else {
+    // Otherwise set default role to 'user'
+    const userRole = await Role.findOne({ name: 'user' })
+    newUser.roles = [userRole]
+    const savedUser = await newUser.save()
+    res.status(201).json(savedUser.toJSON())
   }
 }
 
