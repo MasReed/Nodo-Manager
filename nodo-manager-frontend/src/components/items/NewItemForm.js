@@ -49,7 +49,7 @@ const NewItemForm = ({ show, setShow }) => {
   const charactersRemaining = (str, limit) => {
     const diff = limit - str.length
     return (diff < 21) ? diff + ' character(s) remaining' : null
-    }
+  }
 
   return (
     <React.Fragment>
@@ -116,10 +116,28 @@ const NewItemForm = ({ show, setShow }) => {
 
             <Form.Group>
               <Form.Label>Availability:</Form.Label>
-              <Form.Control
-                value={availability}
-                onChange={ ({ target }) => setAvailability(target.value) }
-              />
+              <div className='px-4 d-flex justify-content-between'>
+                <Form.Check
+                  inline
+                  label='Available'
+                  name='availability'
+                  type='radio'
+                  id='inline-radio-available'
+                  checked={availability === 'Available'}
+                  value='Available'
+                  onChange={ ({ target }) => setAvailability(target.value) }
+                />
+                <Form.Check
+                  inline
+                  label='Unavailable'
+                  name='availability'
+                  type='radio'
+                  id='inline-radio-unavailable'
+                  checked={availability === 'Unavailable'}
+                  value='Unavailable'
+                  onChange={ ({ target }) => setAvailability(target.value) }
+                />
+              </div>
             </Form.Group>
 
             <Form.Group>

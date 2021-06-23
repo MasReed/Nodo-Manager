@@ -104,10 +104,28 @@ const UpdateItemForm = ({ item, updateItem, show, setShow }) => {
 
             <Form.Group>
               <Form.Label>Availability:</Form.Label>
-              <Form.Control
-                value={availability}
-                onChange={ ({ target }) => setAvailability(target.value) }
-              />
+              <div className='px-4 d-flex justify-content-between'>
+                <Form.Check
+                  inline
+                  label='Available'
+                  name='availability'
+                  type='radio'
+                  id='inline-radio-available'
+                  checked={availability === 'Available'}
+                  value='Available'
+                  onChange={ ({ target }) => setAvailability(target.value) }
+                />
+                <Form.Check
+                  inline
+                  label='Unavailable'
+                  name='availability'
+                  type='radio'
+                  id='inline-radio-unavailable'
+                  checked={availability === 'Unavailable'}
+                  value='Unavailable'
+                  onChange={ ({ target }) => setAvailability(target.value) }
+                />
+              </div>
             </Form.Group>
           </Form>
         </Modal.Body>

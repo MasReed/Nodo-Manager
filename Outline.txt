@@ -64,11 +64,12 @@ Procedure
   + login button shows modal window for login form
   + create order confirmation page and redirect to it
   + MyOrder baseprice/item total layout
-  - Add MyAccount Page
+  + Add MyAccount Page
     - view previous orders
 
   - update orders page / editing ability
-  - stylize new item form
+  - stylize new/update item form
+    + availability as radio selection
   - decouple items and menu?
 
   - make itemInfo/card responsive

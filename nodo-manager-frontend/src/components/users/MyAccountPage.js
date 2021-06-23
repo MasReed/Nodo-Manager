@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import Container from 'react-bootstrap/Container'
 
@@ -14,6 +14,8 @@ const MyAccountPage = () => {
         <h1>{currentUser.name}</h1>
       </div>
       <hr />
+      <p>Username: {currentUser.username}</p>
+      <p>Email: {currentUser.email}</p>
     </Container>
   )
 }
