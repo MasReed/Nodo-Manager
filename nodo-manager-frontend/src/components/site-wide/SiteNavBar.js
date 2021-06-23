@@ -38,6 +38,7 @@ const SiteNavBar = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link as={Link} to='/menu'>Menu</Nav.Link>
+            { currentUser && <Nav.Link as={Link} to='/my-account'>My Account</Nav.Link>}
             <Nav.Link as={Link} to='/my-order'>My Order</Nav.Link>
           </Nav>
 

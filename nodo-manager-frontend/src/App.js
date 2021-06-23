@@ -16,6 +16,7 @@ import MenuPage from './components/menu/MenuPage'
 import OrderConfirmationPage from './components/orders/OrderConfirmationPage'
 import OrdersPage from './components/orders/OrdersPage'
 import MyOrderPage from './components/orders/MyOrderPage'
+import MyAccountPage from './components/users/MyAccountPage'
 import UsersPage from './components/users/UsersPage'
 import AuthRoute from './components/site-wide/AuthRoute'
 import ScrollToTop from './components/site-wide/ScrollToTop'
@@ -59,6 +60,10 @@ function App() {
 
           <AuthRoute path='/orders' authGroup='employee'>
             <OrdersPage />
+          </AuthRoute>
+
+          <AuthRoute path='/my-account' authGroup='user'>
+            <MyAccountPage />
           </AuthRoute>
 
           <AuthRoute path='/users' authGroup='admin'>
