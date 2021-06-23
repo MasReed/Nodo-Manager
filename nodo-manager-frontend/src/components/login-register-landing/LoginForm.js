@@ -56,7 +56,7 @@ const LoginForm = ({ ...props }) => {
     // name errors
     if ( !name || name === '' ) newErrors.name = 'Enter a username!'
     else if ( name.length > 30 ) newErrors.name = 'Username is too long'
-    else if ( name.lenght < 3 ) newErrors.name = 'Username is too short'
+    else if ( name.length < 3 ) newErrors.name = 'Username is too short'
     // password errors
     if ( !password || password === '' ) newErrors.password = 'Enter a password!'
 

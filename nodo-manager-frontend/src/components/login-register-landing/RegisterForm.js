@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
@@ -9,83 +10,124 @@ import { addUserActionCreator } from '../../reducers/userReducer'
 const RegisterForm = () => {
 
   const dispatch = useDispatch()
+  const history = useHistory()
 
-  const [email, setEmail] = useState('')
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [passCopy, setPassCopy] = useState('')
+  const [ form, setForm ] = useState(
+    { email: '', username: '', password: '', passcopy: '' }
+  )
+  const [ errors, setErrors ] = useState({})
 
-  const handleRegister = (event) => {
+  const setField = (field, value) => {
+    setForm({
+      ...form,
+      [field]: value
+    })
+    // Remove any errors from the error object
+    if ( !!errors[field] ) setErrors({
+      ...errors,
+      [field]: null
+    })
+  }
+
+  const findFormErrors = () => {
+    const { email, username, password, passcopy } = form
+    const newErrors = {}
+    // email errors
+    if ( !email || email === '' ) newErrors.email='Enter an email!'
+    else if ( !email.includes('@') ) newErrors.email='Email must include @'
+
+    // username errors
+    if ( !username || username === '' ) newErrors.username = 'Enter a username!'
+    else if ( username.length > 30 ) newErrors.username = 'Username is too long'
+    else if ( username.length < 5 ) newErrors.username = 'Username is too short'
+
+    // password errors
+    if ( !password || password === '' ) newErrors.password = 'Enter a password!'
+    else if ( password.length < 5 ) newErrors.password = 'Password is too short'
+
+    // passcopy errors
+    if ( !passcopy || passcopy === '' ) newErrors.passcopy = 'Reenter your password!'
+    else if ( password !== passcopy ) newErrors.passcopy = 'Passwords do not match!'
+
+    return newErrors
+  }
+
+  const handleRegister = async (event) => {
     event.preventDefault()
 
-    if (password === passCopy) {
+    const newErrors = findFormErrors()
+
+    // Check for any form errors
+    if ( Object.keys(newErrors).length > 0 ) {
+      setErrors(newErrors)
+    } else {
 
       const newUser = {
-        email: email,
-        username: username,
-        password: password
+        name: form.username,
+        email: form.email,
+        username: form.username,
+        password: form.password
       }
+      console.log(newUser)
 
-      try {
-        dispatch(addUserActionCreator(newUser))
-        setEmail('')
-        setUsername('')
-      } catch (exception) {
-        console.log(exception)
-      } finally {
-        setPassword('')
-        setPassCopy('')
-      }
-    } else {
-      console.log('Your passwords did not match')
-      setPassword('')
-      setPassCopy('')
+      await dispatch(addUserActionCreator(newUser))
+
+      setForm({ email: '', username: '', password: '', passcopy: '' })
+      history.push('/menu')
     }
   }
 
   return (
-    <Form onSubmit={ handleRegister }>
+    <Form>
       <Form.Group controlId='signupEmail'>
         <Form.Label>Email address</Form.Label>
         <Form.Control
           type='email'
-          value={email}
+          value={form.email}
           placeholder='Enter email'
-          onChange={ ({ target }) => setEmail(target.value) }
+          onChange={ ({ target }) => setField('email', target.value) }
+          isInvalid={ !!errors.email }
         />
+        <Form.Control.Feedback type='invalid'>{ errors.email }</Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group controlId='signupUsername'>
         <Form.Label>Username</Form.Label>
         <Form.Control
           type='text'
-          value={username}
+          value={form.username}
           placeholder='Username'
-          onChange={ ({ target }) => setUsername(target.value) }
+          onChange={ ({ target }) => setField('username', target.value) }
+          isInvalid={ !!errors.username }
         />
+        <Form.Control.Feedback type='invalid'>{ errors.username }</Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group controlId='signupPassword'>
         <Form.Label>Password</Form.Label>
         <Form.Control
           type='password'
-          value={password}
+          value={form.password}
           placeholder='Password'
-          onChange={ ({ target }) => setPassword(target.value) }
+          onChange={ ({ target }) => setField('password', target.value) }
+          isInvalid={ !!errors.password }
         />
+        <Form.Control.Feedback type='invalid'>{ errors.password }</Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group controlId='signupPasswordVerify'>
         <Form.Label>Confirm Password</Form.Label>
         <Form.Control
           type='password'
-          value={passCopy}
+          value={form.passCopy}
           placeholder='Password'
-          onChange={ ({ target }) => setPassCopy(target.value) }
+          onChange={ ({ target }) => setField('passcopy', target.value) }
+          isInvalid={ !!errors.passcopy }
         />
+        <Form.Control.Feedback type='invalid'>{ errors.passcopy }</Form.Control.Feedback>
       </Form.Group>
 
-      <Button variant='primary' type='submit'>
+      <Button variant='primary' type='submit' onClick={ handleRegister }>
         Sign Up
       </Button>
     </Form>
