@@ -29,8 +29,6 @@ const NewUserForm = ({ show, setShow }) => {
       }
     }
 
-    console.log('NEW USER OBJECT', newUserObject)
-
     dispatch(addUserActionCreator(newUserObject))
 
     setName('')

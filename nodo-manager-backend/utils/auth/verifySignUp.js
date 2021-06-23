@@ -24,7 +24,7 @@ const checkRolesExisted = async (req, res, next) => {
     const possibleRoleNames = possibleRoles.map(obj => obj.name)
 
     // Any roles not included in db cause 400 Bad Request
-    if (!possibleRoleNames.includes(req.body.role)) {
+    if (!possibleRoleNames.includes(req.body.role.name)) {
       res.status(400).send({
         message: `Failed: Role ${req.body.role} does not exist`
       })

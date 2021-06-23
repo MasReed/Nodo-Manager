@@ -17,15 +17,15 @@ const signup = async (req, res) => {
   })
 
   if (req.body.role) {
-    // Check additional roles given to user at registration
-    const queriedRole = await Role.find({ name: { $in: req.body.role} })
-    newUser.role = queriedRole
+    /* Check name of role given to user at registration and set newUser role as
+    correct role object from database */
+    newUser.role = await Role.findOne({ name: { $in: req.body.role.name } })
     const savedUser = await newUser.save()
     res.status(201).json(savedUser.toJSON())
   } else {
     // Otherwise set default role to 'user'
     const userRole = await Role.findOne({ name: 'user' })
-    newUser.role = [userRole]
+    newUser.role = userRole
     const savedUser = await newUser.save()
     res.status(201).json(savedUser.toJSON())
   }

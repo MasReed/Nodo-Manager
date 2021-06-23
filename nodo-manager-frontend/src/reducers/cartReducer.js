@@ -38,7 +38,6 @@ export const initializeCart = () => {
 
 export const addItemToCartActionCreator = (customItem) => {
   return async dispatch => {
-    // const newItem = await Service.create(newContent)
     dispatch({
       type: 'ADD_CART_ITEM',
       data: customItem
@@ -56,7 +55,6 @@ export const resetCart = () => {
 
 export const updateCartItemActionCreator = (updatedObject) => {
   return async dispatch => {
-    console.log('UPDATED OBJECT IN ACTION CREATOR', updatedObject)
     dispatch({
       type: 'UPDATE_CART_ITEM',
       data: updatedObject
