@@ -28,6 +28,14 @@ code {
   max-width: 40% !important;
 }
 
+.modal-30w {
+  max-width: 30% !important;
+}
+
+.modal-20w {
+  max-width: 20% !important;
+}
+
 .content {
   min-height: calc(100vh - 200px)
 }

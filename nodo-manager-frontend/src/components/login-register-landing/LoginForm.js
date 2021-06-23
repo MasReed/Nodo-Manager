@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form'
 
 import { loginUserActionCreator } from '../../reducers/currentUserReducer'
 
-const LoginForm = () => {
+const LoginForm = ({ ...props }) => {
 
   const dispatch = useDispatch()
   const history = useHistory()
@@ -38,6 +38,9 @@ const LoginForm = () => {
     } else {
       try {
         await dispatch(loginUserActionCreator(form.name, form.password))
+        if (props.setShow) {
+          props.setShow(false)
+        }
         setForm({ name: '', password: '' })
         history.push('/menu')
       } catch (exception) {
