@@ -61,8 +61,9 @@ Procedure
   + Login / Registration forms working
   + logout now redirects to menu
   + login success now redirects
+  + login button shows modal window for login form
   + create order confirmation page and redirect to it
-  - MyOrder baseprice/item total layout
+  + MyOrder baseprice/item total layout
   - Add MyAccount Page
     - view previous orders
 
@@ -85,7 +86,7 @@ Procedure
   + choose and implement restrictions
     + have roles encompass subsequent roles i.e admin is also a manager by default
   - error handling for unauth'd reqs
-  
+
 - confirm account registration w/ email?
 - implement OAuth for registration/login
 - calculate totals serverside
