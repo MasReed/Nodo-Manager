@@ -30,7 +30,7 @@ const UserInfo = ({ user }) => {
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div>
           <h2>{user.username}</h2>
-          <p>{user.roles.map(role => role.name).join(', ')}</p>
+          <p>{user.role.name}</p>
         </div>
         <div>
           <Button

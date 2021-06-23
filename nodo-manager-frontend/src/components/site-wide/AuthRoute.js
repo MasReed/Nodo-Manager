@@ -6,12 +6,12 @@ const AuthRoute = props => {
 
   const { authGroup } = props
   const userRoles = useSelector(state =>
-    (state.currentUser && state.currentUser.roles)
-    ? state.currentUser.roles
+    (state.currentUser && state.currentUser.role)
+    ? state.currentUser.role.encompassedRoles
     : []
   )
 
-  if (userRoles.includes('ROLE_' + authGroup.toString().toUpperCase())) {
+  if (userRoles.includes(authGroup.toString().toLowerCase())) {
     return <Route {...props} />
   } else {
     return <Redirect to='/' />

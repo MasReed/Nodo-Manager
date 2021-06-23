@@ -37,7 +37,7 @@ const signin = async (req, res) => {
     // Query db for user with existing username
     const user = await User
       .findOne({ username: req.body.username })
-      .populate('roles', '-__v')
+      .populate('role', '-__v')
 
     // Non-existant user results in 404 Not Found
     if (!user) {

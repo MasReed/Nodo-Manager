@@ -12,12 +12,10 @@ const userSchema = new mongoose.Schema({
     unique: true
   },
   passwordHash: String,
-  role: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Role'
-    }
-  ]
+  role: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Role'
+  }
 })
 
 userSchema.plugin(uniqueValidator)

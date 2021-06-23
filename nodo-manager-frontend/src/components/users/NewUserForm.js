@@ -14,7 +14,7 @@ const NewUserForm = ({ show, setShow }) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
-  const [role, setRole] = useState('')
+  const [roleName, setRoleName] = useState('')
 
   const createUser = (event) => {
     event.preventDefault()
@@ -29,7 +29,9 @@ const NewUserForm = ({ show, setShow }) => {
       email: email,
       username: username,
       password: '1234',
-      role: role
+      role: {
+        name: roleName
+      }
     }
 
     dispatch(addUserActionCreator(newUserObject))
@@ -37,7 +39,7 @@ const NewUserForm = ({ show, setShow }) => {
     setName('')
     setEmail('')
     setUsername('')
-    setRole('')
+    setRoleName('')
     setShow(false)
   }
 
@@ -82,8 +84,8 @@ const NewUserForm = ({ show, setShow }) => {
           <Form.Group>
             <Form.Label>Roles:</Form.Label>
             <Form.Control
-              value={role}
-              onChange={ ({ target }) => setRole(target.value) }
+              value={roleName}
+              onChange={ ({ target }) => setRoleName(target.value) }
             />
           </Form.Group>
 

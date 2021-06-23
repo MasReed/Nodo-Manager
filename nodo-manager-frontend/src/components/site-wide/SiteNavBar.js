@@ -12,15 +12,15 @@ const SiteNavBar = () => {
   const currentUser = useSelector(state => state.currentUser)
 
   const userRoles = useSelector(state =>
-    (state.currentUser && state.currentUser.roles)
-    ? state.currentUser.roles
+    (state.currentUser && state.currentUser.role)
+    ? state.currentUser.role.encompassedRoles
     : []
   )
 
   const authGroups = [
-    'ROLE_ADMIN',
-    'ROLE_MANAGER',
-    'ROLE_EMPLOYEE'
+    'admin',
+    'manager',
+    'employee'
   ]
 
   return (
