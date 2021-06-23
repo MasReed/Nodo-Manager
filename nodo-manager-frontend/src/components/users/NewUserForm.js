@@ -14,35 +14,31 @@ const NewUserForm = ({ show, setShow }) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
-  const [roleName, setRoleName] = useState('')
+  const [roleName, setRoleName] = useState('user')
 
   const createUser = (event) => {
     event.preventDefault()
-
-    //convert comma-separated items into array if neccessary
-    // const rolesArray = Array.isArray(roles)
-    //   ? roles
-    //   : roles.split(/\s*(?:,|$)\s*/)
 
     const newUserObject = {
       name: name,
       email: email,
       username: username,
-      password: '1234',
+      password: 'password',
       role: {
         name: roleName
       }
     }
+
+    console.log('NEW USER OBJECT', newUserObject)
 
     dispatch(addUserActionCreator(newUserObject))
 
     setName('')
     setEmail('')
     setUsername('')
-    setRoleName('')
+    setRoleName('user')
     setShow(false)
   }
-
 
   return (
     <Modal
@@ -82,11 +78,49 @@ const NewUserForm = ({ show, setShow }) => {
           </Form.Group>
 
           <Form.Group>
-            <Form.Label>Roles:</Form.Label>
-            <Form.Control
-              value={roleName}
-              onChange={ ({ target }) => setRoleName(target.value) }
-            />
+            <Form.Label>Role:</Form.Label>
+            <div className='px-4 d-flex justify-content-between'>
+              <Form.Check
+                inline
+                label='Admin'
+                name='roles'
+                type='radio'
+                id='inline-radio-admin'
+                checked={roleName === 'admin'}
+                value='admin'
+                onChange={ ({ target }) => setRoleName(target.value) }
+              />
+              <Form.Check
+                inline
+                label='Manager'
+                name='roles'
+                type='radio'
+                id='inline-radio-manager'
+                checked={roleName === 'manager'}
+                value='manager'
+                onChange={ ({ target }) => setRoleName(target.value) }
+              />
+              <Form.Check
+                inline
+                label='Employee'
+                name='roles'
+                type='radio'
+                id='inline-radio-employee'
+                checked={roleName === 'employee'}
+                value='employee'
+                onChange={ ({ target }) => setRoleName(target.value) }
+              />
+              <Form.Check
+                inline
+                label='User'
+                name='roles'
+                type='radio'
+                id='inline-radio-user'
+                checked={roleName === 'user'}
+                value='user'
+                onChange={ ({ target }) => setRoleName(target.value) }
+              />
+            </div>
           </Form.Group>
 
         </Form>

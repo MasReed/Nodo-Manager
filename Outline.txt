@@ -62,16 +62,20 @@ Procedure
   + logout now redirects to menu
   + login success now redirects
   + create order confirmation page and redirect to it
+  - MyOrder baseprice/item total layout
+  - Add MyAccount Page
+    - view previous orders
 
   - update orders page / editing ability
   - stylize new item form
   - decouple items and menu?
 
   - make itemInfo/card responsive
+    - text wrapping, overflow, min/max sizes
   - Make users page functional
     + new user button follows registration on backend
     - implement restrictions on new user roles setting
-    - default password
+    - default password -> auto-generate?
 
 + create currentUserReducer to manage in redux
 - refactor userAuth and signup
@@ -84,7 +88,8 @@ Procedure
 - confirm account registration w/ email?
 - implement OAuth for registration/login
 - calculate totals serverside
-
+- login/register page separated from landing page
+- guest checkout renders/warnings
 - update this list
 - Unit Testing backend
 - Unit Testing frontend
