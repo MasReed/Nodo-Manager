@@ -4,6 +4,7 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const app = express()
 
+const errorHandler = require('./utils/errorHandling/errorHandler')
 const rolesInitializer = require('./utils/rolesInitializer')
 const middleware = require('./utils/middleware')
 const authenticationsRouter = require('./controllers/authentications')
@@ -38,15 +39,8 @@ app.use('/api/users', usersRouter)
 app.use('/api/authenticate', authenticationsRouter)
 app.use('/api/authorize', authorizationsRouter)
 
-
-// Misc. Routes
-app.get('/', (req, res) => {
-  res.send('<h1>Hello World</h1>')
-})
-
-app.get('/api', (req, res) => {
-  res.send('API')
-})
+// Centralized error handler
+app.use(errorHandler.errorHandler)
 
 // Server Connection
 app.listen(config.PORT, () => {

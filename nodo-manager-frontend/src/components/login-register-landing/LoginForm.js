@@ -44,7 +44,6 @@ const LoginForm = ({ ...props }) => {
         setForm({ name: '', password: '' })
         history.push('/menu')
       } catch (exception) {
-        console.log(exception)
         setField('password', '')
       }
     }

@@ -1,3 +1,4 @@
+// Logs api requests to the console.
 const requestLogger = (request, response, next) => {
   console.log('-----------------------------------')
   console.log('----------  NEW REQUEST  ----------')

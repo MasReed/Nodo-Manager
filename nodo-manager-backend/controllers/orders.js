@@ -38,7 +38,7 @@ ordersRouter.get('/:id', async (req, res) => {
 })
 
 // UPDATE an order
-ordersRouter.put('/:id', async (req, res) => {
+ordersRouter.put('/:id', verifyOrder.verifyCosts, async (req, res) => {
   const body = req.body
   const orderWithUpdates = {
     time: Date.now(),

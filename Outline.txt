@@ -88,9 +88,10 @@ Procedure
     + have roles encompass subsequent roles i.e admin is also a manager by default
   - error handling for unauth'd reqs
 
++ verify order totals serverside
+
 - confirm account registration w/ email?
 - implement OAuth for registration/login
-- calculate totals serverside
 - login/register page separated from landing page
 - guest checkout renders/warnings
 - update this list

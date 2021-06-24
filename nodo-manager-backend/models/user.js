@@ -5,11 +5,13 @@ const userSchema = new mongoose.Schema({
   name: String,
   email: {
     type: String,
-    unique: true
+    required: [true, 'An email address is required.'],
+    unique: [true, 'Email address already in use.']
   },
   username: {
     type: String,
-    unique: true
+    required: [true, 'Enter a username'],
+    unique: [true, 'Username already in use.']
   },
   passwordHash: String,
   role: {

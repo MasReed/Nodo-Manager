@@ -32,7 +32,8 @@ const signup = async (req, res) => {
 }
 
 // Authenticate user credentials
-const signin = async (req, res) => {
+const signin = async (req, res, next) => {
+
   try {
     // Query db for user with existing username
     const user = await User
@@ -41,7 +42,8 @@ const signin = async (req, res) => {
 
     // Non-existant user results in 404 Not Found
     if (!user) {
-      return res.status(404).send({ message: 'User not found' })
+      // return res.status(404).json({error: { message: 'User not found' } })
+      throw { status: 404, message: 'User not found' }
     }
 
     // Compare entered pw and stored pw hash. Note: bcrypt.compare is async.
@@ -52,21 +54,17 @@ const signin = async (req, res) => {
 
     // Invalid Password results in 401 Unauthorized
     if (!passwordIsValid) {
-      return res.status(401).send({
-        accessToken: null,
-        message: 'Invalid Password'
-      })
+      // return res.status(401).send({
+      //   accessToken: null,
+      //   message: 'Invalid Password'
+      // })
+      throw { status: 401, message: 'Invalid Password' }
     }
 
     // User exists and entered correct pw, create jsonwebtoken
     const token = jwt.sign({ id: user.id }, config.JWT_PHRASE, {
       expiresIn: 86400 // 24 hours
     })
-
-    // Authorized roles associated with token CURRENTLY UNUSED
-    // const authorities = user.role.map(role =>
-    //   'ROLE_' + role.name.toUpperCase()
-    // )
 
     // Return user payload with accessToken and authorized roles
     res.status(200).send({
@@ -78,9 +76,8 @@ const signin = async (req, res) => {
       accessToken: token
     })
 
-  } catch (exception) {
-    console.log(exception)
-    res.status(500).send({ message: exception })
+  } catch (err) {
+    next(err)
   }
 }
 
