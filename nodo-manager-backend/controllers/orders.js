@@ -1,10 +1,11 @@
 const ordersRouter = require('express').Router()
 const Order = require('../models/order')
 const authJwt = require('../utils/auth/authJWT')
+const verifyOrder = require('../utils/verifyOrder')
 
 
 // CREATE new order
-ordersRouter.post('/', async (req, res) => {
+ordersRouter.post('/', verifyOrder.verifyCosts, async (req, res) => {
   const body = req.body
 
   const newOrderObject = new Order({
@@ -19,7 +20,6 @@ ordersRouter.post('/', async (req, res) => {
     taxAmount: body.taxAmount,
     total: body.total
   })
-  //SOME OF THESE GET CALCULATED IN MIDDLEWARE...?
 
   const savedOrder = await newOrderObject.save()
   res.json(savedOrder.toJSON())
