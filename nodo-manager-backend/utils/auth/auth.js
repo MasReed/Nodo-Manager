@@ -6,29 +6,33 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 
 // Authenticate new user when self-registerd or created by an authorized user
-const signup = async (req, res) => {
+const signup = async (req, res, next) => {
+  try {
+    
+    // Note: bcrypt.hash is async
+    const newUser = await new User({
+      name: req.body.name,
+      username: req.body.username,
+      email: req.body.email,
+      passwordHash: await bcrypt.hash(req.body.password, 10),
+    })
 
-  // Note: bcrypt.hash is async
-  const newUser = await new User({
-    name: req.body.name,
-    username: req.body.username,
-    email: req.body.email,
-    passwordHash: await bcrypt.hash(req.body.password, 10),
-  })
+    if (req.body.role) {
+      /* Check name of role given to user at registration and set newUser role
+      as correct role object from database */
+      newUser.role = await Role.findOne({ name: { $in: req.body.role.name } })
+      const savedUser = await newUser.save()
+      res.status(201).json(savedUser.toJSON())
 
-  if (req.body.role) {
-    /* Check name of role given to user at registration and set newUser role
-    as correct role object from database */
-    newUser.role = await Role.findOne({ name: { $in: req.body.role.name } })
-    const savedUser = await newUser.save()
-    res.status(201).json(savedUser.toJSON())
-
-  } else {
-    // Otherwise set default role to 'user'
-    const userRole = await Role.findOne({ name: 'user' })
-    newUser.role = userRole
-    const savedUser = await newUser.save()
-    res.status(201).json(savedUser.toJSON())
+    } else {
+      // Otherwise set default role to 'user'
+      const userRole = await Role.findOne({ name: 'user' })
+      newUser.role = userRole
+      const savedUser = await newUser.save()
+      res.status(201).json(savedUser.toJSON())
+    }
+  } catch (err) {
+    next(err)
   }
 }
 
