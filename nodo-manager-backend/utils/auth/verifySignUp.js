@@ -3,18 +3,28 @@ const User = require('../../models/user')
 
 
 const checkDuplicateUsernameOrEmail = async (req, res, next) => {
-  // Username
-  if (await User.findOne({ username: req.body.username })) {
-    res.status(400).send({ message: 'Username is already in use!' })
-    return
+
+  try {
+    // Username
+    if (await User.findOne({ username: req.body.username })) {
+      // res.status(400).send({ message: 'Username is already in use!' })
+      throw { status: 400, message: 'Username is already in use!' }
+      return
+    }
+  } catch (err) {
+    next(err)
   }
 
-  // Email
-  if (await User.findOne({ email: req.body.email })) {
-    res.status(400).send({ message: 'Email is already in use!' })
-    return
+  try {
+    // Email
+    if (await User.findOne({ email: req.body.email })) {
+      // res.status(400).send({ message: 'Email is already in use!' })
+      throw { status: 400, message: 'Email is already in use! '}
+      return
+    }
+  } catch (err) {
+    next(err)
   }
-  next()
 }
 
 const checkRolesExisted = async (req, res, next) => {
