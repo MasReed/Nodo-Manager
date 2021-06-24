@@ -68,8 +68,7 @@ const RegisterForm = () => {
         username: form.username,
         password: form.password
       }
-      console.log(newUser)
-
+      
       await dispatch(addUserActionCreator(newUser))
 
       setForm({ email: '', username: '', password: '', passcopy: '' })
