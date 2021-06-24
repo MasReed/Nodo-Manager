@@ -25,10 +25,10 @@ const getOne = (id) => {
 const create = async (newObject) => {
   try {
     const response = await axios.post(`${baseUrl}/signup`, newObject)
+    await console.log('servicecreatResp', response)
     return response.data
 
   } catch (err) {
-    console.log('create user error', err)
     if (err.response) {
       console.log('err.res', err.response.data.message)
     } else if (err.request) {

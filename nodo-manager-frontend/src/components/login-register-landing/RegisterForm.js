@@ -68,11 +68,11 @@ const RegisterForm = () => {
         username: form.username,
         password: form.password
       }
-      
+
       await dispatch(addUserActionCreator(newUser))
 
       setForm({ email: '', username: '', password: '', passcopy: '' })
-      history.push('/menu')
+      // history.push('/menu')
     }
   }
 
@@ -118,7 +118,7 @@ const RegisterForm = () => {
         <Form.Label>Confirm Password</Form.Label>
         <Form.Control
           type='password'
-          value={form.passCopy}
+          value={form.passcopy}
           placeholder='Password'
           onChange={ ({ target }) => setField('passcopy', target.value) }
           isInvalid={ !!errors.passcopy }
