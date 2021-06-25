@@ -5,13 +5,23 @@ import { useHistory } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 
 import { guestUserActionCreator } from '../../reducers/currentUserReducer'
+import { toastAlertCreator } from '../../reducers/alertReducer'
 
 const GuestOption = () => {
 
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const handleGuest = () => {
+  const handleGuest = async () => {
+
+    const alertObj = {
+      type: 'Hi!',
+      message: 'Continuing as guest...',
+      variant: 'primary',
+      show: true
+    }
+
+    await dispatch(toastAlertCreator(alertObj))
     dispatch(guestUserActionCreator())
     history.push('/menu')
   }

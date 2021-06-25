@@ -2,24 +2,32 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 import Alert from 'react-bootstrap/Alert'
+import Container from 'react-bootstrap/Container'
 
 const AlertBanner = () => {
 
-  const alertObject = useSelector(state => state.alertObject)
+  const alertObject = useSelector(state => state.alert)
 
-  if (!alertObject || !alertObject.message) {
+  // Banner not displayed if there is no message
+  if (!alertObject) {
     return null
   }
 
-  if (!alertObject.variant) {
+  if (!alertObject.type) {
+    alertObject.type = 'A Message For You!'
+  }
+
+  if (alertObject && !alertObject.variant) {
     alertObject.variant = 'secondary'
   }
 
   return (
-    <Alert variant={alertObject.variant}>
-      <Alert.Heading>{alertObject.type}</Alert.Heading>
-      <hr />
-      <p>{alertObject.message}</p>
+    <Alert variant={alertObject.variant} dismissible>
+      <Container>
+        <Alert.Heading>{alertObject.type}</Alert.Heading>
+        <hr />
+        <p>{alertObject.message}</p>
+      </Container>
     </Alert>
   )
 }
