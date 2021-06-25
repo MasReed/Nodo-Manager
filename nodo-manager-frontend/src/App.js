@@ -18,6 +18,7 @@ import OrdersPage from './components/orders/OrdersPage'
 import MyOrderPage from './components/orders/MyOrderPage'
 import MyAccountPage from './components/users/MyAccountPage'
 import UsersPage from './components/users/UsersPage'
+import AlertBanner from './components/site-wide/AlertBanner'
 import AuthRoute from './components/site-wide/AuthRoute'
 import ScrollToTop from './components/site-wide/ScrollToTop'
 import SiteFooter from './components/site-wide/SiteFooter'
@@ -37,6 +38,7 @@ function App() {
   return (
     <>
       <SiteNavBar />
+      <AlertBanner />
 
       <div style={{ minHeight: 'calc(100vh - 200px)' }}>
         <ScrollToTop />

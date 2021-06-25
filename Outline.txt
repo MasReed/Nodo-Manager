@@ -86,7 +86,11 @@ Procedure
   + functionality works
   + choose and implement restrictions
     + have roles encompass subsequent roles i.e admin is also a manager by default
-  - error handling for unauth'd reqs
+
+- error handling
+  + duplicate username/emails upon registration now throw an error and message
+  - connect error to form component if applicable
+  - make alert component
 
 + verify order totals serverside
 
