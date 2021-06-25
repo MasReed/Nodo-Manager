@@ -5,10 +5,9 @@ import Alert from 'react-bootstrap/Alert'
 
 const AlertBanner = () => {
 
-  // const alertObject = useSelector(state => state.alertObject)
-  const alertObject = { message: 'hi' }
+  const alertObject = useSelector(state => state.alertObject)
 
-  if (!alertObject.message) {
+  if (!alertObject || !alertObject.message) {
     return null
   }
 
