@@ -39,13 +39,15 @@ export const initializeUsers = () => {
   }
 }
 
-export const addUserActionCreator = (newUserObject) => {
+export const addUserActionCreator = (newUserObject, currentUser) => {
   return async dispatch => {
     const newUser = await userService.create(newUserObject)
-    dispatch({
-      type: 'CREATE_USER',
-      data: newUser
-    })
+    if (currentUser !== null) {
+      dispatch({
+        type: 'CREATE_USER',
+        data: newUser
+      })
+    }
   }
 }
 

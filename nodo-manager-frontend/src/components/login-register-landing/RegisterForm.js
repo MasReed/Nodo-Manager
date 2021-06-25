@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
 import Button from 'react-bootstrap/Button'
@@ -9,6 +9,7 @@ import { addUserActionCreator } from '../../reducers/userReducer'
 
 const RegisterForm = () => {
 
+  const currentUser = useSelector(state => state.currentUser)
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -61,18 +62,34 @@ const RegisterForm = () => {
     if ( Object.keys(newErrors).length > 0 ) {
       setErrors(newErrors)
     } else {
+      try {
+        const newUser = {
+          name: form.username,
+          email: form.email,
+          username: form.username,
+          password: form.password
+        }
 
-      const newUser = {
-        name: form.username,
-        email: form.email,
-        username: form.username,
-        password: form.password
+        await dispatch(addUserActionCreator(newUser, currentUser))
+        setForm({ email: '', username: '', password: '', passcopy: '' })
+        history.push('/menu')
+
+      } catch (err) {
+        setForm({
+          email: form.email,
+          username: form.username,
+          password: '',
+          passcopy: ''
+        })
+
+        if (err.response) {
+          console.log(err.response.data.message)
+        } else if (err.request) {
+          console.log('err.req', err.request)
+        } else {
+          console.log(err)
+        }
       }
-
-      await dispatch(addUserActionCreator(newUser))
-
-      setForm({ email: '', username: '', password: '', passcopy: '' })
-      // history.push('/menu')
     }
   }
 
