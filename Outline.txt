@@ -90,7 +90,9 @@ Procedure
 - error handling
   + duplicate username/emails upon registration now throw an error and message
   - connect error to form component if applicable
-  - make alert component
+  + make alert component
+  - validation error for no email/username thru newUserForm
+  - conditional render alertBanner on site vs in mobile
 
 + verify order totals serverside
 

@@ -5,6 +5,9 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 
+import AlertBanner from '../site-wide/AlertBanner'
+
+import { toastAlertCreator } from '../../reducers/alertReducer'
 import { addUserActionCreator } from '../../reducers/userReducer'
 
 const NewUserForm = ({ show, setShow }) => {
@@ -16,26 +19,43 @@ const NewUserForm = ({ show, setShow }) => {
   const [username, setUsername] = useState('')
   const [roleName, setRoleName] = useState('user')
 
-  const createUser = (event) => {
+  const createUser = async (event) => {
     event.preventDefault()
 
-    const newUserObject = {
-      name: name,
-      email: email,
-      username: username,
-      password: 'password',
-      role: {
-        name: roleName
+    try {
+      const newUserObject = {
+        name: name,
+        email: email,
+        username: username,
+        password: 'password',
+        role: {
+          name: roleName
+        }
+      }
+
+      await dispatch(addUserActionCreator(newUserObject))
+
+      setName('')
+      setEmail('')
+      setUsername('')
+      setRoleName('user')
+      setShow(false)
+
+    } catch (err) {
+      setEmail('')
+      setUsername('')
+
+      if (err.response) {
+        console.log('registerform', err.response.data.message)
+        dispatch(toastAlertCreator({ message: err.response.data.message }))
+      } else if (err.request) {
+        console.log('err.req', err.request)
+      } else {
+        console.log(err)
       }
     }
 
-    dispatch(addUserActionCreator(newUserObject))
 
-    setName('')
-    setEmail('')
-    setUsername('')
-    setRoleName('user')
-    setShow(false)
   }
 
   return (
@@ -48,6 +68,8 @@ const NewUserForm = ({ show, setShow }) => {
       <Modal.Header closeButton>
         <Modal.Title>Add A New User</Modal.Title>
       </Modal.Header>
+
+      <AlertBanner />
 
       <Modal.Body>
         <Form id='newUserForm' onSubmit={ createUser }>
