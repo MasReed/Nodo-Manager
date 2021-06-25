@@ -22,7 +22,7 @@ const AlertBanner = () => {
   }
 
   return (
-    <Alert variant={alertObject.variant} dismissible>
+    <Alert className='sticky-top' variant={alertObject.variant} dismissible>
       <Container>
         <Alert.Heading>{alertObject.type}</Alert.Heading>
         <hr />

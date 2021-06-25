@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 
+import { toastAlertCreator } from '../../reducers/alertReducer'
 import { addUserActionCreator } from '../../reducers/userReducer'
 
 const RegisterForm = () => {
@@ -83,7 +84,8 @@ const RegisterForm = () => {
         })
 
         if (err.response) {
-          console.log(err.response.data.message)
+          console.log('registerform', err.response.data.message)
+          dispatch(toastAlertCreator({ message: err.response.data.message }))
         } else if (err.request) {
           console.log('err.req', err.request)
         } else {
