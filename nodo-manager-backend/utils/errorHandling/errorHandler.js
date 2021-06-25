@@ -1,6 +1,14 @@
 // Central error handler
 const errorHandler = (err, req, res, next) => {
 
+  console.log('')
+  console.log('-----------------------------------')
+  console.log('-------------  ERROR  -------------')
+  console.log('-----------------------------------')
+  console.log(err)
+  console.log('___________________________________')
+
+
   try {
     res.status(err.status).send({ message: err.message })
 

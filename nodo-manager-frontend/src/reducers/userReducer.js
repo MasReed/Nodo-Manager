@@ -40,24 +40,12 @@ export const initializeUsers = () => {
 }
 
 export const addUserActionCreator = (newUserObject) => {
-  console.log('newUser object', newUserObject)
-
   return async dispatch => {
-    try {
-      const newUser = await userService.create(newUserObject)
-      console.log('action newuser', newUser)
-
-      if (newUser !== undefined) {
-        dispatch({
-          type: 'CREATE_USER',
-          data: newUser
-        })
-      }
-
-    } catch (err) {
-      console.log(err)
-    }
-
+    const newUser = await userService.create(newUserObject)
+    dispatch({
+      type: 'CREATE_USER',
+      data: newUser
+    })
   }
 }
 
