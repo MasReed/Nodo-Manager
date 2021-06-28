@@ -84,7 +84,7 @@ const RegisterForm = () => {
         })
 
         if (err.response) {
-          console.log('registerform', err.response.data.message)
+          console.log('register form', err.response.data.message)
           dispatch(toastAlertCreator({ message: err.response.data.message }))
         } else if (err.request) {
           console.log('err.req', err.request)

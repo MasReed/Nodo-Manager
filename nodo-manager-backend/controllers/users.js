@@ -9,6 +9,7 @@ const verifySignUp = require('../utils/auth/verifySignUp')
 // CREATE new user via authentication utility
 usersRouter.post('/signup',
   [
+    verifySignUp.checkUsernameOrEmailExists,
     verifySignUp.checkDuplicateUsernameOrEmail,
     verifySignUp.checkRolesExisted
   ], authControl.signup

@@ -2,8 +2,26 @@ const Role = require('../../models/role')
 const User = require('../../models/user')
 
 
-const checkDuplicateUsernameOrEmail = async (req, res, next) => {
+const checkUsernameOrEmailExists = async (req, res, next) => {
+  try {
+    // Username
+    if (!req.body.username) {
+      throw { status: 400, message: 'A username is required.' }
+    }
 
+    // Email
+    if (!req.body.email) {
+      throw { status: 400, message: 'An email is required.'}
+    }
+
+    next()
+  } catch (err) {
+    next(err)
+  }
+}
+
+
+const checkDuplicateUsernameOrEmail = async (req, res, next) => {
   try {
     // Username
     if ( await User.findOne({ username: req.body.username }).exec() ) {
@@ -23,7 +41,6 @@ const checkDuplicateUsernameOrEmail = async (req, res, next) => {
 }
 
 const checkRolesExisted = async (req, res, next) => {
-
   try {
     if (req.body.role) {
       // Get list of all possible roles from db
@@ -46,6 +63,7 @@ const checkRolesExisted = async (req, res, next) => {
 }
 
 const verifySignUp = {
+  checkUsernameOrEmailExists,
   checkDuplicateUsernameOrEmail,
   checkRolesExisted
 }
