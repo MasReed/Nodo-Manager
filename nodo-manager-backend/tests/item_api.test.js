@@ -42,6 +42,7 @@ describe('Test Item Type', () => {
 //
 describe('Item CRUD operations', () => {
   describe('CREATE', () => {
+    //
     test('Successful creation of expected input', async () => {
       const newItem = ({
         name: 'Test Name',
@@ -59,19 +60,19 @@ describe('Item CRUD operations', () => {
         .expect('Content-Type', /application\/json/)
     })
 
-    // test('Failure upon empty input', async () => {
-    //   const newItem = ({})
     //
-    //   try {
-    //     await api
-    //       .post('/api/items')
-    //       .send(newItem)
-    //       .expect(400)
-    //       .expect('Content-Type', /application\/json/)
-    //   } catch (err) {
-    //     expect(err).toMatch('ValidationError')
-    //   }
-    // })
+    test('Failure upon empty input', async () => {
+      const newItem = ({})
+
+      await api
+        .post('/api/items')
+        .send(newItem)
+        .expect(400)
+        .expect( res => {
+          expect(res.text).toContain('An item name is required.')
+        })
+
+    })
   })
 })
 
