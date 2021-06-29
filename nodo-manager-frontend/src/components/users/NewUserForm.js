@@ -82,7 +82,7 @@ const NewUserForm = ({ show, setShow }) => {
 
         await dispatch(addUserActionCreator(newUserObject))
 
-        setForm({ name: '', email: '', username: '', roleName: '' })
+        setForm({ name: '', email: '', username: '', roleName: 'user' })
         setShow(false)
 
       } catch (err) {
@@ -97,6 +97,16 @@ const NewUserForm = ({ show, setShow }) => {
         }
       }
     }
+  }
+
+  const cancelNewUser = () => {
+    setForm({
+      name: '',
+      email: '',
+      username: '',
+      roleName: 'user'
+    })
+    setShow(false)
   }
 
   return (
@@ -204,9 +214,7 @@ const NewUserForm = ({ show, setShow }) => {
 
       <Modal.Footer>
         <Button type='submit' onClick={ createUser }>Create User</Button>
-        <Button variant='secondary' onClick={ () => setShow(false) }>
-          Cancel
-        </Button>
+        <Button variant='secondary' onClick={ cancelNewUser }>Cancel</Button>
       </Modal.Footer>
 
     </Modal>
