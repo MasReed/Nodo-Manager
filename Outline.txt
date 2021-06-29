@@ -96,12 +96,15 @@ Procedure
 
 + verify order totals serverside
 
+
+- supertest for backend api
+
 - confirm account registration w/ email?
 - implement OAuth for registration/login
 - login/register page separated from landing page
 - guest checkout renders/warnings
 - update this list
-- Unit Testing backend
-- Unit Testing frontend
+- Testing backend
+- Testing frontend
 - implement linter/rules
 - implement db registration for many users/accounts

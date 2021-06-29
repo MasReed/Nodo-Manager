@@ -1,13 +1,13 @@
 
-function rolesInitializer() {
+async function rolesInitializer() {
 
   const Role = require('../models/role');
 
-  Role.estimatedDocumentCount((err, count) => {
+  await Role.estimatedDocumentCount( async (err, count) => {
     if (!err && count === 0) {
 
       // Guest
-      new Role({
+      await new Role({
         name: 'guest',
         encompassedRoles: ['guest']
       }).save(err => {
@@ -18,7 +18,7 @@ function rolesInitializer() {
       });
 
       // User
-      new Role({
+      await new Role({
         name: 'user',
         encompassedRoles: ['user', 'guest']
       }).save(err => {
@@ -29,7 +29,7 @@ function rolesInitializer() {
       });
 
       // Employee
-      new Role({
+      await new Role({
         name: 'employee',
         encompassedRoles: ['employee', 'user', 'guest']
       }).save(err => {
@@ -40,7 +40,7 @@ function rolesInitializer() {
       })
 
       // Manager
-      new Role({
+      await new Role({
         name: 'manager',
         encompassedRoles: ['manager', 'employee', 'user', 'guest']
       }).save(err => {
@@ -51,7 +51,7 @@ function rolesInitializer() {
       });
 
       // Admin
-      new Role({
+      await new Role({
         name: 'admin',
         encompassedRoles: ['admin', 'manager', 'employee', 'user', 'guest']
       }).save(err => {
