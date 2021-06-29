@@ -7,11 +7,22 @@ const menuItemSchema = new mongoose.Schema({
   },
   description: String,
   ingredients: [String],
-  category: String,
-  price: Number,
-  availability: String
+  category: {
+    type: String,
+    required: [true, 'Item must have a category.']
+  },
+  price: {
+    type: Number,
+    required: [true, 'Item must have a price.'],
+    default: 0.00
+  },
+  availability: {
+    type: String,
+    default: 'unavailable'
+  }
 })
 
+// Forward mongoose errors to errorHandler middleware
 menuItemSchema.post('save', (err, doc, next) => {
   try {
     if (err) {
