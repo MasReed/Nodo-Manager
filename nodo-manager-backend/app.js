@@ -20,8 +20,10 @@ mongoose.connect(config.MONGODB_URI_NODO, {
   useFindAndModify: false,
 })
 .then( async () => {
-  console.log('connected to MongoDB')
-  await rolesInitializer()
+  if (process.env.NODE_ENV !== 'test') {
+    console.log('connected to MongoDB')
+    await rolesInitializer()
+  }
 })
 .catch((error) => {
   console.error('error connecting to MongoDB:', error.message)
