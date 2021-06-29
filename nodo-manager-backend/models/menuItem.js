@@ -19,8 +19,7 @@ const menuItemSchema = new mongoose.Schema({
   },
   price: {
     type: Number,
-    required: [true, 'Item must have a price.'],
-    default: 0.00
+    required: [true, 'Item must have a price.']
   },
   availability: {
     type: String,

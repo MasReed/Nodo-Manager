@@ -118,6 +118,44 @@ describe('Item CRUD operations', () => {
     })
 
     //
+    test('No category results in Status 400', async () => {
+      const newItem = ({
+        name: 'Item Name For A Test',
+        description: 'This is a description for this test.',
+        ingredients: ['Ingredient 1', 'Ingredient 2', 'Ingredient 3'],
+        price: 9999.99,
+        availability: 'Available'
+      })
+
+      await api
+        .post('/api/items')
+        .send(newItem)
+        .expect(400)
+        .expect( res => {
+          expect(res.text).toContain('Item must have a category.')
+        })
+    })
+
+    //
+    test('No price results in Status 400', async () => {
+      const newItem = ({
+        name: 'Item Name For A Test',
+        description: 'This is a description for this test.',
+        ingredients: ['Ingredient 1', 'Ingredient 2', 'Ingredient 3'],
+        category: 'Tester',
+        availability: 'Available'
+      })
+
+      await api
+        .post('/api/items')
+        .send(newItem)
+        .expect(400)
+        .expect( res => {
+          expect(res.text).toContain('Item must have a price.')
+        })
+    })
+
+    //
     test('No availability defaults to unavailable', async () => {
       const newItem = ({
         name: 'An Item Name',
