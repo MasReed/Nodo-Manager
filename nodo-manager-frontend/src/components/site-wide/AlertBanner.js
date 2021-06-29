@@ -13,16 +13,18 @@ const AlertBanner = () => {
     return null
   }
 
+  // Default Heading
   if (!alertObject.type) {
-    alertObject.type = 'A Message For You!'
+    alertObject.type = 'Alert!'
   }
 
+  // Default color variant
   if (alertObject && !alertObject.variant) {
-    alertObject.variant = 'secondary'
+    alertObject.variant = 'warning'
   }
 
   return (
-    <Alert className='sticky-top' variant={alertObject.variant} dismissible>
+    <Alert className='sticky-top' variant={alertObject.variant}>
       <Container>
         <Alert.Heading>{alertObject.type}</Alert.Heading>
         <hr />
