@@ -61,8 +61,14 @@ describe('Item CRUD operations', () => {
     })
 
     //
-    test('Failure upon empty input', async () => {
-      const newItem = ({})
+    test('No item name results in Status 400.', async () => {
+      const newItem = ({
+        description: 'This is a description for this test.',
+        ingredients: ['Ingredient 1', 'Ingredient 2', 'Ingredient 3'],
+        category: 'Tester',
+        price: 9999.99,
+        availability: 'Available'
+      })
 
       await api
         .post('/api/items')
@@ -71,8 +77,66 @@ describe('Item CRUD operations', () => {
         .expect( res => {
           expect(res.text).toContain('An item name is required.')
         })
-
     })
+
+    //
+    test('No description defaults to empty string', async () => {
+      const newItem = ({
+        name: 'Item Name For A Test',
+        ingredients: ['Ingredient 1', 'Ingredient 2', 'Ingredient 3'],
+        category: 'Tester',
+        price: 9999.99,
+        availability: 'Available'
+      })
+
+      await api
+        .post('/api/items')
+        .send(newItem)
+        .expect(200)
+        .expect( res => {
+          expect(res.body.description).toEqual('')
+        })
+    })
+
+    //
+    test('No ingredients defaults to empty Array', async () => {
+      const newItem = ({
+        name: 'Item Name For A Test',
+        description: 'This is a description for this test.',
+        category: 'Tester',
+        price: 9999.99,
+        availability: 'Available'
+      })
+
+      await api
+        .post('/api/items')
+        .send(newItem)
+        .expect(200)
+        .expect( res => {
+          expect(res.body.ingredients).toEqual([])
+        })
+    })
+
+    //
+    test('No availability defaults to unavailable', async () => {
+      const newItem = ({
+        name: 'An Item Name',
+        description: 'This is a description for this test.',
+        ingredients: ['Ingredient 1', 'Ingredient 2', 'Ingredient 3'],
+        category: 'Tester',
+        price: 9999.99,
+      })
+
+      await api
+        .post('/api/items')
+        .send(newItem)
+        .expect(200)
+        .expect( res => {
+          expect(res.body.availability).toEqual('Unavailable')
+        })
+    })
+
+
   })
 })
 

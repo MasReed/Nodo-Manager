@@ -5,8 +5,14 @@ const menuItemSchema = new mongoose.Schema({
     type: String,
     required: [true, 'An item name is required.']
   },
-  description: String,
-  ingredients: [String],
+  description: {
+    type: String,
+    default: ''
+  },
+  ingredients: {
+    type: [String],
+    default: []
+  },
   category: {
     type: String,
     required: [true, 'Item must have a category.']
@@ -18,7 +24,7 @@ const menuItemSchema = new mongoose.Schema({
   },
   availability: {
     type: String,
-    default: 'unavailable'
+    default: 'Unavailable'
   }
 })
 
