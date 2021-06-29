@@ -112,13 +112,14 @@ const NewUserForm = ({ show, setShow }) => {
       username: '',
       roleName: 'user'
     })
+    setErrors({})
     setShow(false)
   }
 
   return (
     <Modal
       show={show}
-      onHide={ () => setShow(false) }
+      onHide={ cancelNewUser }
       backdrop="static"
       keyboard={false}
     >
