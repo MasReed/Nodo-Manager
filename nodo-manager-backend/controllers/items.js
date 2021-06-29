@@ -4,7 +4,7 @@ const authJwt = require('../utils/auth/authJWT')
 
 
 // CREATE new menu item
-itemsRouter.post('/', async (req, res) => {
+itemsRouter.post('/', async (req, res, next) => {
   const body = req.body
 
   const newItem = new MenuItem ({
@@ -16,8 +16,12 @@ itemsRouter.post('/', async (req, res) => {
     availability: body.availability
   })
 
-  const savedItem = await newItem.save()
-  res.json(savedItem.toJSON())
+  try {
+    const savedItem = await newItem.save()
+    res.json(savedItem.toJSON())
+  } catch (err) {
+    next(err)
+  }
 })
 
 // READ all menu items
