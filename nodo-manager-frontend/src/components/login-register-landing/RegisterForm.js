@@ -35,8 +35,8 @@ const RegisterForm = () => {
     const { email, username, password, passcopy } = form
     const newErrors = {}
     // email errors
-    if ( !email || email === '' ) newErrors.email='Enter an email!'
-    else if ( !email.includes('@') ) newErrors.email='Email must include @'
+    if ( !email || email === '' ) newErrors.email = 'Enter an email!'
+    else if ( !email.includes('@') ) newErrors.email = 'Email must include @'
 
     // username errors
     if ( !username || username === '' ) newErrors.username = 'Enter a username!'

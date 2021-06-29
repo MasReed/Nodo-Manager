@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
@@ -14,6 +14,7 @@ import { addUserActionCreator } from '../../reducers/userReducer'
 const NewUserForm = ({ show, setShow }) => {
 
   const dispatch = useDispatch()
+  const currentUser = useSelector(state => state.currentUser)
 
   const [ form, setForm ] = useState({
     name: '',
@@ -49,11 +50,16 @@ const NewUserForm = ({ show, setShow }) => {
 
     // username errors
     if (!username || username === '') newErrors.username = 'Enter a username!'
-    else if ( username.length > 30 ) newErrors.username = 'Username is too long'
-    else if ( username.length < 5 ) newErrors.username = 'Username is too short'
+    else if (username.length > 30) newErrors.username = 'Username is too long'
+    else if (username.length < 5) newErrors.username = 'Username is too short'
 
     // Role errors
     if (!roleName) newErrors.roleName = 'A role must be selected.'
+    else if (roleName === 'admin' && !currentUser.role.encompassedRoles.includes('admin'))
+      newErrors.roleName = 'Requires admin privileges.'
+    else if (roleName === 'manager' && !currentUser.role.encompassedRoles.includes('manager'))
+      newErrors.roleName = 'Requires manager privileges.'
+
 
     return newErrors
   }
@@ -207,7 +213,7 @@ const NewUserForm = ({ show, setShow }) => {
                 isInvalid={ !!errors.roleName }
               />
             </div>
-            <Form.Control.Feedback type='invalid'>{ errors.roleName }</Form.Control.Feedback>
+            { errors.roleName && <small style={{ color: '#dc3545'}}>{ errors.roleName }</small> }
           </Form.Group>
         </Form>
       </Modal.Body>

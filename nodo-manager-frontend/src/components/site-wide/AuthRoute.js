@@ -5,12 +5,14 @@ import { Redirect, Route } from 'react-router-dom'
 const AuthRoute = props => {
 
   const { authGroup } = props
+
   const userRoles = useSelector(state =>
     (state.currentUser && state.currentUser.role)
     ? state.currentUser.role.encompassedRoles
     : []
   )
 
+  // Encompassing roles i.e. a manager is every other role sans admin
   const authorizations = {
     admin: ['admin', 'manager', 'employee', 'user', 'guest'],
     manager: ['manager', 'employee', 'user', 'guest'],
@@ -19,9 +21,7 @@ const AuthRoute = props => {
     guest: ['guest']
   }
 
-  console.log('auth[authgroup]', authorizations[authGroup])
-
-  // Check if currentUser roles contain all required roles to access
+  // Redirect or render if currentUser hass all roles required for access
   if (authorizations[authGroup].every(role => userRoles.includes(role))) {
     return <Route {...props} />
   } else {
