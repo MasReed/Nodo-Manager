@@ -68,7 +68,7 @@ function App() {
             <MyAccountPage />
           </AuthRoute>
 
-          <AuthRoute path='/users' authGroup='admin'>
+          <AuthRoute path='/users' authGroup='employee'>
             <UsersPage />
           </AuthRoute>
 
