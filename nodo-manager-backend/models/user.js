@@ -27,4 +27,15 @@ userSchema.set('toJSON', {
   }
 })
 
+// Forward mongoose errors to errorHandler middleware
+userSchema.post('save', (err, doc, next) => {
+  try {
+    if (err) {
+      throw { status: 400, message: err.message }
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
 module.exports = mongoose.model('User', userSchema)

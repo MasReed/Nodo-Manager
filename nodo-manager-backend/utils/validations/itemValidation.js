@@ -31,7 +31,6 @@ const checkRequiredPropertiesDefined = (req, res, next) => {
         }
       }
     }
-
     next()
 
   } catch (err) {
@@ -52,10 +51,9 @@ const checkOptionalPropertiesDefinedDefault = (req, res, next) => {
         req.body[property] = optionalPropertiesAndDefaults[property]
       }
     }
-
     next()
+
   } catch (err) {
-    console.log(err)
     next(err)
   }
 }

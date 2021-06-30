@@ -366,10 +366,6 @@ describe('Item CRUD operations', () => {
 
         expect(res.body.availability).toBe('Unavailable')
     })
-
-
-
-
   })
 
   //
