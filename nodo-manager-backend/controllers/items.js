@@ -53,9 +53,13 @@ itemsRouter.put('/:id', async (req, res) => {
 })
 
 // DELETE a menu item
-itemsRouter.delete('/:id', async (req, res) => {
-  await MenuItem.findByIdAndDelete(req.params.id)
-  res.status(204).end()
+itemsRouter.delete('/:id', async (req, res, next) => {
+  try {
+    await MenuItem.findByIdAndDelete(req.params.id)
+    res.status(204).end()
+  } catch (err) {
+    next(err)
+  }
 })
 
 module.exports = itemsRouter

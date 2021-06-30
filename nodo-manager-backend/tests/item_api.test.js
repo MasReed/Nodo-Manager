@@ -204,7 +204,33 @@ describe('Item CRUD operations', () => {
   })
 
   describe('DELETE Requests', () => {
+    test('Successful deletion given an id', async () => {
+      const res = await api
+        .post('/api/items')
+        .send(initialItems[0])
 
+      await api
+        .delete('/api/items/' + res.body._id)
+        .expect(204)
+
+      const items = await api
+        .get('/api/items')
+
+      expect(items.body).toHaveLength(0)
+    })
+
+    test('invalid id still results in Status 204', async () => {
+      await api
+        .delete('/api/items/' + 'NotARealId12')
+        .expect(204)
+    })
+
+    test('incorrect id format results in Status 500', async () => {
+      // Mongoose throws a CastError, caught in errorHandler
+      await api
+        .delete('/api/items/' + '000')
+        .expect(500)
+    })
   })
 })
 

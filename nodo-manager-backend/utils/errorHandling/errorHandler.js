@@ -14,6 +14,10 @@ const errorHandler = (err, req, res, next) => {
       console.log('___________________________________')
     }
 
+    if (err.name === 'CastError') {
+      res.status(500).send({ message: err.reason })
+    }
+
     res.status(err.status).send({ message: err.message })
 
   } catch (error) {
