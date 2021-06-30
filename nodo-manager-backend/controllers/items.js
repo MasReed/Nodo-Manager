@@ -1,6 +1,7 @@
 const itemsRouter = require('express').Router()
 const MenuItem = require('../models/menuItem')
 const authJwt = require('../utils/auth/authJWT')
+const itemValidation = require('../utils/validations/itemValidation')
 
 
 // CREATE new menu item
@@ -35,25 +36,30 @@ itemsRouter.get('/', async (req, res, next) => {
 })
 
 // UPDATE a menu item
-itemsRouter.put('/:id', async (req, res, next) => {
-  const body = req.body
+itemsRouter.put('/:id',
+  [
+    itemValidation.checkEmptyObject,
+    itemValidation.checkRequiredPropertiesAreDefined,
+  ],
+  async (req, res, next) => {
+    const body = req.body
 
-  const itemWithUpdates = {
-    name: body.name,
-    description: body.description,
-    ingredients: body.ingredients,
-    category: body.category,
-    price: body.price,
-    availability: body.availability
-  }
+    const itemWithUpdates = {
+      name: body.name,
+      description: body.description,
+      ingredients: body.ingredients,
+      category: body.category,
+      price: body.price,
+      availability: body.availability
+    }
 
-  try {
-    const updatedItem = await MenuItem
-      .findByIdAndUpdate(req.params.id, itemWithUpdates, { new: true })
-    res.json(updatedItem.toJSON())
-  } catch (err) {
-    next(err)
-  }
+    try {
+      const updatedItem = await MenuItem
+        .findByIdAndUpdate(req.params.id, itemWithUpdates, { new: true })
+      res.json(updatedItem.toJSON())
+    } catch (err) {
+      next(err)
+    }
 })
 
 // DELETE a menu item
