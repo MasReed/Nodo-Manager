@@ -194,13 +194,46 @@ describe('Item CRUD operations', () => {
 
         expect(res.body).toHaveLength(2)
       })
-
-      // test('')
-
   })
 
   describe('PUT Requests', () => {
+    let id
+    beforeEach(async () => {
+      await Item.deleteMany({})
+      const res = await api.post('/api/items').send(initialItems[0])
+      id = res.body._id
+    })
 
+    test('Successful update with expected input', async () => {
+      const itemWithUpdates = {
+        name: 'Updated Test Name 1',
+        description: 'Updated This is a description for this test.',
+        ingredients: ['Updated', 'Ingredient 1', 'Ingredient 2', 'Ingredient 3'],
+        category: 'Updated Tester 1',
+        price: 1000.00,
+        availability: 'Unavailable'
+      }
+
+      const res = await api
+        .put('/api/items/' + id)
+        .send(itemWithUpdates)
+        .expect(200)
+
+      expect(res.body._id).toBe(id)
+      expect(res.body.name).toBe(itemWithUpdates.name)
+      expect(res.body.description).toBe(itemWithUpdates.description)
+      expect(res.body.ingredients).toStrictEqual(itemWithUpdates.ingredients)
+      expect(res.body.category).toBe(itemWithUpdates.category)
+      expect(res.body.price).toBe(itemWithUpdates.price)
+      expect(res.body.availability).toBe(itemWithUpdates.availability)
+    })
+
+    test('Fail update on empty input', async () => {
+      await api
+        .put('/api/items/' + id)
+        .send({})
+        .expect(400)
+    })
   })
 
   describe('DELETE Requests', () => {

@@ -35,7 +35,7 @@ itemsRouter.get('/', async (req, res, next) => {
 })
 
 // UPDATE a menu item
-itemsRouter.put('/:id', async (req, res) => {
+itemsRouter.put('/:id', async (req, res, next) => {
   const body = req.body
 
   const itemWithUpdates = {
@@ -47,9 +47,13 @@ itemsRouter.put('/:id', async (req, res) => {
     availability: body.availability
   }
 
-  const updatedItem = await MenuItem.findByIdAndUpdate(req.params.id, itemWithUpdates, { new: true })
-
-  res.json(updatedItem.toJSON())
+  try {
+    const updatedItem = await MenuItem
+      .findByIdAndUpdate(req.params.id, itemWithUpdates, { new: true })
+    res.json(updatedItem.toJSON())
+  } catch (err) {
+    next(err)
+  }
 })
 
 // DELETE a menu item

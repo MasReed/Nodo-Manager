@@ -16,9 +16,12 @@ const errorHandler = (err, req, res, next) => {
 
     if (err.name === 'CastError') {
       res.status(500).send({ message: err.reason })
-    }
+    } else if (err.name === 'SyntaxError') {
+      res.status(500).send({ message: 'An internal syntax error occured.'})
+    } else {
+      res.status(err.status).send({ message: err.message })
 
-    res.status(err.status).send({ message: err.message })
+    }
 
   } catch (error) {
     res.status(500).send('An unknown error occured.')
