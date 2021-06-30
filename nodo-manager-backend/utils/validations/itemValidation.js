@@ -14,7 +14,7 @@ const checkEmptyObject = (req, res, next) => {
   }
 }
 
-const checkRequiredPropertiesAreDefined = async (req, res, next) => {
+const checkRequiredPropertiesDefined = (req, res, next) => {
   try {
     // These match menuItemSchema 'required' properties, see models/menuItems
     const requiredPropertiesAndErrorMessage = {
@@ -35,6 +35,26 @@ const checkRequiredPropertiesAreDefined = async (req, res, next) => {
     next()
 
   } catch (err) {
+    next(err)
+  }
+}
+
+const checkOptionalPropertiesDefinedDefault = (req, res, next) => {
+  try {
+    const optionalPropertiesAndDefaults = {
+      description: '',
+      ingredients: [],
+      availability: 'Unavailable'
+    }
+
+    for (const property in optionalPropertiesAndDefaults) {
+      if (!req.body[property]) {
+        req.body[property] = optionalPropertiesAndDefaults[property]
+      }
+    }
+
+    next()
+  } catch (err) {
     console.log(err)
     next(err)
   }
@@ -43,7 +63,8 @@ const checkRequiredPropertiesAreDefined = async (req, res, next) => {
 
 const verifyItem = {
   checkEmptyObject,
-  checkRequiredPropertiesAreDefined
+  checkRequiredPropertiesDefined,
+  checkOptionalPropertiesDefinedDefault
 }
 
 module.exports = verifyItem

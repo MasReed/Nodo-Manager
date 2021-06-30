@@ -39,7 +39,8 @@ itemsRouter.get('/', async (req, res, next) => {
 itemsRouter.put('/:id',
   [
     itemValidation.checkEmptyObject,
-    itemValidation.checkRequiredPropertiesAreDefined,
+    itemValidation.checkRequiredPropertiesDefined,
+    itemValidation.checkOptionalPropertiesDefinedDefault
   ],
   async (req, res, next) => {
     const body = req.body

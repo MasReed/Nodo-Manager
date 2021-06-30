@@ -319,6 +319,55 @@ describe('Item CRUD operations', () => {
         .expect(400)
     })
 
+    //
+    test('Undefined description defaults to empty string', async () => {
+      const res = await api
+        .put('/api/items/' + id)
+        .send({
+          name: 'Updated Test Name 1',
+          ingredients: ['Updated', 'Ingredient 1', 'Ingredient 2', 'Ingredient 3'],
+          category: 'Updated Tester 1',
+          price: 1000.00,
+          availability: 'Unavailable'
+        })
+        .expect(200)
+
+        expect(res.body.description).toBe('')
+    })
+
+    //
+    test('Undefined ingredients defaults to empty array', async () => {
+      const res = await api
+        .put('/api/items/' + id)
+        .send({
+          name: 'Updated Test Name 1',
+          description: 'Updated This is a description for this test.',
+          category: 'Updated Tester 1',
+          price: 1000.00,
+          availability: 'Unavailable'
+        })
+        .expect(200)
+
+        expect(res.body.ingredients).toStrictEqual([])
+    })
+
+    //
+    test('Undefined availability defaults to "Unavailable" ', async () => {
+      const res = await api
+        .put('/api/items/' + id)
+        .send({
+          name: 'Updated Test Name 1',
+          description: 'Updated This is a description for this test.',
+          ingredients: ['Updated', 'Ingredient 1', 'Ingredient 2', 'Ingredient 3'],
+          category: 'Updated Tester 1',
+          price: 1000.00,
+        })
+        .expect(200)
+
+        expect(res.body.availability).toBe('Unavailable')
+    })
+
+
 
 
   })
