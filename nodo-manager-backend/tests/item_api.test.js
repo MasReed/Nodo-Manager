@@ -9,6 +9,25 @@ const Item = require('../models/menuItem')
 
 const api = supertest(app)
 
+const initialItems = [
+  {
+    name: 'Test Name 1',
+    description: 'This is a description for this test.',
+    ingredients: ['Ingredient 1', 'Ingredient 2', 'Ingredient 3'],
+    category: 'Tester 1',
+    price: 9999.99,
+    availability: 'Available'
+  },
+  {
+    name: 'Test Name 2',
+    description: 'This is also description for this test.',
+    ingredients: ['Ingredient 3', 'Ingredient 2', 'Ingredient 1'],
+    category: 'Tester 2',
+    price: 1111.11,
+    availability: 'Unavailable'
+  }
+]
+
 // Initialize roles database
 beforeAll(() => {
   rolesInitializer()
@@ -30,28 +49,11 @@ describe('Test Database Initializations', () => {
 })
 
 //
-describe('Test Item Type', () => {
-  test('items are returned as json', async () => {
-    await api
-      .get('/api/items')
-      .expect(200)
-      .expect('Content-Type', /application\/json/)
-  })
-})
-
-//
 describe('Item CRUD operations', () => {
-  describe('CREATE', () => {
+  describe('POST Requests', () => {
     //
-    test('Successful creation of expected input', async () => {
-      const newItem = ({
-        name: 'Test Name',
-        description: 'This is a description for this test.',
-        ingredients: ['Ingredient 1', 'Ingredient 2', 'Ingredient 3'],
-        category: 'Tester',
-        price: 9999.99,
-        availability: 'Available'
-      })
+    test('Successful JSON creation from expected input', async () => {
+      const newItem = initialItems[0]
 
       await api
         .post('/api/items')
@@ -61,7 +63,7 @@ describe('Item CRUD operations', () => {
     })
 
     //
-    test('No item name results in Status 400.', async () => {
+    test('Undefined item name results in Status 400.', async () => {
       const newItem = ({
         description: 'This is a description for this test.',
         ingredients: ['Ingredient 1', 'Ingredient 2', 'Ingredient 3'],
@@ -80,7 +82,7 @@ describe('Item CRUD operations', () => {
     })
 
     //
-    test('No description defaults to empty string', async () => {
+    test('Undefined description defaults to empty string', async () => {
       const newItem = ({
         name: 'Item Name For A Test',
         ingredients: ['Ingredient 1', 'Ingredient 2', 'Ingredient 3'],
@@ -99,7 +101,7 @@ describe('Item CRUD operations', () => {
     })
 
     //
-    test('No ingredients defaults to empty Array', async () => {
+    test('Undefined ingredients defaults to empty Array', async () => {
       const newItem = ({
         name: 'Item Name For A Test',
         description: 'This is a description for this test.',
@@ -118,7 +120,7 @@ describe('Item CRUD operations', () => {
     })
 
     //
-    test('No category results in Status 400', async () => {
+    test('Undefined category results in Status 400', async () => {
       const newItem = ({
         name: 'Item Name For A Test',
         description: 'This is a description for this test.',
@@ -137,7 +139,7 @@ describe('Item CRUD operations', () => {
     })
 
     //
-    test('No price results in Status 400', async () => {
+    test('Undefined price results in Status 400', async () => {
       const newItem = ({
         name: 'Item Name For A Test',
         description: 'This is a description for this test.',
@@ -156,7 +158,7 @@ describe('Item CRUD operations', () => {
     })
 
     //
-    test('No availability defaults to unavailable', async () => {
+    test('Undefined availability defaults to unavailable', async () => {
       const newItem = ({
         name: 'An Item Name',
         description: 'This is a description for this test.',
@@ -173,7 +175,35 @@ describe('Item CRUD operations', () => {
           expect(res.body.availability).toEqual('Unavailable')
         })
     })
+  })
 
+  describe('GET Requests', () => {
+
+    beforeEach(async () => {
+      await Item.deleteMany({})
+
+      await api.post('/api/items').send(initialItems[0])
+      await api.post('/api/items').send(initialItems[1])
+    })
+
+    test('All items are returned and as json', async () => {
+        const res = await api
+          .get('/api/items')
+          .expect(200)
+          .expect('Content-Type', /application\/json/)
+
+        expect(res.body).toHaveLength(2)
+      })
+
+      // test('')
+
+  })
+
+  describe('PUT Requests', () => {
+
+  })
+
+  describe('DELETE Requests', () => {
 
   })
 })

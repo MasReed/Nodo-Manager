@@ -25,9 +25,13 @@ itemsRouter.post('/', async (req, res, next) => {
 })
 
 // READ all menu items
-itemsRouter.get('/', async (req, res) => {
-  const items = await MenuItem.find({})
-  res.json(items)
+itemsRouter.get('/', async (req, res, next) => {
+  try {
+    const items = await MenuItem.find({})
+    res.json(items)
+  } catch (err) {
+    next(err)
+  }
 })
 
 // UPDATE a menu item
