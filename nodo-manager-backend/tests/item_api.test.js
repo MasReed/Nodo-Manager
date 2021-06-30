@@ -177,6 +177,7 @@ describe('Item CRUD operations', () => {
     })
   })
 
+  //
   describe('GET Requests', () => {
 
     beforeEach(async () => {
@@ -186,6 +187,7 @@ describe('Item CRUD operations', () => {
       await api.post('/api/items').send(initialItems[1])
     })
 
+    //
     test('All items are returned and as json', async () => {
         const res = await api
           .get('/api/items')
@@ -196,7 +198,18 @@ describe('Item CRUD operations', () => {
       })
   })
 
+  //
   describe('PUT Requests', () => {
+
+    const itemWithUpdates = {
+      name: 'Updated Test Name 1',
+      description: 'Updated This is a description for this test.',
+      ingredients: ['Updated', 'Ingredient 1', 'Ingredient 2', 'Ingredient 3'],
+      category: 'Updated Tester 1',
+      price: 1000.00,
+      availability: 'Unavailable'
+    }
+
     let id
     beforeEach(async () => {
       await Item.deleteMany({})
@@ -204,16 +217,8 @@ describe('Item CRUD operations', () => {
       id = res.body._id
     })
 
+    //
     test('Successful update with expected input', async () => {
-      const itemWithUpdates = {
-        name: 'Updated Test Name 1',
-        description: 'Updated This is a description for this test.',
-        ingredients: ['Updated', 'Ingredient 1', 'Ingredient 2', 'Ingredient 3'],
-        category: 'Updated Tester 1',
-        price: 1000.00,
-        availability: 'Unavailable'
-      }
-
       const res = await api
         .put('/api/items/' + id)
         .send(itemWithUpdates)
@@ -228,15 +233,99 @@ describe('Item CRUD operations', () => {
       expect(res.body.availability).toBe(itemWithUpdates.availability)
     })
 
+    //
     test('Fail update on empty input', async () => {
       await api
         .put('/api/items/' + id)
         .send({})
         .expect(400)
     })
+
+    //
+    test('Fail update on empty or undefined name property', async () => {
+      await api
+        .put('/api/items/' + id)
+        .send({
+          description: 'Updated This is a description for this test.',
+          ingredients: ['Updated', 'Ingredient 1', 'Ingredient 2', 'Ingredient 3'],
+          category: 'Updated Tester 1',
+          price: 1000.00,
+          availability: 'Unavailable'
+        })
+        .expect(400)
+
+      await api
+        .put('/api/items/' + id)
+        .send({
+          name: '',
+          description: 'Updated This is a description for this test.',
+          ingredients: ['Updated', 'Ingredient 1', 'Ingredient 2', 'Ingredient 3'],
+          category: 'Updated Tester 1',
+          price: 1000.00,
+          availability: 'Unavailable'
+        })
+        .expect(400)
+    })
+
+    //
+    test('Fail update on empty or undefined category property', async () => {
+      await api
+        .put('/api/items/' + id)
+        .send({
+          name: 'Updated Test Name 1',
+          description: 'Updated This is a description for this test.',
+          ingredients: ['Updated', 'Ingredient 1', 'Ingredient 2', 'Ingredient 3'],
+          price: 1000.00,
+          availability: 'Unavailable'
+        })
+        .expect(400)
+
+      await api
+        .put('/api/items/' + id)
+        .send({
+          name: 'Updated Test Name 1',
+          description: 'Updated This is a description for this test.',
+          ingredients: ['Updated', 'Ingredient 1', 'Ingredient 2', 'Ingredient 3'],
+          category: '',
+          price: 1000.00,
+          availability: 'Unavailable'
+        })
+        .expect(400)
+    })
+
+    //
+    test('Fail update on empty or undefined price property', async () => {
+      await api
+        .put('/api/items/' + id)
+        .send({
+          name: 'Updated Test Name 1',
+          description: 'Updated This is a description for this test.',
+          ingredients: ['Updated', 'Ingredient 1', 'Ingredient 2', 'Ingredient 3'],
+          category: 'Updated Tester 1',
+          availability: 'Unavailable'
+        })
+        .expect(400)
+
+      await api
+        .put('/api/items/' + id)
+        .send({
+          name: 'Updated Test Name 1',
+          description: 'Updated This is a description for this test.',
+          ingredients: ['Updated', 'Ingredient 1', 'Ingredient 2', 'Ingredient 3'],
+          category: 'Updated Tester 1',
+          price: 0,
+          availability: 'Unavailable'
+        })
+        .expect(400)
+    })
+
+
+
   })
 
+  //
   describe('DELETE Requests', () => {
+    //
     test('Successful deletion given an id', async () => {
       const res = await api
         .post('/api/items')
@@ -252,12 +341,14 @@ describe('Item CRUD operations', () => {
       expect(items.body).toHaveLength(0)
     })
 
+    //
     test('invalid id still results in Status 204', async () => {
       await api
         .delete('/api/items/' + 'NotARealId12')
         .expect(204)
     })
 
+    //
     test('incorrect id format results in Status 500', async () => {
       // Mongoose throws a CastError, caught in errorHandler
       await api

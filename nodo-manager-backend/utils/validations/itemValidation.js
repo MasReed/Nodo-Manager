@@ -8,8 +8,8 @@ const checkEmptyObject = (req, res, next) => {
       throw { status: 400, message: 'Updated object is empty.'}
     }
     next()
+
   } catch (err) {
-    console.log(err)
     next(err)
   }
 }
