@@ -10,6 +10,11 @@ const rolesInitializer = require('../utils/rolesInitializer')
 
 const api = supertest(app)
 
+let adminToken
+let managerToken
+let employeeToken
+let userToken
+
 
 // Initialize roles database
 beforeAll(async () => {
@@ -20,6 +25,42 @@ beforeAll(async () => {
 beforeEach(async () => {
   // users
   await User.deleteMany({})
+
+  // admin
+  const newAdmin = new User({
+    email: 'new@admin',
+    username: 'TestAdmin',
+    role: await Role.findOne({ name: 'admin' })
+  })
+  await newAdmin.save()
+  adminToken = jwt.sign({ id: newAdmin.id }, config.JWT_PHRASE)
+
+  // manager
+  const newManager = new User({
+    email: 'new@manager',
+    username: 'TestManager',
+    role: await Role.findOne({ name: 'manager' })
+  })
+  await newManager.save()
+  managerToken = jwt.sign({ id: newManager.id }, config.JWT_PHRASE)
+
+  // employee
+  const newEmployee = new User({
+    email: 'new@employee',
+    username: 'TestEmployee',
+    role: await Role.findOne({ name: 'employee' })
+  })
+  await newEmployee.save()
+  employeeToken = jwt.sign({ id: newEmployee.id }, config.JWT_PHRASE)
+
+  // user
+  const newUser = new User({
+    email: 'new@user',
+    username: 'TestUser',
+    role: await Role.findOne({ name: 'user' })
+  })
+  await newUser.save()
+  userToken = jwt.sign({ id: newUser.id }, config.JWT_PHRASE)
 })
 
 //
@@ -41,7 +82,7 @@ describe('User API Tests', () => {
       //
       test('A new account can self-register as user', async () => {
 
-        const newUser = {
+        const createdUser = {
           name: 'New Test User',
           username: 'Tester 123',
           email: 'new@test.com',
@@ -50,7 +91,7 @@ describe('User API Tests', () => {
 
         const res = await api
           .post('/api/users/signup')
-          .send(newUser)
+          .send(createdUser)
           .expect(201)
           .expect('Content-Type', /application\/json/)
 
@@ -61,7 +102,7 @@ describe('User API Tests', () => {
       test('A jwt is required to assign additional roles to a new account',
         async () => {
 
-        const newUser = {
+        const createdUser = {
           name: 'New Test User',
           username: 'Tester 123',
           email: 'new@test.com',
@@ -73,41 +114,22 @@ describe('User API Tests', () => {
 
         await api
           .post('/api/users/signup')
-          .send(newUser) //no jsonwebtoken
+          .send(createdUser) //no jsonwebtoken
           .expect(401)
           .expect('Content-Type', /application\/json/)
 
         await api
           .post('/api/users/signup')
           .set('x-access-token', '') //jsonwebtoken is malformated
-          .send(newUser)
+          .send(createdUser)
           .expect(401)
           .expect('Content-Type', /application\/json/)
       })
 
       //
-      test('A new account with admin role can only be created by admin',
-        async () => {
+      test('A new admin account can only be created by admin', async () => {
 
-        const newAdmin = new User({
-          email: 'new@admin',
-          username: 'TestAdmin',
-          role: await Role.findOne({ name: 'admin' })
-        })
-        await newAdmin.save()
-
-        const adminToken = jwt.sign({ id: newAdmin.id }, config.JWT_PHRASE)
-
-        const newEmployee = new User({
-          email: 'new@employee',
-          username: 'TestEmployee',
-          role: await Role.findOne({ name: 'employee' })
-        })
-        await newEmployee.save()
-        const employeeToken = jwt.sign({ id: newEmployee.id }, config.JWT_PHRASE)
-
-
-        const newUser = {
+        const newAdmin = {
           name: 'New Test User',
           username: 'Tester 123',
           email: 'new@test.com',
@@ -119,15 +141,29 @@ describe('User API Tests', () => {
 
         await api
           .post('/api/users/signup')
+          .set('x-access-token', userToken)
+          .send(newAdmin)
+          .expect(401)
+          .expect('Content-Type', /application\/json/)
+
+        await api
+          .post('/api/users/signup')
           .set('x-access-token', employeeToken)
-          .send(newUser)
+          .send(newAdmin)
+          .expect(401)
+          .expect('Content-Type', /application\/json/)
+
+        await api
+          .post('/api/users/signup')
+          .set('x-access-token', managerToken)
+          .send(newAdmin)
           .expect(401)
           .expect('Content-Type', /application\/json/)
 
         await api
           .post('/api/users/signup')
           .set('x-access-token', adminToken)
-          .send(newUser)
+          .send(newAdmin)
           .expect(201)
           .expect('Content-Type', /application\/json/)
       })
