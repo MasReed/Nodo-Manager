@@ -75,6 +75,7 @@ const checkAuthenticatedRoleCreator = async (req, res, next) => {
         throw ({ status: 401, message: 'No token provided' })
       }
 
+      // verify new user creators' token
       const userDecoded = await jwt.verify(token, config.JWT_PHRASE)
 
       const reqUser = await User
@@ -82,12 +83,12 @@ const checkAuthenticatedRoleCreator = async (req, res, next) => {
         .populate('role', '-__v')
         .exec()
 
-      console.log('request by user:', reqUser)
-
+      // The creating user must have the same or higher level role than new user
       if (reqUser.role.encompassedRoles.includes(req.body.role.name)) {
         return next()
       }
 
+      // "Administrative scope" error occurs if not
       throw ({ status: 401, message: `Requires ${req.body.role.name} role.`})
 
     }
