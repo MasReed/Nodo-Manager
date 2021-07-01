@@ -18,9 +18,10 @@ const errorHandler = (err, req, res, next) => {
       res.status(500).send({ message: err.reason })
     } else if (err.name === 'SyntaxError') {
       res.status(500).send({ message: 'An internal syntax error occured.'})
+    } else if (err.name === 'JsonWebTokenError') {
+      res.status(401).send({ message: err.message })
     } else {
       res.status(err.status).send({ message: err.message })
-
     }
 
   } catch (error) {

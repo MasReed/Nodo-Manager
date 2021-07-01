@@ -1,3 +1,6 @@
+const jwt = require('jsonwebtoken')
+const config = require('../config')
+
 const Role = require('../../models/role')
 const User = require('../../models/user')
 
@@ -62,10 +65,44 @@ const checkRolesExisted = async (req, res, next) => {
   }
 }
 
+const checkAuthenticatedRoleCreator = async (req, res, next) => {
+  try {
+    // Only verify token if request is trying to apply a role to user
+    if (req.body.role) {
+      const token = req.headers['x-access-token']
+
+      if (!token) {
+        throw ({ status: 401, message: 'No token provided' })
+      }
+
+      const userDecoded = await jwt.verify(token, config.JWT_PHRASE)
+
+      const reqUser = await User
+        .findById(userDecoded.id)
+        .populate('role', '-__v')
+        .exec()
+
+      console.log('request by user:', reqUser)
+
+      if (reqUser.role.encompassedRoles.includes(req.body.role.name)) {
+        return next()
+      }
+
+      throw ({ status: 401, message: `Requires ${req.body.role.name} role.`})
+
+    }
+    return next()
+
+  } catch (err) {
+    next(err)
+  }
+}
+
 const verifySignUp = {
   checkUsernameOrEmailExists,
   checkDuplicateUsernameOrEmail,
-  checkRolesExisted
+  checkRolesExisted,
+  checkAuthenticatedRoleCreator
 }
 
 module.exports = verifySignUp

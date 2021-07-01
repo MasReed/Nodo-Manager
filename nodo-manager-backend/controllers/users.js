@@ -11,7 +11,8 @@ usersRouter.post('/signup',
   [
     verifySignUp.checkUsernameOrEmailExists,
     verifySignUp.checkDuplicateUsernameOrEmail,
-    verifySignUp.checkRolesExisted
+    verifySignUp.checkRolesExisted,
+    verifySignUp.checkAuthenticatedRoleCreator
   ], authControl.signup
 )
 
