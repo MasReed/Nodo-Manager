@@ -167,6 +167,99 @@ describe('User API Tests', () => {
           .expect(201)
           .expect('Content-Type', /application\/json/)
       })
+
+      //
+      test('A new manager can only be created by admin or manager',
+      async () => {
+
+        const newManager = {
+          name: 'New Test User',
+          username: 'Tester 123',
+          email: 'new@test.com',
+          password: 'password',
+          role: {
+            name: 'manager'
+          }
+        }
+
+        await api
+          .post('/api/users/signup')
+          .set('x-access-token', userToken)
+          .send(newManager)
+          .expect(401)
+          .expect('Content-Type', /application\/json/)
+
+        await api
+          .post('/api/users/signup')
+          .set('x-access-token', employeeToken)
+          .send(newManager)
+          .expect(401)
+          .expect('Content-Type', /application\/json/)
+
+        await api
+          .post('/api/users/signup')
+          .set('x-access-token', managerToken)
+          .send(newManager)
+          .expect(201)
+          .expect('Content-Type', /application\/json/)
+
+        await User.findOneAndDelete({ username: 'Tester 123' })
+
+        await api
+          .post('/api/users/signup')
+          .set('x-access-token', adminToken)
+          .send(newManager)
+          .expect(201)
+          .expect('Content-Type', /application\/json/)
+
+      })
+
+      //
+      test('A new employee can only be created by admin/manager/employee',
+      async () => {
+
+        const newEmployee = {
+          name: 'New Test User',
+          username: 'Tester 123',
+          email: 'new@test.com',
+          password: 'password',
+          role: {
+            name: 'employee'
+          }
+        }
+
+        await api
+          .post('/api/users/signup')
+          .set('x-access-token', userToken)
+          .send(newEmployee)
+          .expect(401)
+          .expect('Content-Type', /application\/json/)
+
+        await api
+          .post('/api/users/signup')
+          .set('x-access-token', employeeToken)
+          .send(newEmployee)
+          .expect(201)
+          .expect('Content-Type', /application\/json/)
+
+        await User.findOneAndDelete({ username: 'Tester 123' })
+
+        await api
+          .post('/api/users/signup')
+          .set('x-access-token', managerToken)
+          .send(newEmployee)
+          .expect(201)
+          .expect('Content-Type', /application\/json/)
+
+        await User.findOneAndDelete({ username: 'Tester 123' })
+
+        await api
+          .post('/api/users/signup')
+          .set('x-access-token', adminToken)
+          .send(newEmployee)
+          .expect(201)
+          .expect('Content-Type', /application\/json/)
+      })
     })
 
     //
