@@ -80,7 +80,7 @@ describe('User API Tests', () => {
     //
     describe('POST Requests', () => {
       //
-      test('A new account can self-register as user', async () => {
+      test('Status 201 for correctly self-registering user', async () => {
 
         const createdUser = {
           name: 'New Test User',
@@ -99,20 +99,7 @@ describe('User API Tests', () => {
       })
 
       //
-      test('Status 400 for request with missing username or email', async () => {
-
-        const noUsernameUser = {
-          name: 'New Test User',
-          email: 'new@test.com',
-          password: 'password'
-        }
-
-        const emptyUsernameUser = {
-          name: 'New Test User',
-          username: '',
-          email: 'new@test.com',
-          password: 'password'
-        }
+      test('Status 400 for request with empty/missing email', async () => {
 
         const noEmailUser = {
           name: 'New Test User',
@@ -129,16 +116,6 @@ describe('User API Tests', () => {
 
         await api
           .post('/api/users/signup')
-          .send(noUsernameUser)
-          .expect(400)
-
-        await api
-          .post('/api/users/signup')
-          .send(emptyUsernameUser)
-          .expect(400)
-
-        await api
-          .post('/api/users/signup')
           .send(noEmailUser)
           .expect(400)
 
@@ -148,6 +125,89 @@ describe('User API Tests', () => {
           .expect(400)
       })
 
+      //
+      test('Status 400 for request with empty/missing username', async () => {
+
+        const noUsernameUser = {
+          name: 'New Test User',
+          email: 'new@test.com',
+          password: 'password'
+        }
+
+        const emptyUsernameUser = {
+          name: 'New Test User',
+          username: '',
+          email: 'new@test.com',
+          password: 'password'
+        }
+
+        await api
+          .post('/api/users/signup')
+          .send(noUsernameUser)
+          .expect(400)
+
+        await api
+          .post('/api/users/signup')
+          .send(emptyUsernameUser)
+          .expect(400)
+      })
+
+
+      //
+      test('Status 400 for request with duplicate email', async () => {
+        const originalUser = {
+          name: 'New Test User',
+          username: 'Tester 123',
+          email: 'new@test.com',
+          password: 'password'
+        }
+
+        const newUser = {
+          name: 'Newer Tester Userer',
+          username: 'Tester 123',
+          email: 'new@test.com',
+          password: 'password'
+        }
+
+        await api
+          .post('/api/users/signup')
+          .send(originalUser)
+          .expect(201)
+          .expect('Content-Type', /application\/json/)
+
+        await api
+          .post('/api/users/signup')
+          .send(newUser)
+          .expect(400)
+      })
+
+      //
+      test('Status 400 for request with duplicate username', async () => {
+        const originalUser = {
+          name: 'New Test User',
+          username: 'Tester 123',
+          email: 'new@test.com',
+          password: 'password'
+        }
+
+        const newUser = {
+          name: 'New Test User',
+          username: 'Tester 123',
+          email: 'newer@test.com',
+          password: 'password'
+        }
+
+        await api
+          .post('/api/users/signup')
+          .send(originalUser)
+          .expect(201)
+          .expect('Content-Type', /application\/json/)
+
+        await api
+          .post('/api/users/signup')
+          .send(newUser)
+          .expect(400)
+      })
 
       //
       test('A jwt is required to assign additional roles to a new account',
