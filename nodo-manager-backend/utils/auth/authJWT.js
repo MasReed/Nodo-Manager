@@ -4,52 +4,60 @@ const Role = require('../../models/role')
 const User = require('../../models/user')
 
 // Used to verify accessToken supplied by user during requests
-const verifyToken = (req, res, next) => {
-  let token = req.headers['x-access-token']
+const verifyToken = async (req, res, next) => {
+  const token = req.headers['x-access-token']
 
-  if (!token) {
-    return res.status(403).send({ message: 'No token provided' })
-  }
-
-  jwt.verify(token, config.JWT_PHRASE, (err, decoded) => {
-    if (err) {
-      return res.status(401).send({ message: 'Unauthorized' })
+  try {
+    if (!token) {
+      throw ({ status: 403, message: 'No token provided' })
     }
+
+    const decoded = await jwt.verify(token, config.JWT_PHRASE)
     req.userId = decoded.id
-    next()
-  })
+    return next()
+
+  } catch (err) {
+    console.log('authJWT verify token: ', err)
+    next(err)
+  }
 }
 
 // Check if user has admin authorizations
 const isAdmin = async (req, res, next) => {
 
-  const user = await User.findById(req.userId)
-  const userRoles = await Role.find({ _id: { $in: user.roles } })
+  try {
+    const user = await User.findById(req.userId)
+    const userRoles = await Role.find({ _id: { $in: user.roles } })
 
-  console.log('USER ROLES', userRoles)
-
-  for (let i = 0; i < userRoles.length; i++) {
-    if (userRoles[i].name === 'admin') {
-      next()
-      return
+    for (let i = 0; i < userRoles.length; i++) {
+      if (userRoles[i].name === 'admin') {
+        return next()
+      }
     }
+    throw ({ status: 403, message: 'Require Admin Role' })
+
+  } catch (err) {
+    next(err)
   }
-  res.status(403).send({ message: 'Require Admin Role' })
 }
 
 // Check if user has manager authorizations
 const isManager = async (req, res, next) => {
 
-  const user = await User.findById(req.userId)
-  const userRoles = await Role.find({ _id: { $in: user.roles } })
+  try {
+    const user = await User.findById(req.userId)
+    const userRoles = await Role.find({ _id: { $in: user.roles } })
 
-  for (let i = 0; i < roles.length; i++) {
-    if (userRoles[i].name === 'manager') {
-      next()
-      return
+    for (let i = 0; i < roles.length; i++) {
+      if (userRoles[i].name === 'manager') {
+        return next()
+      }
     }
+    throw ({ status: 403, message: 'Require Manager Role' })
+
+  } catch (err) {
+    next(err)
   }
-  res.status(403).send({ message: 'Require Manager Role' })
 }
 
 const authJwt = {
