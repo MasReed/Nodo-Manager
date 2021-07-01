@@ -1,12 +1,12 @@
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+
 const config = require('../config')
 const Role = require('../../models/role')
 const User = require('../../models/user')
 
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
-
 // Authenticate new user when self-registerd or created by an authorized user
-const signup = async (req, res) => {
+const signup = async (req, res, next) => {
 
   // Note: bcrypt.hash is async
   const newUser = await new User({
@@ -19,16 +19,28 @@ const signup = async (req, res) => {
   if (req.body.role) {
     /* Check name of role given to user at registration and set newUser role
     as correct role object from database */
-    newUser.role = await Role.findOne({ name: { $in: req.body.role.name } })
-    const savedUser = await newUser.save()
-    res.status(201).json(savedUser.toJSON())
+    try {
+      newUser.role = await Role.findOne({ name: { $in: req.body.role.name } })
+      const savedUser = await newUser.save()
+      res.status(201).json(savedUser.toJSON())
+      return next()
+
+    } catch (err) {
+      next(err)
+    }
 
   } else {
     // Otherwise set default role to 'user'
-    const userRole = await Role.findOne({ name: 'user' })
-    newUser.role = userRole
-    const savedUser = await newUser.save()
-    res.status(201).json(savedUser.toJSON())
+    try {
+      const userRole = await Role.findOne({ name: 'user' })
+      newUser.role = userRole
+      const savedUser = await newUser.save()
+      res.status(201).json(savedUser.toJSON())
+      return next()
+
+    } catch (err) {
+      next(err)
+    }
   }
 }
 
@@ -83,6 +95,7 @@ const signin = async (req, res, next) => {
         accessToken: token
       })
     }
+    return next()
 
   } catch (err) {
     next(err)
