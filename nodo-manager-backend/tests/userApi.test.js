@@ -99,6 +99,57 @@ describe('User API Tests', () => {
       })
 
       //
+      test('Status 400 for request with missing username or email', async () => {
+
+        const noUsernameUser = {
+          name: 'New Test User',
+          email: 'new@test.com',
+          password: 'password'
+        }
+
+        const emptyUsernameUser = {
+          name: 'New Test User',
+          username: '',
+          email: 'new@test.com',
+          password: 'password'
+        }
+
+        const noEmailUser = {
+          name: 'New Test User',
+          username: 'Tester 123',
+          password: 'password'
+        }
+
+        const emptyEmailUser = {
+          name: 'New Test User',
+          username: 'Tester 123',
+          email: '',
+          password: 'password'
+        }
+
+        await api
+          .post('/api/users/signup')
+          .send(noUsernameUser)
+          .expect(400)
+
+        await api
+          .post('/api/users/signup')
+          .send(emptyUsernameUser)
+          .expect(400)
+
+        await api
+          .post('/api/users/signup')
+          .send(noEmailUser)
+          .expect(400)
+
+        await api
+          .post('/api/users/signup')
+          .send(emptyEmailUser)
+          .expect(400)
+      })
+
+
+      //
       test('A jwt is required to assign additional roles to a new account',
         async () => {
 
@@ -127,7 +178,7 @@ describe('User API Tests', () => {
       })
 
       //
-      test('A new admin account can only be created by admin', async () => {
+      test('A new admin can only be created by admin', async () => {
 
         const newAdmin = {
           name: 'New Test User',

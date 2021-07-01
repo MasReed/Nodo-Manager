@@ -8,16 +8,16 @@ const User = require('../../models/user')
 const checkUsernameOrEmailExists = async (req, res, next) => {
   try {
     // Username
-    if (!req.body.username) {
+    if (!req.body.username || req.body.username === '') {
       throw { status: 400, message: 'A username is required.' }
     }
 
     // Email
-    if (!req.body.email) {
+    if (!req.body.email || req.body.email === '') {
       throw { status: 400, message: 'An email is required.'}
     }
 
-    next()
+    return next()
   } catch (err) {
     next(err)
   }
@@ -36,7 +36,7 @@ const checkDuplicateUsernameOrEmail = async (req, res, next) => {
       throw { status: 400, message: 'Email is already in use! '}
     }
 
-    next()
+    return next()
 
   } catch (err) {
     next(err)
@@ -58,7 +58,7 @@ const checkRolesExisted = async (req, res, next) => {
         return
       }
     }
-    next()
+    return next()
 
   } catch (err) {
     next(err)
