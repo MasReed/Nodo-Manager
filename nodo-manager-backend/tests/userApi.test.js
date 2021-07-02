@@ -67,7 +67,7 @@ beforeEach(async () => {
 describe('User API Tests', () => {
 
   //
-  describe('Test Database Initializations', () => {
+  describe.only('Test Database Initializations', () => {
     //
     test('roles are initialized', async () => {
       const roles = await Role.find({}).exec()
@@ -412,9 +412,43 @@ describe('User API Tests', () => {
     })
 
     //
-    describe('DELETE Requests', () => {
+    describe.only('DELETE Requests', () => {
       //
+      test('Status 200 by providing id to delete and admin token', async () => {
 
+        const userToDelete = {
+          name: 'Delete Me',
+          username: 'Delete Me 123',
+          email: 'old@test.com',
+          password: 'password'
+        }
+
+        // Create user to be deleted in database
+        const res = await api
+          .post('/api/users/signup')
+          .send(userToDelete)
+          .expect(201)
+          .expect('Content-Type', /application\/json/)
+
+        console.log('res', res.body)
+
+        // Check it was created
+        expect(res.body.name).toBe('Delete Me')
+
+        // Delete it
+        await api
+          .delete('/api/users/' + res.body.id)
+          .set('x-access-token', adminToken)
+          .expect(200)
+
+        const users = await api
+          .get('/api/users')
+          .set('x-access-token', adminToken)
+          .expect(200)
+
+        console.log(users.body)
+        expect(users.body).not.toContain(expect.objectContaining(res.body.name))
+      })
     })
   })
 })
