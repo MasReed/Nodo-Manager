@@ -97,7 +97,7 @@ Procedure
 + verify order totals serverside
 
 
-- supertest for backend api
+- supertest/jest for backend api
 
 - confirm account registration w/ email?
 - implement OAuth for registration/login
