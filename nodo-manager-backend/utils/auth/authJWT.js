@@ -34,7 +34,7 @@ const isAdmin = async (req, res, next) => {
       return next()
     }
 
-    throw ({ status: 403, message: 'Requires Admin Role' })
+    throw ({ status: 401, message: 'Requires Admin Role' })
 
   } catch (err) {
     next(err)
@@ -53,7 +53,7 @@ const isManager = async (req, res, next) => {
       return next()
     }
 
-    throw ({ status: 403, message: 'Requires Manager Role' })
+    throw ({ status: 401, message: 'Requires Manager Role' })
 
   } catch (err) {
     next(err)
@@ -73,7 +73,7 @@ const isEmployee = async (req, res, next) => {
       return next()
     }
 
-    throw ({ status: 403, message: 'Requires Employee Role' })
+    throw ({ status: 401, message: 'Requires Employee Role' })
 
   } catch (err) {
     next(err)
@@ -92,7 +92,7 @@ const isUser = async (req, res, next) => {
       return next()
     }
 
-    throw ({ status: 403, message: 'Requires User Role' })
+    throw ({ status: 401, message: 'Requires User Role' })
 
   } catch (err) {
     next(err)

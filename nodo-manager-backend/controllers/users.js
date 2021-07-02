@@ -17,13 +17,17 @@ usersRouter.post('/signup',
 )
 
 // READ all users
-usersRouter.get('/', authJwt.verifyToken, async (req, res) => {
-  const users = await User.find({}).populate('role')
-  res.json(users)
+usersRouter.get('/', [authJwt.verifyToken, authJwt.isEmployee], async (req, res, next) => {
+  try {
+    const users = await User.find({}).populate('role')
+    res.json(users)
+  } catch (err) {
+    next(err)
+  }
 })
 
 // UPDATE a user
-usersRouter.put('/:id', authJwt.isAdmin, async (req, res) => {
+usersRouter.put('/:id', [authJwt.verifyToken, authJwt.isAdmin], async (req, res) => {
   const body = req.body
 
   const userWithUpdates = {
