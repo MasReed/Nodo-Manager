@@ -67,7 +67,7 @@ beforeEach(async () => {
 describe('User API Tests', () => {
 
   //
-  describe('Test Database Initializations', () => {
+  describe.only('Test Database Initializations', () => {
     //
     test('roles are initialized', async () => {
       const roles = await Role.find({}).exec()
@@ -374,8 +374,36 @@ describe('User API Tests', () => {
     })
 
     //
-    describe('GET Requests', () => {
+    describe.only('GET Requests', () => {
       //
+      test('Status 403 for attempt with no token', async () => {
+        await api
+          .get('/api/users')
+          .expect(403)
+      })
+
+      //
+      test('Status 401 for attempt with user token', async () => {
+        await api
+          .get('/api/users')
+          .set('x-access-token', userToken)
+          .expect(401)
+      })
+
+      //
+      test('Status 200 by providing valid employee+', async () => {
+
+        const passingTokens = [adminToken, managerToken, employeeToken]
+
+        for (const token of passingTokens) {
+          await api
+            .get('/api/users/')
+            .set('x-access-token', token)
+            .expect(200)
+        }
+      })
+
+
 
     })
 
