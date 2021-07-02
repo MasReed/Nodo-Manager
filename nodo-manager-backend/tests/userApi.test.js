@@ -67,7 +67,7 @@ beforeEach(async () => {
 describe('User API Tests', () => {
 
   //
-  describe.only('Test Database Initializations', () => {
+  describe('Test Database Initializations', () => {
     //
     test('roles are initialized', async () => {
       const roles = await Role.find({}).exec()
@@ -374,7 +374,7 @@ describe('User API Tests', () => {
     })
 
     //
-    describe.only('GET Requests', () => {
+    describe('GET Requests', () => {
       //
       test('Status 403 for attempt with no token', async () => {
         await api
@@ -402,8 +402,6 @@ describe('User API Tests', () => {
             .expect(200)
         }
       })
-
-
 
     })
 

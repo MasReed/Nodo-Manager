@@ -17,17 +17,28 @@ usersRouter.post('/signup',
 )
 
 // READ all users
-usersRouter.get('/', [authJwt.verifyToken, authJwt.isEmployee], async (req, res, next) => {
+usersRouter.get('/',
+  [
+    authJwt.verifyToken,
+    authJwt.isEmployee
+  ], async (req, res, next) => {
+
   try {
     const users = await User.find({}).populate('role')
     res.json(users)
+
   } catch (err) {
     next(err)
   }
 })
 
 // UPDATE a user
-usersRouter.put('/:id', [authJwt.verifyToken, authJwt.isAdmin], async (req, res) => {
+usersRouter.put('/:id',
+  [
+    authJwt.verifyToken,
+    authJwt.isAdmin
+  ], async (req, res, next) => {
+
   const body = req.body
 
   const userWithUpdates = {
@@ -37,15 +48,30 @@ usersRouter.put('/:id', [authJwt.verifyToken, authJwt.isAdmin], async (req, res)
     role: body.role
   }
 
-  const updatedUser = await User.findByIdAndUpdate(req.params.id, userWithUpdates, { new: true })
+  try {
+    const updatedUser = await User
+      .findByIdAndUpdate(req.params.id, userWithUpdates, { new: true })
+    res.json(updatedUser.toJSON())
 
-  res.json(updatedUser.toJSON())
+  } catch (err) {
+    next(err)
+  }
 })
 
 // DELETE a user
-usersRouter.delete('/:id', async (req, res) => {
-  const deletedUser = await User.findByIdAndDelete(req.params.id)
-  res.json(deletedUser.toJSON())
+usersRouter.delete('/:id',
+  [
+    authJwt.verifyToken,
+    authJwt.isAdmin
+  ], async (req, res, next) => {
+    
+  try {
+    const deletedUser = await User.findByIdAndDelete(req.params.id)
+    res.json(deletedUser.toJSON())
+
+  } catch (err) {
+    next(err)
+  }
 })
 
 
