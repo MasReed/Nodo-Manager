@@ -3,7 +3,9 @@ const User = require('../models/user')
 const Role = require('../models/role')
 const authControl = require('../utils/auth/auth')
 const authJwt = require('../utils/auth/authJWT')
+const userValidation = require('../utils/validations/userValidation')
 const verifySignUp = require('../utils/auth/verifySignUp')
+
 
 
 // CREATE new user via authentication utility
@@ -62,9 +64,10 @@ usersRouter.put('/:id',
 usersRouter.delete('/:id',
   [
     authJwt.verifyToken,
-    authJwt.isAdmin
+    authJwt.isAdmin,
+    userValidation.checkEmptyDeleteId
   ], async (req, res, next) => {
-    
+
   try {
     const deletedUser = await User.findByIdAndDelete(req.params.id)
     res.json(deletedUser.toJSON())

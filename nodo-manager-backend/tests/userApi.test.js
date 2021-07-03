@@ -430,8 +430,6 @@ describe('User API Tests', () => {
           .expect(201)
           .expect('Content-Type', /application\/json/)
 
-        console.log('res', res.body)
-
         // Check it was created
         expect(res.body.name).toBe('Delete Me')
 
@@ -441,13 +439,29 @@ describe('User API Tests', () => {
           .set('x-access-token', adminToken)
           .expect(200)
 
+        // Check existance
         const users = await api
           .get('/api/users')
           .set('x-access-token', adminToken)
           .expect(200)
 
-        console.log(users.body)
+        // Shouldn't exist
         expect(users.body).not.toContain(expect.objectContaining(res.body.name))
+      })
+
+      //
+      test('Status 404 with non-existing userId to delete', async () => {
+        await api
+          .delete('/api/users/' + '')
+          .set('x-access-token', adminToken)
+          .expect(404)
+      })
+
+      //
+      test('Status 403 without providing admin token', async () => {
+        await api
+          .delete('/api/users/' + 'someRandomId')
+          .expect(403)
       })
     })
   })
