@@ -496,11 +496,9 @@ describe('User API Tests', () => {
             .set('x-access-token', adminToken)
             .expect(200)
 
-          // An object containing a property username of 'Delete this admin'
-          // shouldn't exist
-          expect(users.body).not.toContain(
-            expect.objectContaining(delAdmin.username)
-          )
+          // Such a user shouldn't exist
+          expect(users.body.some(user => user.username === delAdmin.username))
+            .toBe(true)
         })
 
         //
@@ -522,9 +520,8 @@ describe('User API Tests', () => {
             .expect(200)
 
           // An oject with same username as deleted username shouldn't exist
-          expect(users.body).not.toContain(
-            expect.objectContaining(delManager.username)
-          )
+          expect(users.body.some(user => user.username === delManager.username))
+            .toBe(false)
         })
 
         //
@@ -546,9 +543,8 @@ describe('User API Tests', () => {
             .expect(200)
 
           // An oject with same username as deleted username shouldn't exist
-          expect(users.body).not.toContain(
-            expect.objectContaining(delEmployee.username)
-          )
+          expect(users.body.some(user => user.username === delEmployee.username))
+            .toBe(false)
         })
 
         //
@@ -570,9 +566,8 @@ describe('User API Tests', () => {
             .expect(200)
 
           // An oject with same username as deleted username shouldn't exist
-          expect(users.body).not.toContain(
-            expect.objectContaining(delUser.username)
-          )
+          expect(users.body.some(user => user.username === delUser.username))
+            .toBe(false)
         })
 
         //
@@ -594,9 +589,8 @@ describe('User API Tests', () => {
             .expect(200)
 
           // An oject with same username as deleted username shouldn't exist
-          expect(users.body).not.toContain(
-            expect.objectContaining(delGuest.username)
-          )
+          expect(users.body.some(user => user.username === delGuest.username))
+            .toBe(false)
         })
       })
 
@@ -666,9 +660,8 @@ describe('User API Tests', () => {
             .expect(200)
 
           // An oject with same username as deleted username shouldn't exist
-          expect(users.body).not.toContain(
-            expect.objectContaining(delEmployee.username)
-          )
+          expect(users.body.some(user => user.username === delEmployee.username))
+            .toBe(false)
         })
 
         //
@@ -690,9 +683,8 @@ describe('User API Tests', () => {
             .expect(200)
 
           // An oject with same username as deleted username shouldn't exist
-          expect(users.body).not.toContain(
-            expect.objectContaining(delUser.username)
-          )
+          expect(users.body.some(user => user.username === delUser.username))
+            .toBe(false)
         })
 
         //
@@ -714,12 +706,10 @@ describe('User API Tests', () => {
             .expect(200)
 
           // An oject with same username as deleted username shouldn't exist
-          expect(users.body).not.toContain(
-            expect.objectContaining(delGuest.username)
-          )
+          expect(users.body.some(user => user.username === delGuest.username))
+            .toBe(false)
         })
       })
-
 
     })
   })
