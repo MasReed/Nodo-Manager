@@ -7,8 +7,8 @@ const checkAuthenticatedRoleOnDeleteOrUpdate = async (req, res, next) => {
     admin: 'superadmin',
     manager: 'admin',
     employee: 'manager',
-    user: 'employee',
-    guest: 'employee'
+    user: 'manager',
+    guest: 'manager'
   }
 
   try {
