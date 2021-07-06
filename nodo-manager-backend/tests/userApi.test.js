@@ -477,7 +477,7 @@ describe('User API Tests', () => {
       })
 
       //
-      describe('Admin users can delete all non-admin roles', () => {
+      describe('Admins can delete all non-admin roles', () => {
         //
         test('Status 401 attempting to delete another admin', async () => {
 
@@ -598,10 +598,129 @@ describe('User API Tests', () => {
             expect.objectContaining(delGuest.username)
           )
         })
-
-
-
       })
+
+      //
+      describe('Managers can delete all non-admin, non-manager roles', () => {
+        //
+        test('Status 401 attempting to delete another admin', async () => {
+
+          // Find admin created in beforeEach
+          const delAdmin = await User.findOne({ username: 'Delete this ADMIN' })
+
+          // Delete user by id
+          await api
+            .delete('/api/users/' + delAdmin._id)
+            .set('x-access-token', managerToken)
+            .expect(401)
+
+          // Check existance
+          const users = await api
+            .get('/api/users')
+            .set('x-access-token', managerToken)
+            .expect(200)
+
+          expect(users.body.some(user => user.username === delAdmin.username))
+            .toBe(true)
+        })
+
+        //
+        test('Status 401 attempting to delete another manager', async () => {
+          // Find manager created in beforeEach
+          const delManager = await User
+            .findOne({ username: 'Delete this MANAGER' })
+
+          // Delete user by id
+          await api
+            .delete('/api/users/' + delManager._id)
+            .set('x-access-token', managerToken)
+            .expect(401)
+
+          // Check existance
+          const users = await api
+            .get('/api/users')
+            .set('x-access-token', managerToken)
+            .expect(200)
+
+          // An oject with same username as deleted username shouldn't exist
+          expect(users.body.some(user => user.username === delManager.username))
+            .toBe(true)
+        })
+
+        //
+        test('Status 200 on attempt to delete an employee', async () => {
+          // Find employee created in beforeEach
+          const delEmployee = await User
+            .findOne({ username: 'Delete this EMPLOYEE' })
+
+          // Delete user by id
+          await api
+            .delete('/api/users/' + delEmployee._id)
+            .set('x-access-token', managerToken)
+            .expect(200)
+
+          // Check existance
+          const users = await api
+            .get('/api/users')
+            .set('x-access-token', managerToken)
+            .expect(200)
+
+          // An oject with same username as deleted username shouldn't exist
+          expect(users.body).not.toContain(
+            expect.objectContaining(delEmployee.username)
+          )
+        })
+
+        //
+        test('Status 200 on attempt to delete a user', async () => {
+          // Find employee created in beforeEach
+          const delUser = await User
+            .findOne({ username: 'Delete this USER' })
+
+          // Delete user by id
+          await api
+            .delete('/api/users/' + delUser._id)
+            .set('x-access-token', managerToken)
+            .expect(200)
+
+          // Check existance
+          const users = await api
+            .get('/api/users')
+            .set('x-access-token', managerToken)
+            .expect(200)
+
+          // An oject with same username as deleted username shouldn't exist
+          expect(users.body).not.toContain(
+            expect.objectContaining(delUser.username)
+          )
+        })
+
+        //
+        test('Status 200 on attempt to delete a guest', async () => {
+          // Find employee created in beforeEach
+          const delGuest = await User
+            .findOne({ username: 'Delete this GUEST' })
+
+          // Delete user by id
+          await api
+            .delete('/api/users/' + delGuest._id)
+            .set('x-access-token', managerToken)
+            .expect(200)
+
+          // Check existance
+          const users = await api
+            .get('/api/users')
+            .set('x-access-token', managerToken)
+            .expect(200)
+
+          // An oject with same username as deleted username shouldn't exist
+          expect(users.body).not.toContain(
+            expect.objectContaining(delGuest.username)
+          )
+        })
+      })
+
+
     })
   })
 })
