@@ -64,8 +64,7 @@ usersRouter.put('/:id',
 usersRouter.delete('/:id',
   [
     authJwt.verifyToken,
-    authJwt.isAdmin,
-    userValidation.checkEmptyDeleteId
+    authJwt.isAdmin
   ], async (req, res, next) => {
 
   try {

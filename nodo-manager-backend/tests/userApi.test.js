@@ -445,8 +445,39 @@ describe('User API Tests', () => {
           .set('x-access-token', adminToken)
           .expect(200)
 
-        // Shouldn't exist
+        // An object containing a property name of 'Delete Me' shouldn't exist
         expect(users.body).not.toContain(expect.objectContaining(res.body.name))
+      })
+
+      //
+      test('Status 401 only providing a user token', async () => {
+        await api
+          .delete('/api/users/' + 'someRandomId')
+          .set('x-access-token', userToken)
+          .expect(401)
+      })
+
+      //
+      test('Status 401 only providing an employee token', async () => {
+        await api
+          .delete('/api/users/' + 'someRandomId')
+          .set('x-access-token', employeeToken)
+          .expect(401)
+      })
+
+      //
+      test('Status 401 only providing a manager token', async () => {
+        await api
+          .delete('/api/users/' + 'someRandomId')
+          .set('x-access-token', managerToken)
+          .expect(401)
+      })
+
+      //
+      test('Status 403 without providing any token', async () => {
+        await api
+          .delete('/api/users/' + 'someRandomId')
+          .expect(403)
       })
 
       //
@@ -455,13 +486,6 @@ describe('User API Tests', () => {
           .delete('/api/users/' + '')
           .set('x-access-token', adminToken)
           .expect(404)
-      })
-
-      //
-      test('Status 403 without providing admin token', async () => {
-        await api
-          .delete('/api/users/' + 'someRandomId')
-          .expect(403)
       })
     })
   })
