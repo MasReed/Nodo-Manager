@@ -59,6 +59,8 @@ const NewUserForm = ({ show, setShow }) => {
       newErrors.roleName = 'Requires admin privileges.'
     else if (roleName === 'manager' && !currentUser.role.encompassedRoles.includes('manager'))
       newErrors.roleName = 'Requires manager privileges.'
+    else if (roleName === 'employee' && !currentUser.role.encompassedRoles.includes('manager'))
+      newErrors.roleName = 'Requires manager privileges.'
 
 
     return newErrors

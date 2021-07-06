@@ -14,7 +14,9 @@ const UserInfo = ({ user }) => {
   const userWithUpdates = {
     name: 'updatedName',
     username: 'updatedUsername',
-    clearance: 'LICENSE TO CODE'
+    role: {
+      name: 'user'
+    }
   }
 
   const updateUser = (id) => {
@@ -30,7 +32,7 @@ const UserInfo = ({ user }) => {
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div>
           <h2>{user.username}</h2>
-          <p>{user.role.name}</p>
+          <p>{user.role && user.role.name}</p>
         </div>
         <div>
           <Button

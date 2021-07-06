@@ -7,7 +7,6 @@ const setToken = newToken => {
   token = `${newToken}`
 }
 
-
 const getAll = () => {
   const config = {
     headers: { 'x-access-token': token }
@@ -17,26 +16,33 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
-const getOne = (id) => {
-  const request = axios.get(`${baseUrl}/${id}`)
-  return request.then(response => response.data)
-}
-
 const create = async (newObject) => {
-  const response = await axios.post(`${baseUrl}/signup`, newObject)
+  const config = {
+    headers: { 'x-access-token': token }
+  }
+
+  const response = await axios.post(`${baseUrl}/signup`, newObject, config)
   return response.data
 }
 
 const update = async (id, updatedObject) => {
-  const response = await axios.put(`${baseUrl}/${id}`, updatedObject)
+  const config = {
+    headers: { 'x-access-token': token }
+  }
+
+  const response = await axios.put(`${baseUrl}/${id}`, updatedObject, config)
   return response.data
 }
 
 const destroy = async (id) => {
-  const response = await axios.delete(`${baseUrl}/${id}`)
+  const config = {
+    headers: { 'x-access-token': token }
+  }
+
+  const response = await axios.delete(`${baseUrl}/${id}`, config)
   return response.data
 }
 
-const exps = { setToken, getAll, getOne, create, update, destroy }
+const exps = { setToken, getAll, create, update, destroy }
 
 export default exps
