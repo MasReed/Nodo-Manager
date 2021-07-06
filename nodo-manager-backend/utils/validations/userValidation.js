@@ -12,7 +12,6 @@ const checkAuthenticatedRoleOnDeleteOrUpdate = async (req, res, next) => {
   }
 
   try {
-
     const delUser = await User
       .findById(req.params.id)
       .populate('role', '-__v')
@@ -33,7 +32,6 @@ const checkAuthenticatedRoleOnDeleteOrUpdate = async (req, res, next) => {
       status: 401,
       message: `Requires ${authRoleMap[delUser.role.name]} role.`
     })
-
 
   } catch (err) {
     next(err)
