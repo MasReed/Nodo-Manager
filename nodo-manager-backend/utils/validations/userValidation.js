@@ -3,6 +3,7 @@ const User = require('../../models/user')
 const checkAuthenticatedRoleOnDeleteOrUpdate = async (req, res, next) => {
 
   // Updating user with role = key requires role of that key's value
+  // i.e. updating a manager requires an admin
   const authRoleMap = {
     admin: 'superadmin',
     manager: 'admin',
@@ -38,6 +39,17 @@ const checkAuthenticatedRoleOnDeleteOrUpdate = async (req, res, next) => {
   }
 }
 
+const checkRequiredUserPropertiesDefined = (req, res, next) => {
+  try {
+    console.log('checkReqProps')
+    return next()
+
+  } catch (err) {
+    next(err)
+  }
+}
+
 module.exports = {
-  checkAuthenticatedRoleOnDeleteOrUpdate
+  checkAuthenticatedRoleOnDeleteOrUpdate,
+  checkRequiredUserPropertiesDefined
 }

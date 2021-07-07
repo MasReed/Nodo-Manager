@@ -3,6 +3,7 @@ const User = require('../models/user')
 const Role = require('../models/role')
 const authControl = require('../utils/auth/auth')
 const authJwt = require('../utils/auth/authJWT')
+const itemValidation = require('../utils/validations/itemValidation')
 const userValidation = require('../utils/validations/userValidation')
 const verifySignUp = require('../utils/auth/verifySignUp')
 
@@ -38,7 +39,9 @@ usersRouter.get('/',
 usersRouter.put('/:id',
   [
     authJwt.verifyToken,
-    authJwt.isAdmin
+    itemValidation.checkEmptyObject,
+    userValidation.checkAuthenticatedRoleOnDeleteOrUpdate,
+    userValidation.checkRequiredUserPropertiesDefined
   ], async (req, res, next) => {
 
   const body = req.body
