@@ -45,7 +45,8 @@ const checkRequiredUserPropertiesDefined = (req, res, next) => {
     const requiredPropertiesAndErrorMessage = {
       email: 'An email address is required.',
       username: 'A username is required.',
-      password: 'A password is required.'
+      password: 'A password is required.',
+      role: 'A role is required.'
     }
 
     for (const property in requiredPropertiesAndErrorMessage) {

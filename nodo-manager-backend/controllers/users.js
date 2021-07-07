@@ -48,6 +48,7 @@ usersRouter.put('/:id',
 
   const userWithUpdates = {
     name: body.name,
+    email: body.email,
     username: body.username,
     passwordHash: await bcrypt.hash(body.password, 10),
     role: await Role.findOne({ name: body.role.name })
