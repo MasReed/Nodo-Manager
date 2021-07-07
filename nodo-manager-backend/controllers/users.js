@@ -1,4 +1,5 @@
 const usersRouter = require('express').Router()
+const bcrypt = require('bcryptjs')
 const User = require('../models/user')
 const Role = require('../models/role')
 const authControl = require('../utils/auth/auth')
@@ -6,7 +7,6 @@ const authJwt = require('../utils/auth/authJWT')
 const itemValidation = require('../utils/validations/itemValidation')
 const userValidation = require('../utils/validations/userValidation')
 const verifySignUp = require('../utils/auth/verifySignUp')
-
 
 
 // CREATE new user via authentication utility
@@ -49,8 +49,8 @@ usersRouter.put('/:id',
   const userWithUpdates = {
     name: body.name,
     username: body.username,
-    passwordHash: body.passwordHash,
-    role: body.role
+    passwordHash: await bcrypt.hash(body.password, 10),
+    role: await Role.findOne({ name: body.role.name })
   }
 
   try {
@@ -59,6 +59,7 @@ usersRouter.put('/:id',
     res.json(updatedUser.toJSON())
 
   } catch (err) {
+    console.log('userControllerErr', err)
     next(err)
   }
 })

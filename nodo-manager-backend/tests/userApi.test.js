@@ -406,13 +406,191 @@ describe('User API Tests', () => {
     })
 
     //
-    describe('PUT Requests', () => {
+    describe.only('PUT Requests', () => {
       //
+      beforeEach(async () => {
+        const adminToUpdate = new User({
+          name: 'Update Me',
+          username: 'Update this ADMIN',
+          email: 'update@admin.com',
+          password: 'password',
+          role: await Role.findOne({ name: 'admin' })
+        })
+        await adminToUpdate.save()
 
+        const managerToUpdate = new User({
+          name: 'Update Me',
+          username: 'Update this MANAGER',
+          email: 'update@manager.com',
+          password: 'password',
+          role: await Role.findOne({ name: 'manager' })
+        })
+        await managerToUpdate.save()
+
+        const employeeToUpdate = new User({
+          name: 'Update Me',
+          username: 'Update this EMPLOYEE',
+          email: 'update@employee.com',
+          password: 'password',
+          role: await Role.findOne({ name: 'employee' })
+        })
+        await employeeToUpdate.save()
+
+        const userToUpdate = new User({
+          name: 'Update Me',
+          username: 'Update this USER',
+          email: 'update@user.com',
+          password: 'password',
+          role: await Role.findOne({ name: 'user' })
+        })
+        await userToUpdate.save()
+      })
+
+      //
+      describe('Data Validations', () => {
+        //
+        test('Status 400 sending an empty object', async () => {
+
+          const validUserToUpdate = await User
+            .findOne({ username: 'Update this USER' }).exec()
+
+          await api
+            .put('/api/users/' + validUserToUpdate._id)
+            .set('x-access-token', adminToken)
+            .send({})
+            .expect(400)
+        })
+
+        //
+        test('Status 400 sending update object without an email', async () => {
+
+          const validUserToUpdate = await User
+            .findOne({ username: 'Update this USER' }).exec()
+
+          // no email property
+          await api
+            .put('/api/users/' + validUserToUpdate._id)
+            .set('x-access-token', adminToken)
+            .send({
+              name: 'UPDATED USER',
+              username: 'Update this USER',
+              password: 'password',
+              role: {
+                name: 'user'
+              }
+            })
+            .expect(400)
+
+          // email property empty string
+          await api
+            .put('/api/users/' + validUserToUpdate._id)
+            .set('x-access-token', adminToken)
+            .send({
+              name: 'UPDATED USER',
+              username: 'Update this USER',
+              email: '',
+              password: 'password',
+              role: {
+                name: 'user'
+              }
+            })
+            .expect(400)
+        })
+
+        //
+        test('Status 400 sending update object without username', async () => {
+
+          const validUserToUpdate = await User
+            .findOne({ username: 'Update this USER' }).exec()
+
+          // no username property
+          await api
+            .put('/api/users/' + validUserToUpdate._id)
+            .set('x-access-token', adminToken)
+            .send({
+              name: 'UPDATED USER',
+              email: 'update@user.com',
+              password: 'password',
+              role: {
+                name: 'user'
+              }
+            })
+            .expect(400)
+
+            // username property empty string
+            await api
+              .put('/api/users/' + validUserToUpdate._id)
+              .set('x-access-token', adminToken)
+              .send({
+                name: 'UPDATED USER',
+                username: '',
+                email: 'update@user.com',
+                password: 'password',
+                role: {
+                  name: 'user'
+                }
+              })
+              .expect(400)
+        })
+
+        //
+        test('Status 400 sending update object without password', async () => {
+
+          const validUserToUpdate = await User
+            .findOne({ username: 'Update this USER' }).exec()
+
+          // no password property
+          await api
+            .put('/api/users/' + validUserToUpdate._id)
+            .set('x-access-token', adminToken)
+            .send({
+              name: 'UPDATED USER',
+              username: 'Update this USER',
+              email: 'update@user.com',
+              role: {
+                name: 'user'
+              }
+            })
+            .expect(400)
+
+          // password property empty string
+          await api
+            .put('/api/users/' + validUserToUpdate._id)
+            .set('x-access-token', adminToken)
+            .send({
+              name: 'UPDATED USER',
+              username: 'Update this USER',
+              email: 'update@user.com',
+              password: '',
+              role: {
+                name: 'user'
+              }
+            })
+            .expect(400)
+        })
+
+        //
+        test('Status 404 with non-existing userId to update', async () => {
+          await api
+            .put('/api/users/' + '')
+            .set('x-access-token', adminToken)
+            .expect(404)
+        })
+      })
+
+      //
+      describe('Authorization Validations', () => {
+        //
+        test('Status 403 without providing any access token', async () => {
+          await api
+            .put('/api/users/' + 'someRandomId')
+            .expect(403)
+        })
+      })
     })
 
     //
-    describe.only('DELETE Requests', () => {
+    describe('DELETE Requests', () => {
       //
       beforeEach(async () => {
         const adminToDelete = new User({
@@ -876,7 +1054,7 @@ describe('User API Tests', () => {
         })
 
         //
-        test('Status 401 attempting to delete another employee', async () => {
+        test('Status 401 attempting to delete an employee', async () => {
           // Find employee created in beforeEach
           const delEmployee = await User
             .findOne({ username: 'Delete this EMPLOYEE' })
@@ -899,7 +1077,7 @@ describe('User API Tests', () => {
         })
 
         //
-        test('Status 401 attempting to delete a user', async () => {
+        test('Status 401 attempting to delete another user', async () => {
           // Find employee created in beforeEach
           const delUser = await User
             .findOne({ username: 'Delete this USER' })

@@ -41,7 +41,21 @@ const checkAuthenticatedRoleOnDeleteOrUpdate = async (req, res, next) => {
 
 const checkRequiredUserPropertiesDefined = (req, res, next) => {
   try {
-    console.log('checkReqProps')
+    // These match menuItemSchema 'required' properties, see models/menuItems
+    const requiredPropertiesAndErrorMessage = {
+      email: 'An email address is required.',
+      username: 'A username is required.',
+      password: 'A password is required.'
+    }
+
+    for (const property in requiredPropertiesAndErrorMessage) {
+      if (!req.body[property] || req.body[property] === '') {
+        throw {
+          status: 400,
+          message: requiredPropertiesAndErrorMessage[property]
+        }
+      }
+    }
     return next()
 
   } catch (err) {
