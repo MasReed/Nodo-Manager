@@ -67,7 +67,7 @@ beforeEach(async () => {
 describe('User API Tests', () => {
 
   //
-  describe.only('Test Database Initializations', () => {
+  describe('Test Database Initializations', () => {
     //
     test('roles are initialized', async () => {
       const roles = await Role.find({}).exec()
@@ -402,11 +402,10 @@ describe('User API Tests', () => {
             .expect(200)
         }
       })
-
     })
 
     //
-    describe.only('PUT Requests', () => {
+    describe('PUT Requests', () => {
       //
       beforeEach(async () => {
         const adminToUpdate = new User({
@@ -786,7 +785,7 @@ describe('User API Tests', () => {
         })
 
         //
-        describe('Employees cannot update other roles', () => {
+        describe('Employees cannot update any roles', () => {
           //
           test('Status 401 attempting to update an admin', async () => {
 
@@ -875,7 +874,95 @@ describe('User API Tests', () => {
           })
         })
 
+        //
+        describe('Users cannot update any roles', () => {
+          //
+          test('Status 401 attempting to update an admin', async () => {
 
+            const validAdminToUpdate = await User
+              .findOne({ username: 'Update this ADMIN' }).exec()
+
+            const res = await api
+              .put('/api/users/' + validAdminToUpdate._id)
+              .set('x-access-token', userToken)
+              .send({
+                name: 'UPDATED ADMIN',
+                username: 'Updated this ADMIN',
+                email: 'updated@admin.com',
+                password: 'password',
+                role: {
+                  name: 'user'
+                }
+              })
+              .expect(401)
+            expect(res.body.message).toBe('Requires superadmin role.')
+          })
+
+          //
+          test('Status 401 attempting to update a manager', async () => {
+
+            const validManagerToUpdate = await User
+              .findOne({ username: 'Update this MANAGER' }).exec()
+
+            const res = await api
+              .put('/api/users/' + validManagerToUpdate._id)
+              .set('x-access-token', userToken)
+              .send({
+                name: 'UPDATED MANAGER',
+                username: 'Updated this MANAGER',
+                email: 'updated@manager.com',
+                password: 'password',
+                role: {
+                  name: 'user'
+                }
+              })
+              .expect(401)
+            expect(res.body.message).toBe('Requires admin role.')
+          })
+
+          //
+          test('Status 401 attempting to update an employee', async () => {
+
+            const validEmployeeToUpdate = await User
+              .findOne({ username: 'Update this EMPLOYEE' }).exec()
+
+            const res = await api
+              .put('/api/users/' + validEmployeeToUpdate._id)
+              .set('x-access-token', userToken)
+              .send({
+                name: 'UPDATED EMPLOYEE',
+                username: 'Updated this EMPLOYEE',
+                email: 'updated@employee.com',
+                password: 'password',
+                role: {
+                  name: 'user'
+                }
+              })
+              .expect(401)
+            expect(res.body.message).toBe('Requires manager role.')
+          })
+
+          //
+          test('Status 401 attempting to update another user', async () => {
+            const validUserToUpdate = await User
+              .findOne({ username: 'Update this USER' }).exec()
+
+            const res = await api
+              .put('/api/users/' + validUserToUpdate._id)
+              .set('x-access-token', userToken)
+              .send({
+                name: 'UPDATED USER',
+                username: 'Updated this USER',
+                email: 'updated@user.com',
+                password: 'password',
+                role: {
+                  name: 'user'
+                }
+              })
+              .expect(401)
+            expect(res.body.message).toBe('Requires manager role.')
+          })
+        })
       })
     })
 
