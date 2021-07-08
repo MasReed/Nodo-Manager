@@ -70,6 +70,7 @@ Procedure / TODOs
 
 + verify order totals serverside
 
+- improve/expand order schema validations and data validations
 
 - supertest/jest for backend api
 

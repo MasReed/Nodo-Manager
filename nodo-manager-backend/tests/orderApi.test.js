@@ -247,7 +247,61 @@ describe('Order API Tests', () => {
 
       //
       describe('Authorization Validations', () => {
+        //
+        test('Status 200 providing admin token', async () => {
+          await api
+            .get('/api/orders')
+            .set('x-access-token', adminToken)
+            .expect(200)
+        })
 
+        //
+        test('Status 200 providing manager token', async () => {
+          await api
+            .get('/api/orders')
+            .set('x-access-token', managerToken)
+            .expect(200)
+        })
+
+        //
+        test('Status 200 providing employeeToken token', async () => {
+          await api
+            .get('/api/orders')
+            .set('x-access-token', employeeToken)
+            .expect(200)
+        })
+
+        //
+        test('Status 401 providing user token', async () => {
+          await api
+            .get('/api/orders')
+            .set('x-access-token', userToken)
+            .expect(401)
+        })
+
+        //
+        test('Status 401 providing guest token', async () => {
+          await api
+            .get('/api/orders')
+            .set('x-access-token', guestToken)
+            .expect(401)
+        })
+
+        //
+        test('Status 401 providing an invalid token', async () => {
+          await api
+            .get('/api/orders')
+            .set('x-access-token', 'invalidToken')
+            .expect(401)
+        })
+
+        //
+        test('Status 403 providing no token', async () => {
+          await api
+            .get('/api/orders')
+            .send(validOrder)
+            .expect(403)
+        })
       })
     })
 

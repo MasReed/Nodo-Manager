@@ -9,7 +9,7 @@ ordersRouter.post('/', [
   authJwt.verifyToken,
   orderValidation.verifyCosts
 ], async (req, res, next) => {
-  
+
   try {
     const body = req.body
 
@@ -35,7 +35,11 @@ ordersRouter.post('/', [
 })
 
 // READ all orders
-ordersRouter.get('/', authJwt.verifyToken, async (req, res, next) => {
+ordersRouter.get('/', [
+  authJwt.verifyToken,
+  authJwt.isEmployee
+], async (req, res, next) => {
+
   try {
     const orders = await Order.find({})
     res.json(orders)
