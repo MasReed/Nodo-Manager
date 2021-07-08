@@ -1,40 +1,14 @@
 # Nodo Manager Web Application
 
-Backend
-  -Control (node/express)
-
-    -Admin (all crud ops)
-      -Menu Items
-      -Costs
-      -Ingredients/Recipes?
-
-    -User
-      -Get menu items
-      -Get item Costs
-      -Get ingredients list?
-
-  -Data (mongoDB/mongoose)
-    Menu items, cost, ingredients
-    Orders/Sales
-
-
-Frontend (React)
-  -Control
-    -Admin interface
-    -User interface
-      -create orders
-      -calculate purchases
-
-
 --------------------------------------
-Procedure
+Procedure / TODOs
 --------------------------------------
 + setup basic node/express
 + setup MongoDB/Mongoose and schemas
   + Implement orders schema
     + add in: orderName, orderCategory, orderDescription, onMenu
   + CRUD operations for items/users API backend
-    - express async error handling
+    + express async error handling -> via middleware
 + CRUD ops for frontend
   +items
     +itemService comms working
