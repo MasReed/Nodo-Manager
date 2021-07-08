@@ -4,19 +4,23 @@ const config = require('../config')
 const verifyCosts = (req, res, next) => {
 
   try {
-    if (!req.body.items) {
+    if (!req.body.items || req.body.items.length === 0) {
       throw ({ status: 400, message: 'No items in order!' })
     }
 
     /* the subtotal should be calculated by matching baseItemId to those stored
     in the database and getting the total from there; need to implement
-    modIngredient Costs alongside it if so (requires simple schema change) */
+    modIngredient Costs alongside it if so (requires schema change) */
     const subTotal = req.body.items.map(item =>
       item.basePrice).reduce((sum, val) => sum + val)
 
-    const taxAmount = Math.round((subTotal * config.TAX_RATE) * 100) / 100 // Round to hundredths
+    const taxAmount = Math.round(
+      (subTotal * config.TAX_RATE) * 100
+    ) / 100 // Round to hundredths
 
-    const total = subTotal + taxAmount
+    const total = Math.round(
+      (subTotal + taxAmount) * 100
+    ) / 100 // Round to hundredths
 
     if (req.body.subTotal !== subTotal) {
       console.log('Subtotals do not match')

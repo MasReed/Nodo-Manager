@@ -5,7 +5,11 @@ const orderValidation = require('../utils/validations/orderValidation')
 
 
 // CREATE new order
-ordersRouter.post('/', orderValidation.verifyCosts, async (req, res, next) => {
+ordersRouter.post('/', [
+  authJwt.verifyToken,
+  orderValidation.verifyCosts
+], async (req, res, next) => {
+  
   try {
     const body = req.body
 
@@ -70,7 +74,7 @@ ordersRouter.put('/:id', orderValidation.verifyCosts, async (req, res, next) => 
     }
     const updatedOrder = await Order.findByIdAndUpdate(req.params.id, orderWithUpdates, { new: true })
     res.json(updatedOrder.toJSON())
-    
+
   } catch (err) {
     next(err)
   }

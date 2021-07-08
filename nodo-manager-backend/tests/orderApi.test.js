@@ -18,6 +18,8 @@ let employeeToken
 let userToken
 let guestToken
 
+let validOrder
+
 // Initialize roles and users in database
 beforeAll(async () => {
   // Roles
@@ -92,6 +94,22 @@ beforeAll(async () => {
     availability: 'Available'
   })
   await item2.save()
+
+  const items = await Item.find({})
+  validOrder = {
+    status: 'In progress',
+    category: 'Carry Out',
+    name: 'Test Order',
+    items: [
+      {...items[0], basePrice: 1.99}, // Shortcut of proper format until
+      {...items[1], basePrice: 4.99} // moded object in order is uniform
+    ],
+    notes: 'This is a test.',
+    subTotal: 6.98,
+    taxRate: 0.07,
+    taxAmount: 0.49,
+    total: 7.47
+  }
 })
 
 // Reset collections before each test
@@ -124,7 +142,87 @@ describe('Order API Tests', () => {
 
   //
   describe('User CRUD Operations', () => {
+    //
+    describe('POST Requests', () => {
+      //
+      describe('Data Validations', () => {
+        //
+        test('Status 200 given proper format', async () => {
 
+          await api
+            .post('/api/orders')
+            .set('x-access-token', adminToken)
+            .send(validOrder)
+            .expect(200)
+        })
+
+        test('Status 400 if no items are in order', async () => {
+          const invalidOrder = {
+            ...validOrder,
+            items: []
+          }
+
+          const res = await api
+            .post('/api/orders')
+            .set('x-access-token', adminToken)
+            .send(invalidOrder)
+            .expect(400)
+
+          expect(res.body.message).toBe('No items in order!')
+        })
+      })
+
+      //
+      describe('Authorization Validations', () => {
+        //
+        // test('Status 200 providing valid order and admin token', async () => {
+        //   await api
+        //     .post('/api/orders')
+        //     .set('x-access-token', adminToken)
+        //     .send(validOrder)
+        //     .expect(200)
+        // })
+      })
+    })
+
+    //
+    describe('GET Requests', () => {
+      //
+      describe('Data Validations', () => {
+
+      })
+
+      //
+      describe('Authorization Validations', () => {
+
+      })
+    })
+
+    //
+    describe('PUT Requests', () => {
+      //
+      describe('Data Validations', () => {
+
+      })
+
+      //
+      describe('Authorization Validations', () => {
+
+      })
+    })
+
+    //
+    describe('DELETE Requests', () => {
+      //
+      describe('Data Validations', () => {
+
+      })
+
+      //
+      describe('Authorization Validations', () => {
+
+      })
+    })
   })
 })
 
