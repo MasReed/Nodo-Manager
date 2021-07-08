@@ -299,7 +299,6 @@ describe('Order API Tests', () => {
         test('Status 403 providing no token', async () => {
           await api
             .get('/api/orders')
-            .send(validOrder)
             .expect(403)
         })
       })
@@ -327,7 +326,123 @@ describe('Order API Tests', () => {
 
       //
       describe('Authorization Validations', () => {
+        //
+        test('Status 200 providing admin token', async () => {
 
+          const res = await api
+            .post('/api/orders')
+            .set('x-access-token', adminToken)
+            .send(validOrder)
+            .expect(200)
+
+          const orderToDeleteId = res.body._id
+
+          await api
+            .delete('/api/orders/' + orderToDeleteId)
+            .set('x-access-token', adminToken)
+            .expect(200)
+        })
+
+        //
+        test('Status 200 providing manager token', async () => {
+
+          const res = await api
+            .post('/api/orders')
+            .set('x-access-token', adminToken)
+            .send(validOrder)
+            .expect(200)
+
+          const orderToDeleteId = res.body._id
+
+          await api
+            .delete('/api/orders/' + orderToDeleteId)
+            .set('x-access-token', managerToken)
+            .expect(200)
+        })
+
+        //
+        test('Status 401 providing employeeToken token', async () => {
+
+          const res = await api
+            .post('/api/orders')
+            .set('x-access-token', adminToken)
+            .send(validOrder)
+            .expect(200)
+
+          const orderToDeleteId = res.body._id
+
+          await api
+            .delete('/api/orders/' + orderToDeleteId)
+            .set('x-access-token', employeeToken)
+            .expect(401)
+        })
+
+        //
+        test('Status 401 providing user token', async () => {
+
+          const res = await api
+            .post('/api/orders')
+            .set('x-access-token', adminToken)
+            .send(validOrder)
+            .expect(200)
+
+          const orderToDeleteId = res.body._id
+
+          await api
+            .delete('/api/orders/' + orderToDeleteId)
+            .set('x-access-token', userToken)
+            .expect(401)
+        })
+
+        //
+        test('Status 401 providing guest token', async () => {
+
+          const res = await api
+            .post('/api/orders')
+            .set('x-access-token', adminToken)
+            .send(validOrder)
+            .expect(200)
+
+          const orderToDeleteId = res.body._id
+
+          await api
+            .delete('/api/orders/' + orderToDeleteId)
+            .set('x-access-token', guestToken)
+            .expect(401)
+        })
+
+        //
+        test('Status 401 providing an invalid token', async () => {
+
+          const res = await api
+            .post('/api/orders')
+            .set('x-access-token', adminToken)
+            .send(validOrder)
+            .expect(200)
+
+          const orderToDeleteId = res.body._id
+
+          await api
+            .delete('/api/orders/' + orderToDeleteId)
+            .set('x-access-token', 'invalidToken')
+            .expect(401)
+        })
+
+        //
+        test('Status 403 providing no token', async () => {
+
+          const res = await api
+            .post('/api/orders')
+            .set('x-access-token', adminToken)
+            .send(validOrder)
+            .expect(200)
+
+          const orderToDeleteId = res.body._id
+
+          await api
+            .delete('/api/orders/' + orderToDeleteId)
+            .expect(403)
+        })
       })
     })
   })

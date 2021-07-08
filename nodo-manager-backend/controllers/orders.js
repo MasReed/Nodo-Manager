@@ -85,7 +85,11 @@ ordersRouter.put('/:id', orderValidation.verifyCosts, async (req, res, next) => 
 })
 
 // DELETE an order
-ordersRouter.delete('/:id', async (req, res, next) => {
+ordersRouter.delete('/:id', [
+  authJwt.verifyToken,
+  authJwt.isManager
+], async (req, res, next) => {
+  
   try {
     const deletedOrder = await Order.findByIdAndDelete(req.params.id)
     res.json(deletedOrder.toJSON())
