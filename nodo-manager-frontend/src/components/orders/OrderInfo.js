@@ -25,17 +25,21 @@ const OrderInfo = ({ order }) => {
     status: 'Complete',
     category: 'Carry Out',
     name: 'Ahun Gryper Son',
-    items: [{ "item1": "food1" }, { "item2": "drink1" }],
+    // items: [{ "item1": "food1" }, { "item2": "drink1" }],
     notes: 'n/a',
-    subTotal: 9.50,
-    taxRate: 0.07,
-    taxAmount: 0.75,
-    total: 10.25
+    // subTotal: 9.50,
+    // taxRate: 0.07,
+    // taxAmount: 0.75,
+    // total: 10.25
   }
 
+  const completedOrder = {
+    ...order,
+    status: 'Complete'
+  }
 
   const completeOrder = (id) => {
-    dispatch(updateOrderActionCreator(id, orderWithUpdates))
+    dispatch(updateOrderActionCreator(id, completedOrder))
   }
 
   const deleteOrder = (id) => {
