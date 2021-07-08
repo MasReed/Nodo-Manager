@@ -175,13 +175,66 @@ describe('Order API Tests', () => {
       //
       describe('Authorization Validations', () => {
         //
-        // test('Status 200 providing valid order and admin token', async () => {
-        //   await api
-        //     .post('/api/orders')
-        //     .set('x-access-token', adminToken)
-        //     .send(validOrder)
-        //     .expect(200)
-        // })
+        test('Status 200 providing valid order and admin token', async () => {
+          await api
+            .post('/api/orders')
+            .set('x-access-token', adminToken)
+            .send(validOrder)
+            .expect(200)
+        })
+
+        //
+        test('Status 200 providing valid order and manager token', async () => {
+          await api
+            .post('/api/orders')
+            .set('x-access-token', managerToken)
+            .send(validOrder)
+            .expect(200)
+        })
+
+        //
+        test('Status 200 providing valid order and employee token', async () => {
+          await api
+            .post('/api/orders')
+            .set('x-access-token', employeeToken)
+            .send(validOrder)
+            .expect(200)
+        })
+
+        //
+        test('Status 200 providing valid order and user token', async () => {
+          await api
+            .post('/api/orders')
+            .set('x-access-token', userToken)
+            .send(validOrder)
+            .expect(200)
+        })
+
+        //
+        test('Status 200 providing valid order and guest token', async () => {
+          await api
+            .post('/api/orders')
+            .set('x-access-token', guestToken)
+            .send(validOrder)
+            .expect(200)
+        })
+
+        //
+        test('Status 401 providing valid order and invalid token', async () => {
+          await api
+            .post('/api/orders')
+            .set('x-access-token', 'invalidToken')
+            .send(validOrder)
+            .expect(401)
+        })
+
+        //
+        test('Status 403 providing valid order and no token', async () => {
+          await api
+            .post('/api/orders')
+            .send(validOrder)
+            .expect(403)
+        })
       })
     })
 
