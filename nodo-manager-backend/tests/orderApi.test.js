@@ -241,11 +241,6 @@ describe('Order API Tests', () => {
     //
     describe('GET Requests', () => {
       //
-      describe('Data Validations', () => {
-
-      })
-
-      //
       describe('Authorization Validations', () => {
         //
         test('Status 200 providing admin token', async () => {
@@ -462,6 +457,22 @@ describe('Order API Tests', () => {
       //
       describe('Data Validations', () => {
 
+        //
+        test('Status 204 for null query results', async () => {
+          // Mongoose findByIdAndUpdate returns null if no object with id is
+          //found. Currently, no special error is thrown.
+          await api
+            .delete('/api/items/' + 'NotARealId12')
+            .expect(204)
+        })
+
+        //
+        test('Status 500 with incorrect id format', async () => {
+          // Mongoose throws a CastError, caught in errorHandler
+          await api
+            .delete('/api/items/' + '000')
+            .expect(500)
+        })
       })
 
       //
@@ -481,6 +492,9 @@ describe('Order API Tests', () => {
             .delete('/api/orders/' + orderToDeleteId)
             .set('x-access-token', adminToken)
             .expect(200)
+
+          const orders = await Order.find({}).exec()
+          expect(orders).toHaveLength(0)
         })
 
         //
@@ -498,6 +512,9 @@ describe('Order API Tests', () => {
             .delete('/api/orders/' + orderToDeleteId)
             .set('x-access-token', managerToken)
             .expect(200)
+
+          const orders = await Order.find({}).exec()
+          expect(orders).toHaveLength(0)
         })
 
         //

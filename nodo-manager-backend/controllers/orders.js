@@ -81,7 +81,9 @@ ordersRouter.put('/:id', [
       taxAmount: body.taxAmount,
       total: body.total
     }
-    const updatedOrder = await Order.findByIdAndUpdate(req.params.id, orderWithUpdates, { new: true })
+    const updatedOrder = await Order.findByIdAndUpdate(
+      req.params.id, orderWithUpdates, { new: true }
+    )
     res.json(updatedOrder.toJSON())
 
   } catch (err) {

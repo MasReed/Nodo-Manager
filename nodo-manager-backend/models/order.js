@@ -13,4 +13,15 @@ const orderSchema = new mongoose.Schema({
   total: Number
 })
 
+// Forward mongoose errors to errorHandler middleware
+orderSchema.post('save', (err, doc, next) => {
+  try {
+    if (err) {
+      throw { status: 400, message: err.message }
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
 module.exports = mongoose.model('Order', orderSchema)

@@ -53,6 +53,8 @@ Procedure / TODOs
     - implement restrictions on new user roles setting
     - default password -> auto-generate?
 
+  - add order time to orderInfo
+
 + create currentUserReducer to manage in redux
 + refactor userAuth and signup
 * page restrictions for user roles
