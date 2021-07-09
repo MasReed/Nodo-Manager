@@ -145,10 +145,9 @@ describe('Order API Tests', () => {
     //
     describe('POST Requests', () => {
       //
-      describe('Data Validations', () => {
+      describe.only('Data Validations', () => {
         //
         test('Status 200 given proper format', async () => {
-
           await api
             .post('/api/orders')
             .set('x-access-token', adminToken)
@@ -156,6 +155,7 @@ describe('Order API Tests', () => {
             .expect(200)
         })
 
+        //
         test('Status 400 if no items are in order', async () => {
           const invalidOrder = {
             ...validOrder,
@@ -169,6 +169,28 @@ describe('Order API Tests', () => {
             .expect(400)
 
           expect(res.body.message).toBe('No items in order!')
+        })
+
+        //
+        test('Undefined order time defaults to ~ current time', async () => {
+          // Approximate time due to asynchronicity of funcs
+          const validOrderWithoutTime = {
+            ...validOrder,
+            time: undefined
+          }
+
+          const res = await api
+            .post('/api/orders')
+            .set('x-access-token', adminToken)
+            .send(validOrderWithoutTime)
+            .expect(200)
+
+          const resTime = new Date(res.body.time).getTime()
+          const nowTime = new Date().getTime()
+          const deltaT = Math.abs( resTime - nowTime )
+
+          expect(res.body.time).toBeDefined()
+          expect(deltaT < 300).toBe(true) // Order time within 5min/300s of now
         })
       })
 
