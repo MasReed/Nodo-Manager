@@ -1,8 +1,23 @@
 const config = require('../config')
 
+const verifyStatus = (req, res, next) => {
+  try {
+    const statusOptions = ['In Progress', 'Complete', 'Canceled']
+
+    if (!req.body.status || req.body.status === '') {
+      req.body.status = 'In Progress'
+    } else if (!statusOptions.includes(req.body.status)) {
+      req.body.status = 'In Progress'
+    }
+    return next()
+
+  } catch (err) {
+    next(err)
+  }
+}
+
 // Verify order cost calculations
 const verifyCosts = (req, res, next) => {
-
   try {
     if (!req.body.items || req.body.items.length === 0) {
       throw ({ status: 400, message: 'No items in order!' })
@@ -54,8 +69,9 @@ const verifyCosts = (req, res, next) => {
   }
 }
 
-const verifyOrder = {
+const verifyOrderData = {
+  verifyStatus,
   verifyCosts
 }
 
-module.exports = verifyOrder
+module.exports = verifyOrderData

@@ -192,6 +192,57 @@ describe('Order API Tests', () => {
           expect(res.body.time).toBeDefined()
           expect(deltaT < 300).toBe(true) // Order time within 5min/300s of now
         })
+
+        //
+        describe('Order Status Property', () => {
+          //
+          test('Undefined order status defaults to "In Progress"', async () => {
+            const validOrderWithoutStatus = {
+              ...validOrder,
+              status: undefined
+            }
+
+            const res = await api
+              .post('/api/orders')
+              .set('x-access-token', adminToken)
+              .send(validOrderWithoutStatus)
+              .expect(200)
+
+            expect(res.body.status).toBe('In Progress')
+          })
+
+          //
+          test('Empty order status defaults to "In Progress"', async () => {
+            const validOrderWithEmptyStatus = {
+              ...validOrder,
+              status: ''
+            }
+
+            const res = await api
+              .post('/api/orders')
+              .set('x-access-token', adminToken)
+              .send(validOrderWithEmptyStatus)
+              .expect(200)
+
+            expect(res.body.status).toBe('In Progress')
+          })
+
+          //
+          test('Invalid order status defaults to "In Progress"', async () => {
+            const validOrderWithInvalidStatus = {
+              ...validOrder,
+              status: 'INVALID STATUS'
+            }
+
+            const res = await api
+              .post('/api/orders')
+              .set('x-access-token', adminToken)
+              .send(validOrderWithInvalidStatus)
+              .expect(200)
+
+            expect(res.body.status).toBe('In Progress')
+          })
+        })
       })
 
       //
