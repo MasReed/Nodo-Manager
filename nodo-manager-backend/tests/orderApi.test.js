@@ -376,8 +376,151 @@ describe('Order API Tests', () => {
         })
 
         //
-        describe('Order Cost-Related Properties', () => {
+        describe('Cost-Related Properties', () => {
 
+          //
+          test('Undefined subtotal is replaced', async () => {
+            const validOrderWithUndefinedSubtotal = {
+              ...validOrder,
+              subTotal: undefined
+            }
+
+            const res = await api
+              .post('/api/orders')
+              .set('x-access-token', adminToken)
+              .send(validOrderWithUndefinedSubtotal)
+              .expect(200)
+
+            expect(res.body.subTotal).toBe(6.98)
+          })
+
+          //
+          test('Empty subtotal is replaced', async () => {
+            const validOrderWithEmptySubtotal = {
+              ...validOrder,
+              subTotal: ''
+            }
+
+            const res = await api
+              .post('/api/orders')
+              .set('x-access-token', adminToken)
+              .send(validOrderWithEmptySubtotal)
+              .expect(200)
+
+            expect(res.body.subTotal).toBe(6.98)
+          })
+
+          //
+          test('Invalid subtotal is replaced', async () => {
+            const validOrderWithInvalidSubtotal = {
+              ...validOrder,
+              subTotal: -9999.99
+            }
+
+            const res = await api
+              .post('/api/orders')
+              .set('x-access-token', adminToken)
+              .send(validOrderWithInvalidSubtotal)
+              .expect(200)
+
+            expect(res.body.subTotal).toBe(6.98)
+          })
+
+          //
+          test('Undefined taxAmount is replaced', async () => {
+            const validOrderWithUndefinedTaxAmount = {
+              ...validOrder,
+              taxAmount: undefined
+            }
+
+            const res = await api
+              .post('/api/orders')
+              .set('x-access-token', adminToken)
+              .send(validOrderWithUndefinedTaxAmount)
+              .expect(200)
+
+            expect(res.body.taxAmount).toBe(0.49)
+          })
+
+          //
+          test('Empty taxAmount is replaced', async () => {
+            const validOrderWithEmptyTaxAmount = {
+              ...validOrder,
+              taxAmount: ''
+            }
+
+            const res = await api
+              .post('/api/orders')
+              .set('x-access-token', adminToken)
+              .send(validOrderWithEmptyTaxAmount)
+              .expect(200)
+
+            expect(res.body.taxAmount).toBe(0.49)
+          })
+
+          //
+          test('Invalid taxAmount is replaced', async () => {
+            const validOrderWithInvalidTaxAmount = {
+              ...validOrder,
+              taxAmount: -9999.99
+            }
+
+            const res = await api
+              .post('/api/orders')
+              .set('x-access-token', adminToken)
+              .send(validOrderWithInvalidTaxAmount)
+              .expect(200)
+
+            expect(res.body.taxAmount).toBe(0.49)
+          })
+
+          //
+          test('Undefined total is replaced', async () => {
+            const validOrderWithUndefinedTotal = {
+              ...validOrder,
+              total: undefined
+            }
+
+            const res = await api
+              .post('/api/orders')
+              .set('x-access-token', adminToken)
+              .send(validOrderWithUndefinedTotal)
+              .expect(200)
+
+            expect(res.body.total).toBe(7.47)
+          })
+
+          //
+          test('Empty total is replaced', async () => {
+            const validOrderWithEmptyTotal = {
+              ...validOrder,
+              total: ''
+            }
+
+            const res = await api
+              .post('/api/orders')
+              .set('x-access-token', adminToken)
+              .send(validOrderWithEmptyTotal)
+              .expect(200)
+
+            expect(res.body.total).toBe(7.47)
+          })
+
+          //
+          test('Invalid total is replaced', async () => {
+            const validOrderWithInvalidTotal = {
+              ...validOrder,
+              total: -9999.99
+            }
+
+            const res = await api
+              .post('/api/orders')
+              .set('x-access-token', adminToken)
+              .send(validOrderWithInvalidTotal)
+              .expect(200)
+
+            expect(res.body.total).toBe(7.47)
+          })
         })
       })
 
