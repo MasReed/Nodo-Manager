@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 
 const orderSchema = new mongoose.Schema({
-  time: { type: Date },
-  status: { type: String, default: 'In Progress' },
+  time: Date,
+  status: String,
   category: String,
   name: String,
   items: Array,

@@ -7,8 +7,12 @@ const orderValidation = require('../utils/validations/orderValidation')
 // CREATE new order
 ordersRouter.post('/', [
   authJwt.verifyToken,
+  orderValidation.verifyStatus,
+  orderValidation.verifyCategory,
+  orderValidation.verifyName,
+  orderValidation.verifyItems,
   orderValidation.verifyCosts,
-  orderValidation.verifyStatus
+
 ], async (req, res, next) => {
 
   try {

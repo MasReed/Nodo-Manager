@@ -194,7 +194,7 @@ describe('Order API Tests', () => {
         })
 
         //
-        describe('Order Status Property', () => {
+        describe('Status Property', () => {
           //
           test('Undefined order status defaults to "In Progress"', async () => {
             const validOrderWithoutStatus = {
@@ -242,6 +242,121 @@ describe('Order API Tests', () => {
 
             expect(res.body.status).toBe('In Progress')
           })
+        })
+
+        //
+        describe('Category Property', () => {
+          //
+          test('Undefined order category defaults to "Other"', async () => {
+            const validOrderWithUndefinedCategory = {
+              ...validOrder,
+              category: undefined
+            }
+
+            const res = await api
+              .post('/api/orders')
+              .set('x-access-token', adminToken)
+              .send(validOrderWithUndefinedCategory)
+              .expect(200)
+
+            expect(res.body.category).toBe('Other')
+          })
+
+          //
+          test('Empty order category defaults to "Other"', async () => {
+            const validOrderWithEmptyCategory = {
+              ...validOrder,
+              category: ''
+            }
+
+            const res = await api
+              .post('/api/orders')
+              .set('x-access-token', adminToken)
+              .send(validOrderWithEmptyCategory)
+              .expect(200)
+
+            expect(res.body.category).toBe('Other')
+          })
+        })
+
+        //
+        describe('Name Property', () => {
+          //
+          test('Status 400 for undefined order name', async () => {
+            const validOrderWithUndefinedCategory = {
+              ...validOrder,
+              name: undefined
+            }
+
+            const res = await api
+              .post('/api/orders')
+              .set('x-access-token', adminToken)
+              .send(validOrderWithUndefinedCategory)
+              .expect(400)
+
+            expect(res.body.message).toBe('An order name is required.')
+          })
+
+          //
+          test('Status 400 for empty order name', async () => {
+            const validOrderWithEmptyCategory = {
+              ...validOrder,
+              name: ''
+            }
+
+            const res = await api
+              .post('/api/orders')
+              .set('x-access-token', adminToken)
+              .send(validOrderWithEmptyCategory)
+              .expect(400)
+
+            expect(res.body.message).toBe('An order name is required.')
+          })
+        })
+
+        //
+        describe('Order Items Property', () => {
+          //
+          test('Status 400 for undefined order items', async () => {
+            const validOrderWithUndefinedItems = {
+              ...validOrder,
+              items: undefined
+            }
+
+            const res = await api
+              .post('/api/orders')
+              .set('x-access-token', adminToken)
+              .send(validOrderWithUndefinedItems)
+              .expect(400)
+
+            expect(res.body.message).toBe('No items in order!')
+          })
+
+          //
+          test('Status 400 for empty order items', async () => {
+            const validOrderWithEmptyItems = {
+              ...validOrder,
+              items: []
+            }
+
+            const res = await api
+              .post('/api/orders')
+              .set('x-access-token', adminToken)
+              .send(validOrderWithEmptyItems)
+              .expect(400)
+
+            expect(res.body.message).toBe('No items in order!')
+          })
+        })
+
+        //
+        describe('Order Notes Property', () => {
+
+        })
+
+        //
+        describe('Order Cost-Related Properties', () => {
+
         })
       })
 

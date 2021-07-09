@@ -1,5 +1,6 @@
 const config = require('../config')
 
+//
 const verifyStatus = (req, res, next) => {
   try {
     const statusOptions = ['In Progress', 'Complete', 'Canceled']
@@ -16,12 +17,51 @@ const verifyStatus = (req, res, next) => {
   }
 }
 
-// Verify order cost calculations
-const verifyCosts = (req, res, next) => {
+//
+const verifyCategory = (req, res, next) => {
+  try {
+    if (!req.body.category || req.body.category === '') {
+      req.body.category = 'Other'
+    }
+
+    return next()
+
+  } catch (err) {
+    next(err)
+  }
+}
+
+//
+const verifyName = (req, res, next) => {
+  try {
+    if (!req.body.name || req.body.name === '') {
+      throw ({ status: 400, message: 'An order name is required.' })
+    }
+    return next()
+
+  } catch (err) {
+    next(err)
+  }
+}
+
+//
+const verifyItems = (req, res, next) => {
   try {
     if (!req.body.items || req.body.items.length === 0) {
       throw ({ status: 400, message: 'No items in order!' })
     }
+
+    return next()
+
+  } catch (err) {
+    next(err)
+  }
+}
+
+// Verify order cost calculations
+const verifyCosts = (req, res, next) => {
+  try {
+
 
     /* the subtotal should be calculated by matching baseItemId to those stored
     in the database and getting the total from there; need to implement
@@ -71,6 +111,9 @@ const verifyCosts = (req, res, next) => {
 
 const verifyOrderData = {
   verifyStatus,
+  verifyCategory,
+  verifyName,
+  verifyItems,
   verifyCosts
 }
 
