@@ -61,7 +61,12 @@ ordersRouter.get('/:id', async (req, res, next) => {
 })
 
 // UPDATE an order
-ordersRouter.put('/:id', orderValidation.verifyCosts, async (req, res, next) => {
+ordersRouter.put('/:id', [
+  authJwt.verifyToken,
+  authJwt.isEmployee,
+  orderValidation.verifyCosts
+], async (req, res, next) => {
+
   try {
     const body = req.body
     const orderWithUpdates = {
@@ -89,7 +94,7 @@ ordersRouter.delete('/:id', [
   authJwt.verifyToken,
   authJwt.isManager
 ], async (req, res, next) => {
-  
+
   try {
     const deletedOrder = await Order.findByIdAndDelete(req.params.id)
     res.json(deletedOrder.toJSON())

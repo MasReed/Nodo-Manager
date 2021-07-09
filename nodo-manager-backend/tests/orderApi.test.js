@@ -313,7 +313,147 @@ describe('Order API Tests', () => {
 
       //
       describe('Authorization Validations', () => {
+        //
+        test('Status 200 providing admin token', async () => {
 
+          const created = await api
+            .post('/api/orders')
+            .set('x-access-token', adminToken)
+            .send(validOrder)
+            .expect(200)
+
+          const orderToUpdateId = created.body._id
+
+          const res = await api
+            .put('/api/orders/' + orderToUpdateId)
+            .set('x-access-token', adminToken)
+            .send({ ...validOrder, name: 'Updated Test Order' })
+            .expect(200)
+
+          expect(res.body.name).toBe('Updated Test Order')
+          expect(res.body.notes).toBe('This is a test.')
+        })
+
+        //
+        test('Status 200 providing manager token', async () => {
+
+          const created = await api
+            .post('/api/orders')
+            .set('x-access-token', adminToken)
+            .send(validOrder)
+            .expect(200)
+
+          const orderToUpdateId = created.body._id
+
+          const res = await api
+            .put('/api/orders/' + orderToUpdateId)
+            .set('x-access-token', managerToken)
+            .send({ ...validOrder, name: 'Updated Test Order' })
+            .expect(200)
+
+          expect(res.body.name).toBe('Updated Test Order')
+          expect(res.body.notes).toBe('This is a test.')
+        })
+
+        //
+        test('Status 200 providing employeeToken token', async () => {
+
+          const created = await api
+            .post('/api/orders')
+            .set('x-access-token', adminToken)
+            .send(validOrder)
+            .expect(200)
+
+          const orderToUpdateId = created.body._id
+
+          const res = await api
+            .put('/api/orders/' + orderToUpdateId)
+            .set('x-access-token', employeeToken)
+            .send({ ...validOrder, name: 'Updated Test Order' })
+            .expect(200)
+
+          expect(res.body.name).toBe('Updated Test Order')
+          expect(res.body.notes).toBe('This is a test.')
+        })
+
+        //
+        test('Status 401 providing user token', async () => {
+
+          const created = await api
+            .post('/api/orders')
+            .set('x-access-token', adminToken)
+            .send(validOrder)
+            .expect(200)
+
+          const orderToUpdateId = created.body._id
+
+          const res = await api
+            .put('/api/orders/' + orderToUpdateId)
+            .set('x-access-token', userToken)
+            .send({ ...validOrder, name: 'Updated Test Order' })
+            .expect(401)
+
+          expect(res.body.message).toBe('Requires Employee Role')
+        })
+
+        //
+        test('Status 401 providing guest token', async () => {
+
+          const created = await api
+            .post('/api/orders')
+            .set('x-access-token', adminToken)
+            .send(validOrder)
+            .expect(200)
+
+          const orderToUpdateId = created.body._id
+
+          const res = await api
+            .put('/api/orders/' + orderToUpdateId)
+            .set('x-access-token', guestToken)
+            .send({ ...validOrder, name: 'Updated Test Order' })
+            .expect(401)
+
+          expect(res.body.message).toBe('Requires Employee Role')
+        })
+
+        //
+        test('Status 401 providing an invalid token', async () => {
+
+          const created = await api
+            .post('/api/orders')
+            .set('x-access-token', adminToken)
+            .send(validOrder)
+            .expect(200)
+
+          const orderToUpdateId = created.body._id
+
+          const res = await api
+            .put('/api/orders/' + orderToUpdateId)
+            .set('x-access-token', 'invalidToken')
+            .send({ ...validOrder, name: 'Updated Test Order' })
+            .expect(401)
+
+          expect(res.body.message).toBe('jwt malformed')
+        })
+
+        //
+        test('Status 403 providing no token', async () => {
+
+          const created = await api
+            .post('/api/orders')
+            .set('x-access-token', adminToken)
+            .send(validOrder)
+            .expect(200)
+
+          const orderToUpdateId = created.body._id
+
+          const res = await api
+            .put('/api/orders/' + orderToUpdateId)
+            .send({ ...validOrder, name: 'Updated Test Order' })
+            .expect(403)
+
+          expect(res.body.message).toBe('No token provided')
+        })
       })
     })
 
