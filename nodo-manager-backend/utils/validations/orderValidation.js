@@ -58,7 +58,25 @@ const verifyItems = (req, res, next) => {
   }
 }
 
-// Verify order cost calculations
+//
+const verifyNotes = (req, res, next) => {
+  try {
+    if (!req.body.notes) {
+      req.body.notes = ''
+    }
+
+    if (req.body.notes.length > 250) {
+      throw ({ status: 400, message: 'Notes are too long.' })
+    }
+
+    return next()
+
+  } catch (err) {
+    next(err)
+  }
+}
+
+// cost-related calculations: subtotal, taxrate, taxamount, total
 const verifyCosts = (req, res, next) => {
   try {
 
@@ -114,6 +132,7 @@ const verifyOrderData = {
   verifyCategory,
   verifyName,
   verifyItems,
+  verifyNotes,
   verifyCosts
 }
 

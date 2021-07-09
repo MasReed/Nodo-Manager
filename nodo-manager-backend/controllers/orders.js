@@ -11,6 +11,7 @@ ordersRouter.post('/', [
   orderValidation.verifyCategory,
   orderValidation.verifyName,
   orderValidation.verifyItems,
+  orderValidation.verifyNotes,
   orderValidation.verifyCosts,
 
 ], async (req, res, next) => {

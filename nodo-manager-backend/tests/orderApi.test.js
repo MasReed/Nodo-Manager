@@ -156,48 +156,35 @@ describe('Order API Tests', () => {
         })
 
         //
-        test('Status 400 if no items are in order', async () => {
-          const invalidOrder = {
-            ...validOrder,
-            items: []
-          }
+        describe('Time Property', () => {
+          //
+          test('Undefined order time defaults to ~ current time', async () => {
+            // Approximate time due to asynchronicity of funcs
+            const validOrderWithoutTime = {
+              ...validOrder,
+              time: undefined
+            }
 
-          const res = await api
-            .post('/api/orders')
-            .set('x-access-token', adminToken)
-            .send(invalidOrder)
-            .expect(400)
+            const res = await api
+              .post('/api/orders')
+              .set('x-access-token', adminToken)
+              .send(validOrderWithoutTime)
+              .expect(200)
 
-          expect(res.body.message).toBe('No items in order!')
-        })
+            const resTime = new Date(res.body.time).getTime()
+            const nowTime = new Date().getTime()
+            const deltaT = Math.abs( resTime - nowTime )
 
-        //
-        test('Undefined order time defaults to ~ current time', async () => {
-          // Approximate time due to asynchronicity of funcs
-          const validOrderWithoutTime = {
-            ...validOrder,
-            time: undefined
-          }
-
-          const res = await api
-            .post('/api/orders')
-            .set('x-access-token', adminToken)
-            .send(validOrderWithoutTime)
-            .expect(200)
-
-          const resTime = new Date(res.body.time).getTime()
-          const nowTime = new Date().getTime()
-          const deltaT = Math.abs( resTime - nowTime )
-
-          expect(res.body.time).toBeDefined()
-          expect(deltaT < 300).toBe(true) // Order time within 5min/300s of now
+            expect(res.body.time).toBeDefined()
+            expect(deltaT < 300).toBe(true) // Order time within 5min/300s of now
+          })
         })
 
         //
         describe('Status Property', () => {
           //
           test('Undefined order status defaults to "In Progress"', async () => {
-            const validOrderWithoutStatus = {
+            const validOrderUndefinedStatus = {
               ...validOrder,
               status: undefined
             }
@@ -205,7 +192,7 @@ describe('Order API Tests', () => {
             const res = await api
               .post('/api/orders')
               .set('x-access-token', adminToken)
-              .send(validOrderWithoutStatus)
+              .send(validOrderUndefinedStatus)
               .expect(200)
 
             expect(res.body.status).toBe('In Progress')
@@ -283,7 +270,7 @@ describe('Order API Tests', () => {
         describe('Name Property', () => {
           //
           test('Status 400 for undefined order name', async () => {
-            const validOrderWithUndefinedCategory = {
+            const validOrderWithUndefinedName = {
               ...validOrder,
               name: undefined
             }
@@ -291,7 +278,7 @@ describe('Order API Tests', () => {
             const res = await api
               .post('/api/orders')
               .set('x-access-token', adminToken)
-              .send(validOrderWithUndefinedCategory)
+              .send(validOrderWithUndefinedName)
               .expect(400)
 
             expect(res.body.message).toBe('An order name is required.')
@@ -299,7 +286,7 @@ describe('Order API Tests', () => {
 
           //
           test('Status 400 for empty order name', async () => {
-            const validOrderWithEmptyCategory = {
+            const validOrderWithEmptyName = {
               ...validOrder,
               name: ''
             }
@@ -307,7 +294,7 @@ describe('Order API Tests', () => {
             const res = await api
               .post('/api/orders')
               .set('x-access-token', adminToken)
-              .send(validOrderWithEmptyCategory)
+              .send(validOrderWithEmptyName)
               .expect(400)
 
             expect(res.body.message).toBe('An order name is required.')
@@ -315,7 +302,7 @@ describe('Order API Tests', () => {
         })
 
         //
-        describe('Order Items Property', () => {
+        describe('Items Property', () => {
           //
           test('Status 400 for undefined order items', async () => {
             const validOrderWithUndefinedItems = {
@@ -350,8 +337,42 @@ describe('Order API Tests', () => {
         })
 
         //
-        describe('Order Notes Property', () => {
+        describe('Notes Property', () => {
+          //
+          test('Undefined Notes defaults to empty string', async () => {
+            const validOrderWithUndefinedNotes = {
+              ...validOrder,
+              notes: undefined
+            }
 
+            const res = await api
+              .post('/api/orders')
+              .set('x-access-token', adminToken)
+              .send(validOrderWithUndefinedNotes)
+              .expect(200)
+
+            expect(res.body.notes).toBe('')
+          })
+
+          //
+          test('Status 400 for note with more than 250 chars', async () => {
+            const validOrderWithLengthyNotes = {
+              ...validOrder,
+              notes: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, s
+                ed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco labor
+                is nisi ut aliquip ex ea commodo consequat. Duis aute irure d.
+                This is now more than 250 Characters.`
+            }
+
+            const res = await api
+              .post('/api/orders')
+              .set('x-access-token', adminToken)
+              .send(validOrderWithLengthyNotes)
+              .expect(400)
+
+            expect(res.body.message).toBe('Notes are too long.')
+          })
         })
 
         //
