@@ -74,8 +74,13 @@ Procedure / TODOs
 - add order time to orderInfo
 - create order update form/modal
 - Update order schema to use mongoose timestamps
+- Centralize frontend error handling (mostly from api call statuses)
 
-- supertest/jest for backend api
++ supertest/jest for backend api
+  + Basic Data Validation testing for item, order, user APIs
+    + Required Properties / Default values
+    - Expand data type validation
+  + Basic Auth Validation testing for item, order, user APIs
 
 - confirm account registration w/ email?
 - implement OAuth for registration/login
