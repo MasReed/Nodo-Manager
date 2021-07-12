@@ -57,7 +57,10 @@ const OrderInfo = ({ order }) => {
           <h2>{order.name}</h2>
           <h6>ID: {order._id}</h6>
         </div>
+        <div>
           <h2 style={{ color: orderStatusColor(order.status) }}>{order.status}</h2>
+          <h6>{new Date(order.time).toLocaleString()}</h6>
+        </div>
         <div>
         </div>
         <div className='text-right'>
