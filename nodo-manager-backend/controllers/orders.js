@@ -70,8 +70,12 @@ ordersRouter.get('/:id', async (req, res, next) => {
 ordersRouter.put('/:id', [
   authJwt.verifyToken,
   authJwt.isEmployee,
+  orderValidation.verifyStatus,
+  orderValidation.verifyCategory,
+  orderValidation.verifyName,
+  orderValidation.verifyItems,
+  orderValidation.verifyNotes,
   orderValidation.verifyCosts,
-  orderValidation.verifyStatus
 ], async (req, res, next) => {
 
   try {

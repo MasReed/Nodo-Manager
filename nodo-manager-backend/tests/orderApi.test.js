@@ -145,7 +145,7 @@ describe('Order API Tests', () => {
     //
     describe('POST Requests', () => {
       //
-      describe.only('Data Validations', () => {
+      describe('Data Validations', () => {
         //
         test('Status 200 given proper format', async () => {
           await api
@@ -153,6 +153,7 @@ describe('Order API Tests', () => {
             .set('x-access-token', adminToken)
             .send(validOrder)
             .expect(200)
+            .expect('Content-Type', /application\/json/)
         })
 
         //
@@ -593,6 +594,18 @@ describe('Order API Tests', () => {
     //
     describe('GET Requests', () => {
       //
+      describe('Data Validations', () => {
+        //
+        test('Status 200 data type is application/json', async () => {
+          await api
+            .get('/api/orders')
+            .set('x-access-token', adminToken)
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+        })
+      })
+
+      //
       describe('Authorization Validations', () => {
         //
         test('Status 200 providing admin token', async () => {
@@ -651,10 +664,443 @@ describe('Order API Tests', () => {
       })
     })
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //
-    describe('PUT Requests', () => {
+    describe.only('PUT Requests', () => {
       //
       describe('Data Validations', () => {
+        let existingOrderId
+        beforeEach(async () => {
+          const res = await api
+            .post('/api/orders')
+            .set('x-access-token', adminToken)
+            .send(validOrder)
+            .expect(200)
+
+          existingOrderId = res.body._id
+        })
+
+        //
+        test('Status 200 data type is application/json', async () => {
+
+          const validUpdatedOrder = {
+            ...validOrder,
+            update: 'NEW UPDATE'
+          }
+          await api
+            .put('/api/orders/' + existingOrderId)
+            .set('x-access-token', adminToken)
+            .send(validUpdatedOrder)
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+        })
+
+        //
+        describe('Time Property', () => {
+          //
+          test('Updated order time defaults to ~ current time', async () => {
+            // Approximate time due to asynchronicity of funcs
+            const validOrderUpdatedTime = {
+              ...validOrder,
+              time: 'Some wacky time'
+            }
+
+            const res = await api
+              .put('/api/orders/' + existingOrderId)
+              .set('x-access-token', adminToken)
+              .send(validOrderUpdatedTime)
+              .expect(200)
+
+            const resTime = new Date(res.body.time).getTime()
+            const nowTime = new Date().getTime()
+            const deltaT = Math.abs( resTime - nowTime )
+
+            expect(res.body.time).toBeDefined()
+            expect(deltaT < 300).toBe(true) // Order time within 5min/300s of now
+          })
+        })
+
+
+        describe('Status Property', () => {
+          //
+          test('Undefined order status defaults to "In Progress"', async () => {
+            const validOrderUndefinedStatus = {
+              ...validOrder,
+              status: undefined
+            }
+
+            const res = await api
+              .put('/api/orders/' + existingOrderId)
+              .set('x-access-token', adminToken)
+              .send(validOrderUndefinedStatus)
+              .expect(200)
+
+            expect(res.body.status).toBe('In Progress')
+          })
+
+          //
+          test('Empty order status defaults to "In Progress"', async () => {
+            const validOrderWithEmptyStatus = {
+              ...validOrder,
+              status: ''
+            }
+
+            const res = await api
+              .put('/api/orders/' + existingOrderId)
+              .set('x-access-token', adminToken)
+              .send(validOrderWithEmptyStatus)
+              .expect(200)
+
+            expect(res.body.status).toBe('In Progress')
+          })
+
+          //
+          test('Invalid order status defaults to "In Progress"', async () => {
+            const validOrderWithInvalidStatus = {
+              ...validOrder,
+              status: 'INVALID STATUS'
+            }
+
+            const res = await api
+              .put('/api/orders/' + existingOrderId)
+              .set('x-access-token', adminToken)
+              .send(validOrderWithInvalidStatus)
+              .expect(200)
+
+            expect(res.body.status).toBe('In Progress')
+          })
+        })
+
+
+        describe('Category Property', () => {
+          //
+          test('Undefined order category defaults to "Other"', async () => {
+            const validOrderWithUndefinedCategory = {
+              ...validOrder,
+              category: undefined
+            }
+
+            const res = await api
+              .put('/api/orders/' + existingOrderId)
+              .set('x-access-token', adminToken)
+              .send(validOrderWithUndefinedCategory)
+              .expect(200)
+
+            expect(res.body.category).toBe('Other')
+          })
+
+          //
+          test('Empty order category defaults to "Other"', async () => {
+            const validOrderWithEmptyCategory = {
+              ...validOrder,
+              category: ''
+            }
+
+            const res = await api
+              .put('/api/orders/' + existingOrderId)
+              .set('x-access-token', adminToken)
+              .send(validOrderWithEmptyCategory)
+              .expect(200)
+
+            expect(res.body.category).toBe('Other')
+          })
+        })
+
+        describe('Name Property', () => {
+          //
+          test('Status 400 for undefined order name', async () => {
+            const validOrderWithUndefinedName = {
+              ...validOrder,
+              name: undefined
+            }
+
+            const res = await api
+              .put('/api/orders/' + existingOrderId)
+              .set('x-access-token', adminToken)
+              .send(validOrderWithUndefinedName)
+              .expect(400)
+
+            expect(res.body.message).toBe('An order name is required.')
+          })
+
+          //
+          test('Status 400 for empty order name', async () => {
+            const validOrderWithEmptyName = {
+              ...validOrder,
+              name: ''
+            }
+
+            const res = await api
+              .put('/api/orders/' + existingOrderId)
+              .set('x-access-token', adminToken)
+              .send(validOrderWithEmptyName)
+              .expect(400)
+
+            expect(res.body.message).toBe('An order name is required.')
+          })
+        })
+
+
+        describe('Items Property', () => {
+          //
+          test('Status 400 for undefined order items', async () => {
+            const validOrderWithUndefinedItems = {
+              ...validOrder,
+              items: undefined
+            }
+
+            const res = await api
+              .put('/api/orders/' + existingOrderId)
+              .set('x-access-token', adminToken)
+              .send(validOrderWithUndefinedItems)
+              .expect(400)
+
+            expect(res.body.message).toBe('No items in order!')
+          })
+
+          //
+          test('Status 400 for empty order items', async () => {
+            const validOrderWithEmptyItems = {
+              ...validOrder,
+              items: []
+            }
+
+            const res = await api
+              .put('/api/orders/' + existingOrderId)
+              .set('x-access-token', adminToken)
+              .send(validOrderWithEmptyItems)
+              .expect(400)
+
+            expect(res.body.message).toBe('No items in order!')
+          })
+        })
+
+        //
+        describe('Notes Property', () => {
+          //
+          test('Undefined Notes defaults to empty string', async () => {
+            const validOrderWithUndefinedNotes = {
+              ...validOrder,
+              notes: undefined
+            }
+
+            const res = await api
+              .put('/api/orders/' + existingOrderId)
+              .set('x-access-token', adminToken)
+              .send(validOrderWithUndefinedNotes)
+              .expect(200)
+
+            expect(res.body.notes).toBe('')
+          })
+
+          //
+          test('Status 400 for note with more than 250 chars', async () => {
+            const validOrderWithLengthyNotes = {
+              ...validOrder,
+              notes: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, s
+                ed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco labor
+                is nisi ut aliquip ex ea commodo consequat. Duis aute irure d.
+                This is now more than 250 Characters.`
+            }
+
+            const res = await api
+              .put('/api/orders/' + existingOrderId)
+              .set('x-access-token', adminToken)
+              .send(validOrderWithLengthyNotes)
+              .expect(400)
+
+            expect(res.body.message).toBe('Notes are too long.')
+          })
+        })
+
+        //
+        describe('Cost-Related Properties', () => {
+
+          //
+          test('Undefined subtotal is replaced', async () => {
+            const validOrderWithUndefinedSubtotal = {
+              ...validOrder,
+              subTotal: undefined
+            }
+
+            const res = await api
+              .put('/api/orders/' + existingOrderId)
+              .set('x-access-token', adminToken)
+              .send(validOrderWithUndefinedSubtotal)
+              .expect(200)
+
+            expect(res.body.subTotal).toBe(6.98)
+          })
+
+          //
+          test('Empty subtotal is replaced', async () => {
+            const validOrderWithEmptySubtotal = {
+              ...validOrder,
+              subTotal: ''
+            }
+
+            const res = await api
+              .put('/api/orders/' + existingOrderId)
+              .set('x-access-token', adminToken)
+              .send(validOrderWithEmptySubtotal)
+              .expect(200)
+
+            expect(res.body.subTotal).toBe(6.98)
+          })
+
+          //
+          test('Invalid subtotal is replaced', async () => {
+            const validOrderWithInvalidSubtotal = {
+              ...validOrder,
+              subTotal: -9999.99
+            }
+
+            const res = await api
+              .put('/api/orders/' + existingOrderId)
+              .set('x-access-token', adminToken)
+              .send(validOrderWithInvalidSubtotal)
+              .expect(200)
+
+            expect(res.body.subTotal).toBe(6.98)
+          })
+
+          //
+          test('Undefined taxAmount is replaced', async () => {
+            const validOrderWithUndefinedTaxAmount = {
+              ...validOrder,
+              taxAmount: undefined
+            }
+
+            const res = await api
+              .put('/api/orders/' + existingOrderId)
+              .set('x-access-token', adminToken)
+              .send(validOrderWithUndefinedTaxAmount)
+              .expect(200)
+
+            expect(res.body.taxAmount).toBe(0.49)
+          })
+
+          //
+          test('Empty taxAmount is replaced', async () => {
+            const validOrderWithEmptyTaxAmount = {
+              ...validOrder,
+              taxAmount: ''
+            }
+
+            const res = await api
+              .put('/api/orders/' + existingOrderId)
+              .set('x-access-token', adminToken)
+              .send(validOrderWithEmptyTaxAmount)
+              .expect(200)
+
+            expect(res.body.taxAmount).toBe(0.49)
+          })
+
+          //
+          test('Invalid taxAmount is replaced', async () => {
+            const validOrderWithInvalidTaxAmount = {
+              ...validOrder,
+              taxAmount: -9999.99
+            }
+
+            const res = await api
+              .put('/api/orders/' + existingOrderId)
+              .set('x-access-token', adminToken)
+              .send(validOrderWithInvalidTaxAmount)
+              .expect(200)
+
+            expect(res.body.taxAmount).toBe(0.49)
+          })
+
+          //
+          test('Undefined total is replaced', async () => {
+            const validOrderWithUndefinedTotal = {
+              ...validOrder,
+              total: undefined
+            }
+
+            const res = await api
+              .put('/api/orders/' + existingOrderId)
+              .set('x-access-token', adminToken)
+              .send(validOrderWithUndefinedTotal)
+              .expect(200)
+
+            expect(res.body.total).toBe(7.47)
+          })
+
+          //
+          test('Empty total is replaced', async () => {
+            const validOrderWithEmptyTotal = {
+              ...validOrder,
+              total: ''
+            }
+
+            const res = await api
+              .put('/api/orders/' + existingOrderId)
+              .set('x-access-token', adminToken)
+              .send(validOrderWithEmptyTotal)
+              .expect(200)
+
+            expect(res.body.total).toBe(7.47)
+          })
+
+          //
+          test('Invalid total is replaced', async () => {
+            const validOrderWithInvalidTotal = {
+              ...validOrder,
+              total: -9999.99
+            }
+
+            const res = await api
+              .put('/api/orders/' + existingOrderId)
+              .set('x-access-token', adminToken)
+              .send(validOrderWithInvalidTotal)
+              .expect(200)
+
+            expect(res.body.total).toBe(7.47)
+          })
+        })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       })
 
@@ -808,6 +1254,15 @@ describe('Order API Tests', () => {
     describe('DELETE Requests', () => {
       //
       describe('Data Validations', () => {
+        //
+        test('Status 200 has data type of application/json', async () => {
+          await api
+            .get('/api/orders')
+            .set('x-access-token', adminToken)
+            .send(validOrder)
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+        })
 
         //
         test('Status 204 for null query results', async () => {
