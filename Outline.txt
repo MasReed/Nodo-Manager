@@ -53,9 +53,6 @@ Procedure / TODOs
     - implement restrictions on new user roles setting
     - default password -> auto-generate?
 
-  - add order time to orderInfo
-  - Update order schema to use mongoose timestamps
-
 + create currentUserReducer to manage in redux
 + refactor userAuth and signup
 * page restrictions for user roles
@@ -74,6 +71,9 @@ Procedure / TODOs
 + verify order totals serverside
 
 - improve/expand order schema validations and data validations
+- add order time to orderInfo
+- create order update form/modal
+- Update order schema to use mongoose timestamps
 
 - supertest/jest for backend api
 

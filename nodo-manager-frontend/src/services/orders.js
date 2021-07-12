@@ -2,12 +2,13 @@ import axios from 'axios'
 
 const baseUrl = '/api/orders'
 
+//
 let token = null
-const setToken = newToken => {
+const setToken = newToken => { // Called by currentUserReducer
   token = `${newToken}`
 }
 
-
+//
 const getAll = () => {
   const config = {
     headers: { 'x-access-token': token }
@@ -17,23 +18,43 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
+//
 const getOne = (id) => {
-  const request = axios.get(`${baseUrl}/${id}`)
+  const config = {
+    headers: { 'x-access-token': token }
+  }
+
+  const request = axios.get(`${baseUrl}/${id}`, config)
   return request.then(response => response.data)
 }
 
+//
 const create = async (newObject) => {
-  const response = await axios.post(baseUrl, newObject)
+  const config = {
+    headers: { 'x-access-token': token }
+  }
+
+  const response = await axios.post(baseUrl, newObject, config)
   return response.data
 }
 
+//
 const update = async (id, updatedObject) => {
-  const response = await axios.put(`${baseUrl}/${id}`, updatedObject)
+  const config = {
+    headers: { 'x-access-token': token }
+  }
+
+  const response = await axios.put(`${baseUrl}/${id}`, updatedObject, config)
   return response.data
 }
 
+//
 const destroy = async (id) => {
-  const response = await axios.delete(`${baseUrl}/${id}`)
+  const config = {
+    headers: { 'x-access-token': token }
+  }
+
+  const response = await axios.delete(`${baseUrl}/${id}`, config)
   return response.data
 }
 

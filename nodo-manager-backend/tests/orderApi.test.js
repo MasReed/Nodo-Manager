@@ -664,26 +664,8 @@ describe('Order API Tests', () => {
       })
     })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //
-    describe.only('PUT Requests', () => {
+    describe('PUT Requests', () => {
       //
       describe('Data Validations', () => {
         let existingOrderId
@@ -1078,30 +1060,6 @@ describe('Order API Tests', () => {
             expect(res.body.total).toBe(7.47)
           })
         })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       })
 
       //
