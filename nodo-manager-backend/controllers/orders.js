@@ -49,7 +49,7 @@ ordersRouter.get('/', [
 ], async (req, res, next) => {
 
   try {
-    const orders = await Order.find({})
+    const orders = await Order.find({}).populate('user')
     res.json(orders)
 
   } catch (err) {

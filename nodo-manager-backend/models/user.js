@@ -14,6 +14,10 @@ const userSchema = new mongoose.Schema({
   role: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Role'
+  },
+  orders: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Order'
   }
 })
 

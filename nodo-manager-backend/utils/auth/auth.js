@@ -62,6 +62,7 @@ const signin = async (req, res, next) => {
     const user = await User
       .findOne({ username: req.body.username })
       .populate('role', '-__v')
+      .populate('order')
 
     // User not found throws 404 Not Found
     if (!user) {

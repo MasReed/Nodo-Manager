@@ -150,12 +150,15 @@ describe('Order API Tests', () => {
       describe('Data Validations', () => {
         //
         test('Status 200 given proper format', async () => {
-          await api
+          const postingUser = await User.findOne({ username: 'TestAdmin' })
+          const res = await api
             .post('/api/orders')
             .set('x-access-token', adminToken)
             .send(validOrder)
             .expect(200)
             .expect('Content-Type', /application\/json/)
+
+          expect(res.body.user).toBe(postingUser.id)
         })
 
         //
@@ -723,12 +726,16 @@ describe('Order API Tests', () => {
             ...validOrder,
             update: 'NEW UPDATE'
           }
-          await api
+          const postingUser = await User.findOne({ username: 'TestAdmin' })
+
+          const res = await api
             .put('/api/orders/' + existingOrderId)
             .set('x-access-token', adminToken)
             .send(validUpdatedOrder)
             .expect(200)
             .expect('Content-Type', /application\/json/)
+
+          expect(res.body.user).toBe(postingUser.id)
         })
 
         //
@@ -763,7 +770,6 @@ describe('Order API Tests', () => {
             expect(deltaT < 300).toBe(true) // Updated in the last 300 sec
           })
         })
-
 
         describe('Status Property', () => {
           //
