@@ -1,8 +1,8 @@
 const ordersRouter = require('express').Router()
 const Order = require('../models/order')
+const User = require('../models/user')
 const authJwt = require('../utils/auth/authJWT')
 const orderValidation = require('../utils/validations/orderValidation')
-
 
 // CREATE new order
 ordersRouter.post('/', [
@@ -20,18 +20,18 @@ ordersRouter.post('/', [
     const body = req.body
 
     const newOrderObject = new Order({
-      time: Date.now(),
       status: body.status,
       category: body.category,
       name: body.name,
       items: body.items,
       notes: body.notes,
       costs: {
-        subTotal: body.subTotal,
-        taxRate: body.taxRate,
-        taxAmount: body.taxAmount,
-        total: body.total
-      }
+        subTotal: body.costs.subTotal,
+        taxRate: body.costs.taxRate,
+        taxAmount: body.costs.taxAmount,
+        total: body.costs.total
+      },
+      user: req.userId
     })
 
     const savedOrder = await newOrderObject.save()
@@ -83,18 +83,18 @@ ordersRouter.put('/:id', [
   try {
     const body = req.body
     const orderWithUpdates = {
-      time: Date.now(),
       status: body.status,
       category: body.category,
       name: body.name,
       items: body.items,
       notes: body.notes,
       costs: {
-        subTotal: body.subTotal,
-        taxRate: body.taxRate,
-        taxAmount: body.taxAmount,
-        total: body.total
-      }
+        subTotal: body.costs.subTotal,
+        taxRate: body.costs.taxRate,
+        taxAmount: body.costs.taxAmount,
+        total: body.costs.total
+      },
+      user: req.userId
     }
     const updatedOrder = await Order.findByIdAndUpdate(
       req.params.id, orderWithUpdates, { new: true }

@@ -17,7 +17,6 @@ const verifyToken = async (req, res, next) => {
     return next()
 
   } catch (err) {
-    // console.log('authJWT verify token: ', err)
     next(err)
   }
 }

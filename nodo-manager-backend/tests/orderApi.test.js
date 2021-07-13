@@ -159,27 +159,35 @@ describe('Order API Tests', () => {
         })
 
         //
-        describe('Time Property', () => {
+        describe('Mongoose Timestamp Properties', () => {
           //
-          test('Undefined order time defaults to ~ current time', async () => {
-            // Approximate time due to asynchronicity of funcs
-            const validOrderWithoutTime = {
-              ...validOrder,
-              time: undefined
-            }
+          test('has createdAt, updatedAt properties', async () => {
 
             const res = await api
               .post('/api/orders')
               .set('x-access-token', adminToken)
-              .send(validOrderWithoutTime)
+              .send(validOrder)
               .expect(200)
 
-            const resTime = new Date(res.body.time).getTime()
-            const nowTime = new Date().getTime()
-            const deltaT = Math.abs( resTime - nowTime )
+            expect(res.body.createdAt).toBeDefined()
+            expect(res.body.updatedAt).toBeDefined()
+          })
 
-            expect(res.body.time).toBeDefined()
-            expect(deltaT < 300).toBe(true) // Order time within 5min/300s of now
+          //
+          test('updatedAt and createdAt timestamps are the same', async () => {
+            const res = await api
+              .post('/api/orders')
+              .set('x-access-token', adminToken)
+              .send(validOrder)
+              .expect(200)
+
+            const nowTime = new Date().getTime()
+            const createdTime = new Date(res.body.createdAt).getTime()
+            const updatedTime = new Date(res.body.updatedAt).getTime()
+            const deltaT = Math.abs( createdTime - nowTime )
+
+            expect(createdTime).toBe(updatedTime)
+            expect(deltaT < 300).toBe(true) // Updated in the last 300 sec
           })
         })
 
@@ -726,25 +734,33 @@ describe('Order API Tests', () => {
         //
         describe('Time Property', () => {
           //
-          test('Updated order time defaults to ~ current time', async () => {
-            // Approximate time due to asynchronicity of funcs
-            const validOrderUpdatedTime = {
-              ...validOrder,
-              time: 'Some wacky time'
-            }
-
+          test('Order has createdAt, updatedAt properties', async () => {
             const res = await api
               .put('/api/orders/' + existingOrderId)
               .set('x-access-token', adminToken)
-              .send(validOrderUpdatedTime)
+              .send({ ...validOrder, update: 'UPDATED' })
               .expect(200)
 
-            const resTime = new Date(res.body.time).getTime()
-            const nowTime = new Date().getTime()
-            const deltaT = Math.abs( resTime - nowTime )
+            expect(res.body.createdAt).toBeDefined()
+            expect(res.body.updatedAt).toBeDefined()
+          })
 
-            expect(res.body.time).toBeDefined()
-            expect(deltaT < 300).toBe(true) // Order time within 5min/300s of now
+          //
+          test('Order updatedAt and createdAt timestamps differ', async () => {
+            const res = await api
+              .put('/api/orders/' + existingOrderId)
+              .set('x-access-token', adminToken)
+              .send({ ...validOrder, update: 'Some new updated property' })
+              .expect(200)
+
+            const nowTime = new Date().getTime()
+            const createdTime = new Date(res.body.createdAt).getTime()
+            const updatedTime = new Date(res.body.updatedAt).getTime()
+            const deltaT = Math.abs( updatedTime - nowTime )
+
+            expect(createdTime).not.toBe(updatedTime)
+            expect(createdTime <= updatedTime).toBe(true)
+            expect(deltaT < 300).toBe(true) // Updated in the last 300 sec
           })
         })
 

@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
 const orderSchema = new mongoose.Schema({
-  time: Date,
   status: String,
   category: String,
   name: String,
@@ -17,7 +16,7 @@ const orderSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }
-})
+}, { timestamps: true })
 
 // Forward mongoose errors to errorHandler middleware
 orderSchema.post('save', (err, doc, next) => {
