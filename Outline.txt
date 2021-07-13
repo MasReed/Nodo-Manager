@@ -50,7 +50,7 @@ Procedure / TODOs
     - text wrapping, overflow, min/max sizes
   - Make users page functional
     + new user button follows registration on backend
-    - implement restrictions on new user roles setting
+    + implement restrictions on new user roles setting
     - default password -> auto-generate?
 
 + create currentUserReducer to manage in redux
@@ -65,8 +65,9 @@ Procedure / TODOs
   + duplicate username/emails upon registration now throw an error and message
   - connect error to form component if applicable
   + make alert component
-  - validation error for no email/username thru newUserForm
+  + validation error for no email/username thru newUserForm
   - conditional render alertBanner on site vs in mobile
+  - Centralize frontend error handling (mostly from api call statuses)
 
 + verify order totals serverside
 
@@ -74,7 +75,6 @@ Procedure / TODOs
 + add order time to orderInfo
 - create order update form/modal
 - Update order schema to use mongoose timestamps
-- Centralize frontend error handling (mostly from api call statuses)
 
 + supertest/jest for backend api
   + Basic Data Validation testing for item, order, user APIs

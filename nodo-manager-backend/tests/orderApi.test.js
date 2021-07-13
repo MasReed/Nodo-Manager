@@ -105,10 +105,12 @@ beforeAll(async () => {
       {...items[1], basePrice: 4.99} // moded object in order is uniform
     ],
     notes: 'This is a test.',
-    subTotal: 6.98,
-    taxRate: 0.07,
-    taxAmount: 0.49,
-    total: 7.47
+    costs: {
+      subTotal: 6.98,
+      taxRate: 0.07,
+      taxAmount: 0.49,
+      total: 7.47
+    }
   }
 })
 
@@ -383,7 +385,10 @@ describe('Order API Tests', () => {
           test('Undefined subtotal is replaced', async () => {
             const validOrderWithUndefinedSubtotal = {
               ...validOrder,
-              subTotal: undefined
+              costs: {
+                ...validOrder.costs,
+                subTotal: undefined
+              }
             }
 
             const res = await api
@@ -392,14 +397,17 @@ describe('Order API Tests', () => {
               .send(validOrderWithUndefinedSubtotal)
               .expect(200)
 
-            expect(res.body.subTotal).toBe(6.98)
+            expect(res.body.costs.subTotal).toBe(6.98)
           })
 
           //
           test('Empty subtotal is replaced', async () => {
             const validOrderWithEmptySubtotal = {
               ...validOrder,
-              subTotal: ''
+              costs: {
+                ...validOrder.costs,
+                subTotal: ''
+              }
             }
 
             const res = await api
@@ -408,14 +416,17 @@ describe('Order API Tests', () => {
               .send(validOrderWithEmptySubtotal)
               .expect(200)
 
-            expect(res.body.subTotal).toBe(6.98)
+            expect(res.body.costs.subTotal).toBe(6.98)
           })
 
           //
           test('Invalid subtotal is replaced', async () => {
             const validOrderWithInvalidSubtotal = {
               ...validOrder,
-              subTotal: -9999.99
+              costs: {
+                ...validOrder.costs,
+                subTotal: -9999.99
+              }
             }
 
             const res = await api
@@ -424,14 +435,17 @@ describe('Order API Tests', () => {
               .send(validOrderWithInvalidSubtotal)
               .expect(200)
 
-            expect(res.body.subTotal).toBe(6.98)
+            expect(res.body.costs.subTotal).toBe(6.98)
           })
 
           //
           test('Undefined taxAmount is replaced', async () => {
             const validOrderWithUndefinedTaxAmount = {
               ...validOrder,
-              taxAmount: undefined
+              costs: {
+                ...validOrder.costs,
+                taxAmount: undefined
+              }
             }
 
             const res = await api
@@ -440,14 +454,17 @@ describe('Order API Tests', () => {
               .send(validOrderWithUndefinedTaxAmount)
               .expect(200)
 
-            expect(res.body.taxAmount).toBe(0.49)
+            expect(res.body.costs.taxAmount).toBe(0.49)
           })
 
           //
           test('Empty taxAmount is replaced', async () => {
             const validOrderWithEmptyTaxAmount = {
               ...validOrder,
-              taxAmount: ''
+              costs: {
+                ...validOrder.costs,
+                taxAmount: ''
+              }
             }
 
             const res = await api
@@ -456,14 +473,17 @@ describe('Order API Tests', () => {
               .send(validOrderWithEmptyTaxAmount)
               .expect(200)
 
-            expect(res.body.taxAmount).toBe(0.49)
+            expect(res.body.costs.taxAmount).toBe(0.49)
           })
 
           //
           test('Invalid taxAmount is replaced', async () => {
             const validOrderWithInvalidTaxAmount = {
               ...validOrder,
-              taxAmount: -9999.99
+              costs: {
+                ...validOrder.costs,
+                taxAmount: -9999.99
+              }
             }
 
             const res = await api
@@ -472,14 +492,17 @@ describe('Order API Tests', () => {
               .send(validOrderWithInvalidTaxAmount)
               .expect(200)
 
-            expect(res.body.taxAmount).toBe(0.49)
+            expect(res.body.costs.taxAmount).toBe(0.49)
           })
 
           //
           test('Undefined total is replaced', async () => {
             const validOrderWithUndefinedTotal = {
               ...validOrder,
-              total: undefined
+              costs: {
+                ...validOrder.costs,
+                total: undefined
+              }
             }
 
             const res = await api
@@ -488,14 +511,17 @@ describe('Order API Tests', () => {
               .send(validOrderWithUndefinedTotal)
               .expect(200)
 
-            expect(res.body.total).toBe(7.47)
+            expect(res.body.costs.total).toBe(7.47)
           })
 
           //
           test('Empty total is replaced', async () => {
             const validOrderWithEmptyTotal = {
               ...validOrder,
-              total: ''
+              costs: {
+                ...validOrder,
+                total: '',
+              }
             }
 
             const res = await api
@@ -504,14 +530,17 @@ describe('Order API Tests', () => {
               .send(validOrderWithEmptyTotal)
               .expect(200)
 
-            expect(res.body.total).toBe(7.47)
+            expect(res.body.costs.total).toBe(7.47)
           })
 
           //
           test('Invalid total is replaced', async () => {
             const validOrderWithInvalidTotal = {
               ...validOrder,
-              total: -9999.99
+              costs: {
+                ...validOrder.costs,
+                total: -9999.99
+              }
             }
 
             const res = await api
@@ -520,7 +549,7 @@ describe('Order API Tests', () => {
               .send(validOrderWithInvalidTotal)
               .expect(200)
 
-            expect(res.body.total).toBe(7.47)
+            expect(res.body.costs.total).toBe(7.47)
           })
         })
       })
@@ -920,7 +949,10 @@ describe('Order API Tests', () => {
           test('Undefined subtotal is replaced', async () => {
             const validOrderWithUndefinedSubtotal = {
               ...validOrder,
-              subTotal: undefined
+              costs: {
+                ...validOrder.costs,
+                subTotal: undefined
+              }
             }
 
             const res = await api
@@ -929,14 +961,17 @@ describe('Order API Tests', () => {
               .send(validOrderWithUndefinedSubtotal)
               .expect(200)
 
-            expect(res.body.subTotal).toBe(6.98)
+            expect(res.body.costs.subTotal).toBe(6.98)
           })
 
           //
           test('Empty subtotal is replaced', async () => {
             const validOrderWithEmptySubtotal = {
               ...validOrder,
-              subTotal: ''
+              costs: {
+                ...validOrder.costs,
+                subTotal: ''
+              }
             }
 
             const res = await api
@@ -945,14 +980,17 @@ describe('Order API Tests', () => {
               .send(validOrderWithEmptySubtotal)
               .expect(200)
 
-            expect(res.body.subTotal).toBe(6.98)
+            expect(res.body.costs.subTotal).toBe(6.98)
           })
 
           //
           test('Invalid subtotal is replaced', async () => {
             const validOrderWithInvalidSubtotal = {
               ...validOrder,
-              subTotal: -9999.99
+              costs: {
+                ...validOrder.costs,
+                subTotal: -9999.99
+              }
             }
 
             const res = await api
@@ -961,14 +999,17 @@ describe('Order API Tests', () => {
               .send(validOrderWithInvalidSubtotal)
               .expect(200)
 
-            expect(res.body.subTotal).toBe(6.98)
+            expect(res.body.costs.subTotal).toBe(6.98)
           })
 
           //
           test('Undefined taxAmount is replaced', async () => {
             const validOrderWithUndefinedTaxAmount = {
               ...validOrder,
-              taxAmount: undefined
+              costs: {
+                ...validOrder.costs,
+                taxAmount: undefined
+              }
             }
 
             const res = await api
@@ -977,14 +1018,17 @@ describe('Order API Tests', () => {
               .send(validOrderWithUndefinedTaxAmount)
               .expect(200)
 
-            expect(res.body.taxAmount).toBe(0.49)
+            expect(res.body.costs.taxAmount).toBe(0.49)
           })
 
           //
           test('Empty taxAmount is replaced', async () => {
             const validOrderWithEmptyTaxAmount = {
               ...validOrder,
-              taxAmount: ''
+              costs: {
+                ...validOrder.costs,
+                taxAmount: ''
+              }
             }
 
             const res = await api
@@ -993,14 +1037,17 @@ describe('Order API Tests', () => {
               .send(validOrderWithEmptyTaxAmount)
               .expect(200)
 
-            expect(res.body.taxAmount).toBe(0.49)
+            expect(res.body.costs.taxAmount).toBe(0.49)
           })
 
           //
           test('Invalid taxAmount is replaced', async () => {
             const validOrderWithInvalidTaxAmount = {
               ...validOrder,
-              taxAmount: -9999.99
+              costs: {
+                ...validOrder.costs,
+                taxAmount: -9999.99
+              }
             }
 
             const res = await api
@@ -1009,14 +1056,17 @@ describe('Order API Tests', () => {
               .send(validOrderWithInvalidTaxAmount)
               .expect(200)
 
-            expect(res.body.taxAmount).toBe(0.49)
+            expect(res.body.costs.taxAmount).toBe(0.49)
           })
 
           //
           test('Undefined total is replaced', async () => {
             const validOrderWithUndefinedTotal = {
               ...validOrder,
-              total: undefined
+              costs: {
+                ...validOrder.costs,
+                total: undefined
+              }
             }
 
             const res = await api
@@ -1025,14 +1075,17 @@ describe('Order API Tests', () => {
               .send(validOrderWithUndefinedTotal)
               .expect(200)
 
-            expect(res.body.total).toBe(7.47)
+            expect(res.body.costs.total).toBe(7.47)
           })
 
           //
           test('Empty total is replaced', async () => {
             const validOrderWithEmptyTotal = {
               ...validOrder,
-              total: ''
+              costs: {
+                ...validOrder.costs,
+                total: ''
+              }
             }
 
             const res = await api
@@ -1041,14 +1094,17 @@ describe('Order API Tests', () => {
               .send(validOrderWithEmptyTotal)
               .expect(200)
 
-            expect(res.body.total).toBe(7.47)
+            expect(res.body.costs.total).toBe(7.47)
           })
 
           //
           test('Invalid total is replaced', async () => {
             const validOrderWithInvalidTotal = {
               ...validOrder,
-              total: -9999.99
+              costs: {
+                ...validOrder.costs,
+                total: -9999.99
+              }
             }
 
             const res = await api
@@ -1057,7 +1113,7 @@ describe('Order API Tests', () => {
               .send(validOrderWithInvalidTotal)
               .expect(200)
 
-            expect(res.body.total).toBe(7.47)
+            expect(res.body.costs.total).toBe(7.47)
           })
         })
       })

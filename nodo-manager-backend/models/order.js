@@ -7,10 +7,16 @@ const orderSchema = new mongoose.Schema({
   name: String,
   items: Array,
   notes: String,
-  subTotal: Number,
-  taxRate: Number,
-  taxAmount: Number,
-  total: Number
+  costs: {
+    subTotal: Number,
+    taxRate: Number,
+    taxAmount: Number,
+    total: Number,
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }
 })
 
 // Forward mongoose errors to errorHandler middleware

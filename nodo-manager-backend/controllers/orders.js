@@ -26,10 +26,12 @@ ordersRouter.post('/', [
       name: body.name,
       items: body.items,
       notes: body.notes,
-      subTotal: body.subTotal,
-      taxRate: body.taxRate,
-      taxAmount: body.taxAmount,
-      total: body.total
+      costs: {
+        subTotal: body.subTotal,
+        taxRate: body.taxRate,
+        taxAmount: body.taxAmount,
+        total: body.total
+      }
     })
 
     const savedOrder = await newOrderObject.save()
@@ -87,10 +89,12 @@ ordersRouter.put('/:id', [
       name: body.name,
       items: body.items,
       notes: body.notes,
-      subTotal: body.subTotal,
-      taxRate: body.taxRate,
-      taxAmount: body.taxAmount,
-      total: body.total
+      costs: {
+        subTotal: body.subTotal,
+        taxRate: body.taxRate,
+        taxAmount: body.taxAmount,
+        total: body.total
+      }
     }
     const updatedOrder = await Order.findByIdAndUpdate(
       req.params.id, orderWithUpdates, { new: true }
