@@ -5,6 +5,9 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 
+import AlertBanner from '../site-wide/AlertBanner'
+
+import { toastAlertCreator } from '../../reducers/alertReducer'
 import { addItemActionCreator } from '../../reducers/itemReducer'
 
 const NewItemForm = ({ show, setShow }) => {
@@ -16,9 +19,9 @@ const NewItemForm = ({ show, setShow }) => {
   const [ingredients, setIngredients] = useState([])
   const [category, setCategory] = useState('')
   const [price, setPrice] = useState(0)
-  const [availability, setAvailability] = useState('')
+  const [availability, setAvailability] = useState('Unavailable')
 
-  const createItem = (event) => {
+  const createItem = async (event) => {
     event.preventDefault()
 
     //convert comma-separated items into array if neccessary
@@ -35,14 +38,29 @@ const NewItemForm = ({ show, setShow }) => {
       availability: availability
     }
 
-    dispatch(addItemActionCreator(newItemObject))
+    try {
+      await dispatch(addItemActionCreator(newItemObject))
 
+      setName('')
+      setDescription('')
+      setIngredients([])
+      setCategory('')
+      setPrice(0)
+      setAvailability('Unavailable')
+      setShow(false) // state from parent
+
+    } catch (err) {
+      await dispatch(toastAlertCreator(err))
+    }
+  }
+
+  const handleCancel = () => {
     setName('')
     setDescription('')
     setIngredients([])
     setCategory('')
     setPrice(0)
-    setAvailability('')
+    setAvailability('Unavailable')
     setShow(false) // state from parent
   }
 
@@ -63,6 +81,8 @@ const NewItemForm = ({ show, setShow }) => {
         <Modal.Header closeButton>
           <Modal.Title>Make A New Creation</Modal.Title>
         </Modal.Header>
+
+        <AlertBanner />
 
         <Modal.Body>
           <Form id='newItemForm' onSubmit={ createItem }>
@@ -154,7 +174,7 @@ const NewItemForm = ({ show, setShow }) => {
 
         <Modal.Footer>
           <Button type='submit' form='newItemForm'>Create Item</Button>
-          <Button variant="secondary" onClick={ () => setShow(false) }>
+          <Button variant="secondary" onClick={ handleCancel }>
             Cancel
           </Button>
         </Modal.Footer>
