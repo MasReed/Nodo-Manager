@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
@@ -20,17 +20,6 @@ const MyOrderForm = ({ costs }) => {
   const [orderName, setOrderName] = useState('')
   const [orderNotes, setOrderNotes] = useState('')
   const [orderCategory, setOrderCategory] = useState('Carry Out')
-
-
-  useEffect(() => {
-    const name = cartItems.map(item => item.whos).find(name => name !== '')
-
-    if (name) {
-      setOrderName(name.charAt(0).toUpperCase() + name.slice(1))
-    } else {
-      setOrderName('')
-    }
-  }, [cartItems])
 
   const addOrder = (event) => {
     event.preventDefault()
