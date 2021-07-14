@@ -7,6 +7,8 @@ Procedure / TODOs
 + setup MongoDB/Mongoose and schemas
   + Implement orders schema
     + add in: orderName, orderCategory, orderDescription, onMenu
+    + add order time to orderInfo
+    + Update order schema to use mongoose timestamps
   + CRUD operations for items/users API backend
     + express async error handling -> via middleware
 + CRUD ops for frontend
@@ -38,50 +40,69 @@ Procedure / TODOs
   + login button shows modal window for login form
   + create order confirmation page and redirect to it
   + MyOrder baseprice/item total layout
-  + Add MyAccount Page
-    - view previous orders
-
-  - update orders page / editing ability
-  - stylize new/update item form
+  + stylize new/update item form
     + availability as radio selection
-  - decouple items and menu?
+    + form validation
+
+  + create currentUserReducer to manage in redux
+  + refactor userAuth and signup
+  + page restrictions for user roles
+    + update user roles to be: guest, user, employee, manager, admin
+    + functionality works
+    + choose and implement restrictions
+      + have roles encompass subsequent roles i.e admin is also a manager by default
 
   - make itemInfo/card responsive
     - text wrapping, overflow, min/max sizes
-  - Make users page functional
+
+  + Add MyAccount Page
+    - view previous orders
+
+  - Users Page functionality
     + new user button follows registration on backend
     + implement restrictions on new user roles setting
     - default password -> auto-generate?
+    - UpdateUserForm
+      - add password form group
+    - group users by role
 
-+ create currentUserReducer to manage in redux
-+ refactor userAuth and signup
-* page restrictions for user roles
-  + update user roles to be: guest, user, employee, manager, admin
-  + functionality works
-  + choose and implement restrictions
-    + have roles encompass subsequent roles i.e admin is also a manager by default
 
-- error handling
+- CUSTOM FORMS & VALIDATION (Frontent)
+  - min/max length of form inputs all around
+  + Item forms
+    + NewItemForm
+    + UpdateItemForm
+    - Stylize forms
+  - Order forms
+    - MyOrderForm
+    - AddOrderForm -> once built
+    - UpdateOrderForm (modal)-> once built
+    - validate status choices
+  - User forms
+    + NewUserForm
+    - UpdateUserForm -> once built
+
+
+- ERROR HANDLING
   + duplicate username/emails upon registration now throw an error and message
-  - connect error to form component if applicable
   + make alert component
-  + validation error for no email/username thru newUserForm
+  + Api based errors caught at service boundary, contextualized, and rethrown to
+    be caught in components and dispatched to alertReducer
+  + Implemented item form validations
   - conditional render alertBanner on site vs in mobile
-  - Centralize frontend error handling (mostly from api call statuses)
-
-+ verify order totals serverside
-
-- improve/expand order schema validations and data validations
-+ add order time to orderInfo
-- create order update form/modal
-- Update order schema to use mongoose timestamps
+  - connect error to form component if applicable
+  - verify shape of error objects created at service layer
+  - verify data initializers on frontend (currently in useEffect)
+  - manage cast errors on backend
 
 + supertest/jest for backend api
   + Basic Data Validation testing for item, order, user APIs
     + Required Properties / Default values
     - Expand data type validation
   + Basic Auth Validation testing for item, order, user APIs
+  - improve/expand order & item schema/data validations
 
+- Cross ref orders and users
 - confirm account registration w/ email?
 - implement OAuth for registration/login
 - login/register page separated from landing page

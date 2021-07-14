@@ -1,32 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Button from 'react-bootstrap/Button'
 
+import UpdateUserForm from './UpdateUserForm'
+
 import { toastAlertCreator } from '../../reducers/alertReducer'
-import {
-  updateUserActionCreator,
-  deleteUserActionCreator
-} from '../../reducers/userReducer'
+import { deleteUserActionCreator} from '../../reducers/userReducer'
 
 const UserInfo = ({ user }) => {
 
   const dispatch = useDispatch()
 
-  const userWithUpdates = {
-    name: 'updatedName',
-    username: 'updatedUsername',
-    role: {
-      name: 'user'
-    }
-  }
-
-  const updateUser = async (id) => {
-    try {
-      dispatch(updateUserActionCreator(id, userWithUpdates))
-    } catch (err) {
-      dispatch(toastAlertCreator(err))
-    }
-  }
+  const [showUpdateModal, setShowUpdateModal] = useState(false)
 
   const deleteUser = (id) => {
     try {
@@ -45,7 +30,7 @@ const UserInfo = ({ user }) => {
         </div>
         <div>
           <Button
-            onClick={ () => updateUser(user.id) }
+            onClick={ () => setShowUpdateModal(true) }
             size='sm'
             variant='outline-secondary'
           >
@@ -60,6 +45,12 @@ const UserInfo = ({ user }) => {
           </Button>
         </div>
       </div>
+
+      <UpdateUserForm
+        user={user}
+        show={showUpdateModal}
+        setShow={setShowUpdateModal}
+      />
     </div>
   )
 }

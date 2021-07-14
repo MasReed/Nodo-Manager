@@ -57,6 +57,8 @@ usersRouter.put('/:id',
   try {
     const updatedUser = await User
       .findByIdAndUpdate(req.params.id, userWithUpdates, { new: true })
+      .populate('role')
+      .exec()
     res.json(updatedUser.toJSON())
 
   } catch (err) {
