@@ -4,7 +4,6 @@ const baseUrl = '/api/authenticate'
 
 // Log user in and get token
 const login = async (username, password) => {
-
   try {
     const response = await axios.post(`${baseUrl}/signin`, {
       username,
@@ -22,10 +21,9 @@ const login = async (username, password) => {
         type: 'Login Error',
         message: err.response.data.message,
         variant: 'warning',
-        show: true
       }
       throw loginError
-      
+
     } else if (err.request) {
       console.log('err.req', err.request)
     } else {

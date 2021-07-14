@@ -25,6 +25,6 @@ export const toastAlertCreator = (alertObject) => {
       type: 'SET_ALERT',
       data: alertObject
     })
-    timerId = setTimeout(() => dispatch({ type: 'UNSET_ALERT' }), 5000)
+    timerId = setTimeout(() => dispatch({ type: 'UNSET_ALERT' }), 4500)
   }
 }
