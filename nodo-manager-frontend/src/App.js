@@ -6,6 +6,7 @@ import {
   Route
 } from "react-router-dom";
 
+import { toastAlertCreator } from './reducers/alertReducer'
 import { initializeItems } from './reducers/itemReducer'
 import { resetOrders } from './reducers/orderReducer'
 import { resetUsers } from './reducers/userReducer'
@@ -30,9 +31,25 @@ function App() {
   const currentUser = useSelector(state => state.currentUser)
 
   useEffect(() => {
-    dispatch(resetOrders())
-    dispatch(resetUsers())
-    dispatch(initializeItems())
+    const resets = async () => {
+      await dispatch(resetOrders())
+      await dispatch(resetUsers())
+    }
+
+    const inits = async () => {
+      await dispatch(initializeItems())
+    }
+
+    const onErr = async (err) => {
+      await dispatch(toastAlertCreator(err))
+    }
+
+    try {
+      resets()
+      inits()
+    } catch (err) {
+      onErr(err)
+    }
   }, [ dispatch, currentUser ])
 
   return (

@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 
+import { toastAlertCreator } from '../../reducers/alertReducer'
 import { destroyItemActionCreator } from '../../reducers/itemReducer'
 
 import UpdateItemForm from './UpdateItemForm'
@@ -15,8 +16,12 @@ const ItemInfo = ({ item }) => {
 
   const [showUpdateForm, setShowUpdateForm] = useState(false)
 
-  const deleteItem = (id) => {
-    dispatch(destroyItemActionCreator(id))
+  const callDeleteItem = async (id) => {
+    try {
+      dispatch(destroyItemActionCreator(id))
+    } catch (err) {
+      dispatch(toastAlertCreator(err))
+    }
   }
 
   const truncateIngredients = (str) => {
@@ -64,7 +69,7 @@ const ItemInfo = ({ item }) => {
         <Card.Footer>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button
-              onClick={ () => deleteItem(item._id) }
+              onClick={ () => callDeleteItem(item._id) }
               size='sm' variant='outline-danger'
               style={{border: 'hidden'}}
             >Delete
