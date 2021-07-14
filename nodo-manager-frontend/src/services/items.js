@@ -97,7 +97,7 @@ const destroy = async (id) => {
 
     const response = await axios.delete(`${baseUrl}/${id}`, config)
     return response.data
-    
+
   } catch (err) {
     if (err.response) {
       const itemError = {

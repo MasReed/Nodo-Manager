@@ -5,10 +5,7 @@ import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 
-import {
-  updateItemActionCreator,
-  destroyItemActionCreator
-} from '../../reducers/itemReducer'
+import { destroyItemActionCreator } from '../../reducers/itemReducer'
 
 import UpdateItemForm from './UpdateItemForm'
 
@@ -17,11 +14,6 @@ const ItemInfo = ({ item }) => {
   const dispatch = useDispatch()
 
   const [showUpdateForm, setShowUpdateForm] = useState(false)
-
-  const updateItem = (item) => {
-    setShowUpdateForm(true)
-    dispatch(updateItemActionCreator(item._id, item))
-  }
 
   const deleteItem = (id) => {
     dispatch(destroyItemActionCreator(id))
@@ -92,7 +84,6 @@ const ItemInfo = ({ item }) => {
 
       <UpdateItemForm
         item={item}
-        updateItem={updateItem}
         show={showUpdateForm}
         setShow={setShowUpdateForm}
       />

@@ -1,10 +1,18 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 
-const UpdateItemForm = ({ item, updateItem, show, setShow }) => {
+import AlertBanner from '../site-wide/AlertBanner'
+
+import { toastAlertCreator } from '../../reducers/alertReducer'
+import { updateItemActionCreator } from '../../reducers/itemReducer'
+
+const UpdateItemForm = ({ item, show, setShow }) => {
+
+  const dispatch = useDispatch()
 
   const [name, setName] = useState(item.name)
   const [description, setDescription] = useState(item.description)
@@ -13,7 +21,7 @@ const UpdateItemForm = ({ item, updateItem, show, setShow }) => {
   const [price, setPrice] = useState(item.price)
   const [availability, setAvailability] = useState(item.availability)
 
-  const callUpdateItem = (event) => {
+  const callUpdateItem = async (event) => {
     event.preventDefault()
 
     const ingredientsArray = Array.isArray(ingredients)
@@ -31,8 +39,23 @@ const UpdateItemForm = ({ item, updateItem, show, setShow }) => {
       availability: availability
     }
 
-    updateItem(updatedItemObject)
-    setShow(false) // state from parent
+    try {
+      await dispatch(updateItemActionCreator(item._id, updatedItemObject))
+      setShow(false) // state from parent
+
+    } catch (err) {
+      await dispatch(toastAlertCreator(err))
+    }
+  }
+
+  const handleCancel = () => {
+    setShow(false)
+    setName(item.name)
+    setDescription(item.description)
+    setIngredients(item.ingredients)
+    setCategory(item.category)
+    setPrice(item.price)
+    setAvailability(item.availability)
   }
 
   const charactersRemaining = (str, limit) => {
@@ -51,6 +74,8 @@ const UpdateItemForm = ({ item, updateItem, show, setShow }) => {
         <Modal.Header closeButton>
           <Modal.Title>Make Updates to {item.name}</Modal.Title>
         </Modal.Header>
+
+        <AlertBanner />
 
         <Modal.Body>
           <Form id='updateItemForm' onSubmit={ callUpdateItem }>
@@ -132,7 +157,7 @@ const UpdateItemForm = ({ item, updateItem, show, setShow }) => {
 
         <Modal.Footer>
           <Button type='submit' form='updateItemForm'>Save</Button>
-          <Button variant="secondary" onClick={ () => setShow(false) }>
+          <Button variant="secondary" onClick={ handleCancel }>
             Cancel
           </Button>
         </Modal.Footer>
