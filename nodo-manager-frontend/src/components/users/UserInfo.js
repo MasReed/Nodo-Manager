@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import Button from 'react-bootstrap/Button'
 
+import { toastAlertCreator } from '../../reducers/alertReducer'
 import {
   updateUserActionCreator,
   deleteUserActionCreator
@@ -19,12 +20,20 @@ const UserInfo = ({ user }) => {
     }
   }
 
-  const updateUser = (id) => {
-    dispatch(updateUserActionCreator(id, userWithUpdates))
+  const updateUser = async (id) => {
+    try {
+      dispatch(updateUserActionCreator(id, userWithUpdates))
+    } catch (err) {
+      dispatch(toastAlertCreator(err))
+    }
   }
 
   const deleteUser = (id) => {
-    dispatch(deleteUserActionCreator(id))
+    try {
+      dispatch(deleteUserActionCreator(id))
+    } catch (err) {
+      dispatch(toastAlertCreator(err))
+    }
   }
 
   return (
@@ -56,9 +65,3 @@ const UserInfo = ({ user }) => {
 }
 
 export default UserInfo
-
-//
-// name
-// username
-// email
-// role

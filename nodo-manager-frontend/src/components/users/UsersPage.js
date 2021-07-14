@@ -7,6 +7,7 @@ import Container from 'react-bootstrap/Container'
 import NewUserForm from './NewUserForm'
 import UsersList from './UsersList'
 
+import { toastAlertCreator } from '../../reducers/alertReducer'
 import { initializeUsers } from '../../reducers/userReducer'
 
 const UsersPage = () => {
@@ -15,8 +16,19 @@ const UsersPage = () => {
   const [show, setShow] = useState(false)
 
   useEffect(() => {
-    dispatch(initializeUsers())
-  }, [dispatch])
+    const init = async () => {
+      await dispatch(initializeUsers())
+    }
+    const onErr = async (err) => {
+      await dispatch(toastAlertCreator(err))
+    }
+
+    try {
+      init()
+    } catch (err) {
+      onErr(err)
+    }
+  })
 
   return (
     <Container className='pt-5'>

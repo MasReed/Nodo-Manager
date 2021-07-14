@@ -25,7 +25,6 @@ const NewUserForm = ({ show, setShow }) => {
 
   const [ errors, setErrors ] = useState({})
 
-
   const setField = (field, value) => {
     setForm({
       ...form,
@@ -62,10 +61,8 @@ const NewUserForm = ({ show, setShow }) => {
     else if (roleName === 'employee' && !currentUser.role.encompassedRoles.includes('manager'))
       newErrors.roleName = 'Requires manager privileges.'
 
-
     return newErrors
   }
-
 
   const createUser = async (event) => {
     event.preventDefault()
@@ -76,8 +73,6 @@ const NewUserForm = ({ show, setShow }) => {
     if ( Object.keys(newErrors).length > 0 ) {
       setErrors(newErrors)
     } else {
-
-      try {
         const newUserObject = {
           name: form.name,
           email: form.email,
@@ -87,22 +82,14 @@ const NewUserForm = ({ show, setShow }) => {
             name: form.roleName
           }
         }
-
+      try {
         await dispatch(addUserActionCreator(newUserObject))
 
         setForm({ name: '', email: '', username: '', roleName: 'user' })
         setShow(false)
 
       } catch (err) {
-
-        if (err.response) {
-          console.log('NewUserForm', err.response.data.message)
-          dispatch(toastAlertCreator({ message: err.response.data.message }))
-        } else if (err.request) {
-          console.log('err.req', err.request)
-        } else {
-          console.log(err)
-        }
+        dispatch(toastAlertCreator(err))
       }
     }
   }
