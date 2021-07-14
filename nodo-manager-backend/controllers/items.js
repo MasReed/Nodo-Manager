@@ -5,24 +5,31 @@ const itemValidation = require('../utils/validations/itemValidation')
 
 
 // CREATE new menu item
-itemsRouter.post('/', async (req, res, next) => {
-  const body = req.body
+itemsRouter.post('/', [
+    itemValidation.checkEmptyObject,
+    itemValidation.checkRequiredPropertiesDefined,
+    itemValidation.checkOptionalPropertiesDefinedDefault,
+    itemValidation.checkPositiveItemPrice
+  ],
+    async (req, res, next) => {
 
-  const newItem = new MenuItem ({
-    name: body.name,
-    description: body.description,
-    ingredients: body.ingredients,
-    category: body.category,
-    price: body.price,
-    availability: body.availability
-  })
+    const body = req.body
 
-  try {
-    const savedItem = await newItem.save()
-    res.json(savedItem.toJSON())
-  } catch (err) {
-    next(err)
-  }
+    const newItem = new MenuItem ({
+      name: body.name,
+      description: body.description,
+      ingredients: body.ingredients,
+      category: body.category,
+      price: body.price,
+      availability: body.availability
+    })
+
+    try {
+      const savedItem = await newItem.save()
+      res.json(savedItem.toJSON())
+    } catch (err) {
+      next(err)
+    }
 })
 
 // READ all menu items
@@ -40,7 +47,8 @@ itemsRouter.put('/:id',
   [
     itemValidation.checkEmptyObject,
     itemValidation.checkRequiredPropertiesDefined,
-    itemValidation.checkOptionalPropertiesDefinedDefault
+    itemValidation.checkOptionalPropertiesDefinedDefault,
+    itemValidation.checkPositiveItemPrice
   ],
   async (req, res, next) => {
     const body = req.body

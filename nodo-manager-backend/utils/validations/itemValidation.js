@@ -58,11 +58,24 @@ const checkOptionalPropertiesDefinedDefault = (req, res, next) => {
   }
 }
 
+const checkPositiveItemPrice = (req, res, next) => {
+  try {
+    if (req.body.price < 0) {
+      req.body.price = abs(req.body.price)
+    }
+    next()
+
+  } catch (err) {
+    next(err)
+  }
+}
+
 
 const verifyItem = {
   checkEmptyObject,
   checkRequiredPropertiesDefined,
-  checkOptionalPropertiesDefinedDefault
+  checkOptionalPropertiesDefinedDefault,
+  checkPositiveItemPrice
 }
 
 module.exports = verifyItem

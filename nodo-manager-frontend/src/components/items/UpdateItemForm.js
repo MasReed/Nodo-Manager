@@ -69,7 +69,7 @@ const UpdateItemForm = ({ item, show, setShow }) => {
       } else {
         setField('price', Number(price))
       }
-    }
+    } else if (price < 0) newErrors.price = 'Price cannot be negative.'
 
     // Availability errors
     if (!availability || availability === '') newErrors.availability = 'Choose an availability.'
