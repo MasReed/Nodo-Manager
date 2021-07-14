@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 
+import { toastAlertCreator } from '../../reducers/alertReducer'
 import { addOrderActionCreator } from '../../reducers/orderReducer'
 import { resetCart } from '../../reducers/cartReducer'
 
@@ -21,7 +22,7 @@ const MyOrderForm = ({ costs }) => {
   const [orderNotes, setOrderNotes] = useState('')
   const [orderCategory, setOrderCategory] = useState('Carry Out')
 
-  const addOrder = (event) => {
+  const addOrder = async (event) => {
     event.preventDefault()
 
     if (cartItems.length > 0) {
@@ -30,15 +31,23 @@ const MyOrderForm = ({ costs }) => {
         items: cartItems,
         name: orderName,
         notes: orderNotes,
-        subTotal: costs.subTotal,
-        taxRate: 0.07,
-        taxAmount: costs.taxAmount,
-        total: costs.total
+        costs: {
+          subTotal: costs.subTotal,
+          taxRate: 0.07,
+          taxAmount: costs.taxAmount,
+          total: costs.total
+        }
       }
 
-      dispatch(addOrderActionCreator(orderObject))
-      dispatch(resetCart())
-      history.push('/order-confirmed')
+      try {
+        await dispatch(addOrderActionCreator(orderObject))
+        await dispatch(resetCart())
+        history.push('/order-confirmed')
+
+      } catch (err) {
+        await dispatch(toastAlertCreator(err))
+      }
+
     } else {
       window.alert('No items in order!')
       history.push('/menu')

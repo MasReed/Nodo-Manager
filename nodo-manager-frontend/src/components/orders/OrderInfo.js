@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
 
+import { toastAlertCreator } from '../../reducers/alertReducer'
 import {
   updateOrderActionCreator,
   deleteOrderActionCreator
@@ -33,21 +34,34 @@ const OrderInfo = ({ order }) => {
     // total: 10.25
   }
 
-  const completedOrder = {
-    ...order,
-    status: 'Complete'
+  const completeOrder = async (id) => {
+
+    const completedOrder = {
+      ...order,
+      status: 'Complet'
+    }
+
+    try {
+      await dispatch(updateOrderActionCreator(id, completedOrder))
+    } catch (err) {
+      await dispatch(toastAlertCreator(err))
+    }
   }
 
-  const completeOrder = (id) => {
-    dispatch(updateOrderActionCreator(id, completedOrder))
+  const deleteOrder = async (id) => {
+    try {
+      await dispatch(deleteOrderActionCreator(id))
+    } catch (err) {
+      await dispatch(toastAlertCreator(err))
+    }
   }
 
-  const deleteOrder = (id) => {
-    dispatch(deleteOrderActionCreator(id))
-  }
-
-  const updateOrder = (id) => {
-    dispatch(updateOrderActionCreator(id, orderWithUpdates))
+  const updateOrder = async (id) => {
+    try {
+      await dispatch(updateOrderActionCreator(id, orderWithUpdates))
+    } catch (err) {
+      await dispatch(toastAlertCreator(err))
+    }
   }
 
   return (
@@ -59,7 +73,7 @@ const OrderInfo = ({ order }) => {
         </div>
         <div>
           <h2 style={{ color: orderStatusColor(order.status) }}>{order.status}</h2>
-          <h6>{new Date(order.time).toLocaleString()}</h6>
+          <h6>{new Date(order.createdAt).toLocaleString()}</h6>
         </div>
         <div>
         </div>

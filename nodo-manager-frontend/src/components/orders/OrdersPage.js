@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Modal from 'react-bootstrap/Modal'
 
+import { toastAlertCreator } from '../../reducers/alertReducer'
 import { initializeOrders, addOrderActionCreator } from '../../reducers/orderReducer'
 
 import OrdersList from './OrdersList'
@@ -17,20 +18,35 @@ const OrdersPage = () => {
   const [items, setItems] = useState([])
 
   useEffect(() => {
-    dispatch(initializeOrders())
+    const init = async () => {
+      await dispatch(initializeOrders())
+    }
+    const onErr = async (err) => {
+      await dispatch(toastAlertCreator(err))
+    }
+
+    try {
+      init()
+    } catch (err) {
+      onErr(err)
+    }
   }, [dispatch])
 
   // Order action dispatchers
-  const addOrder = (event) => {
+  const addOrder = async (event) => {
     event.preventDefault()
 
     const orderObject = {
       foodItems: items,
     }
 
-    dispatch(addOrderActionCreator(orderObject))
-    setShow(false)
-    setItems([])
+    try {
+      dispatch(addOrderActionCreator(orderObject))
+      setShow(false)
+      setItems([])
+    } catch (err) {
+      dispatch(toastAlertCreator(err))
+    }
   }
 
   const addItem = (event) => {
