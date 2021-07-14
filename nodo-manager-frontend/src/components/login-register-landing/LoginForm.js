@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 
+import { toastAlertCreator } from '../../reducers/alertReducer'
 import { loginUserActionCreator } from '../../reducers/currentUserReducer'
 
 const LoginForm = ({ ...props }) => {
@@ -43,8 +44,18 @@ const LoginForm = ({ ...props }) => {
         }
         setForm({ name: '', password: '' })
         history.push('/menu')
-      } catch (exception) {
+
+      } catch (err) {
         setField('password', '')
+
+        const alertObj = {
+          type: 'There was a problem logging in...',
+          message: err.response.data.message || 'Something went wrong',
+          variant: 'warning',
+          show: true
+        }
+
+        await dispatch(toastAlertCreator(alertObj))
       }
     }
   }
@@ -58,6 +69,7 @@ const LoginForm = ({ ...props }) => {
     else if ( name.length < 3 ) newErrors.name = 'Username is too short'
     // password errors
     if ( !password || password === '' ) newErrors.password = 'Enter a password!'
+    else if ( password.length < 5 ) newErrors.password = 'Password is too short'
 
     return newErrors
   }
