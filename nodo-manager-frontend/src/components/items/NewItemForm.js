@@ -197,7 +197,6 @@ const NewItemForm = ({ show, setShow }) => {
               <Form.Control.Feedback type='invalid'>
                 { errors.description }
               </Form.Control.Feedback>
-
             </Form.Group>
 
             <Form.Group>
