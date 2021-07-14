@@ -14,53 +14,123 @@ const NewItemForm = ({ show, setShow }) => {
 
   const dispatch = useDispatch()
 
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [ingredients, setIngredients] = useState([])
-  const [category, setCategory] = useState('')
-  const [price, setPrice] = useState(0)
-  const [availability, setAvailability] = useState('Unavailable')
+  const [form, setForm] = useState({
+    name: '',
+    description: '',
+    ingredients: [],
+    category: '',
+    price: '',
+    availability: 'Unavailable'
+  })
+
+  const [errors, setErrors] = useState({})
+
+  const setField = (field, value) => {
+    setForm({
+      ...form,
+      [field]: value
+    })
+    // Remove any errors from the error object
+    if (!!errors[field]) setErrors({
+      ...errors,
+      [field]: null
+    })
+  }
+
+  const findFormErrors = () => {
+    const {
+      name,
+      description,
+      ingredients,
+      category,
+      price,
+      availability
+    } = form
+
+    const newErrors = {}
+
+    // Name errors
+    if (!name || name === '') newErrors.name = 'An item name is required.'
+
+    // Description errors
+    if (description.length > 150) newErrors.description = 'Description is too long!'
+
+    // Ingredient errors
+    if (ingredients.length > 250) newErrors.ingredients = 'Ingredients list has too many characters.'
+
+    // Category errors
+    if (!category || category === '') newErrors.category = 'An item category is required.'
+
+    // Price errors
+    if (!price || price === '') newErrors.price = 'A price is required.'
+    else if (typeof price !== 'number') {
+      if (isNaN(Number(price))) {
+        newErrors.price = 'Price must be a number'
+      } else {
+        setField('price', Number(price))
+      }
+    }
+
+    // Availability errors
+    if (!availability || availability === '') newErrors.availability = 'Choose an availability.'
+
+    return newErrors
+  }
+
 
   const createItem = async (event) => {
     event.preventDefault()
 
     //convert comma-separated items into array if neccessary
-    const ingredientsArray = Array.isArray(ingredients)
-      ? ingredients
-      : ingredients.split(/\s*(?:,|$)\s*/)
+    const ingredientsArray = Array.isArray(form.ingredients)
+      ? form.ingredients
+      : form.ingredients.split(/\s*(?:,|$)\s*/)
 
-    const newItemObject = {
-      name: name,
-      description: description,
-      ingredients: ingredientsArray,
-      category: category,
-      price: price,
-      availability: availability
-    }
+    const newErrors = findFormErrors()
 
-    try {
-      await dispatch(addItemActionCreator(newItemObject))
+    // Check for any form errors
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
+    } else {
 
-      setName('')
-      setDescription('')
-      setIngredients([])
-      setCategory('')
-      setPrice(0)
-      setAvailability('Unavailable')
-      setShow(false) // state from parent
+      const newItemObject = {
+        name: form.name,
+        description: form.description,
+        ingredients: ingredientsArray,
+        category: form.category,
+        price: form.price,
+        availability: form.availability
+      }
 
-    } catch (err) {
-      await dispatch(toastAlertCreator(err))
+      try {
+        await dispatch(addItemActionCreator(newItemObject))
+
+        setForm({
+          name: '',
+          description: '',
+          ingredients: [],
+          category: '',
+          price: '',
+          availability: 'Unavailable'
+        })
+        setShow(false) // state from parent
+
+      } catch (err) {
+        await dispatch(toastAlertCreator(err))
+      }
     }
   }
 
   const handleCancel = () => {
-    setName('')
-    setDescription('')
-    setIngredients([])
-    setCategory('')
-    setPrice(0)
-    setAvailability('Unavailable')
+    setForm({
+      name: '',
+      description: '',
+      ingredients: [],
+      category: '',
+      price: '',
+      availability: 'Unavailable'
+    })
+    setErrors({})
     setShow(false) // state from parent
   }
 
@@ -89,49 +159,71 @@ const NewItemForm = ({ show, setShow }) => {
             <Form.Group>
               <Form.Label>Name:</Form.Label>
               <Form.Control
-                value={name}
+                value={form.name}
                 maxLength='40'
-                onChange={ ({ target }) => setName(target.value) }
+                onChange={ ({ target }) => setField('name', target.value) }
+                isInvalid={ !!errors.name }
               />
-              <Form.Text>{charactersRemaining(name, 40)}</Form.Text>
+              <Form.Text>{charactersRemaining(form.name, 40)}</Form.Text>
+              <Form.Control.Feedback type='invalid'>
+                { errors.name }
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group>
               <Form.Label>Category:</Form.Label>
               <Form.Control
-                value={category}
+                value={form.category}
                 maxLength='50'
-                onChange={ ({ target }) => setCategory(target.value) }
+                onChange={ ({ target }) => setField('category', target.value) }
+                isInvalid={ !!errors.category }
               />
-              <Form.Text>{charactersRemaining(category, 50)}</Form.Text>
+              <Form.Text>{charactersRemaining(form.category, 50)}</Form.Text>
+              <Form.Control.Feedback type='invalid'>
+                { errors.category }
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group>
               <Form.Label>Description:</Form.Label>
               <Form.Control
-                value={description}
+                value={form.description}
                 maxLength='90'
-                onChange={ ({ target }) => setDescription(target.value) }
+                onChange={ ({ target }) => setField('description', target.value) }
+                isInvalid={ !!errors.description }
+
               />
-              <Form.Text>{charactersRemaining(description, 90)}</Form.Text>
+              <Form.Text>{charactersRemaining(form.description, 90)}</Form.Text>
+              <Form.Control.Feedback type='invalid'>
+                { errors.description }
+              </Form.Control.Feedback>
+
             </Form.Group>
 
             <Form.Group>
               <Form.Label>Ingredients:</Form.Label>
               <Form.Control
-                value={ingredients}
-                onChange={ ({ target }) => setIngredients(target.value) }
+                value={form.ingredients}
+                onChange={ ({ target }) => setField('ingredients', target.value) }
                 placeholder='Separate with a comma'
+                isInvalid={ !!errors.ingredients }
               />
+              <Form.Control.Feedback type='invalid'>
+                { errors.ingredients }
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group>
               <Form.Label>Price:</Form.Label>
               <Form.Control
-                value={price}
+                value={form.price}
                 maxLength='7'
-                onChange={ ({ target }) => setPrice(target.value) }
+                onChange={ ({ target }) => setField('price', target.value) }
+                isInvalid={ !!errors.price }
               />
+              <Form.Control.Feedback type='invalid'>
+                { errors.price }
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group>
@@ -143,9 +235,10 @@ const NewItemForm = ({ show, setShow }) => {
                   name='availability'
                   type='radio'
                   id='inline-radio-available'
-                  checked={availability === 'Available'}
+                  checked={form.availability === 'Available'}
                   value='Available'
-                  onChange={ ({ target }) => setAvailability(target.value) }
+                  onChange={ ({ target }) => setField('availability', target.value) }
+                  isInvalid={ !!errors.availability }
                 />
                 <Form.Check
                   inline
@@ -153,23 +246,23 @@ const NewItemForm = ({ show, setShow }) => {
                   name='availability'
                   type='radio'
                   id='inline-radio-unavailable'
-                  checked={availability === 'Unavailable'}
+                  checked={form.availability === 'Unavailable'}
                   value='Unavailable'
-                  onChange={ ({ target }) => setAvailability(target.value) }
+                  onChange={ ({ target }) => setField('availability', target.value) }
+                  isInvalid={ !!errors.availability }
                 />
               </div>
             </Form.Group>
 
             <Form.Group>
+              {/* TODO: add functionality */}
               <Form.File
                 id='itemImageFile'
                 label='Upload an item image'
                 onChange={ (event) => console.log(event.target.files)}
               />
             </Form.Group>
-
           </Form>
-
         </Modal.Body>
 
         <Modal.Footer>
