@@ -47,15 +47,7 @@ const LoginForm = ({ ...props }) => {
 
       } catch (err) {
         setField('password', '')
-
-        const alertObj = {
-          type: 'There was a problem logging in...',
-          message: err.response.data.message || 'Something went wrong',
-          variant: 'warning',
-          show: true
-        }
-
-        await dispatch(toastAlertCreator(alertObj))
+        await dispatch(toastAlertCreator(err))
       }
     }
   }
