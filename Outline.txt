@@ -63,12 +63,14 @@ Procedure / TODOs
     + implement restrictions on new user roles setting
     - default password -> auto-generate?
     - UpdateUserForm
-      - add password form group
+      - check update auth scope
     - group users by role
 
 
 - CUSTOM FORMS & VALIDATION (Frontent)
   - min/max length of form inputs all around
+  - refactor 'remaining characters code' to reusable component
+  - refactor form validation to resuable components?
   + Item forms
     + NewItemForm
     + UpdateItemForm
@@ -94,6 +96,7 @@ Procedure / TODOs
   - verify shape of error objects created at service layer
   - verify data initializers on frontend (currently in useEffect)
   - manage cast errors on backend
+  - hide jwt malformed to user
 
 + supertest/jest for backend api
   + Basic Data Validation testing for item, order, user APIs

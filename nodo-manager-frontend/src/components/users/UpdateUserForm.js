@@ -74,10 +74,10 @@ const UpdateUserForm = ({ user, show, setShow }) => {
       setErrors(newErrors)
     } else {
       const updatedUserObject = {
+        ...user,
         name: form.name,
         email: form.email,
         username: form.username,
-        password: 'password',
         role: {
           name: form.roleName
         }

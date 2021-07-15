@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
@@ -17,23 +17,75 @@ const MyOrderForm = ({ costs }) => {
   const dispatch = useDispatch()
   const history = useHistory()
   const cartItems = useSelector(state => state.cart)
+  const currentUser = useSelector(state => state.currentUser)
 
-  const [orderName, setOrderName] = useState('')
-  const [orderNotes, setOrderNotes] = useState('')
-  const [orderCategory, setOrderCategory] = useState('Carry Out')
+  const getInitialDefaultOrderName = () => {
+    const itemWhosIndex = cartItems.findIndex(elem => elem.whos !== '')
+
+    if (currentUser){
+      return currentUser.name
+    } else if (itemWhosIndex !== -1) {
+      return cartItems[itemWhosIndex].whos
+    }
+    return ''
+  }
+
+  const [ form, setForm ] = useState({
+    orderCategory: 'Carry Out',
+    orderName: getInitialDefaultOrderName(),
+    orderNotes: ''
+  })
+
+  const [ errors, setErrors ] = useState({})
+
+  const setField = (field, value) => {
+    setForm({
+      ...form,
+      [field]: value
+    })
+    // Remove any errors from the error object
+    if ( !!errors[field] ) setErrors({
+      ...errors,
+      [field]: null
+    })
+  }
+
+  const findFormErrors = () => {
+    const { orderCategory, orderName, orderNotes } = form
+    const newErrors = {}
+    // orderCategory errors
+    if (!orderCategory) newErrors.orderCategory = 'Choose an order type.'
+
+    // orderName errors
+    if ( !orderName || orderName === '' ) newErrors.orderName = 'Enter a username!'
+    else if ( orderName.length > 30 ) newErrors.orderName = 'Username is too long'
+    else if ( orderName.length < 3 ) newErrors.orderName = 'Username is too short'
+
+    // orderNotes errors
+    if ( orderNotes.length > 150 ) newErrors.orderNotes = 'Notes are too long'
+
+    return newErrors
+  }
 
   const addOrder = async (event) => {
     event.preventDefault()
 
+    const newErrors = findFormErrors()
+
+    // Check for any form errors
+    if ( Object.keys(newErrors).length > 0 ) {
+      setErrors(newErrors)
+    }
+
     if (cartItems.length > 0) {
       const orderObject = {
-        category: orderCategory,
+        category: form.orderCategory,
         items: cartItems,
-        name: orderName,
-        notes: orderNotes,
+        name: form.orderName,
+        notes: form.orderNotes,
         costs: {
           subTotal: costs.subTotal,
-          taxRate: 0.07,
+          taxRate: costs.taxRate,
           taxAmount: costs.taxAmount,
           total: costs.total
         }
@@ -63,9 +115,10 @@ const MyOrderForm = ({ costs }) => {
             type='radio'
             name='carry-out-toggle'
             variant='outline-primary'
-            value={orderCategory}
-            checked={orderCategory === 'Carry Out'}
-            onChange={ () => setOrderCategory('Carry Out') }
+            value={form.orderCategory}
+            checked={form.orderCategory === 'Carry Out'}
+            onChange={ () => setField('orderCategory', 'Carry Out') }
+            isInvalid={ !!errors.orderCategory }
           >Carry Out
           </ToggleButton>
 
@@ -73,13 +126,15 @@ const MyOrderForm = ({ costs }) => {
             type='radio'
             name='delivery-toggle'
             variant='outline-primary'
-            value={orderCategory}
-            checked={orderCategory === 'Delivery'}
-            onChange={ () => setOrderCategory('Delivery') }
+            value={form.orderCategory}
+            checked={form.orderCategory === 'Delivery'}
+            onChange={ () => setField('orderCategory', 'Delivery') }
+            isInvalid={ !!errors.orderCategory }
           >Delivery
           </ToggleButton>
         </ButtonGroup>
-        <Form.Text>{orderCategory} selected.</Form.Text>
+        <Form.Text>{form.orderCategory} selected.</Form.Text>
+        <Form.Control.Feedback type='invalid'>{ errors.orderCategory }</Form.Control.Feedback>
       </Form.Group>
 
       <Form.Row className='ml-0 mr-0'>
@@ -87,10 +142,12 @@ const MyOrderForm = ({ costs }) => {
           <Form.Group>
             <Form.Label>Name: </Form.Label>
             <Form.Control
-              value={orderName}
-              onChange={ ({ target }) => setOrderName(target.value) }
+              value={form.orderName}
+              onChange={ ({ target }) => setField('orderName', target.value) }
               placeholder='e.g. Jane Doe'
+              isInvalid={ !!errors.orderName }
             />
+            <Form.Control.Feedback type='invalid'>{ errors.orderName }</Form.Control.Feedback>
           </Form.Group>
         </Col>
 
@@ -98,9 +155,11 @@ const MyOrderForm = ({ costs }) => {
           <Form.Group>
             <Form.Label>Order Notes:</Form.Label>
             <Form.Control
-              value={orderNotes}
-              onChange={ ({ target }) => setOrderNotes(target.value) }
+              value={form.orderNotes}
+              onChange={ ({ target }) => setField('orderNotes', target.value) }
+              isInvalid={ !!errors.orderNotes }
             />
+            <Form.Control.Feedback type='invalid'>{ errors.orderNotes }</Form.Control.Feedback>
           </Form.Group>
         </Col>
       </Form.Row>
