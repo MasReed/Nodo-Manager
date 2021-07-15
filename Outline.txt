@@ -62,7 +62,7 @@ Procedure / TODOs
     + new user button follows registration on backend
     + implement restrictions on new user roles setting
     - default password -> auto-generate?
-    - UpdateUserForm
+    + UpdateUserForm created
       - check update auth scope
     - group users by role
 
@@ -76,14 +76,13 @@ Procedure / TODOs
     + UpdateItemForm
     - Stylize forms
   - Order forms
-    - MyOrderForm
+    + MyOrderForm
     - AddOrderForm -> once built
     - UpdateOrderForm (modal)-> once built
     - validate status choices
   - User forms
     + NewUserForm
-    - UpdateUserForm -> once built
-
+    + UpdateUserForm
 
 - ERROR HANDLING
   + duplicate username/emails upon registration now throw an error and message

@@ -12,6 +12,7 @@ const verifySignUp = require('../utils/auth/verifySignUp')
 // CREATE new user via authentication utility
 usersRouter.post('/signup',
   [
+    // Middleware
     verifySignUp.checkUsernameOrEmailExists,
     verifySignUp.checkDuplicateUsernameOrEmail,
     verifySignUp.checkRolesExisted,
@@ -44,25 +45,25 @@ usersRouter.put('/:id',
     userValidation.checkRequiredUserPropertiesDefined
   ], async (req, res, next) => {
 
-  const body = req.body
-
-  const userWithUpdates = {
-    name: body.name,
-    email: body.email,
-    username: body.username,
-    passwordHash: await bcrypt.hash(body.password, 10),
-    role: await Role.findOne({ name: body.role.name })
-  }
-
   try {
+    const body = req.body
+
+    const userWithUpdates = {
+      name: body.name,
+      email: body.email,
+      username: body.username,
+      passwordHash: await bcrypt.hash(body.password, 10),
+      role: await Role.findOne({ name: body.role.name })
+    }
+
     const updatedUser = await User
       .findByIdAndUpdate(req.params.id, userWithUpdates, { new: true })
       .populate('role')
       .exec()
+
     res.json(updatedUser.toJSON())
 
   } catch (err) {
-    console.log('userControllerErr', err)
     next(err)
   }
 })

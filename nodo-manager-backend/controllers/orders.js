@@ -5,16 +5,17 @@ const authJwt = require('../utils/auth/authJWT')
 const orderValidation = require('../utils/validations/orderValidation')
 
 // CREATE new order
-ordersRouter.post('/', [
-  authJwt.verifyToken,
-  orderValidation.verifyStatus,
-  orderValidation.verifyCategory,
-  orderValidation.verifyName,
-  orderValidation.verifyItems,
-  orderValidation.verifyNotes,
-  orderValidation.verifyCosts,
-
-], async (req, res, next) => {
+ordersRouter.post('/',
+  [
+    // Middlewares
+    authJwt.verifyToken,
+    orderValidation.verifyStatus,
+    orderValidation.verifyCategory,
+    orderValidation.verifyName,
+    orderValidation.verifyItems,
+    orderValidation.verifyNotes,
+    orderValidation.verifyCosts,
+  ], async (req, res, next) => {
 
   try {
     const body = req.body
@@ -43,10 +44,11 @@ ordersRouter.post('/', [
 })
 
 // READ all orders
-ordersRouter.get('/', [
-  authJwt.verifyToken,
-  authJwt.isEmployee
-], async (req, res, next) => {
+ordersRouter.get('/',
+  [
+    authJwt.verifyToken,
+    authJwt.isEmployee
+  ], async (req, res, next) => {
 
   try {
     const orders = await Order.find({}).populate('user')
@@ -69,19 +71,21 @@ ordersRouter.get('/:id', async (req, res, next) => {
 })
 
 // UPDATE an order
-ordersRouter.put('/:id', [
-  authJwt.verifyToken,
-  authJwt.isEmployee,
-  orderValidation.verifyStatus,
-  orderValidation.verifyCategory,
-  orderValidation.verifyName,
-  orderValidation.verifyItems,
-  orderValidation.verifyNotes,
-  orderValidation.verifyCosts,
-], async (req, res, next) => {
+ordersRouter.put('/:id',
+  [
+    authJwt.verifyToken,
+    authJwt.isEmployee,
+    orderValidation.verifyStatus,
+    orderValidation.verifyCategory,
+    orderValidation.verifyName,
+    orderValidation.verifyItems,
+    orderValidation.verifyNotes,
+    orderValidation.verifyCosts,
+  ], async (req, res, next) => {
 
   try {
     const body = req.body
+
     const orderWithUpdates = {
       status: body.status,
       category: body.category,
@@ -96,9 +100,10 @@ ordersRouter.put('/:id', [
       },
       user: req.userId
     }
-    const updatedOrder = await Order.findByIdAndUpdate(
-      req.params.id, orderWithUpdates, { new: true }
-    )
+
+    const updatedOrder = await Order
+      .findByIdAndUpdate(req.params.id, orderWithUpdates, { new: true })
+
     res.json(updatedOrder.toJSON())
 
   } catch (err) {
@@ -107,10 +112,11 @@ ordersRouter.put('/:id', [
 })
 
 // DELETE an order
-ordersRouter.delete('/:id', [
-  authJwt.verifyToken,
-  authJwt.isManager
-], async (req, res, next) => {
+ordersRouter.delete('/:id',
+  [
+    authJwt.verifyToken,
+    authJwt.isManager
+  ], async (req, res, next) => {
 
   try {
     const deletedOrder = await Order.findByIdAndDelete(req.params.id)
