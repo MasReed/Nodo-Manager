@@ -57,6 +57,7 @@ const checkRequiredUserPropertiesDefined = (req, res, next) => {
         }
       }
     }
+    
     return next()
 
   } catch (err) {

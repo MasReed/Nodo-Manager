@@ -4,7 +4,6 @@ const mongoose = require('mongoose')
 const errorHandler = (err, req, res, next) => {
 
   try {
-
     if (process.env.NODE_ENV === 'development') {
       console.log('')
       console.log('-----------------------------------')

@@ -1,4 +1,4 @@
-
+// Initializes roles in a new or empty database
 async function rolesInitializer() {
 
   const Role = require('../models/role');

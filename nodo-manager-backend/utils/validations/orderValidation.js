@@ -10,6 +10,7 @@ const verifyStatus = (req, res, next) => {
     } else if (!statusOptions.includes(req.body.status)) {
       req.body.status = 'In Progress'
     }
+
     return next()
 
   } catch (err) {
@@ -37,6 +38,7 @@ const verifyName = (req, res, next) => {
     if (!req.body.name || req.body.name === '') {
       throw ({ status: 400, message: 'An order name is required.' })
     }
+
     return next()
 
   } catch (err) {
@@ -50,7 +52,7 @@ const verifyItems = (req, res, next) => {
     if (!req.body.items || req.body.items.length === 0) {
       throw ({ status: 400, message: 'No items in order!' })
     }
-
+    
     return next()
 
   } catch (err) {

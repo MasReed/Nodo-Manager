@@ -7,7 +7,8 @@ const checkEmptyObject = (req, res, next) => {
     if (!req.body || Object.keys(req.body).length === 0) {
       throw { status: 400, message: 'Updated object is empty.'}
     }
-    next()
+
+    return next()
 
   } catch (err) {
     next(err)
@@ -31,7 +32,8 @@ const checkRequiredPropertiesDefined = (req, res, next) => {
         }
       }
     }
-    next()
+
+    return next()
 
   } catch (err) {
     next(err)
@@ -51,7 +53,8 @@ const checkOptionalPropertiesDefinedDefault = (req, res, next) => {
         req.body[property] = optionalPropertiesAndDefaults[property]
       }
     }
-    next()
+
+    return next()
 
   } catch (err) {
     next(err)
@@ -63,13 +66,13 @@ const checkPositiveItemPrice = (req, res, next) => {
     if (req.body.price < 0) {
       req.body.price = abs(req.body.price)
     }
-    next()
+    
+    return next()
 
   } catch (err) {
     next(err)
   }
 }
-
 
 const verifyItem = {
   checkEmptyObject,

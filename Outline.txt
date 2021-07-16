@@ -92,7 +92,7 @@ Procedure / TODOs
   + Implemented item form validations
   - conditional render alertBanner on site vs in mobile
   - connect error to form component if applicable
-  - verify shape of error objects created at service layer
+  - verify shape of error objects created at frontend service layer
   - verify data initializers on frontend (currently in useEffect)
   - manage cast errors on backend
   - hide jwt malformed to user
