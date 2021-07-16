@@ -8,6 +8,7 @@ import ItemInfo from './ItemInfo'
 
 const ItemList = () => {
 
+  // Gather all items into display components
   const itemsAsComponents = useSelector(
     state => state.items.map(item =>
       <ItemInfo key={item._id} item={item} />

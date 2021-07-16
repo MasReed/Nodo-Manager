@@ -23,14 +23,16 @@ const NewItemForm = ({ show, setShow }) => {
     availability: 'Unavailable'
   })
 
+  // Form related errors
   const [errors, setErrors] = useState({})
 
+  // Update single form field with value
   const setField = (field, value) => {
     setForm({
       ...form,
       [field]: value
     })
-    // Remove any errors from the error object
+    // Reset any errors
     if (!!errors[field]) setErrors({
       ...errors,
       [field]: null
@@ -78,7 +80,7 @@ const NewItemForm = ({ show, setShow }) => {
   }
 
 
-  const createItem = async (event) => {
+  const callCreateItem = async (event) => {
     event.preventDefault()
 
     //convert comma-separated items into array if neccessary
@@ -93,16 +95,17 @@ const NewItemForm = ({ show, setShow }) => {
       setErrors(newErrors)
     } else {
 
-      const newItemObject = {
-        name: form.name,
-        description: form.description,
-        ingredients: ingredientsArray,
-        category: form.category,
-        price: form.price,
-        availability: form.availability
-      }
-
       try {
+        const newItemObject = {
+          name: form.name,
+          description: form.description,
+          ingredients: ingredientsArray,
+          category: form.category,
+          price: form.price,
+          availability: form.availability
+        }
+
+        // Dispatch to item reducer
         await dispatch(addItemActionCreator(newItemObject))
 
         setForm({
@@ -113,7 +116,8 @@ const NewItemForm = ({ show, setShow }) => {
           price: '',
           availability: 'Unavailable'
         })
-        setShow(false) // state from parent
+
+        setShow(false) // state from parent; closes modal
 
       } catch (err) {
         await dispatch(toastAlertCreator(err))
@@ -121,7 +125,7 @@ const NewItemForm = ({ show, setShow }) => {
     }
   }
 
-  const handleCancel = () => {
+  const handleCanceledForm = () => {
     setForm({
       name: '',
       description: '',
@@ -131,7 +135,7 @@ const NewItemForm = ({ show, setShow }) => {
       availability: 'Unavailable'
     })
     setErrors({})
-    setShow(false) // state from parent
+    setShow(false) // state from parent; closes modal
   }
 
   const charactersRemaining = (str, limit) => {
@@ -143,7 +147,7 @@ const NewItemForm = ({ show, setShow }) => {
     <React.Fragment>
       <Modal
         show={show}
-        onHide={ () => setShow(false) }
+        onHide={ () => handleCanceledForm() }
         backdrop="static"
         keyboard={false}
         dialogClassName='modal-70w'
@@ -155,7 +159,9 @@ const NewItemForm = ({ show, setShow }) => {
         <AlertBanner />
 
         <Modal.Body>
-          <Form id='newItemForm' onSubmit={ createItem }>
+          <Form id='newItemForm' onSubmit={ callCreateItem }>
+
+            {/* Name */}
             <Form.Group>
               <Form.Label>Name:</Form.Label>
               <Form.Control
@@ -170,6 +176,7 @@ const NewItemForm = ({ show, setShow }) => {
               </Form.Control.Feedback>
             </Form.Group>
 
+            {/* Category */}
             <Form.Group>
               <Form.Label>Category:</Form.Label>
               <Form.Control
@@ -184,6 +191,7 @@ const NewItemForm = ({ show, setShow }) => {
               </Form.Control.Feedback>
             </Form.Group>
 
+            {/* Description */}
             <Form.Group>
               <Form.Label>Description:</Form.Label>
               <Form.Control
@@ -191,7 +199,6 @@ const NewItemForm = ({ show, setShow }) => {
                 maxLength='90'
                 onChange={ ({ target }) => setField('description', target.value) }
                 isInvalid={ !!errors.description }
-
               />
               <Form.Text>{charactersRemaining(form.description, 90)}</Form.Text>
               <Form.Control.Feedback type='invalid'>
@@ -199,6 +206,7 @@ const NewItemForm = ({ show, setShow }) => {
               </Form.Control.Feedback>
             </Form.Group>
 
+            {/* Ingredients */}
             <Form.Group>
               <Form.Label>Ingredients:</Form.Label>
               <Form.Control
@@ -212,6 +220,7 @@ const NewItemForm = ({ show, setShow }) => {
               </Form.Control.Feedback>
             </Form.Group>
 
+            {/* Price */}
             <Form.Group>
               <Form.Label>Price:</Form.Label>
               <Form.Control
@@ -225,6 +234,7 @@ const NewItemForm = ({ show, setShow }) => {
               </Form.Control.Feedback>
             </Form.Group>
 
+            {/* Availability */}
             <Form.Group>
               <Form.Label>Availability:</Form.Label>
               <div className='px-4 d-flex justify-content-between'>
@@ -253,6 +263,7 @@ const NewItemForm = ({ show, setShow }) => {
               </div>
             </Form.Group>
 
+            {/* Image */}
             <Form.Group>
               {/* TODO: add functionality */}
               <Form.File
@@ -266,7 +277,7 @@ const NewItemForm = ({ show, setShow }) => {
 
         <Modal.Footer>
           <Button type='submit' form='newItemForm'>Create Item</Button>
-          <Button variant="secondary" onClick={ handleCancel }>
+          <Button variant="secondary" onClick={ handleCanceledForm }>
             Cancel
           </Button>
         </Modal.Footer>

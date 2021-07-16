@@ -13,16 +13,18 @@ const ItemsPage = () => {
   return (
     <Container className='pt-5'>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between'}}>
+      <div className='d-flex justify-content-between'>
         <h1 className='m-0'>Items Page</h1>
         <Button onClick={ () => setShowNewItemForm(true) } variant='outline-secondary'>
           CREATE
         </Button>
       </div>
 
+      {/* Modal Form Component */}
       <NewItemForm show={showNewItemForm} setShow={setShowNewItemForm}/>
 
       <hr />
+      
       <ItemsList />
 
     </Container>

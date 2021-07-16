@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-//
+
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
-//
+
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { destroyItemActionCreator } from '../../reducers/itemReducer'
-//
+
 import truncateString from '../../utilities/truncateString'
-//
+
 import UpdateItemForm from './UpdateItemForm'
 
 //
@@ -38,6 +38,7 @@ const ItemInfo = ({ item }) => {
           maxWidth: '32rem'
         }}
       >
+        {/* Item name, category, price, description */}
         <Card.Header style={{height: '12rem'}}>
           <Card.Title style={{ display: 'flex', justifyContent: 'space-between' }}>
             {item.name}
@@ -51,6 +52,7 @@ const ItemInfo = ({ item }) => {
           <Card.Text>{item.description}</Card.Text>
         </Card.Header>
 
+        {/* Item Image, Ingredients */}
         <Card.Body>
           <Card.Img variant='top' src='/assets/burger.svg' height='55%'/>
           <hr />
@@ -66,6 +68,7 @@ const ItemInfo = ({ item }) => {
           </Card.Text>
         </Card.Body>
 
+        {/* Item availability, Delete and Update Buttons */}
         <Card.Footer>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button
@@ -87,6 +90,7 @@ const ItemInfo = ({ item }) => {
         </Card.Footer>
       </Card>
 
+      {/* Modal Form Component */}
       <UpdateItemForm
         item={item}
         show={showUpdateForm}

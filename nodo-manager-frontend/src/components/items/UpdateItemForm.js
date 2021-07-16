@@ -23,8 +23,10 @@ const UpdateItemForm = ({ item, show, setShow }) => {
     availability: item.availability
   })
 
+  // Form related errors
   const [errors, setErrors] = useState({})
 
+  // Update single form field with value
   const setField = (field, value) => {
     setForm({
       ...form,
@@ -93,19 +95,21 @@ const UpdateItemForm = ({ item, show, setShow }) => {
       setErrors(newErrors)
     } else {
 
-      const updatedItemObject = {
-        ...item,
-        name: form.name,
-        description: form.description,
-        ingredients: ingredientsArray,
-        category: form.category,
-        price: form.price,
-        availability: form.availability
-      }
-
       try {
+        const updatedItemObject = {
+          ...item,
+          name: form.name,
+          description: form.description,
+          ingredients: ingredientsArray,
+          category: form.category,
+          price: form.price,
+          availability: form.availability
+        }
+
+        // Dispatch to item reducer
         await dispatch(updateItemActionCreator(item._id, updatedItemObject))
-        setShow(false) // state from parent
+
+        setShow(false) // state from parent; closes modal
 
       } catch (err) {
         await dispatch(toastAlertCreator(err))
@@ -113,7 +117,7 @@ const UpdateItemForm = ({ item, show, setShow }) => {
     }
   }
 
-  const handleCancel = () => {
+  const handleCanceledForm = () => {
     setForm({
       name: item.name,
       description: item.description,
@@ -123,7 +127,7 @@ const UpdateItemForm = ({ item, show, setShow }) => {
       availability: item.availability
     })
     setErrors({})
-    setShow(false) // state from parent
+    setShow(false) // state from parent; closes modal
   }
 
   const charactersRemaining = (str, limit) => {
@@ -135,7 +139,7 @@ const UpdateItemForm = ({ item, show, setShow }) => {
     <React.Fragment>
       <Modal
         show={show}
-        onHide={ () => setShow(false) }
+        onHide={ () => handleCanceledForm() }
         backdrop="static"
         keyboard={false}
       >
@@ -147,6 +151,8 @@ const UpdateItemForm = ({ item, show, setShow }) => {
 
         <Modal.Body>
           <Form id='updateItemForm' onSubmit={ callUpdateItem }>
+
+            {/* Name */}
             <Form.Group>
               <Form.Label>Name:</Form.Label>
               <Form.Control
@@ -161,6 +167,7 @@ const UpdateItemForm = ({ item, show, setShow }) => {
               </Form.Control.Feedback>
             </Form.Group>
 
+            {/* Category */}
             <Form.Group>
               <Form.Label>Category:</Form.Label>
               <Form.Control
@@ -175,6 +182,7 @@ const UpdateItemForm = ({ item, show, setShow }) => {
               </Form.Control.Feedback>
             </Form.Group>
 
+            {/* Description */}
             <Form.Group>
               <Form.Label>Description:</Form.Label>
               <Form.Control
@@ -190,6 +198,7 @@ const UpdateItemForm = ({ item, show, setShow }) => {
               </Form.Control.Feedback>
             </Form.Group>
 
+            {/* Ingredients */}
             <Form.Group>
               <Form.Label>Ingredients:</Form.Label>
               <Form.Control
@@ -203,6 +212,7 @@ const UpdateItemForm = ({ item, show, setShow }) => {
               </Form.Control.Feedback>
             </Form.Group>
 
+            {/* Price */}
             <Form.Group>
               <Form.Label>Price:</Form.Label>
               <Form.Control
@@ -216,6 +226,7 @@ const UpdateItemForm = ({ item, show, setShow }) => {
               </Form.Control.Feedback>
             </Form.Group>
 
+            {/* Availability */}
             <Form.Group>
               <Form.Label>Availability:</Form.Label>
               <div className='px-4 d-flex justify-content-between'>
@@ -243,13 +254,12 @@ const UpdateItemForm = ({ item, show, setShow }) => {
                 />
               </div>
             </Form.Group>
-
           </Form>
         </Modal.Body>
 
         <Modal.Footer>
           <Button type='submit' form='updateItemForm'>Save</Button>
-          <Button variant="secondary" onClick={ handleCancel }>
+          <Button variant="secondary" onClick={ handleCanceledForm }>
             Cancel
           </Button>
         </Modal.Footer>
