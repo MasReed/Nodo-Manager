@@ -73,6 +73,7 @@ Procedure / TODOs
   - min/max length of form inputs all around
   - refactor 'remaining characters code' to reusable component
   - refactor form validation to resuable components?
+  - strip whitespace from inputs
   + Item forms
     + NewItemForm
     + UpdateItemForm

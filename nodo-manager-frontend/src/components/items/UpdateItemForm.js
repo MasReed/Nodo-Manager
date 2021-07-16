@@ -9,6 +9,7 @@ import AlertBanner from '../site-wide/AlertBanner'
 
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { updateItemActionCreator } from '../../reducers/itemReducer'
+import charactersRemaining from '../../utilities/charactersRemaining'
 
 const UpdateItemForm = ({ item, show, setShow }) => {
 
@@ -129,11 +130,6 @@ const UpdateItemForm = ({ item, show, setShow }) => {
     setErrors({})
     setShow(false) // state from parent; closes modal
   }
-
-  const charactersRemaining = (str, limit) => {
-    const diff = limit - str.length
-    return (diff < 21) ? diff + ' character(s) remaining' : null
-    }
 
   return (
     <React.Fragment>
