@@ -36,11 +36,11 @@ const OrdersPage = () => {
   const addOrder = async (event) => {
     event.preventDefault()
 
-    const orderObject = {
-      foodItems: items,
-    }
-
     try {
+      const orderObject = {
+        foodItems: items,
+      }
+
       dispatch(addOrderActionCreator(orderObject))
       setShow(false)
       setItems([])

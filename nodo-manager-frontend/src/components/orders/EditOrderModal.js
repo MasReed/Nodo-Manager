@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
@@ -16,13 +16,16 @@ const EditOrderModal = ({ order, show, setShow }) => {
 
   const dispatch = useDispatch()
 
+  const [localOrder, setLocalOrder] = useState(order)
+
   const [ form, setForm ] = useState({
-    orderCategory: order.category,
-    orderName: order.name,
-    orderNotes: order.notes
+    orderCategory: localOrder.category,
+    orderName: localOrder.name,
+    orderNotes: localOrder.notes
   })
   const [ errors, setErrors ] = useState({})
 
+  //
   const setField = (field, value) => {
     setForm({
       ...form,
@@ -35,6 +38,7 @@ const EditOrderModal = ({ order, show, setShow }) => {
     })
   }
 
+  //
   const findFormErrors = () => {
     const { orderCategory, orderName, orderNotes } = form
     const newErrors = {}
@@ -52,6 +56,7 @@ const EditOrderModal = ({ order, show, setShow }) => {
     return newErrors
   }
 
+  //
   const handleUpdateSubmission = async (event) => {
     event.preventDefault()
 
@@ -65,7 +70,7 @@ const EditOrderModal = ({ order, show, setShow }) => {
     try {
 
       const updatedOrderObject = {
-        ...order,
+        ...localOrder,
         category: form.orderCategory,
         name: form.orderName,
         notes: form.orderNotes
@@ -90,6 +95,17 @@ const EditOrderModal = ({ order, show, setShow }) => {
     }
   }
 
+  //
+  const deleteOrderItem = (id) => {
+    setLocalOrder((prevState) => ({
+      ...prevState,
+      items: prevState.items.filter(item => item.uniqueId !== id)
+    }))
+
+    return
+  }
+
+  //
   const handleModalClose = () => {
     setForm({
       orderCategory: order.category,
@@ -110,11 +126,16 @@ const EditOrderModal = ({ order, show, setShow }) => {
       scrollable={true}
     >
       <Modal.Header closeButton>
-        <Modal.Title>Edit {order.name}'s Order</Modal.Title>
+        <Modal.Title>
+          Editing {order.name}'s Order
+          <h6>ID: {order._id}</h6>
+        </Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
         <Form id='updateOrderForm' onSubmit={ handleUpdateSubmission }>
+
+          {/* Order Category*/}
           <Form.Group>
             <ButtonGroup toggle>
               <ToggleButton
@@ -124,7 +145,7 @@ const EditOrderModal = ({ order, show, setShow }) => {
                 value={form.orderCategory}
                 checked={form.orderCategory === 'Carry Out'}
                 onChange={ () => setField('orderCategory', 'Carry Out') }
-                isInvalid={ !!errors.orderCategory }
+                // isInvalid={ !!errors.orderCategory }
               >Carry Out
               </ToggleButton>
 
@@ -135,7 +156,7 @@ const EditOrderModal = ({ order, show, setShow }) => {
                 value={form.orderCategory}
                 checked={form.orderCategory === 'Delivery'}
                 onChange={ () => setField('orderCategory', 'Delivery') }
-                isInvalid={ !!errors.orderCategory }
+                // isInvalid={ !!errors.orderCategory }
               >Delivery
               </ToggleButton>
             </ButtonGroup>
@@ -144,6 +165,7 @@ const EditOrderModal = ({ order, show, setShow }) => {
           </Form.Group>
 
           <Form.Row className='ml-0 mr-0'>
+            {/* Order Name */}
             <Col lg='auto' className='pl-0'>
               <Form.Group>
                 <Form.Label>Name: </Form.Label>
@@ -157,6 +179,7 @@ const EditOrderModal = ({ order, show, setShow }) => {
               </Form.Group>
             </Col>
 
+            {/* Order Notes */}
             <Col className='pr-0'>
               <Form.Group>
                 <Form.Label>Order Notes:</Form.Label>
@@ -168,13 +191,14 @@ const EditOrderModal = ({ order, show, setShow }) => {
                 <Form.Control.Feedback type='invalid'>{ errors.orderNotes }</Form.Control.Feedback>
               </Form.Group>
             </Col>
+
           </Form.Row>
         </Form>
 
         <hr />
 
         {
-          (order.items.length > 0) && order.items.map(item =>
+          (localOrder.items.length > 0) && localOrder.items.map(item =>
             (
               <div key={item.uniqueId}>
                 <div>
@@ -208,7 +232,28 @@ const EditOrderModal = ({ order, show, setShow }) => {
                     }
                   </div>
 
-                  <p className='my-0 py-2'>Item Total: ${item.basePrice}</p>
+                  <div className='d-flex justify-content-between'>
+                    <div className='my-auto'>
+                      <Button
+                        onClick={ () => deleteOrderItem(item.uniqueId) }
+                        variant='outline-danger'
+                        size='sm'
+                        style={{ border: 'hidden' }}
+                      >
+                        Remove Item
+                      </Button>
+
+                      <Button
+                        onClick={ () => console.log('edit called') }
+                        variant='outline-secondary'
+                        size='sm'
+                        style={{ border: 'hidden' }}
+                        >
+                          Edit
+                        </Button>
+                    </div>
+                    <p className='my-0 py-2'>Item Total: ${item.basePrice}</p>
+                  </div>
                 </div>
               </div>
             )
