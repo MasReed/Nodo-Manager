@@ -65,33 +65,33 @@ const EditOrderModal = ({ order, show, setShow }) => {
     // Check for any form errors
     if ( Object.keys(newErrors).length > 0 ) {
       setErrors(newErrors)
-    }
+    } else {
+      try {
 
-    try {
+        const updatedOrderObject = {
+          ...localOrder,
+          category: form.orderCategory,
+          name: form.orderName,
+          notes: form.orderNotes
+        }
 
-      const updatedOrderObject = {
-        ...localOrder,
-        category: form.orderCategory,
-        name: form.orderName,
-        notes: form.orderNotes
+        console.log('UPDATED ORDER OBJ', updatedOrderObject)
+
+        await dispatch(
+          updateOrderActionCreator(order._id, updatedOrderObject)
+        )
+
+        setForm({
+          orderCategory: form.orderCategory,
+          orderName: form.orderName,
+          orderNotes: form.orderNotes
+        })
+
+        setShow(false)
+
+      } catch (err) {
+        await dispatch(toastAlertCreator(err))
       }
-
-      console.log('UPDATED ORDER OBJ', updatedOrderObject)
-
-      await dispatch(
-        updateOrderActionCreator(order._id, updatedOrderObject)
-      )
-
-      setForm({
-        orderCategory: form.orderCategory,
-        orderName: form.orderName,
-        orderNotes: form.orderNotes
-      })
-
-      setShow(false)
-
-    } catch (err) {
-      await dispatch(toastAlertCreator(err))
     }
   }
 
@@ -248,9 +248,9 @@ const EditOrderModal = ({ order, show, setShow }) => {
                         variant='outline-secondary'
                         size='sm'
                         style={{ border: 'hidden' }}
-                        >
-                          Edit
-                        </Button>
+                      >
+                        Edit
+                      </Button>
                     </div>
                     <p className='my-0 py-2'>Item Total: ${item.basePrice}</p>
                   </div>

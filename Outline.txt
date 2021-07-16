@@ -84,7 +84,7 @@ Procedure / TODOs
     + MyOrderForm
     - AddOrderForm -> once built
     - UpdateOrderForm (modal)-> once built
-      - disable edit btn if marked completed
+      + disable edit btn if marked completed
     - validate status choices
   - User forms
     + NewUserForm
