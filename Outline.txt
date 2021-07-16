@@ -71,9 +71,10 @@ Procedure / TODOs
 
 - CUSTOM FORMS & VALIDATION (Frontent)
   - min/max length of form inputs all around
-  - refactor 'remaining characters code' to reusable component
+  + refactor 'remaining characters code' to reusable component
   - refactor form validation to resuable components?
-  - strip whitespace from inputs
+  - strip leading/trailing whitespace from inputs ( .trim() method )
+  - utilize charactersRemaining in all forms if applicable
   + Item forms
     + NewItemForm
     + UpdateItemForm
@@ -82,6 +83,7 @@ Procedure / TODOs
     + MyOrderForm
     - AddOrderForm -> once built
     - UpdateOrderForm (modal)-> once built
+      - disable edit btn if marked completed
     - validate status choices
   - User forms
     + NewUserForm
@@ -100,12 +102,16 @@ Procedure / TODOs
   - manage cast errors on backend
   - hide jwt malformed to user
 
-+ supertest/jest for backend api
++ API TESTING w/ JEST & SUPERTEST
   + Basic Data Validation testing for item, order, user APIs
     + Required Properties / Default values
     - Expand data type validation
   + Basic Auth Validation testing for item, order, user APIs
   - improve/expand order & item schema/data validations
+
+- FRONTEND TESTING
+  - Setup test env.
+  - test modal closebuttons properly reset data (somewhere)
 
 - Cross ref orders and users
 - confirm account registration w/ email?

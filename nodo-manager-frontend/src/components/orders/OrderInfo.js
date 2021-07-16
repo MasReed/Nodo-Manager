@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
+
+import EditOrderModal from './EditOrderModal'
 
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import {
@@ -12,6 +14,8 @@ import {
 const OrderInfo = ({ order }) => {
 
   const dispatch = useDispatch()
+
+  const [showUpdateOrderModal, setShowUpdateOrderModal] = useState(false)
 
   const orderStatusColor = (status) => {
     const colorMap = {
@@ -26,7 +30,7 @@ const OrderInfo = ({ order }) => {
 
     const completedOrder = {
       ...order,
-      status: 'Complet'
+      status: 'Complete'
     }
 
     try {
@@ -44,10 +48,10 @@ const OrderInfo = ({ order }) => {
     }
   }
 
-  const updateOrder = async (id) => {
-    //
+  const updateOrderSequence = async (order) => {
     try {
-      await dispatch(updateOrderActionCreator(id, {}))
+      setShowUpdateOrderModal(true)
+
     } catch (err) {
       await dispatch(toastAlertCreator(err))
     }
@@ -76,6 +80,8 @@ const OrderInfo = ({ order }) => {
 
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div className='align-self-center'>
+
+          {/* Remove Order */}
           <Button
             onClick={ () => deleteOrder(order._id) }
             variant='outline-danger'
@@ -85,8 +91,10 @@ const OrderInfo = ({ order }) => {
           >
             Remove
           </Button>
+
+          {/* Edit Order */}
           <Button
-            onClick={ () => updateOrder(order._id) }
+            onClick={ () => updateOrderSequence(order) }
             variant='outline-secondary'
             size='sm'
             style={{ border: 'hidden' }}
@@ -94,6 +102,8 @@ const OrderInfo = ({ order }) => {
           >
             Edit
           </Button>
+
+          {/* Mark Complete */}
           <Button
             onClick={ () => completeOrder(order._id) }
             variant='outline-success'
@@ -105,13 +115,21 @@ const OrderInfo = ({ order }) => {
           </Button>
         </div>
 
+        {/* Order Cost Details */}
         <div className='mx-2'>
-          <p className='m-0'>Subtotal: {order.subTotal}</p>
-          <p className='m-0 text-right'>Total: {order.total}</p>
+          <p className='m-0'>Subtotal: {order.costs.subTotal}</p>
+          <p className='m-0 text-right'>Total: {order.costs.total}</p>
         </div>
       </div>
 
       <hr />
+
+      {/* Modal Component */}
+      <EditOrderModal
+        order={order}
+        show={showUpdateOrderModal}
+        setShow={setShowUpdateOrderModal}
+      />
     </>
   )
 }
