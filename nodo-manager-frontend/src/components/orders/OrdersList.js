@@ -7,10 +7,28 @@ const OrdersList = () => {
 
   const orders = useSelector(state => state.orders)
 
+  //
+  const sortByTime = (ordersArray) => {
+    return ordersArray.slice().sort((a, b) => (
+      new Date(b.updatedAt) - new Date(a.updatedAt)
+    ))
+  }
+
+  //
+  const sortByStatus = (ordersArray) => {
+    const sortBy = ['In Progress', 'Complete']
+    return ordersArray.slice().sort((a, b) => (
+      sortBy.indexOf(a.status) - sortBy.indexOf(b.status)
+    ))
+  }
+
+  const timeSortedOrders = sortByTime(orders)
+  const statusSortedOrders = sortByStatus(timeSortedOrders)
+
   return (
     <>
       {
-        orders && orders.map(order =>
+        orders && statusSortedOrders.map(order =>
           <OrderInfo key={order._id} order={order} />
         )
       }
