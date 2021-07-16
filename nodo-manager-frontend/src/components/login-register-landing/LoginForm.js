@@ -16,6 +16,7 @@ const LoginForm = ({ ...props }) => {
   const [ form, setForm ] = useState({ name: '', password: '' })
   const [ errors, setErrors ] = useState({})
 
+  //
   const setField = (field, value) => {
     setForm({
       ...form,
@@ -28,7 +29,8 @@ const LoginForm = ({ ...props }) => {
     })
   }
 
-  const handleSubmit = async (event) => {
+  //
+  const handleSubmitLogin = async (event) => {
     event.preventDefault()
 
     const newErrors = findFormErrors()
@@ -37,12 +39,16 @@ const LoginForm = ({ ...props }) => {
     if ( Object.keys(newErrors).length > 0 ) {
       setErrors(newErrors)
     } else {
+
       try {
         await dispatch(loginUserActionCreator(form.name, form.password))
+
         if (props.setShow) {
           props.setShow(false)
         }
+
         setForm({ name: '', password: '' })
+
         history.push('/menu')
 
       } catch (err) {
@@ -52,6 +58,7 @@ const LoginForm = ({ ...props }) => {
     }
   }
 
+  //
   const findFormErrors = () => {
     const { name, password } = form
     const newErrors = {}
@@ -68,6 +75,7 @@ const LoginForm = ({ ...props }) => {
 
   return (
     <Form>
+      {/* Login Username */}
       <Form.Group>
         <Form.Label>Username</Form.Label>
         <Form.Control
@@ -77,9 +85,12 @@ const LoginForm = ({ ...props }) => {
           onChange={ e => setField('name', e.target.value) }
           isInvalid={ !!errors.name }
         />
-        <Form.Control.Feedback type='invalid'>{ errors.name }</Form.Control.Feedback>
+        <Form.Control.Feedback type='invalid'>
+          { errors.name }
+        </Form.Control.Feedback>
       </Form.Group>
 
+      {/* Login Password */}
       <Form.Group>
         <Form.Label>Password</Form.Label>
         <Form.Control
@@ -90,14 +101,18 @@ const LoginForm = ({ ...props }) => {
           isInvalid={ !!errors.password }
         >
         </Form.Control>
-        <Form.Control.Feedback type='invalid'>{ errors.password }</Form.Control.Feedback>
+        <Form.Control.Feedback type='invalid'>
+          { errors.password }
+        </Form.Control.Feedback>
       </Form.Group>
 
-      <Button type='submit' onClick={ handleSubmit }>Login</Button>
+      {/* Submit */}
+      <Button type='submit' onClick={ handleSubmitLogin }>Login</Button>
     </Form>
   )
 }
 
 export default LoginForm
 
-// Form validation built on work from: https://github.com/AlecGrey/demo-form-for-blog
+// Form validation built on work from:
+// https://github.com/AlecGrey/demo-form-for-blog

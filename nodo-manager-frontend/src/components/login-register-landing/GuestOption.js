@@ -14,27 +14,35 @@ const GuestOption = () => {
 
   const handleGuest = async () => {
 
-    const alertObj = {
-      type: 'Hi!',
-      message: 'Continuing as guest...',
-      variant: 'primary',
-      show: true
-    }
+    try {
+      const alertObj = {
+        type: 'Hi!',
+        message: 'Continuing as guest...',
+        variant: 'primary',
+        show: true
+      }
 
-    await dispatch(toastAlertCreator(alertObj))
-    dispatch(guestUserActionCreator())
-    history.push('/menu')
+      await dispatch(toastAlertCreator(alertObj))
+      await dispatch(guestUserActionCreator())
+
+      history.push('/menu')
+
+    } catch (err) {
+      await dispatch(toastAlertCreator(err))
+    }
   }
 
   return (
     <div className='m-auto p-0'>
       <h5>- OR -</h5>
       <hr className='mb-5' />
+
       <Button
         onClick={ handleGuest }
         className='btn-block'
         variant='outline-secondary'
       > > </Button>
+
       <hr className='mt-5' />
       <h5 className='px-5'>Continue As Guest</h5>
     </div>

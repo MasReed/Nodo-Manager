@@ -10,15 +10,16 @@ import { addUserActionCreator } from '../../reducers/userReducer'
 
 const RegisterForm = () => {
 
-  const currentUser = useSelector(state => state.currentUser)
   const dispatch = useDispatch()
   const history = useHistory()
+  const currentUser = useSelector(state => state.currentUser)
 
   const [ form, setForm ] = useState(
     { email: '', username: '', password: '', passcopy: '' }
   )
   const [ errors, setErrors ] = useState({})
 
+  //
   const setField = (field, value) => {
     setForm({
       ...form,
@@ -31,6 +32,7 @@ const RegisterForm = () => {
     })
   }
 
+  //
   const findFormErrors = () => {
     const { email, username, password, passcopy } = form
     const newErrors = {}
@@ -48,13 +50,17 @@ const RegisterForm = () => {
     else if ( password.length < 5 ) newErrors.password = 'Password is too short'
 
     // passcopy errors
-    if ( !passcopy || passcopy === '' ) newErrors.passcopy = 'Reenter your password!'
-    else if ( password !== passcopy ) newErrors.passcopy = 'Passwords do not match!'
+    if ( !passcopy || passcopy === '' ) {
+      newErrors.passcopy = 'Reenter your password!'
+    } else if ( password !== passcopy ) {
+      newErrors.passcopy = 'Passwords do not match!'
+    }
 
     return newErrors
   }
 
-  const handleRegister = async (event) => {
+  //
+  const handleSubmitRegister = async (event) => {
     event.preventDefault()
 
     const newErrors = findFormErrors()
@@ -63,6 +69,7 @@ const RegisterForm = () => {
     if ( Object.keys(newErrors).length > 0 ) {
       setErrors(newErrors)
     } else {
+
       try {
         const newUser = {
           name: form.username,
@@ -72,7 +79,9 @@ const RegisterForm = () => {
         }
 
         await dispatch(addUserActionCreator(newUser, currentUser))
+
         setForm({ email: '', username: '', password: '', passcopy: '' })
+
         history.push('/menu')
 
       } catch (err) {
@@ -83,20 +92,15 @@ const RegisterForm = () => {
           passcopy: ''
         })
 
-        if (err.response) {
-          console.log('register form', err.response.data.message)
-          dispatch(toastAlertCreator({ message: err.response.data.message }))
-        } else if (err.request) {
-          console.log('err.req', err.request)
-        } else {
-          console.log(err)
-        }
+        await dispatch(toastAlertCreator(err))
       }
     }
   }
 
   return (
     <Form>
+
+      {/* Email */}
       <Form.Group controlId='signupEmail'>
         <Form.Label>Email address</Form.Label>
         <Form.Control
@@ -106,9 +110,12 @@ const RegisterForm = () => {
           onChange={ ({ target }) => setField('email', target.value) }
           isInvalid={ !!errors.email }
         />
-        <Form.Control.Feedback type='invalid'>{ errors.email }</Form.Control.Feedback>
+        <Form.Control.Feedback type='invalid'>
+          { errors.email }
+        </Form.Control.Feedback>
       </Form.Group>
 
+      {/* Username */}
       <Form.Group controlId='signupUsername'>
         <Form.Label>Username</Form.Label>
         <Form.Control
@@ -118,9 +125,12 @@ const RegisterForm = () => {
           onChange={ ({ target }) => setField('username', target.value) }
           isInvalid={ !!errors.username }
         />
-        <Form.Control.Feedback type='invalid'>{ errors.username }</Form.Control.Feedback>
+        <Form.Control.Feedback type='invalid'>
+          { errors.username }
+        </Form.Control.Feedback>
       </Form.Group>
 
+      {/* Password */}
       <Form.Group controlId='signupPassword'>
         <Form.Label>Password</Form.Label>
         <Form.Control
@@ -130,9 +140,12 @@ const RegisterForm = () => {
           onChange={ ({ target }) => setField('password', target.value) }
           isInvalid={ !!errors.password }
         />
-        <Form.Control.Feedback type='invalid'>{ errors.password }</Form.Control.Feedback>
+        <Form.Control.Feedback type='invalid'>
+          { errors.password }
+        </Form.Control.Feedback>
       </Form.Group>
 
+      {/* Password Copy */}
       <Form.Group controlId='signupPasswordVerify'>
         <Form.Label>Confirm Password</Form.Label>
         <Form.Control
@@ -142,10 +155,13 @@ const RegisterForm = () => {
           onChange={ ({ target }) => setField('passcopy', target.value) }
           isInvalid={ !!errors.passcopy }
         />
-        <Form.Control.Feedback type='invalid'>{ errors.passcopy }</Form.Control.Feedback>
+        <Form.Control.Feedback type='invalid'>
+          { errors.passcopy }
+        </Form.Control.Feedback>
       </Form.Group>
 
-      <Button variant='primary' type='submit' onClick={ handleRegister }>
+      {/* Submit Button */}
+      <Button variant='primary' type='submit' onClick={ handleSubmitRegister }>
         Sign Up
       </Button>
     </Form>

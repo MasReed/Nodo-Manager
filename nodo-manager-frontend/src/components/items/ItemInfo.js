@@ -5,12 +5,12 @@ import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 
+import UpdateItemForm from './UpdateItemForm'
+
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { destroyItemActionCreator } from '../../reducers/itemReducer'
 
 import truncateString from '../../utilities/truncateString'
-
-import UpdateItemForm from './UpdateItemForm'
 
 //
 const ItemInfo = ({ item }) => {
