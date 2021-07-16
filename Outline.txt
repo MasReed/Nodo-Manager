@@ -66,7 +66,8 @@ Procedure / TODOs
     - default password -> auto-generate?
     + UpdateUserForm created
       - check update auth scope
-    - group users by role
+    + sorted users by role
+      - group under accordians like menu items?
 
 
 - CUSTOM FORMS & VALIDATION (Frontent)

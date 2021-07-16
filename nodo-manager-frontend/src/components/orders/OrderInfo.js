@@ -26,15 +26,26 @@ const OrderInfo = ({ order }) => {
     return colorMap[status]
   }
 
-  const completeOrder = async (id) => {
-
-    const completedOrder = {
-      ...order,
-      status: 'Complete'
-    }
+  const changeOrderStatus = async (order) => {
 
     try {
-      await dispatch(updateOrderActionCreator(id, completedOrder))
+      let newStatusOrder;
+
+      if (order.status === 'Complete') {
+        newStatusOrder = {
+          ...order,
+          status: 'In Progress'
+        }
+
+      } else {
+        newStatusOrder = {
+          ...order,
+          status: 'Complete'
+        }
+      }
+
+      await dispatch(updateOrderActionCreator(order._id, newStatusOrder))
+
     } catch (err) {
       await dispatch(toastAlertCreator(err))
     }
@@ -99,19 +110,23 @@ const OrderInfo = ({ order }) => {
             size='sm'
             style={{ border: 'hidden' }}
             className='mx-2 px-5'
+            disabled={ order.status === 'Complete'}
           >
             Edit
           </Button>
 
-          {/* Mark Complete */}
+          {/* Update Status */}
           <Button
-            onClick={ () => completeOrder(order._id) }
+            onClick={ () => changeOrderStatus(order) }
             variant='outline-success'
             size='sm'
             style={{ border: 'hidden' }}
             className='mx-2 px-5'
           >
-            Mark as Completed
+            {order.status === 'In Progress'
+              ? `Mark as 'Complete'`
+              : `Mark as 'In Progress'`
+            }
           </Button>
         </div>
 
