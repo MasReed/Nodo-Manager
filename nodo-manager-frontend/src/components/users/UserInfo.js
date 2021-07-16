@@ -13,22 +13,24 @@ const UserInfo = ({ user }) => {
 
   const [showUpdateModal, setShowUpdateModal] = useState(false)
 
-  const deleteUser = (id) => {
+  //
+  const deleteUser = async (id) => {
     try {
-      dispatch(deleteUserActionCreator(id))
-      
+      await dispatch(deleteUserActionCreator(id))
+
     } catch (err) {
-      dispatch(toastAlertCreator(err))
+      await dispatch(toastAlertCreator(err))
     }
   }
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div className='d-flex justify-content-between'>
         <div>
           <h2>{user.username}</h2>
           <p>{user.role && user.role.name}</p>
         </div>
+
         <div>
           <Button
             onClick={ () => setShowUpdateModal(true) }
@@ -47,6 +49,7 @@ const UserInfo = ({ user }) => {
         </div>
       </div>
 
+      {/* Modal Component */}
       <UpdateUserForm
         user={user}
         show={showUpdateModal}
