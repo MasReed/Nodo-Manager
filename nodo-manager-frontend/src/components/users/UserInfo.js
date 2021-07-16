@@ -16,6 +16,7 @@ const UserInfo = ({ user }) => {
   const deleteUser = (id) => {
     try {
       dispatch(deleteUserActionCreator(id))
+      
     } catch (err) {
       dispatch(toastAlertCreator(err))
     }

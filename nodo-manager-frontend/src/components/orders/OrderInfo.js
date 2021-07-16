@@ -22,18 +22,6 @@ const OrderInfo = ({ order }) => {
     return colorMap[status]
   }
 
-  const orderWithUpdates = {
-    status: 'Complete',
-    category: 'Carry Out',
-    name: 'Ahun Gryper Son',
-    // items: [{ "item1": "food1" }, { "item2": "drink1" }],
-    notes: 'n/a',
-    // subTotal: 9.50,
-    // taxRate: 0.07,
-    // taxAmount: 0.75,
-    // total: 10.25
-  }
-
   const completeOrder = async (id) => {
 
     const completedOrder = {
@@ -57,8 +45,9 @@ const OrderInfo = ({ order }) => {
   }
 
   const updateOrder = async (id) => {
+    //
     try {
-      await dispatch(updateOrderActionCreator(id, orderWithUpdates))
+      await dispatch(updateOrderActionCreator(id, {}))
     } catch (err) {
       await dispatch(toastAlertCreator(err))
     }

@@ -55,6 +55,8 @@ Procedure / TODOs
   - make itemInfo/card responsive
     - text wrapping, overflow, min/max sizes
 
+  - Refactor menuCategoryAccordion component into separate components
+
   + Add MyAccount Page
     - view previous orders
 

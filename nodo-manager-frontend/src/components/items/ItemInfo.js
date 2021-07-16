@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-
+//
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
-
+//
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { destroyItemActionCreator } from '../../reducers/itemReducer'
-
+//
+import truncateString from '../../utilities/truncateString'
+//
 import UpdateItemForm from './UpdateItemForm'
 
+//
 const ItemInfo = ({ item }) => {
 
   const dispatch = useDispatch()
@@ -19,13 +22,10 @@ const ItemInfo = ({ item }) => {
   const callDeleteItem = async (id) => {
     try {
       dispatch(destroyItemActionCreator(id))
+
     } catch (err) {
       dispatch(toastAlertCreator(err))
     }
-  }
-
-  const truncateIngredients = (str) => {
-    return str.length > 130 ? str.substring(0, 131) + ' ...' : str
   }
 
   return (
@@ -61,7 +61,7 @@ const ItemInfo = ({ item }) => {
 
           <Card.Text>
             {
-              truncateIngredients(item.ingredients.join(', '))
+              truncateString(item.ingredients.join(', '), 130)
             }
           </Card.Text>
         </Card.Body>

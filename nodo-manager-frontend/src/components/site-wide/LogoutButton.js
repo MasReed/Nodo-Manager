@@ -16,15 +16,9 @@ const LogoutButton = () => {
     try {
       await dispatch(logoutUserActionCreator())
       history.push('/')
+      
     } catch (err) {
-      const alertObj = {
-        type: 'There was a problem logging out...',
-        message: err.response.data.message || 'Something went wrong',
-        variant: 'warning',
-        show: true
-      }
-
-      await dispatch(toastAlertCreator(alertObj))
+      await dispatch(toastAlertCreator(err))
     }
   }
 

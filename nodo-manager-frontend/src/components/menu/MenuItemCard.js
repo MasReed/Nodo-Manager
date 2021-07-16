@@ -3,15 +3,14 @@ import React from 'react'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 
+import truncateString from '../../utilities/truncateString'
+
+
 const MenuItemCard = ({ item, show, setShow, setSelectedItem }) => {
 
   const callCustomizeModal = () => {
     setSelectedItem(item)
     setShow(true)
-  }
-
-  const truncateIngredients = (str) => {
-    return str.length > 130 ? str.substring(0, 131) + ' ...' : str
   }
 
   return (
@@ -46,7 +45,7 @@ const MenuItemCard = ({ item, show, setShow, setSelectedItem }) => {
 
         <Card.Text>
           {
-            truncateIngredients(item.ingredients.join(', '))
+            truncateString(item.ingredients.join(', '), 130)
           }
         </Card.Text>
       </Card.Body>
