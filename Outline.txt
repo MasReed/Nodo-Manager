@@ -50,17 +50,17 @@ Procedure / TODOs
     + functionality works
     + choose and implement restrictions
       + have roles encompass subsequent roles i.e admin is also a manager by default
-
-
   + apply order sorts on order status changes in orderList
   + users sorted by role
-  - item sorts same as menu categories?
+
 
   - make itemInfo/card responsive
     - text wrapping, overflow, min/max sizes
 
   + Refactor menuCategoryAccordion component into separate components
     + AccordionToggle separated
+    + item sorts same as menu categories?
+    - standardize itemsList & MenuItemCard
 
   + Add MyAccount Page
     - view previous orders

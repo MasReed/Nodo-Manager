@@ -2,22 +2,26 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 import CardDeck from 'react-bootstrap/CardDeck'
+import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 
 import ItemInfo from './ItemInfo'
 
-const ItemList = () => {
+const ItemList = ({ category }) => {
 
-  // Gather all items into display components
-  const itemsAsComponents = useSelector(
-    state => state.items.map(item =>
-      <ItemInfo key={item._id} item={item} />
-    )
-  )
+  const items = useSelector(state => state.items)
 
   return (
     <Container>
-      <CardDeck>{itemsAsComponents}</CardDeck>
+      <CardDeck>
+        {items.map(item => item.category === category
+          ? <Col key={item._id} className='container-fluid mb-4 px-2'>
+            <ItemInfo key={item._id} item={item} />
+          </Col>
+          : null)
+        }
+      </CardDeck>
+      <hr />
     </Container>
   )
 }
