@@ -10,31 +10,20 @@ import Container from 'react-bootstrap/Container'
 
 import MenuItemCard from './MenuItemCard'
 
+import AccordionToggle from '../site-wide/AccordionToggle'
+
 
 const MenuCategoryAccordion = ({ category, showCustomize, setShowCustomize, setSelectedItem }) => {
 
   const menuItems = useSelector(state => state.items)
 
-  function CustomToggle({ children, eventKey }) {
-    const decoratedOnClick = useAccordionToggle(eventKey);
-
-    return (
-      <div
-        type="button"
-        onClick={decoratedOnClick}
-      >
-        {children}
-      </div>
-    );
-  }
-
   return (
     <Accordion>
       <Card className='mb-2' style={{ border: 'hidden' }}>
-          <CustomToggle eventKey="0">
-            <h4 className='mtb-4 text-muted'>{category}</h4>
-            <hr />
-          </CustomToggle>
+        <AccordionToggle eventKey="0">
+          <h4 className='mtb-4 text-muted'>{category}</h4>
+          <hr />
+        </AccordionToggle>
 
         <Accordion.Collapse eventKey="0">
           <Card.Body className='p-0'>
