@@ -1,52 +1,37 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 
-import { useAccordionToggle } from 'react-bootstrap/AccordionToggle';
-import Accordion from 'react-bootstrap/Accordion'
-import Card from 'react-bootstrap/Card'
 import CardDeck from 'react-bootstrap/CardDeck'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 
 import MenuItemCard from './MenuItemCard'
 
-import AccordionToggle from '../site-wide/AccordionToggle'
-
+import CustomAccordion from '../site-wide/CustomAccordion'
 
 const MenuCategoryAccordion = ({ category, showCustomize, setShowCustomize, setSelectedItem }) => {
 
   const menuItems = useSelector(state => state.items)
 
   return (
-    <Accordion>
-      <Card className='mb-2' style={{ border: 'hidden' }}>
-        <AccordionToggle eventKey="0">
-          <h4 className='mtb-4 text-muted'>{category}</h4>
-          <hr />
-        </AccordionToggle>
-
-        <Accordion.Collapse eventKey="0">
-          <Card.Body className='p-0'>
-            <Container>
-              <CardDeck>
-                {menuItems.map(item => item.category === category
-                  ? <Col key={item._id} className='container-fluid mb-4 px-2'>
-                    <MenuItemCard
-                      item={item}
-                      show={showCustomize}
-                      setShow={setShowCustomize}
-                      setSelectedItem={setSelectedItem}
-                    />
-                  </Col>
-                  : null)
-                }
-              </CardDeck>
-              <hr />
-            </Container>
-          </Card.Body>
-        </Accordion.Collapse>
-      </Card>
-    </Accordion>
+    <CustomAccordion text={category}>
+      <Container>
+        <CardDeck>
+          {menuItems.map(item => item.category === category
+            ? <Col key={item._id} className='container-fluid mb-4 px-2'>
+              <MenuItemCard
+                item={item}
+                show={showCustomize}
+                setShow={setShowCustomize}
+                setSelectedItem={setSelectedItem}
+              />
+            </Col>
+            : null)
+          }
+        </CardDeck>
+        <hr />
+      </Container>
+    </CustomAccordion>
   )
 }
 
