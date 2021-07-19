@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import UserInfo from './UserInfo'
@@ -7,20 +7,29 @@ const UsersList = () => {
 
   const users = useSelector(state => state.users)
 
+  const [sortedUsers, setSortedUsers] = useState(users)
+
+  //
+  useEffect(() => {
+
+    const roleSortedUsers = sortByRole(users)
+
+    setSortedUsers(roleSortedUsers)
+
+  }, [users])
+
   //
   const sortByRole = (usersArray) => {
 
     const sortBy = ['admin', 'manager', 'employee', 'user', 'guest']
 
-    const copyArray = [...usersArray]
+    const usersCopy = [...usersArray]
     //.slice() doesn't make deep copy needed for .role.name, must create our own
 
-    return copyArray.sort((a, b) => (
+    return usersCopy.sort((a, b) => (
       sortBy.indexOf(a.role.name) - sortBy.indexOf(b.role.name)
     ))
   }
-
-  const sortedUsers = sortByRole(users)
 
   return (
     <div>

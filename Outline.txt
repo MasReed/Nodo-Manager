@@ -54,6 +54,7 @@ Procedure / TODOs
 
   + apply order sorts on order status changes in orderList
   + users sorted by role
+  - item sorts same as menu categories?
 
   - make itemInfo/card responsive
     - text wrapping, overflow, min/max sizes
@@ -104,7 +105,7 @@ Procedure / TODOs
   - verify shape of error objects created at frontend service layer
   - verify data initializers on frontend (currently in useEffect)
   - manage cast errors on backend
-  - hide jwt malformed to user
+  - reword jwt malformed to user
 
 + API TESTING w/ JEST & SUPERTEST
   + Basic Data Validation testing for item, order, user APIs
