@@ -78,6 +78,7 @@ const UpdateUserForm = ({ user, show, setShow }) => {
         name: form.name,
         email: form.email,
         username: form.username,
+        password: null,
         role: {
           name: form.roleName
         }

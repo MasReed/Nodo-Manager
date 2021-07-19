@@ -4,13 +4,16 @@ const userSchema = new mongoose.Schema({
   name: String,
   email: {
     type: String,
-    required: [true, 'An email address is required.'],
+    required: [true, 'An email address is required.']
   },
   username: {
     type: String,
-    required: [true, 'A username is required.'],
+    required: [true, 'A username is required.']
   },
-  passwordHash: String,
+  passwordHash: {
+    type: String,
+    required: [true, 'A password is required.']
+  },
   role: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Role'

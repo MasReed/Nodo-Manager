@@ -1,7 +1,8 @@
 const User = require('../../models/user')
+const bcrypt = require('bcryptjs')
 
+//
 const checkAuthenticatedRoleOnDeleteOrUpdate = async (req, res, next) => {
-
   // Updating user with role = key requires role of that key's value
   // i.e. updating a manager requires an admin
   const authRoleMap = {
@@ -39,6 +40,26 @@ const checkAuthenticatedRoleOnDeleteOrUpdate = async (req, res, next) => {
   }
 }
 
+//
+const hashPasswordOnUpdate = async (req, res, next) => {
+  try {
+    const requestedUserToUpdate = await User.findById(req.body.id)
+
+    if (req.body.password === null) {
+      req.body.password = requestedUserToUpdate.passwordHash
+
+    } else {
+      req.body.password = await bcrypt.hash(req.body.password, 10)
+    }
+
+    return next()
+
+  } catch (err) {
+    next(err)
+  }
+}
+
+//
 const checkRequiredUserPropertiesDefined = (req, res, next) => {
   try {
     // These match menuItemSchema 'required' properties, see models/menuItems
@@ -57,7 +78,7 @@ const checkRequiredUserPropertiesDefined = (req, res, next) => {
         }
       }
     }
-    
+
     return next()
 
   } catch (err) {
@@ -67,5 +88,6 @@ const checkRequiredUserPropertiesDefined = (req, res, next) => {
 
 module.exports = {
   checkAuthenticatedRoleOnDeleteOrUpdate,
+  hashPasswordOnUpdate,
   checkRequiredUserPropertiesDefined
 }

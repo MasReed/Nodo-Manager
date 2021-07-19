@@ -42,6 +42,7 @@ usersRouter.put('/:id',
     authJwt.verifyToken,
     itemValidation.checkEmptyObject,
     userValidation.checkAuthenticatedRoleOnDeleteOrUpdate,
+    userValidation.hashPasswordOnUpdate,
     userValidation.checkRequiredUserPropertiesDefined
   ], async (req, res, next) => {
 
@@ -52,7 +53,7 @@ usersRouter.put('/:id',
       name: body.name,
       email: body.email,
       username: body.username,
-      passwordHash: await bcrypt.hash(body.password, 10),
+      passwordHash: body.password, // hashed in middleware
       role: await Role.findOne({ name: body.role.name })
     }
 

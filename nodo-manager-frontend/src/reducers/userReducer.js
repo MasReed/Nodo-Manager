@@ -51,9 +51,9 @@ export const addUserActionCreator = (newUserObject, currentUser) => {
   }
 }
 
-export const updateUserActionCreator = (id, newUserObject) => {
+export const updateUserActionCreator = (id, updatedUserObject) => {
   return async dispatch => {
-    const updatedUser = await userService.update(id, newUserObject)
+    const updatedUser = await userService.update(id, updatedUserObject)
     dispatch({
       type: 'UPDATE_USER',
       data: updatedUser
