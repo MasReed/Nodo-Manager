@@ -77,7 +77,8 @@ const OrderInfo = ({ order }) => {
         </div>
         <div>
           <h2 style={{ color: orderStatusColor(order.status) }}>{order.status}</h2>
-          <h6>{new Date(order.createdAt).toLocaleString()}</h6>
+          {/* <p><small>Created: {new Date(order.createdAt).toLocaleString()}</small></p> */}
+          <p><small>Updated: {new Date(order.updatedAt).toLocaleString()}</small></p>
         </div>
         <div>
         </div>

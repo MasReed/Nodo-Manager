@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import OrderInfo from './OrderInfo'
@@ -8,10 +8,27 @@ const OrdersList = () => {
   const orders = useSelector(state => state.orders)
 
   //
-  const sortByTime = (ordersArray) => {
-    return ordersArray.slice().sort((a, b) => (
-      new Date(b.updatedAt) - new Date(a.updatedAt)
-    ))
+  const [sortedOrders, setSortedOrders] = useState(orders)
+
+  //
+  useEffect(() => {
+
+    const timeSortedOrders = sortByUpdatedTime(orders)
+    const statusSortedOrders = sortByStatus(timeSortedOrders)
+
+    setSortedOrders(statusSortedOrders)
+
+  }, [orders])
+
+  //
+  const sortByUpdatedTime = (ordersArray, ascending = true) => {
+    return ordersArray.slice().sort((a, b) => {
+      if (ascending) {
+        return new Date(b.updatedAt) - new Date(a.updatedAt)
+      } else {
+        return new Date(a.updatedAt) - new Date(b.updatedAt)
+      }
+    })
   }
 
   //
@@ -22,13 +39,10 @@ const OrdersList = () => {
     ))
   }
 
-  const timeSortedOrders = sortByTime(orders)
-  const statusSortedOrders = sortByStatus(timeSortedOrders)
-
   return (
     <>
       {
-        orders && statusSortedOrders.map(order =>
+        orders && sortedOrders.map(order =>
           <OrderInfo key={order._id} order={order} />
         )
       }

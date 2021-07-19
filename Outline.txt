@@ -43,7 +43,6 @@ Procedure / TODOs
   + stylize new/update item form
     + availability as radio selection
     + form validation
-
   + create currentUserReducer to manage in redux
   + refactor userAuth and signup
   + page restrictions for user roles
@@ -51,6 +50,10 @@ Procedure / TODOs
     + functionality works
     + choose and implement restrictions
       + have roles encompass subsequent roles i.e admin is also a manager by default
+
+
+  + apply order sorts on order status changes in orderList
+  + users sorted by role
 
   - make itemInfo/card responsive
     - text wrapping, overflow, min/max sizes
