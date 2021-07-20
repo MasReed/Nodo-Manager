@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom'
 
 import MyOrderItems from './MyOrderItems'
 import OrdersList from './OrdersList'
+import UpdateCustomItemModal from './UpdateCustomItemModal'
 
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { resetCart } from '../../reducers/cartReducer'
@@ -20,7 +21,9 @@ const OrdersPage = () => {
 
   const cart = useSelector(state => state.cart)
 
-  const [show, setShow] = useState(false)
+  const [showCurrentOrder, setShowCurrentOrder] = useState(false)
+  const [showCustomize, setShowCustomize] = useState(false)
+  const [selectedItem, setSelectedItem] = useState({})
 
   useEffect(() => {
     const init = async () => {
@@ -41,7 +44,7 @@ const OrdersPage = () => {
   //
   const createNewOrder = () => {
     if (cart.length > 0) {
-      setShow(true)
+      setShowCurrentOrder(true)
     } else {
       history.push('/menu')
     }
@@ -49,19 +52,19 @@ const OrdersPage = () => {
 
   //
   const handleAddItem = () => {
-    setShow(false)
+    setShowCurrentOrder()(false)
     history.push('/menu')
   }
 
   //
   const handleCancelOrder = () => {
-    setShow(false)
+    setShowCurrentOrder(false)
     dispatch(resetCart())
   }
 
   //
   const handleClose = () => {
-    setShow(false)
+    setShowCurrentOrder(false)
   }
 
   return (
@@ -76,7 +79,7 @@ const OrdersPage = () => {
       </div>
 
       <Modal
-        show={show}
+        show={showCurrentOrder}
         onHide={ handleClose }
         dialogClassName='modal-80w'
         backdrop="static"
@@ -88,7 +91,10 @@ const OrdersPage = () => {
         </Modal.Header>
 
         <Modal.Body>
-          <MyOrderItems />
+          <MyOrderItems
+            setSelectedItem={setSelectedItem}
+            setShowCustomize={setShowCustomize}
+          />
         </Modal.Body>
 
         <Modal.Footer className='d-flex justify-content-between'>
@@ -96,7 +102,7 @@ const OrdersPage = () => {
             variant='outline-warning'
             onClick={ handleCancelOrder }
           >
-            Cancel
+            Cancel Order
           </Button>
 
           <div>
@@ -119,6 +125,13 @@ const OrdersPage = () => {
         </Modal.Footer>
 
       </Modal>
+
+      <UpdateCustomItemModal
+        show={showCustomize}
+        setShow={setShowCustomize}
+        selectedItem={selectedItem}
+        setSelectedItem={setSelectedItem}
+      />
 
       <hr />
       <OrdersList />
