@@ -5,7 +5,7 @@ import CardDeck from 'react-bootstrap/CardDeck'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 
-import ItemInfo from './ItemInfo'
+import ItemInfoCard from './ItemInfoCard'
 
 const ItemList = ({ category }) => {
 
@@ -14,12 +14,15 @@ const ItemList = ({ category }) => {
   return (
     <Container>
       <CardDeck>
+
+        {/* Items with matching 'category' are rendered */}
         {items.map(item => item.category === category
           ? <Col key={item._id} className='container-fluid mb-4 px-2'>
-            <ItemInfo key={item._id} item={item} />
+            <ItemInfoCard key={item._id} item={item} />
           </Col>
           : null)
         }
+
       </CardDeck>
       <hr />
     </Container>

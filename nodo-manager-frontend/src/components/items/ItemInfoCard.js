@@ -13,7 +13,7 @@ import { destroyItemActionCreator } from '../../reducers/itemReducer'
 import truncateString from '../../utilities/truncateString'
 
 //
-const ItemInfo = ({ item }) => {
+const ItemInfoCard = ({ item }) => {
 
   const dispatch = useDispatch()
 
@@ -29,18 +29,17 @@ const ItemInfo = ({ item }) => {
   }
 
   return (
-    <Col className='container-fluid mb-4 px-2'>
-      <Card
+    <>
+      <Card key={item._id}
         className='mx-0 my-0'
         style={{
           height: '32rem',
-          minWidth: '18rem',
-          maxWidth: '32rem'
+          minWidth: '18rem'
         }}
       >
         {/* Item name, category, price, description */}
         <Card.Header style={{height: '12rem'}}>
-          <Card.Title style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Card.Title className='d-flex justify-content-between'>
             {item.name}
             <span>${item.price}</span>
           </Card.Title>
@@ -70,7 +69,9 @@ const ItemInfo = ({ item }) => {
 
         {/* Item availability, Delete and Update Buttons */}
         <Card.Footer>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div className='d-flex justify-content-between'>
+            <h6 className='m-0 py-auto align-self-center'>{item.availability}</h6>
+
             <Button
               onClick={ () => callDeleteItem(item._id) }
               size='sm' variant='outline-danger'
@@ -80,12 +81,11 @@ const ItemInfo = ({ item }) => {
 
             <Button
               onClick={ () => setShowUpdateForm(true) }
-              size='sm' variant='outline-primary'
-              style={{ border: 'hidden'}}
+              className='px-4'
+              variant='primary'
             >Edit
             </Button>
 
-            <h6 className='m-0 py-1'>{item.availability}</h6>
           </div>
         </Card.Footer>
       </Card>
@@ -96,8 +96,8 @@ const ItemInfo = ({ item }) => {
         show={showUpdateForm}
         setShow={setShowUpdateForm}
       />
-    </Col>
+    </>
   )
 }
 
-export default ItemInfo
+export default ItemInfoCard

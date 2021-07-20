@@ -12,8 +12,8 @@ import CustomAccordion from '../site-wide/CustomAccordion'
 const ItemsPage = () => {
 
   const categories = useSelector(state =>
-    [...new Set(state.items.map(item => item.category))]
     // Array of unique item categories
+    [...new Set(state.items.map(item => item.category))]
   )
 
   const [showNewItemForm, setShowNewItemForm] = useState(false)
@@ -21,9 +21,13 @@ const ItemsPage = () => {
   return (
     <Container className='pt-5'>
 
+      {/* Page Header & New Item Button */}
       <div className='d-flex justify-content-between'>
-        <h1 className='m-0'>Items Page</h1>
-        <Button onClick={ () => setShowNewItemForm(true) } variant='outline-secondary'>
+        <h1 className='m-0'>Item Bank</h1>
+        <Button
+          onClick={ () => setShowNewItemForm(true) }
+          variant='outline-secondary'
+        >
           CREATE
         </Button>
       </div>
