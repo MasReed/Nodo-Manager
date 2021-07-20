@@ -81,16 +81,19 @@ Procedure / TODOs
   - refactor form validation to resuable components?
   - strip leading/trailing whitespace from inputs ( .trim() method )
   - utilize charactersRemaining in all forms if applicable
+
   + Item forms
     + NewItemForm
     + UpdateItemForm
     - Stylize forms
+
   - Order forms
     + MyOrderForm
     - AddOrderForm -> once built
     + UpdateOrderForm (modal)-> once built
       + disable edit btn if marked completed
     - validate status choices
+    
   - User forms
     + NewUserForm
     + UpdateUserForm

@@ -40,6 +40,7 @@ const UpdateItemForm = ({ item, show, setShow }) => {
     })
   }
 
+  //
   const findFormErrors = () => {
     const {
       name,
@@ -80,7 +81,7 @@ const UpdateItemForm = ({ item, show, setShow }) => {
     return newErrors
   }
 
-
+  //
   const callUpdateItem = async (event) => {
     event.preventDefault()
 
@@ -118,6 +119,7 @@ const UpdateItemForm = ({ item, show, setShow }) => {
     }
   }
 
+  //
   const handleCanceledForm = () => {
     setForm({
       name: item.name,

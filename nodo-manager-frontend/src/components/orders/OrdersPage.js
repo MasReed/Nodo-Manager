@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Modal from 'react-bootstrap/Modal'
+import { useHistory } from 'react-router-dom'
+
+import MyOrderItems from './MyOrderItems'
+import OrdersList from './OrdersList'
 
 import { toastAlertCreator } from '../../reducers/alertReducer'
-import { initializeOrders, addOrderActionCreator } from '../../reducers/orderReducer'
-
-import OrdersList from './OrdersList'
+import { resetCart } from '../../reducers/cartReducer'
+import { initializeOrders } from '../../reducers/orderReducer'
 
 const OrdersPage = () => {
 
   const dispatch = useDispatch()
+  const history = useHistory()
+
+  const cart = useSelector(state => state.cart)
 
   const [show, setShow] = useState(false)
-  const [items, setItems] = useState([])
 
   useEffect(() => {
     const init = async () => {
@@ -32,73 +37,83 @@ const OrdersPage = () => {
     }
   }, [dispatch])
 
-  // Order action dispatchers
-  const addOrder = async (event) => {
-    event.preventDefault()
 
-    try {
-      const orderObject = {
-        foodItems: items,
-      }
-
-      dispatch(addOrderActionCreator(orderObject))
-      setShow(false)
-      setItems([])
-    } catch (err) {
-      dispatch(toastAlertCreator(err))
+  //
+  const createNewOrder = () => {
+    if (cart.length > 0) {
+      setShow(true)
+    } else {
+      history.push('/menu')
     }
   }
 
-  const addItem = (event) => {
-    event.preventDefault()
-    setItems([...items, 'newItem'])
+  //
+  const handleAddItem = () => {
+    setShow(false)
+    history.push('/menu')
   }
 
+  //
+  const handleCancelOrder = () => {
+    setShow(false)
+    dispatch(resetCart())
+  }
+
+  //
+  const handleClose = () => {
+    setShow(false)
+  }
 
   return (
     <Container className='pt-5'>
+
+      {/* Order Page Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <h1 className='m-0'>Orders</h1>
-        <Button onClick={ () => setShow(true) } variant='outline-secondary'>
-          NEW ORDER
+        <Button onClick={ createNewOrder } variant='outline-secondary'>
+          {cart.length > 0 ? 'CURRENT ORDER' : 'NEW ORDER'}
         </Button>
       </div>
 
       <Modal
         show={show}
-        onHide={() => {
-          setShow(false)
-          setItems([])
-        }}
+        onHide={ handleClose }
         dialogClassName='modal-80w'
         backdrop="static"
         keyboard={false}
         scrollable={true}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Add Items to Order</Modal.Title>
+          <Modal.Title>Current Order</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          {
-            items.map(item => <p>{item}</p>)
-          }
+          <MyOrderItems />
         </Modal.Body>
 
-        <Modal.Footer style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Button
-              variant="outline-warning"
-              onClick={ () => {
-                setShow(false)
-                setItems([])
-              }}
-            >Cancel</Button>
+        <Modal.Footer className='d-flex justify-content-between'>
+          <Button
+            variant='outline-warning'
+            onClick={ handleCancelOrder }
+          >
+            Cancel
+          </Button>
+
           <div>
-            <Button onClick={ addItem } style={{ margin: '0 10px'}} variant="outline-secondary">
+            <Button
+              variant='outline-secondary'
+              onClick={ handleAddItem }
+              className='mx-2'
+            >
               Add Item
             </Button>
-            <Button onClick={ addOrder } style={{ margin: '0 10px'}}>
-              Done
+
+            <Button
+              variant='primary'
+              onClick={ handleClose }
+              className='mx-2'
+            >
+              Close
             </Button>
           </div>
         </Modal.Footer>
