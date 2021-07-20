@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
-import Modal from 'react-bootstrap/Modal'
-import { useHistory } from 'react-router-dom'
 
-import MyOrderItems from './MyOrderItems'
+import CurrentOrderModal from './CurrentOrderModal'
 import OrdersList from './OrdersList'
 import UpdateCustomItemModal from './UpdateCustomItemModal'
 
 import { toastAlertCreator } from '../../reducers/alertReducer'
-import { resetCart } from '../../reducers/cartReducer'
 import { initializeOrders } from '../../reducers/orderReducer'
 
 const OrdersPage = () => {
@@ -50,23 +48,6 @@ const OrdersPage = () => {
     }
   }
 
-  //
-  const handleAddItem = () => {
-    setShowCurrentOrder()(false)
-    history.push('/menu')
-  }
-
-  //
-  const handleCancelOrder = () => {
-    setShowCurrentOrder(false)
-    dispatch(resetCart())
-  }
-
-  //
-  const handleClose = () => {
-    setShowCurrentOrder(false)
-  }
-
   return (
     <Container className='pt-5'>
 
@@ -78,54 +59,20 @@ const OrdersPage = () => {
         </Button>
       </div>
 
-      <Modal
+      <hr />
+
+      {/* All Orders */}
+      <OrdersList />
+
+      {/* Modal Component */}
+      <CurrentOrderModal
         show={showCurrentOrder}
-        onHide={ handleClose }
-        dialogClassName='modal-80w'
-        backdrop="static"
-        keyboard={false}
-        scrollable={true}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Current Order</Modal.Title>
-        </Modal.Header>
+        setShow={setShowCurrentOrder}
+        setShowCustomize={setShowCustomize}
+        setSelectedItem={setSelectedItem}
+      />
 
-        <Modal.Body>
-          <MyOrderItems
-            setSelectedItem={setSelectedItem}
-            setShowCustomize={setShowCustomize}
-          />
-        </Modal.Body>
-
-        <Modal.Footer className='d-flex justify-content-between'>
-          <Button
-            variant='outline-warning'
-            onClick={ handleCancelOrder }
-          >
-            Cancel Order
-          </Button>
-
-          <div>
-            <Button
-              variant='outline-secondary'
-              onClick={ handleAddItem }
-              className='mx-2'
-            >
-              Add Item
-            </Button>
-
-            <Button
-              variant='primary'
-              onClick={ handleClose }
-              className='mx-2'
-            >
-              Close
-            </Button>
-          </div>
-        </Modal.Footer>
-
-      </Modal>
-
+      {/* Modal Component */}
       <UpdateCustomItemModal
         show={showCustomize}
         setShow={setShowCustomize}
@@ -133,8 +80,6 @@ const OrdersPage = () => {
         setSelectedItem={setSelectedItem}
       />
 
-      <hr />
-      <OrdersList />
     </Container>
   )
 }

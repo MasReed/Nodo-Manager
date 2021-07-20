@@ -89,11 +89,12 @@ Procedure / TODOs
 
   - Order forms
     + MyOrderForm
-    - AddOrderForm -> once built
+    + AddOrderForm
+      + conditional redirect to menu or shows current order
     + UpdateOrderForm (modal)-> once built
       + disable edit btn if marked completed
     - validate status choices
-    
+
   - User forms
     + NewUserForm
     + UpdateUserForm
