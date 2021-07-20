@@ -18,12 +18,12 @@ const MenuItemCard = ({ item, show, setShow, setSelectedItem }) => {
       className='mx-0 my-0'
       style={{
         height: '32rem',
-        minWidth: '18rem',
-        maxWidth: '35rem'
+        minWidth: '18rem'
       }}
     >
-      <Card.Header style={{height: '12rem'}}>
-        <Card.Title style={{ display: 'flex', justifyContent: 'space-between' }}>
+      {/* Item name, category, price, description */}
+      <Card.Header style={{ height: '12rem' }}>
+        <Card.Title className='d-flex justify-content-between'>
           {item.name}
           <span>${item.price}</span>
         </Card.Title>
@@ -35,6 +35,7 @@ const MenuItemCard = ({ item, show, setShow, setSelectedItem }) => {
         <Card.Text>{item.description}</Card.Text>
       </Card.Header>
 
+      {/* Item Image, Ingredients */}
       <Card.Body>
         <Card.Img variant='top' src='/assets/burger.svg' height='55%'/>
         <hr />
@@ -50,12 +51,14 @@ const MenuItemCard = ({ item, show, setShow, setSelectedItem }) => {
         </Card.Text>
       </Card.Body>
 
+      {/* Item availability, Delete and Update Buttons */}
       <Card.Footer>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <h6 style={{ margin: '0', padding: '6px 0' }}>{item.availability}</h6>
-          {(item.availability === 'Available')
-            ? <Button onClick={ callCustomizeModal }>Make it Yours</Button>
-            : <Button disabled>Add to Order</Button>
+        <div className='d-flex justify-content-between'>
+          <h6 className='m-0 py-auto align-self-center'>{item.availability}</h6>
+          {
+            (item.availability === 'Available')
+              ? <Button onClick={ callCustomizeModal }>Make it Yours</Button>
+              : <Button disabled>Add to Order</Button>
           }
         </div>
       </Card.Footer>
