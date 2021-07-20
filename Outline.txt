@@ -60,7 +60,7 @@ Procedure / TODOs
   + Refactor menuCategoryAccordion component into separate components
     + AccordionToggle separated
     + item sorts same as menu categories?
-    - standardize itemsList & MenuItemCard
+    + standardize itemsList & MenuItemCard
 
   + Add MyAccount Page
     - view previous orders
@@ -88,7 +88,7 @@ Procedure / TODOs
   - Order forms
     + MyOrderForm
     - AddOrderForm -> once built
-    - UpdateOrderForm (modal)-> once built
+    + UpdateOrderForm (modal)-> once built
       + disable edit btn if marked completed
     - validate status choices
   - User forms

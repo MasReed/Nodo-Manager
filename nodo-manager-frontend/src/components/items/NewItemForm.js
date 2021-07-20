@@ -40,6 +40,7 @@ const NewItemForm = ({ show, setShow }) => {
     })
   }
 
+  //
   const findFormErrors = () => {
     const {
       name,
@@ -80,7 +81,7 @@ const NewItemForm = ({ show, setShow }) => {
     return newErrors
   }
 
-
+  //
   const callCreateItem = async (event) => {
     event.preventDefault()
 
@@ -126,6 +127,7 @@ const NewItemForm = ({ show, setShow }) => {
     }
   }
 
+  //
   const handleCanceledForm = () => {
     setForm({
       name: '',

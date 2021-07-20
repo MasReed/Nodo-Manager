@@ -24,7 +24,9 @@ const ItemList = ({ category }) => {
         }
 
       </CardDeck>
+      
       <hr />
+
     </Container>
   )
 }

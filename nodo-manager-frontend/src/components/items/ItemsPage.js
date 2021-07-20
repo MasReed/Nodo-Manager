@@ -23,7 +23,7 @@ const ItemsPage = () => {
 
       {/* Page Header & New Item Button */}
       <div className='d-flex justify-content-between'>
-        <h1 className='m-0'>Item Bank</h1>
+        <h1 className='m-0'>Cook Book</h1>
         <Button
           onClick={ () => setShowNewItemForm(true) }
           variant='outline-secondary'

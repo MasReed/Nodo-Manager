@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
-import Col from 'react-bootstrap/Col'
 
 import UpdateItemForm from './UpdateItemForm'
 
@@ -12,13 +11,13 @@ import { destroyItemActionCreator } from '../../reducers/itemReducer'
 
 import truncateString from '../../utilities/truncateString'
 
-//
 const ItemInfoCard = ({ item }) => {
 
   const dispatch = useDispatch()
 
   const [showUpdateForm, setShowUpdateForm] = useState(false)
 
+  //
   const callDeleteItem = async (id) => {
     try {
       dispatch(destroyItemActionCreator(id))
@@ -27,6 +26,7 @@ const ItemInfoCard = ({ item }) => {
       dispatch(toastAlertCreator(err))
     }
   }
+
 
   return (
     <>
@@ -37,6 +37,7 @@ const ItemInfoCard = ({ item }) => {
           minWidth: '18rem'
         }}
       >
+
         {/* Item name, category, price, description */}
         <Card.Header style={{height: '12rem'}}>
           <Card.Title className='d-flex justify-content-between'>
