@@ -82,8 +82,8 @@ Procedure / TODOs
   - min/max length of form inputs all around
   - strip leading/trailing whitespace from inputs ( .trim() method )
   - utilize charactersRemaining in all forms if applicable
-    + Above 3 done in Item Forms, Login/Register Forms, CustomizeItemModal
-    - ToDo in: order, users forms
+    + Above 3 done in Item Forms, Login/Register Forms, CustomizeItemModal, userForms
+    - ToDo in: order
 
   + Item forms
     + NewItemForm

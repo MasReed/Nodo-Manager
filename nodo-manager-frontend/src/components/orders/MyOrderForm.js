@@ -10,6 +10,7 @@ import ToggleButton from 'react-bootstrap/ToggleButton'
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { addOrderActionCreator } from '../../reducers/orderReducer'
 import { resetCart } from '../../reducers/cartReducer'
+import charactersRemaining from '../../utilities/charactersRemaining'
 
 
 const MyOrderForm = ({ costs }) => {
@@ -24,6 +25,7 @@ const MyOrderForm = ({ costs }) => {
 
     if (currentUser){
       return currentUser.name
+
     } else if (itemWhosIndex !== -1) {
       return cartItems[itemWhosIndex].whos
     }
@@ -38,6 +40,22 @@ const MyOrderForm = ({ costs }) => {
 
   const [ errors, setErrors ] = useState({})
 
+  // Easy form customization
+  const formConfig = {
+    orderCategory: {
+      isEmpty: { errorMessage: 'A Category is required.' },
+    },
+    orderName: {
+      isEmpty: { errorMessage: 'An Order Name is required.' },
+      minLength: { value: 3, errorMessage: 'Order Name is too short' },
+      maxLength: { value: 30, errorMessage: 'Order Name is too long' },
+    },
+    orderNotes: {
+      maxLength: { value: 150, errorMessage: 'Order Notes are too long' },
+    },
+  }
+
+  //
   const setField = (field, value) => {
     setForm({
       ...form,
@@ -50,19 +68,28 @@ const MyOrderForm = ({ costs }) => {
     })
   }
 
+  //
   const findFormErrors = () => {
     const { orderCategory, orderName, orderNotes } = form
     const newErrors = {}
     // orderCategory errors
-    if (!orderCategory) newErrors.orderCategory = 'Choose an order type.'
+    if (!orderCategory) {
+      newErrors.orderCategory = formConfig.orderCategory.errorMessage
+    }
 
     // orderName errors
-    if ( !orderName || orderName === '' ) newErrors.orderName = 'Enter a username!'
-    else if ( orderName.length > 30 ) newErrors.orderName = 'Username is too long'
-    else if ( orderName.length < 3 ) newErrors.orderName = 'Username is too short'
+    if ( !orderName || orderName === '' ) {
+      newErrors.orderName = formConfig.orderName.isEmpty.errorMessage
+    } else if ( orderName.length < formConfig.orderName.minLength.value ) {
+      newErrors.orderName = formConfig.orderName.minLength.errorMessage
+    } else if ( orderName.length > formConfig.orderName.maxLength.value ) {
+      newErrors.orderName = formConfig.orderName.maxLength.errorMessage
+    }
 
     // orderNotes errors
-    if ( orderNotes.length > 150 ) newErrors.orderNotes = 'Notes are too long'
+    if ( orderNotes.length > formConfig.orderNotes.maxLength.value ) {
+      newErrors.orderNotes = formConfig.orderNotes.maxLength.errorMessage
+    }
 
     return newErrors
   }
@@ -78,20 +105,21 @@ const MyOrderForm = ({ costs }) => {
     }
 
     if (cartItems.length > 0) {
-      const orderObject = {
-        category: form.orderCategory,
-        items: cartItems,
-        name: form.orderName,
-        notes: form.orderNotes,
-        costs: {
-          subTotal: costs.subTotal,
-          taxRate: costs.taxRate,
-          taxAmount: costs.taxAmount,
-          total: costs.total
-        }
-      }
 
       try {
+        const orderObject = {
+          category: form.orderCategory,
+          items: cartItems,
+          name: form.orderName,
+          notes: form.orderNotes,
+          costs: {
+            subTotal: costs.subTotal,
+            taxRate: costs.taxRate,
+            taxAmount: costs.taxAmount,
+            total: costs.total
+          }
+        }
+
         await dispatch(addOrderActionCreator(orderObject))
         await dispatch(resetCart())
         history.push('/order-confirmed')
@@ -101,14 +129,14 @@ const MyOrderForm = ({ costs }) => {
       }
 
     } else {
-      window.alert('No items in order!')
+      await dispatch(toastAlertCreator('No items in order!'))
       history.push('/menu')
     }
   }
 
-
   return (
     <Form id='myOrderForm' onSubmit={ addOrder }>
+      {/* Order Category */}
       <Form.Group>
         <ButtonGroup toggle>
           <ToggleButton
@@ -131,33 +159,60 @@ const MyOrderForm = ({ costs }) => {
           >Delivery
           </ToggleButton>
         </ButtonGroup>
+
         <Form.Text>{form.orderCategory} selected.</Form.Text>
-        <Form.Control.Feedback type='invalid'>{ errors.orderCategory }</Form.Control.Feedback>
+
+        <Form.Control.Feedback type='invalid'>
+          { errors.orderCategory }
+        </Form.Control.Feedback>
       </Form.Group>
 
       <Form.Row className='ml-0 mr-0'>
         <Col lg='auto' className='pl-0'>
+
+          {/* Order Name */}
           <Form.Group>
             <Form.Label>Name: </Form.Label>
             <Form.Control
-              value={form.orderName}
+              value={form.orderName.trim()}
+              minLength={formConfig.orderName.minLength.value.toString()}
+              maxLength={formConfig.orderName.maxLength.value.toString()}
               onChange={ ({ target }) => setField('orderName', target.value) }
               placeholder='e.g. Jane Doe'
               isInvalid={ !!errors.orderName }
             />
-            <Form.Control.Feedback type='invalid'>{ errors.orderName }</Form.Control.Feedback>
+            <Form.Text>
+              {charactersRemaining(
+                form.orderName, formConfig.orderName.maxLength.value
+              )}
+            </Form.Text>
+
+            <Form.Control.Feedback type='invalid'>
+              { errors.orderName }
+            </Form.Control.Feedback>
           </Form.Group>
         </Col>
 
         <Col className='pr-0'>
+
+          {/* Order Notes */}
           <Form.Group>
             <Form.Label>Order Notes:</Form.Label>
             <Form.Control
-              value={form.orderNotes}
+              value={form.orderNotes.trim()}
+              maxLength={formConfig.orderNotes.maxLength.value.toString()}
               onChange={ ({ target }) => setField('orderNotes', target.value) }
               isInvalid={ !!errors.orderNotes }
             />
-            <Form.Control.Feedback type='invalid'>{ errors.orderNotes }</Form.Control.Feedback>
+            <Form.Text>
+              {charactersRemaining(
+                form.orderNotes, formConfig.orderNotes.maxLength.value
+              )}
+            </Form.Text>
+
+            <Form.Control.Feedback type='invalid'>
+              { errors.orderNotes }
+            </Form.Control.Feedback>
           </Form.Group>
         </Col>
       </Form.Row>
