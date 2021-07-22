@@ -8,6 +8,8 @@ import Form from 'react-bootstrap/Form'
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { loginUserActionCreator } from '../../reducers/currentUserReducer'
 
+import charactersRemaining from '../../utilities/charactersRemaining'
+
 const LoginForm = ({ ...props }) => {
 
   const dispatch = useDispatch()
@@ -27,7 +29,7 @@ const LoginForm = ({ ...props }) => {
     password: {
       isEmpty: { errorMessage: 'Enter a password!' },
       minLength: { value: 5, errorMessage: 'Password is too short' },
-      maxLength: { value: 30, errorMessage: 'Password is too long' },
+      maxLength: { value: 50, errorMessage: 'Password is too long' },
     }
   }
 
@@ -109,13 +111,17 @@ const LoginForm = ({ ...props }) => {
         <Form.Label>Username</Form.Label>
         <Form.Control
           type='text'
-          value={form.name}
+          value={form.name.trim()}
           minLength={formConfig.username.minLength.value.toString()}
           maxLength={formConfig.username.maxLength.value.toString()}
           placeholder='Username'
           onChange={ e => setField('name', e.target.value) }
           isInvalid={ !!errors.name }
         />
+        <Form.Text>
+          {charactersRemaining(form.name, formConfig.username.maxLength.value)}
+        </Form.Text>
+
         <Form.Control.Feedback type='invalid'>
           { errors.name }
         </Form.Control.Feedback>
@@ -126,14 +132,19 @@ const LoginForm = ({ ...props }) => {
         <Form.Label>Password</Form.Label>
         <Form.Control
           type='password'
-          value={form.password}
+          value={form.password.trim()}
           minLength={formConfig.password.minLength.value.toString()}
           maxLength={formConfig.password.maxLength.value.toString()}
           placeholder='Password'
           onChange={ e => setField('password', e.target.value) }
           isInvalid={ !!errors.password }
-        >
-        </Form.Control>
+        />
+        <Form.Text>
+          {charactersRemaining(
+            form.password, formConfig.password.maxLength.value
+          )}
+        </Form.Text>
+
         <Form.Control.Feedback type='invalid'>
           { errors.password }
         </Form.Control.Feedback>
