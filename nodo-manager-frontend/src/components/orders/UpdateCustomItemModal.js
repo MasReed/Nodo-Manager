@@ -5,7 +5,9 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 
+import { toastAlertCreator } from '../../reducers/alertReducer'
 import { updateCartItemActionCreator } from '../../reducers/cartReducer'
+import charactersRemaining from '../../utilities/charactersRemaining'
 
 const CustomizeItemModal = ({ show, setShow, selectedItem, setSelectedItem }) => {
 
@@ -21,35 +23,40 @@ const CustomizeItemModal = ({ show, setShow, selectedItem, setSelectedItem }) =>
     setNotes(selectedItem.notes)
   }, [ selectedItem ])
 
-
-  const updateCustomItem = (event) => {
+  //
+  const updateCustomItem = async (event) => {
     event.preventDefault()
 
-    const customItemObject = {
-      ...selectedItem,
-      modIngredients: modList,
-      whos: forName,
-      notes: notes,
+    try {
+      const customItemObject = {
+        ...selectedItem,
+        modIngredients: modList,
+        whos: forName,
+        notes: notes,
+      }
+
+      await dispatch(updateCartItemActionCreator(customItemObject))
+
+      resetForm()
+
+    } catch (err) {
+      await dispatch(toastAlertCreator(err))
     }
+  }
 
-    dispatch(updateCartItemActionCreator(customItemObject))
-
-    setShow(false)
+  //
+  const resetForm = () => {
     setForName('')
     setNotes('')
     setModList([])
     setSelectedItem({})
+    setShow(false)
   }
 
   return (
     <Modal
       show={show}
-      onHide={() => {
-        setShow(false)
-        setSelectedItem({})
-        setForName('')
-        setNotes('')
-      }}
+      onHide={resetForm}
       dialogClassName='modal-60w'
       backdrop="static"
       keyboard={false}
@@ -62,15 +69,18 @@ const CustomizeItemModal = ({ show, setShow, selectedItem, setSelectedItem }) =>
       <Modal.Body>
         <Form id='updateCustomItemForm' onSubmit={ updateCustomItem }>
 
+          {/* Item For Name */}
           <Form.Group>
             <Form.Label>Who's is it?</Form.Label>
             <Form.Control
               value={forName}
+              maxLength='30'
               onChange={ ({ target }) => setForName(target.value) }
             />
-            <Form.Text>(optional)</Form.Text>
+            <Form.Text>{forName && charactersRemaining(forName, 30)}</Form.Text>
           </Form.Group>
 
+          {/* Ingredient Mods */}
           <Form.Group>
             <Form.Label>Comes With</Form.Label>
             {
@@ -94,13 +104,16 @@ const CustomizeItemModal = ({ show, setShow, selectedItem, setSelectedItem }) =>
             }
           </Form.Group>
 
+          {/* Notes */}
           <Form.Group>
             <Form.Label>Anything else we should know?</Form.Label>
             <Form.Control
               value={notes}
+              maxLength='150'
               placeholder='e.g. peanut allergy'
               onChange={ ({ target }) => setNotes(target.value) }
             />
+            <Form.Text>{notes && charactersRemaining(notes, 150)}</Form.Text>
           </Form.Group>
 
         </Form>
@@ -109,13 +122,7 @@ const CustomizeItemModal = ({ show, setShow, selectedItem, setSelectedItem }) =>
       <Modal.Footer className='d-flex justify-content-between'>
           <Button
             variant="outline-warning"
-            onClick={ () => {
-              setShow(false)
-              setModList([])
-              setSelectedItem({})
-              setForName('')
-              setNotes('')
-            }}
+            onClick={resetForm}
           >Cancel</Button>
           <Button type='submit' form='updateCustomItemForm'>Update</Button>
       </Modal.Footer>
