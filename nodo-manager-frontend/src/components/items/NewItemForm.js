@@ -157,9 +157,9 @@ const NewItemForm = ({ show, setShow }) => {
       try {
         const newItemObject = {
           name: form.name,
+          category: form.category,
           description: form.description,
           ingredients: ingredientsArray,
-          category: form.category,
           price: form.price,
           availability: form.availability
         }
@@ -169,9 +169,9 @@ const NewItemForm = ({ show, setShow }) => {
 
         setForm({
           name: '',
+          category: '',
           description: '',
           ingredients: [],
-          category: '',
           price: '',
           availability: 'Unavailable'
         })
@@ -188,9 +188,9 @@ const NewItemForm = ({ show, setShow }) => {
   const handleCanceledForm = () => {
     setForm({
       name: '',
+      category: '',
       description: '',
       ingredients: [],
-      category: '',
       price: '',
       availability: 'Unavailable'
     })
