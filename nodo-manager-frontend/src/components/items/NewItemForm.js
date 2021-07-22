@@ -117,7 +117,12 @@ const NewItemForm = ({ show, setShow }) => {
         newErrors.price = formConfig.price.isNaN.errorMessage
       } else {
         setField('price', Number(price))
+
+        if (price < 0) {
+          newErrors.price = formConfig.price.isNegative.errorMessage
+        }
       }
+
     } else if (price < 0) {
       newErrors.price = formConfig.price.isNegative.errorMessage
 
@@ -140,7 +145,7 @@ const NewItemForm = ({ show, setShow }) => {
     //convert comma-separated items into array if neccessary
     const ingredientsArray = Array.isArray(form.ingredients)
       ? form.ingredients
-      : form.ingredients.split(/\s*(?:,|$)\s*/).trim()
+      : form.ingredients.split(/\s*(?:,|$)\s*/)
 
     const newErrors = findFormErrors()
 
@@ -296,7 +301,7 @@ const NewItemForm = ({ show, setShow }) => {
             <Form.Group>
               <Form.Label>Price:</Form.Label>
               <Form.Control
-                value={form.price.trim()}
+                value={form.price}
                 maxLength={formConfig.price.maxLength.value.toString()}
                 onChange={ ({ target }) => setField('price', target.value) }
                 isInvalid={ !!errors.price }
