@@ -76,11 +76,14 @@ Procedure / TODOs
 
 
 - CUSTOM FORMS & VALIDATION (Frontent)
-  - min/max length of form inputs all around
   + refactor 'remaining characters code' to reusable component
   - refactor form validation to resuable components?
+
+  - min/max length of form inputs all around
   - strip leading/trailing whitespace from inputs ( .trim() method )
   - utilize charactersRemaining in all forms if applicable
+    + Above 3 done in Item Forms, Login/Register Forms
+    - ToDo in: menu, order, users forms
 
   + Item forms
     + NewItemForm

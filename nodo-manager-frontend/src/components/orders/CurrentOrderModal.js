@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
 import Button from 'react-bootstrap/Button'
@@ -7,10 +7,7 @@ import Modal from 'react-bootstrap/Modal'
 
 import MyOrderItems from './MyOrderItems'
 
-import { toastAlertCreator } from '../../reducers/alertReducer'
 import { resetCart } from '../../reducers/cartReducer'
-import { addOrderActionCreator } from '../../reducers/orderReducer'
-
 
 const CurrentOrderModal = ({
   show,
@@ -21,7 +18,6 @@ const CurrentOrderModal = ({
 
   const dispatch = useDispatch()
   const history = useHistory()
-  const cartItems = useSelector(state => state.cart)
 
   //
   const handleAddItem = () => {

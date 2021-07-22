@@ -118,7 +118,6 @@ const MyOrderForm = ({ costs }) => {
             value={form.orderCategory}
             checked={form.orderCategory === 'Carry Out'}
             onChange={ () => setField('orderCategory', 'Carry Out') }
-            isInvalid={ !!errors.orderCategory }
           >Carry Out
           </ToggleButton>
 
@@ -129,7 +128,6 @@ const MyOrderForm = ({ costs }) => {
             value={form.orderCategory}
             checked={form.orderCategory === 'Delivery'}
             onChange={ () => setField('orderCategory', 'Delivery') }
-            isInvalid={ !!errors.orderCategory }
           >Delivery
           </ToggleButton>
         </ButtonGroup>
