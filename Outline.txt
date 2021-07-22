@@ -84,6 +84,7 @@ Procedure / TODOs
   - utilize charactersRemaining in all forms if applicable
     + Above 3 done in Item Forms, Login/Register Forms, CustomizeItemModal, userForms
     - ToDo in: order
+    - check custom form validation in rows with more than 1 input
 
   + Item forms
     + NewItemForm
