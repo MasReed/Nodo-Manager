@@ -5,7 +5,9 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 
+import { toastAlertCreator } from '../../reducers/alertReducer'
 import { addItemToCartActionCreator } from '../../reducers/cartReducer'
+import charactersRemaining from '../../utilities/charactersRemaining'
 
 const CustomizeItemModal = ({ show, setShow, selectedItem, setSelectedItem }) => {
 
@@ -24,38 +26,44 @@ const CustomizeItemModal = ({ show, setShow, selectedItem, setSelectedItem }) =>
       setCheckedMods(ingredientsWithCheck)
   }, [ selectedItem ])
 
-  const addCustomItem = (event) => {
+  //
+  const addCustomItem = async (event) => {
     event.preventDefault()
 
-    const customItemObject = {
-      baseItemId: selectedItem._id,
-      baseName: selectedItem.name,
-      baseIngredients: selectedItem.ingredients,
-      basePrice: selectedItem.price,
-      modIngredients: checkedMods,
-      whos: forName,
-      notes: notes,
-      uniqueId: selectedItem.uniqueId || selectedItem._id + forName + Math.random()
+    try {
+      const customItemObject = {
+        baseItemId: selectedItem._id,
+        baseName: selectedItem.name,
+        baseIngredients: selectedItem.ingredients,
+        basePrice: selectedItem.price,
+        modIngredients: checkedMods,
+        whos: forName,
+        notes: notes,
+        uniqueId: selectedItem.uniqueId || selectedItem._id + forName + Math.random()
+      }
+
+      await dispatch(addItemToCartActionCreator(customItemObject))
+
+      resetForm()
+
+    } catch (err) {
+      await dispatch(toastAlertCreator(err))
     }
+  }
 
-    dispatch(addItemToCartActionCreator(customItemObject))
-
-    setShow(false)
+  //
+  const resetForm = () => {
     setForName('')
+    setCheckedMods({})
     setNotes('')
-    setCheckedMods([])
     setSelectedItem({})
+    setShow(false)
   }
 
   return (
     <Modal
       show={show}
-      onHide={() => {
-        setShow(false)
-        setSelectedItem({})
-        setForName('')
-        setNotes('')
-      }}
+      onHide={ resetForm }
       dialogClassName='modal-60w'
       backdrop="static"
       keyboard={false}
@@ -68,15 +76,18 @@ const CustomizeItemModal = ({ show, setShow, selectedItem, setSelectedItem }) =>
       <Modal.Body>
         <Form id='customizeItemForm' onSubmit={ addCustomItem }>
 
+          {/* Item For Name */}
           <Form.Group>
             <Form.Label>Who's is it?</Form.Label>
             <Form.Control
-              value={forName}
+              value={forName.trim()}
+              maxLength='30'
               onChange={ ({ target }) => setForName(target.value) }
             />
-            <Form.Text>(optional)</Form.Text>
+            <Form.Text>{charactersRemaining(forName, 30)}</Form.Text>
           </Form.Group>
 
+          {/* Ingredient Mods */}
           <Form.Group>
             <Form.Label>Comes With</Form.Label>
             {
@@ -101,13 +112,16 @@ const CustomizeItemModal = ({ show, setShow, selectedItem, setSelectedItem }) =>
             }
           </Form.Group>
 
+          {/* Notes */}
           <Form.Group>
             <Form.Label>Anything else we should know?</Form.Label>
             <Form.Control
-              value={notes}
+              value={notes.trim()}
+              maxLength='150'
               placeholder='e.g. peanut allergy'
               onChange={ ({ target }) => setNotes(target.value) }
             />
+            <Form.Text>{charactersRemaining(notes, 150)}</Form.Text>
           </Form.Group>
 
         </Form>
@@ -116,14 +130,10 @@ const CustomizeItemModal = ({ show, setShow, selectedItem, setSelectedItem }) =>
       <Modal.Footer style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Button
             variant="outline-warning"
-            onClick={ () => {
-              setShow(false)
-              setCheckedMods([])
-              setSelectedItem({})
-              setForName('')
-              setNotes('')
-            }}
-          >Cancel</Button>
+            onClick={ resetForm }
+          >
+            Cancel
+          </Button>
           <Button type='submit' form='customizeItemForm'>Add to Order</Button>
       </Modal.Footer>
     </Modal>
