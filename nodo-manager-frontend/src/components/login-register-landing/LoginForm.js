@@ -16,6 +16,21 @@ const LoginForm = ({ ...props }) => {
   const [ form, setForm ] = useState({ name: '', password: '' })
   const [ errors, setErrors ] = useState({})
 
+  // Easy form customization
+  const formConfig = {
+    username: {
+      isEmpty: { errorMessage: 'Enter a username!' },
+      minLength: { value: 2, errorMessage: 'Username is too short' },
+      maxLength: { value: 30, errorMessage: 'Username is too long' },
+    },
+
+    password: {
+      isEmpty: { errorMessage: 'Enter a password!' },
+      minLength: { value: 5, errorMessage: 'Password is too short' },
+      maxLength: { value: 30, errorMessage: 'Password is too long' },
+    }
+  }
+
   //
   const setField = (field, value) => {
     setForm({
@@ -62,13 +77,27 @@ const LoginForm = ({ ...props }) => {
   const findFormErrors = () => {
     const { name, password } = form
     const newErrors = {}
+
     // name errors
-    if ( !name || name === '' ) newErrors.name = 'Enter a username!'
-    else if ( name.length > 30 ) newErrors.name = 'Username is too long'
-    else if ( name.length < 3 ) newErrors.name = 'Username is too short'
+    if ( !name || name === '' ) {
+      newErrors.name = formConfig.username.isEmpty.errorMessage
+
+    } else if ( name.length > formConfig.username.maxLength.value ) {
+      newErrors.name = formConfig.username.maxLength.errorMessage
+
+    } else if ( name.length < formConfig.username.minLength.value ) {
+      newErrors.name = formConfig.username.minLength.errorMessage }
+
     // password errors
-    if ( !password || password === '' ) newErrors.password = 'Enter a password!'
-    else if ( password.length < 5 ) newErrors.password = 'Password is too short'
+    if ( !password || password === '' ) {
+      newErrors.password = 'Enter a password!'
+
+    } else if ( password.length > formConfig.password.maxLength.value ) {
+      newErrors.name = formConfig.password.maxLength.errorMessage
+
+    } else if ( password.length < formConfig.password.minLength.value ) {
+      newErrors.password = formConfig.password.minLength.errorMessage
+    }
 
     return newErrors
   }
@@ -81,6 +110,8 @@ const LoginForm = ({ ...props }) => {
         <Form.Control
           type='text'
           value={form.name}
+          minLength={formConfig.username.minLength.value.toString()}
+          maxLength={formConfig.username.maxLength.value.toString()}
           placeholder='Username'
           onChange={ e => setField('name', e.target.value) }
           isInvalid={ !!errors.name }
@@ -96,6 +127,8 @@ const LoginForm = ({ ...props }) => {
         <Form.Control
           type='password'
           value={form.password}
+          minLength={formConfig.password.minLength.value.toString()}
+          maxLength={formConfig.password.maxLength.value.toString()}
           placeholder='Password'
           onChange={ e => setField('password', e.target.value) }
           isInvalid={ !!errors.password }
