@@ -9,7 +9,7 @@ import AlertBanner from '../site-wide/AlertBanner'
 
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { addUserActionCreator } from '../../reducers/userReducer'
-
+import charactersRemaining from '../../utilities/charactersRemaining'
 
 const NewUserForm = ({ show, setShow }) => {
 
@@ -25,6 +25,32 @@ const NewUserForm = ({ show, setShow }) => {
 
   const [ errors, setErrors ] = useState({})
 
+  // Easy form customization
+  const formConfig = {
+    name: {
+      isEmpty: { errorMessage: 'A Name is required.' },
+      maxLength: { value: 50, errorMessage: 'Name is too long' },
+    },
+    email: {
+      isEmpty: { errorMessage: 'An Email is required.' },
+      noAtSymbol: { errorMessage: `Email must include '@'` },
+      minLength: { value: 5, errorMessage: 'Email is too short' },
+      maxLength: { value: 50, errorMessage: 'Email is too long' },
+    },
+    username: {
+      isEmpty: { errorMessage: 'Enter a username!' },
+      minLength: { value: 2, errorMessage: 'Username is too short' },
+      maxLength: { value: 30, errorMessage: 'Username is too long' },
+    },
+    roleName: {
+      isEmpty: { errorMessage: 'A role must be selected.' },
+      reqAdmin: { errorMessage: 'Requires Admin privileges.' },
+      reqManager: { errorMessage: 'Requires Manager privileges.' },
+      reqEmployee: { errorMessage: 'Requires Employee privileges.' },
+    },
+  }
+
+  //
   const setField = (field, value) => {
     setForm({
       ...form,
@@ -37,33 +63,60 @@ const NewUserForm = ({ show, setShow }) => {
     })
   }
 
+  //
   const findFormErrors = () => {
     const { name, email, username, roleName } = form
     const newErrors = {}
     // Name errors
-    if (!name || name === '') newErrors.name = 'A Name is required.'
+    if (!name || name === '') {
+      newErrors.name = formConfig.name.isEmpty.errorMessage
 
-    // Email errors
-    if (!email || email === '') newErrors.email = 'An Email is required.'
-    else if (!email.includes('@')) newErrors.email = 'Email must include @'
+    } else if (name.length > formConfig.name.maxLength.value) {
+      newErrors.name = formConfig.name.maxLength.errorMessage
+    }
+
+    // email errors
+    if ( !email || email === '' ) {
+      newErrors.email = formConfig.email.isEmpty.errorMessage
+
+    } else if ( !email.includes('@') ) {
+      newErrors.email = formConfig.email.noAtSymbol.errorMessage
+
+    } else if ( email.length < formConfig.email.minLength.value ) {
+      newErrors.email = formConfig.email.minLength.errorMessage
+    }
 
     // username errors
-    if (!username || username === '') newErrors.username = 'Enter a username!'
-    else if (username.length > 30) newErrors.username = 'Username is too long'
-    else if (username.length < 5) newErrors.username = 'Username is too short'
+    if ( !username || username === '' ) {
+      newErrors.username = formConfig.username.isEmpty.errorMessage
+
+    } else if ( username.length > formConfig.username.maxLength.value ) {
+      newErrors.username = formConfig.username.maxLength.errorMessage
+
+    } else if ( username.length < formConfig.username.minLength.value ) {
+      newErrors.username = formConfig.username.minLength.errorMessage }
 
     // Role errors
-    if (!roleName) newErrors.roleName = 'A role must be selected.'
-    else if (roleName === 'admin' && !currentUser.role.encompassedRoles.includes('admin'))
-      newErrors.roleName = 'Requires admin privileges.'
-    else if (roleName === 'manager' && !currentUser.role.encompassedRoles.includes('manager'))
-      newErrors.roleName = 'Requires manager privileges.'
-    else if (roleName === 'employee' && !currentUser.role.encompassedRoles.includes('manager'))
-      newErrors.roleName = 'Requires manager privileges.'
+    if (!roleName) {
+      newErrors.roleName = formConfig.roleName.isEmpty.errorMessage
+
+    } else if (roleName === 'admin' &&
+    !currentUser.role.encompassedRoles.includes('admin')) {
+      newErrors.roleName = formConfig.reqAdmin.errorMessage
+
+    } else if (roleName === 'manager' &&
+    !currentUser.role.encompassedRoles.includes('manager')) {
+      newErrors.roleName = formConfig.reqManager.errorMessage
+
+    } else if (roleName === 'employee' &&
+    !currentUser.role.encompassedRoles.includes('manager')) {
+      newErrors.roleName = formConfig.reqManager.errorMessage
+    }
 
     return newErrors
   }
 
+  //
   const createUser = async (event) => {
     event.preventDefault()
 
@@ -73,6 +126,8 @@ const NewUserForm = ({ show, setShow }) => {
     if ( Object.keys(newErrors).length > 0 ) {
       setErrors(newErrors)
     } else {
+
+      try {
         const newUserObject = {
           name: form.name,
           email: form.email,
@@ -82,11 +137,10 @@ const NewUserForm = ({ show, setShow }) => {
             name: form.roleName
           }
         }
-      try {
+
         await dispatch(addUserActionCreator(newUserObject))
 
-        setForm({ name: '', email: '', username: '', roleName: 'user' })
-        setShow(false)
+        resetForm()
 
       } catch (err) {
         dispatch(toastAlertCreator(err))
@@ -94,7 +148,8 @@ const NewUserForm = ({ show, setShow }) => {
     }
   }
 
-  const cancelNewUser = () => {
+  //
+  const resetForm = () => {
     setForm({
       name: '',
       email: '',
@@ -108,7 +163,7 @@ const NewUserForm = ({ show, setShow }) => {
   return (
     <Modal
       show={show}
-      onHide={ cancelNewUser }
+      onHide={ resetForm }
       backdrop="static"
       keyboard={false}
     >
@@ -124,35 +179,64 @@ const NewUserForm = ({ show, setShow }) => {
             <Form.Label>Full Name:</Form.Label>
             <Form.Control
               type='text'
-              value={form.name}
+              value={form.name.trim()}
+              maxLength={formConfig.name.maxLength.value.toString()}
               placeholder='Jane Doe'
               onChange={ ({ target }) => setField('name', target.value) }
               isInvalid={ !!errors.name }
             />
-            <Form.Control.Feedback type='invalid'>{ errors.username }</Form.Control.Feedback>
+            <Form.Text>
+              {charactersRemaining(
+                form.name, formConfig.name.maxLength.value
+              )}
+            </Form.Text>
+
+            <Form.Control.Feedback type='invalid'>
+              { errors.name }
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group>
             <Form.Label>Email:</Form.Label>
             <Form.Control
               type='email'
-              value={form.email}
+              value={form.email.trim()}
+              minLength={formConfig.email.minLength.value.toString()}
+              maxLength={formConfig.email.maxLength.value.toString()}
               placeholder='abc@123.com'
               onChange={ ({ target }) => setField('email', target.value) }
               isInvalid={ !!errors.email }
             />
-            <Form.Control.Feedback type='invalid'>{ errors.email }</Form.Control.Feedback>
+            <Form.Text>
+              {charactersRemaining(
+                form.email, formConfig.email.maxLength.value
+              )}
+            </Form.Text>
+
+            <Form.Control.Feedback type='invalid'>
+              { errors.email }
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group>
             <Form.Label>Username:</Form.Label>
             <Form.Control
               type='text'
-              value={form.username}
+              value={form.username.trim()}
+              minLength={formConfig.username.minLength.value.toString()}
+              maxLength={formConfig.username.maxLength.value.toString()}
               onChange={ ({ target }) => setField('username', target.value) }
               isInvalid={ !!errors.username }
             />
-            <Form.Control.Feedback type='invalid'>{ errors.username }</Form.Control.Feedback>
+            <Form.Text>
+              {charactersRemaining(
+                form.username, formConfig.username.maxLength.value
+              )}
+            </Form.Text>
+
+            <Form.Control.Feedback type='invalid'>
+              { errors.username }
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group>
@@ -203,14 +287,17 @@ const NewUserForm = ({ show, setShow }) => {
                 isInvalid={ !!errors.roleName }
               />
             </div>
-            { errors.roleName && <small style={{ color: '#dc3545'}}>{ errors.roleName }</small> }
+            {
+              errors.roleName &&
+              <small style={{ color: '#dc3545'}}>{ errors.roleName }</small>
+            }
           </Form.Group>
         </Form>
       </Modal.Body>
 
       <Modal.Footer>
         <Button type='submit' onClick={ createUser }>Create User</Button>
-        <Button variant='secondary' onClick={ cancelNewUser }>Cancel</Button>
+        <Button variant='secondary' onClick={ resetForm }>Cancel</Button>
       </Modal.Footer>
 
     </Modal>
