@@ -7,6 +7,8 @@ import Form from 'react-bootstrap/Form'
 
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { addUserActionCreator } from '../../reducers/userReducer'
+import charactersRemaining from '../../utilities/charactersRemaining'
+
 
 const RegisterForm = () => {
 
@@ -18,6 +20,30 @@ const RegisterForm = () => {
     { email: '', username: '', password: '', passcopy: '' }
   )
   const [ errors, setErrors ] = useState({})
+
+  // Easy form customization
+  const formConfig = {
+    email: {
+      isEmpty: { errorMessage: 'Enter an email!' },
+      noAtSymbol: { errorMessage: `Email must include '@'` },
+      minLength: { value: 5, errorMessage: 'Email is too short' },
+      maxLength: { value: 50, errorMessage: 'Email is too long' },
+    },
+    username: {
+      isEmpty: { errorMessage: 'Enter a username!' },
+      minLength: { value: 2, errorMessage: 'Username is too short' },
+      maxLength: { value: 30, errorMessage: 'Username is too long' },
+    },
+    password: {
+      isEmpty: { errorMessage: 'Enter a password!' },
+      minLength: { value: 5, errorMessage: 'Password is too short' },
+      maxLength: { value: 50, errorMessage: 'Password is too long' },
+    },
+    passcopy: {
+      isEmpty: { errorMessage: 'Reenter your password!' },
+      mismatched: { errorMessage: 'Passwords do not match!'}
+    }
+  }
 
   //
   const setField = (field, value) => {
@@ -36,24 +62,42 @@ const RegisterForm = () => {
   const findFormErrors = () => {
     const { email, username, password, passcopy } = form
     const newErrors = {}
+
     // email errors
-    if ( !email || email === '' ) newErrors.email = 'Enter an email!'
-    else if ( !email.includes('@') ) newErrors.email = 'Email must include @'
+    if ( !email || email === '' ) {
+      newErrors.email = formConfig.email.isEmpty.errorMessage
+
+    } else if ( !email.includes('@') ) {
+      newErrors.email = formConfig.email.noAtSymbol.errorMessage
+    }
 
     // username errors
-    if ( !username || username === '' ) newErrors.username = 'Enter a username!'
-    else if ( username.length > 30 ) newErrors.username = 'Username is too long'
-    else if ( username.length < 5 ) newErrors.username = 'Username is too short'
+    if ( !username || username === '' ) {
+      newErrors.username = formConfig.username.isEmpty.errorMessage
+
+    } else if ( username.length > formConfig.username.maxLength.value ) {
+      newErrors.username = formConfig.username.maxLength.errorMessage
+
+    } else if ( username.length < formConfig.username.minLength.value ) {
+      newErrors.username = formConfig.username.minLength.errorMessage }
 
     // password errors
-    if ( !password || password === '' ) newErrors.password = 'Enter a password!'
-    else if ( password.length < 5 ) newErrors.password = 'Password is too short'
+    if ( !password || password === '' ) {
+      newErrors.password = formConfig.password.isEmpty.errorMessage
+
+    } else if ( password.length > formConfig.password.maxLength.value ) {
+      newErrors.name = formConfig.password.maxLength.errorMessage
+
+    } else if ( password.length < formConfig.password.minLength.value ) {
+      newErrors.password = formConfig.password.minLength.errorMessage
+    }
 
     // passcopy errors
     if ( !passcopy || passcopy === '' ) {
-      newErrors.passcopy = 'Reenter your password!'
+      newErrors.passcopy = formConfig.passcopy.isEmpty.errorMessage
+
     } else if ( password !== passcopy ) {
-      newErrors.passcopy = 'Passwords do not match!'
+      newErrors.passcopy = formConfig.passcopy.mismatched.errorMessage
     }
 
     return newErrors
@@ -105,11 +149,19 @@ const RegisterForm = () => {
         <Form.Label>Email address</Form.Label>
         <Form.Control
           type='email'
-          value={form.email}
+          value={form.email.trim()}
+          minLength={formConfig.email.minLength.value.toString()}
+          maxLength={formConfig.email.maxLength.value.toString()}
           placeholder='Enter email'
           onChange={ ({ target }) => setField('email', target.value) }
           isInvalid={ !!errors.email }
         />
+        <Form.Text>
+          {charactersRemaining(
+            form.email, formConfig.email.maxLength.value
+          )}
+        </Form.Text>
+
         <Form.Control.Feedback type='invalid'>
           { errors.email }
         </Form.Control.Feedback>
@@ -120,11 +172,19 @@ const RegisterForm = () => {
         <Form.Label>Username</Form.Label>
         <Form.Control
           type='text'
-          value={form.username}
+          value={form.username.trim()}
+          minLength={formConfig.username.minLength.value.toString()}
+          maxLength={formConfig.username.maxLength.value.toString()}
           placeholder='Username'
           onChange={ ({ target }) => setField('username', target.value) }
           isInvalid={ !!errors.username }
         />
+        <Form.Text>
+          {charactersRemaining(
+            form.username, formConfig.username.maxLength.value
+          )}
+        </Form.Text>
+
         <Form.Control.Feedback type='invalid'>
           { errors.username }
         </Form.Control.Feedback>
@@ -135,11 +195,19 @@ const RegisterForm = () => {
         <Form.Label>Password</Form.Label>
         <Form.Control
           type='password'
-          value={form.password}
+          value={form.password.trim()}
+          minLength={formConfig.password.minLength.value.toString()}
+          maxLength={formConfig.password.maxLength.value.toString()}
           placeholder='Password'
           onChange={ ({ target }) => setField('password', target.value) }
           isInvalid={ !!errors.password }
         />
+        <Form.Text>
+          {charactersRemaining(
+            form.password, formConfig.password.maxLength.value
+          )}
+        </Form.Text>
+
         <Form.Control.Feedback type='invalid'>
           { errors.password }
         </Form.Control.Feedback>
@@ -150,11 +218,19 @@ const RegisterForm = () => {
         <Form.Label>Confirm Password</Form.Label>
         <Form.Control
           type='password'
-          value={form.passcopy}
+          value={form.passcopy.trim()}
+          minLength={formConfig.password.minLength.value.toString()}
+          maxLength={formConfig.password.maxLength.value.toString()}
           placeholder='Password'
           onChange={ ({ target }) => setField('passcopy', target.value) }
           isInvalid={ !!errors.passcopy }
         />
+        <Form.Text>
+          {charactersRemaining(
+            form.passcopy, formConfig.password.maxLength.value
+          )}
+        </Form.Text>
+
         <Form.Control.Feedback type='invalid'>
           { errors.passcopy }
         </Form.Control.Feedback>

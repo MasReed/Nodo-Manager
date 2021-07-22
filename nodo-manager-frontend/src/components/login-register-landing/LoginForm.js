@@ -7,7 +7,6 @@ import Form from 'react-bootstrap/Form'
 
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { loginUserActionCreator } from '../../reducers/currentUserReducer'
-
 import charactersRemaining from '../../utilities/charactersRemaining'
 
 const LoginForm = ({ ...props }) => {
@@ -92,7 +91,7 @@ const LoginForm = ({ ...props }) => {
 
     // password errors
     if ( !password || password === '' ) {
-      newErrors.password = 'Enter a password!'
+      newErrors.password = formConfig.password.isEmpty.errorMessage
 
     } else if ( password.length > formConfig.password.maxLength.value ) {
       newErrors.name = formConfig.password.maxLength.errorMessage
