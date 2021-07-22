@@ -11,6 +11,7 @@ import { destroyItemActionCreator } from '../../reducers/itemReducer'
 
 import truncateString from '../../utilities/truncateString'
 
+//
 const ItemInfoCard = ({ item }) => {
 
   const dispatch = useDispatch()
@@ -26,7 +27,6 @@ const ItemInfoCard = ({ item }) => {
       dispatch(toastAlertCreator(err))
     }
   }
-
 
   return (
     <>
