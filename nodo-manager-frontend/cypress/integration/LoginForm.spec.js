@@ -17,6 +17,14 @@ describe('Login Form Actions', function() {
     cy.location('pathname').should('eq', '/menu')
   })
 
+  it('errors on login with non-existant user', function() {
+    cy.get('#login-username').type('INVALID USER')
+    cy.get('#login-password').type('password')
+    cy.get('#login-submit-button').click()
+
+    cy.get('#alert').contains('User not found')
+  })
+
   it('errors on login with incorrect password', function() {
     cy.get('#login-username').type('admin')
     cy.get('#login-password').type('INVALID PASSWORD')
@@ -25,16 +33,14 @@ describe('Login Form Actions', function() {
     cy.get('#alert').contains('Invalid Password')
   })
 
-  it('errors on login with invalid user', function() {
-    cy.get('#login-username').type('INVALID USER')
-    cy.get('#login-password').type('password')
-    cy.get('#login-submit-button').click()
-
-    cy.get('#alert').contains('User not found')
-  })
-
   //
   describe('Username Input', function() {
+    //
+    it('errors on login with empty username', function() {
+      cy.get('#login-submit-button').click()
+      cy.get('#login-form').contains('Enter a username!')
+    })
+
     //
     it('requires a minimum input of 2 characters', function() {
       cy.get('#login-username').type('1')
@@ -51,6 +57,13 @@ describe('Login Form Actions', function() {
 
   //
   describe('Password Input', function() {
+
+    //
+    it('errors on login with empty password', function() {
+      cy.get('#login-submit-button').click()
+      cy.get('#login-form').contains('Enter a password!')
+    })
+
     //
     it('requires a minimum input of 5 characters', function() {
       cy.get('#login-password').type('1234')
