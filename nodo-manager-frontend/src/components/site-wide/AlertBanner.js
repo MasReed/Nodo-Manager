@@ -24,7 +24,7 @@ const AlertBanner = () => {
   }
 
   return (
-    <Alert className='sticky-top' variant={alertObject.variant}>
+    <Alert id='alert' className='sticky-top' variant={alertObject.variant}>
       <Container>
         <Alert.Heading>{alertObject.type}</Alert.Heading>
         <hr />

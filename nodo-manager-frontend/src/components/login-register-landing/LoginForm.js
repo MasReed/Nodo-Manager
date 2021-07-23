@@ -104,9 +104,9 @@ const LoginForm = ({ ...props }) => {
   }
 
   return (
-    <Form>
+    <Form id='login-form'>
       {/* Login Username */}
-      <Form.Group>
+      <Form.Group controlId='login-username'>
         <Form.Label>Username</Form.Label>
         <Form.Control
           type='text'
@@ -127,7 +127,7 @@ const LoginForm = ({ ...props }) => {
       </Form.Group>
 
       {/* Login Password */}
-      <Form.Group>
+      <Form.Group controlId='login-password'>
         <Form.Label>Password</Form.Label>
         <Form.Control
           type='password'
@@ -150,7 +150,13 @@ const LoginForm = ({ ...props }) => {
       </Form.Group>
 
       {/* Submit */}
-      <Button type='submit' onClick={ handleSubmitLogin }>Login</Button>
+      <Button
+        id='login-submit-button'
+        type='submit'
+        onClick={ handleSubmitLogin }
+      >
+        Login
+      </Button>
     </Form>
   )
 }

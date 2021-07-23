@@ -142,7 +142,7 @@ const RegisterForm = () => {
   }
 
   return (
-    <Form>
+    <Form id='register-form'>
 
       {/* Email */}
       <Form.Group controlId='signupEmail'>
