@@ -69,6 +69,12 @@ const RegisterForm = () => {
 
     } else if ( !email.includes('@') ) {
       newErrors.email = formConfig.email.noAtSymbol.errorMessage
+
+    } else if (email.length < formConfig.email.minLength.value) {
+      newErrors.email = formConfig.email.minLength.errorMessage
+      
+    } else if (email.length > formConfig.email.maxLength.value) {
+      newErrors.email = formConfig.email.maxLength.errorMessage
     }
 
     // username errors
@@ -145,7 +151,7 @@ const RegisterForm = () => {
     <Form id='register-form'>
 
       {/* Email */}
-      <Form.Group controlId='signupEmail'>
+      <Form.Group controlId='register-email'>
         <Form.Label>Email address</Form.Label>
         <Form.Control
           type='email'
@@ -168,7 +174,7 @@ const RegisterForm = () => {
       </Form.Group>
 
       {/* Username */}
-      <Form.Group controlId='signupUsername'>
+      <Form.Group controlId='register-username'>
         <Form.Label>Username</Form.Label>
         <Form.Control
           type='text'
@@ -191,7 +197,7 @@ const RegisterForm = () => {
       </Form.Group>
 
       {/* Password */}
-      <Form.Group controlId='signupPassword'>
+      <Form.Group controlId='register-password'>
         <Form.Label>Password</Form.Label>
         <Form.Control
           type='password'
@@ -214,7 +220,7 @@ const RegisterForm = () => {
       </Form.Group>
 
       {/* Password Copy */}
-      <Form.Group controlId='signupPasswordVerify'>
+      <Form.Group controlId='register-passcopy'>
         <Form.Label>Confirm Password</Form.Label>
         <Form.Control
           type='password'
@@ -237,7 +243,12 @@ const RegisterForm = () => {
       </Form.Group>
 
       {/* Submit Button */}
-      <Button variant='primary' type='submit' onClick={ handleSubmitRegister }>
+      <Button
+        id='register-submit-button'
+        variant='primary'
+        type='submit'
+        onClick={ handleSubmitRegister }
+      >
         Sign Up
       </Button>
     </Form>
