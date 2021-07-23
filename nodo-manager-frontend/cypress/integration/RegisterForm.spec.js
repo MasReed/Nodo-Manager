@@ -18,17 +18,30 @@ describe('Register Form Actions', function() {
   //
   //   cy.location('pathname').should('eq', '/menu')
   // })
+
   //
-  // it('errors on login with pre-existing username', function() {
-  //   cy.get('#register-email').type('new@user')
-  //   cy.get('#register-username').type('EXISTING USER')
-  //   cy.get('#register-password').type('password')
-  //   cy.get('#register-passcopy').type('password')
+  it.only('errors on register with pre-existing email', function() {
+    cy.get('#register-email').type('new@user')
+    cy.get('#register-username').type('UniqueUser')
+    cy.get('#register-password').type('password')
+    cy.get('#register-passcopy').type('password')
+
+    cy.get('#register-submit-button').click()
+
+    cy.get('#alert').contains('Email is already in use!')
+  })
+
   //
-  //   cy.get('#register-submit-button').click()
-  //
-  //   cy.get('#alert').contains('User not found')
-  // })
+  it.only('errors on register with pre-existing username', function() {
+    cy.get('#register-email').type('this@unique.email')
+    cy.get('#register-username').type('admin')
+    cy.get('#register-password').type('password')
+    cy.get('#register-passcopy').type('password')
+
+    cy.get('#register-submit-button').click()
+
+    cy.get('#alert').contains('Username is already in use!')
+  })
 
   //
   describe('Email Input', function() {

@@ -126,6 +126,12 @@ Procedure / TODOs
    + react-testing-library
   - test modal closebuttons properly reset data (somewhere)
 
+- CYPRESS TESTING
+  + LoginForm tests
+  + RegisterForm tests
+    - reset user in db between each test
+  
+
 - Cross ref orders and users
 - confirm account registration w/ email?
 - implement OAuth for registration/login
