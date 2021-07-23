@@ -122,7 +122,8 @@ Procedure / TODOs
   - improve/expand order & item schema/data validations
 
 - FRONTEND TESTING
-  - Setup test env.
+  + Setup test env.
+   + react-testing-library
   - test modal closebuttons properly reset data (somewhere)
 
 - Cross ref orders and users
