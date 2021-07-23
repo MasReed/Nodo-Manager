@@ -48,7 +48,7 @@ const hashPasswordOnUpdate = async (req, res, next) => {
     if (req.body.password === null) {
       req.body.password = requestedUserToUpdate.passwordHash
 
-    } else {
+    } else if (req.body.password) {
       req.body.password = await bcrypt.hash(req.body.password, 10)
     }
 

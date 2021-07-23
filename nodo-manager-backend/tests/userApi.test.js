@@ -30,6 +30,7 @@ beforeEach(async () => {
   const newAdmin = new User({
     email: 'new@admin',
     username: 'TestAdmin',
+    passwordHash: 'unhashed',
     role: await Role.findOne({ name: 'admin' })
   })
   await newAdmin.save()
@@ -39,6 +40,7 @@ beforeEach(async () => {
   const newManager = new User({
     email: 'new@manager',
     username: 'TestManager',
+    passwordHash: 'unhashed',
     role: await Role.findOne({ name: 'manager' })
   })
   await newManager.save()
@@ -48,6 +50,7 @@ beforeEach(async () => {
   const newEmployee = new User({
     email: 'new@employee',
     username: 'TestEmployee',
+    passwordHash: 'unhashed',
     role: await Role.findOne({ name: 'employee' })
   })
   await newEmployee.save()
@@ -57,6 +60,7 @@ beforeEach(async () => {
   const newUser = new User({
     email: 'new@user',
     username: 'TestUser',
+    passwordHash: 'unhashed',
     role: await Role.findOne({ name: 'user' })
   })
   await newUser.save()
@@ -412,7 +416,7 @@ describe('User API Tests', () => {
           name: 'Update Me',
           username: 'Update this ADMIN',
           email: 'update@admin.com',
-          password: 'password',
+          passwordHash: 'password',
           role: await Role.findOne({ name: 'admin' })
         })
         await adminToUpdate.save()
@@ -421,7 +425,7 @@ describe('User API Tests', () => {
           name: 'Update Me',
           username: 'Update this MANAGER',
           email: 'update@manager.com',
-          password: 'password',
+          passwordHash: 'password',
           role: await Role.findOne({ name: 'manager' })
         })
         await managerToUpdate.save()
@@ -430,7 +434,7 @@ describe('User API Tests', () => {
           name: 'Update Me',
           username: 'Update this EMPLOYEE',
           email: 'update@employee.com',
-          password: 'password',
+          passwordHash: 'password',
           role: await Role.findOne({ name: 'employee' })
         })
         await employeeToUpdate.save()
@@ -439,7 +443,7 @@ describe('User API Tests', () => {
           name: 'Update Me',
           username: 'Update this USER',
           email: 'update@user.com',
-          password: 'password',
+          passwordHash: 'password',
           role: await Role.findOne({ name: 'user' })
         })
         await userToUpdate.save()
@@ -533,6 +537,29 @@ describe('User API Tests', () => {
         })
 
         //
+        test('Status 200 sending update object with null password', async () => {
+
+          const validUserToUpdate = await User
+            .findOne({ username: 'Update this USER' }).exec()
+
+          // null password property
+          const res = await api
+            .put('/api/users/' + validUserToUpdate._id)
+            .set('x-access-token', adminToken)
+            .send({
+              id: validUserToUpdate._id,
+              name: 'UPDATED USER',
+              username: 'Update this USER',
+              email: 'update@user.com',
+              password: null,
+              role: {
+                name: 'user'
+              }
+            })
+            .expect(200)
+        })
+
+        //
         test('Status 400 sending update object without password', async () => {
 
           const validUserToUpdate = await User
@@ -574,14 +601,15 @@ describe('User API Tests', () => {
           const validUserToUpdate = await User
             .findOne({ username: 'Update this USER' }).exec()
 
-          // no password property
+          // no role property
           await api
             .put('/api/users/' + validUserToUpdate._id)
             .set('x-access-token', adminToken)
             .send({
               name: 'UPDATED USER',
               username: 'Update this USER',
-              email: 'update@user.com'
+              email: 'update@user.com',
+              password: 'password'
             })
             .expect(400)
         })
@@ -974,7 +1002,7 @@ describe('User API Tests', () => {
           name: 'Delete Me',
           username: 'Delete this ADMIN',
           email: 'delete@admin.com',
-          password: 'password',
+          passwordHash: 'password',
           role: await Role.findOne({ name: 'admin' })
         })
         await adminToDelete.save()
@@ -983,7 +1011,7 @@ describe('User API Tests', () => {
           name: 'Delete Me',
           username: 'Delete this MANAGER',
           email: 'delete@manager.com',
-          password: 'password',
+          passwordHash: 'password',
           role: await Role.findOne({ name: 'manager' })
         })
         await managerToDelete.save()
@@ -992,7 +1020,7 @@ describe('User API Tests', () => {
           name: 'Delete Me',
           username: 'Delete this EMPLOYEE',
           email: 'delete@employee.com',
-          password: 'password',
+          passwordHash: 'password',
           role: await Role.findOne({ name: 'employee' })
         })
         await employeeToDelete.save()
@@ -1001,7 +1029,7 @@ describe('User API Tests', () => {
           name: 'Delete Me',
           username: 'Delete this USER',
           email: 'delete@user.com',
-          password: 'password',
+          passwordHash: 'password',
           role: await Role.findOne({ name: 'user' })
         })
         await userToDelete.save()
@@ -1010,7 +1038,7 @@ describe('User API Tests', () => {
           name: 'Delete Me',
           username: 'Delete this GUEST',
           email: 'delete@guest.com',
-          password: 'password',
+          passwordHash: 'password',
           role: await Role.findOne({ name: 'guest' })
         })
         await guestToDelete.save()

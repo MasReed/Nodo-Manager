@@ -52,15 +52,14 @@ Procedure / TODOs
       + have roles encompass subsequent roles i.e admin is also a manager by default
   + apply order sorts on order status changes in orderList
   + users sorted by role
-
-
-  - make itemInfo/card responsive
-    - text wrapping, overflow, min/max sizes
-
   + Refactor menuCategoryAccordion component into separate components
     + AccordionToggle separated
     + item sorts same as menu categories?
     + standardize itemsList & MenuItemCard
+
+
+  - make itemInfo/card responsive
+    - text wrapping, overflow, min/max sizes
 
   + Add MyAccount Page
     - view previous orders
@@ -79,12 +78,10 @@ Procedure / TODOs
   + refactor 'remaining characters code' to reusable component
   - refactor form validation to resuable components?
 
-  - min/max length of form inputs all around
-  - strip leading/trailing whitespace from inputs ( .trim() method )
-  - utilize charactersRemaining in all forms if applicable
-    + Above 3 done in Item Forms, Login/Register Forms, CustomizeItemModal, userForms
-    - ToDo in: order
-    - check custom form validation in rows with more than 1 input
+  + min/max length of form inputs all around
+  + strip leading/trailing whitespace from inputs ( .trim() method )
+  + utilize charactersRemaining in all forms if applicable
+  - check custom form validation in rows with more than 1 input
 
   + Item forms
     + NewItemForm
@@ -110,7 +107,7 @@ Procedure / TODOs
   + Api based errors caught at service boundary, contextualized, and rethrown to
     be caught in components and dispatched to alertReducer
   + Implemented item form validations
-  - conditional render alertBanner on site vs in mobile
+  - conditional render alertBanner on site vs in modal
   - connect error to form component if applicable
   - verify shape of error objects created at frontend service layer
   - verify data initializers on frontend (currently in useEffect)

@@ -31,6 +31,7 @@ beforeAll(async () => {
   const newAdmin = new User({
     email: 'new@admin',
     username: 'TestAdmin',
+    passwordHash: 'unhashed',
     role: await Role.findOne({ name: 'admin' })
   })
   await newAdmin.save()
@@ -40,6 +41,7 @@ beforeAll(async () => {
   const newManager = new User({
     email: 'new@manager',
     username: 'TestManager',
+    passwordHash: 'unhashed',
     role: await Role.findOne({ name: 'manager' })
   })
   await newManager.save()
@@ -49,6 +51,7 @@ beforeAll(async () => {
   const newEmployee = new User({
     email: 'new@employee',
     username: 'TestEmployee',
+    passwordHash: 'unhashed',
     role: await Role.findOne({ name: 'employee' })
   })
   await newEmployee.save()
@@ -58,6 +61,7 @@ beforeAll(async () => {
   const newUser = new User({
     email: 'new@user',
     username: 'TestUser',
+    passwordHash: 'unhashed',
     role: await Role.findOne({ name: 'user' })
   })
   await newUser.save()
@@ -67,6 +71,7 @@ beforeAll(async () => {
   const newGuest = new User({
     email: 'new@guest',
     username: 'TestGuest',
+    passwordHash: 'unhashed',
     role: await Role.findOne({ name: 'guest' })
   })
   await newGuest.save()
