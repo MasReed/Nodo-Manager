@@ -71,12 +71,12 @@ Procedure / TODOs
     + UpdateUserForm created
       - check update auth scope
     + sorted users by role
-      - group under accordians like menu items?
+      - group under accordions like menu items?
 
 
-- CUSTOM FORMS & VALIDATION (Frontent)
+- CUSTOM FORMS & VALIDATION (Frontend)
   + refactor 'remaining characters code' to reusable component
-  - refactor form validation to resuable components?
+  - refactor form validation to reusable components?
 
   + min/max length of form inputs all around
   + strip leading/trailing whitespace from inputs ( .trim() method )
@@ -118,9 +118,8 @@ Procedure / TODOs
 + API TESTING w/ JEST & SUPERTEST
   + Basic Data Validation testing for item, order, user APIs
     + Required Properties / Default values
-    - Expand data type validation
+    - Implement custom data-type validation, rather than mongoose built-in validation
   + Basic Auth Validation testing for item, order, user APIs
-  - improve/expand order & item schema/data validations
 
 - FRONTEND TESTING
   + Setup test env.
@@ -143,5 +142,5 @@ Procedure / TODOs
 - update this list
 - Testing backend
 - Testing frontend
-- implement linter/rules
++ implement linter/rules
 - implement db registration for many users/accounts
