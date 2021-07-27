@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 
+import { orderForms } from '../../configurations/formConfigs'
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { addOrderActionCreator } from '../../reducers/orderReducer'
 import { resetCart } from '../../reducers/cartReducer'
@@ -37,21 +38,6 @@ const MyOrderForm = ({ costs }) => {
 
   const [errors, setErrors] = useState({})
 
-  // Easy form customization
-  const formConfig = {
-    orderCategory: {
-      isEmpty: { errorMessage: 'A Category is required.' },
-    },
-    orderName: {
-      isEmpty: { errorMessage: 'An Order Name is required.' },
-      minLength: { value: 3, errorMessage: 'Order Name is too short' },
-      maxLength: { value: 30, errorMessage: 'Order Name is too long' },
-    },
-    orderNotes: {
-      maxLength: { value: 150, errorMessage: 'Order Notes are too long' },
-    },
-  }
-
   //
   const setField = (field, value) => {
     setForm({
@@ -73,21 +59,21 @@ const MyOrderForm = ({ costs }) => {
     const newErrors = {}
     // orderCategory errors
     if (!orderCategory) {
-      newErrors.orderCategory = formConfig.orderCategory.errorMessage
+      newErrors.orderCategory = orderForms.orderCategory.errorMessage
     }
 
     // orderName errors
     if (!orderName || orderName === '') {
-      newErrors.orderName = formConfig.orderName.isEmpty.errorMessage
-    } else if (orderName.length < formConfig.orderName.minLength.value) {
-      newErrors.orderName = formConfig.orderName.minLength.errorMessage
-    } else if (orderName.length > formConfig.orderName.maxLength.value) {
-      newErrors.orderName = formConfig.orderName.maxLength.errorMessage
+      newErrors.orderName = orderForms.orderName.isEmpty.errorMessage
+    } else if (orderName.length < orderForms.orderName.minLength.value) {
+      newErrors.orderName = orderForms.orderName.minLength.errorMessage
+    } else if (orderName.length > orderForms.orderName.maxLength.value) {
+      newErrors.orderName = orderForms.orderName.maxLength.errorMessage
     }
 
     // orderNotes errors
-    if (orderNotes.length > formConfig.orderNotes.maxLength.value) {
-      newErrors.orderNotes = formConfig.orderNotes.maxLength.errorMessage
+    if (orderNotes.length > orderForms.orderNotes.maxLength.value) {
+      newErrors.orderNotes = orderForms.orderNotes.maxLength.errorMessage
     }
 
     return newErrors
@@ -125,7 +111,7 @@ const MyOrderForm = ({ costs }) => {
         await dispatch(toastAlertCreator(err))
       }
     } else {
-      await dispatch(toastAlertCreator('No items in order!'))
+      await dispatch(toastAlertCreator({ message: 'No items in order!' }))
       history.push('/menu')
     }
   }
@@ -177,15 +163,15 @@ const MyOrderForm = ({ costs }) => {
             <Form.Label>Name: </Form.Label>
             <Form.Control
               value={form.orderName.trim()}
-              minLength={formConfig.orderName.minLength.value.toString()}
-              maxLength={formConfig.orderName.maxLength.value.toString()}
+              minLength={orderForms.orderName.minLength.value.toString()}
+              maxLength={orderForms.orderName.maxLength.value.toString()}
               onChange={({ target }) => setField('orderName', target.value)}
               placeholder='e.g. Jane Doe'
               isInvalid={!!errors.orderName}
             />
             <Form.Text>
               {charactersRemaining(
-                form.orderName, formConfig.orderName.maxLength.value,
+                form.orderName, orderForms.orderName.maxLength.value,
               )}
             </Form.Text>
 
@@ -202,13 +188,13 @@ const MyOrderForm = ({ costs }) => {
             <Form.Label>Order Notes:</Form.Label>
             <Form.Control
               value={form.orderNotes.trim()}
-              maxLength={formConfig.orderNotes.maxLength.value.toString()}
+              maxLength={orderForms.orderNotes.maxLength.value.toString()}
               onChange={({ target }) => setField('orderNotes', target.value)}
               isInvalid={!!errors.orderNotes}
             />
             <Form.Text>
               {charactersRemaining(
-                form.orderNotes, formConfig.orderNotes.maxLength.value,
+                form.orderNotes, orderForms.orderNotes.maxLength.value,
               )}
             </Form.Text>
 
