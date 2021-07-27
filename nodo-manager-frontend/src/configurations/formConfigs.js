@@ -1,7 +1,7 @@
 // Easy form customization, alphabetical within group
 
 //
-const items = {
+const itemForms = {
 
   itemAvailability: {
     isEmpty: { errorMessage: 'Choose an availability.' },
@@ -37,7 +37,7 @@ const items = {
 }
 
 //
-const orders = {
+const orderForms = {
   orderCategory: {
     isEmpty: { errorMessage: 'A Category is required.' },
   },
@@ -54,7 +54,7 @@ const orders = {
 }
 
 //
-const users = {
+const userForms = {
   email: {
     isEmpty: { errorMessage: 'Enter an email!' },
     noAtSymbol: { errorMessage: 'Email must include \'@\'' },
@@ -93,9 +93,9 @@ const users = {
 }
 
 const formGroups = {
-  items,
-  orders,
-  users,
+  itemForms,
+  orderForms,
+  userForms,
 }
 
 module.exports = formGroups
