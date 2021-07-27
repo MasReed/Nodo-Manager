@@ -72,13 +72,12 @@ describe('Item CRUD operations', () => {
         availability: 'Available'
       })
 
-      await api
+      const res = await api
         .post('/api/items')
         .send(newItem)
         .expect(400)
-        .expect( res => {
-          expect(res.text).toContain('An item name is required.')
-        })
+
+      expect(res.text).toContain('An item name is required.')
     })
 
     //
