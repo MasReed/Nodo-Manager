@@ -543,7 +543,7 @@ describe('User API Tests', () => {
             .findOne({ username: 'Update this USER' }).exec()
 
           // null password property
-          const res = await api
+          await api
             .put('/api/users/' + validUserToUpdate._id)
             .set('x-access-token', adminToken)
             .send({

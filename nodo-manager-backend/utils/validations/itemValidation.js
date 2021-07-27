@@ -64,9 +64,9 @@ const checkOptionalPropertiesDefinedDefault = (req, res, next) => {
 const checkPositiveItemPrice = (req, res, next) => {
   try {
     if (req.body.price < 0) {
-      req.body.price = abs(req.body.price)
+      req.body.price = Math.abs(req.body.price)
     }
-    
+
     return next()
 
   } catch (err) {

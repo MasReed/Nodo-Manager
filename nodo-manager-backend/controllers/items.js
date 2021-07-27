@@ -1,6 +1,5 @@
 const itemsRouter = require('express').Router()
 const MenuItem = require('../models/menuItem')
-const authJwt = require('../utils/auth/authJWT')
 const itemValidation = require('../utils/validations/itemValidation')
 
 // CREATE new menu item

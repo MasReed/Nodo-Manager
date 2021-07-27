@@ -1,7 +1,6 @@
-const mongoose = require('mongoose')
 
 // Central error handler
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, req, res) => {
 
   try {
     if (process.env.NODE_ENV === 'development') {

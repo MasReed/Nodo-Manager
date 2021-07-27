@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken')
 const config = require('../config')
-const Role = require('../../models/role')
 const User = require('../../models/user')
 
 // Used to verify accessToken supplied by user during requests

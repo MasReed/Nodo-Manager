@@ -1,6 +1,5 @@
 const ordersRouter = require('express').Router()
 const Order = require('../models/order')
-const User = require('../models/user')
 const authJwt = require('../utils/auth/authJWT')
 const orderValidation = require('../utils/validations/orderValidation')
 
