@@ -25,9 +25,11 @@ const store = createStore(
   )
 )
 
-store.subscribe( () => {
-  const storeNow = store.getState()
-  console.log('STORENOW', storeNow)
-})
+if (process.env.NODE_ENV !== 'production') {
+  store.subscribe( () => {
+    const storeNow = store.getState()
+    console.log('STORENOW', storeNow)
+  })
+}
 
 export default store
