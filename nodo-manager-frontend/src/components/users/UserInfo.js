@@ -1,31 +1,29 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import Button from 'react-bootstrap/Button'
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import Button from 'react-bootstrap/Button';
 
-import UpdateUserForm from './UpdateUserForm'
+import UpdateUserForm from './UpdateUserForm';
 
-import { toastAlertCreator } from '../../reducers/alertReducer'
-import { deleteUserActionCreator} from '../../reducers/userReducer'
+import { toastAlertCreator } from '../../reducers/alertReducer';
+import { deleteUserActionCreator } from '../../reducers/userReducer';
 
 const UserInfo = ({ user }) => {
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
-
-  const [showUpdateModal, setShowUpdateModal] = useState(false)
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
 
   //
   const deleteUser = async (id) => {
     try {
-      await dispatch(deleteUserActionCreator(id))
-
+      await dispatch(deleteUserActionCreator(id));
     } catch (err) {
-      await dispatch(toastAlertCreator(err))
+      await dispatch(toastAlertCreator(err));
     }
-  }
+  };
 
   return (
     <div>
-      <div className='d-flex justify-content-between'>
+      <div className="d-flex justify-content-between">
         <div>
           <h2>{user.username}</h2>
           <p>{user.role && user.role.name}</p>
@@ -33,16 +31,16 @@ const UserInfo = ({ user }) => {
 
         <div>
           <Button
-            onClick={ () => setShowUpdateModal(true) }
-            size='sm'
-            variant='outline-secondary'
+            onClick={() => setShowUpdateModal(true)}
+            size="sm"
+            variant="outline-secondary"
           >
             UPDATE
           </Button>
           <Button
-            onClick={ () => deleteUser(user.id) }
-            size='sm'
-            variant='outline-secondary'
+            onClick={() => deleteUser(user.id)}
+            size="sm"
+            variant="outline-secondary"
           >
             DELETE
           </Button>
@@ -56,7 +54,7 @@ const UserInfo = ({ user }) => {
         setShow={setShowUpdateModal}
       />
     </div>
-  )
-}
+  );
+};
 
-export default UserInfo
+export default UserInfo;

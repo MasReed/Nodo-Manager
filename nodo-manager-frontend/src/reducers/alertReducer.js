@@ -1,30 +1,28 @@
-
 const alertReducer = (state = null, action) => {
   switch (action.type) {
+    case 'SET_ALERT':
+      return action.data;
 
-  case 'SET_ALERT':
-    return action.data
-
-  case 'UNSET_ALERT': {
-    return null
+    case 'UNSET_ALERT': {
+      return null;
+    }
+    default:
+      return state;
   }
-  default:
-    return state
-  }
-}
+};
 
-export default alertReducer
+export default alertReducer;
 
 /* Display colored banner with message for user to see for 5 seconds */
-let timerId = null
+let timerId = null;
 export const toastAlertCreator = (alertObject) => {
-  clearTimeout(timerId)
+  clearTimeout(timerId);
 
-  return async dispatch => {
+  return async (dispatch) => {
     dispatch({
       type: 'SET_ALERT',
-      data: alertObject
-    })
-    timerId = setTimeout(() => dispatch({ type: 'UNSET_ALERT' }), 4500)
-  }
-}
+      data: alertObject,
+    });
+    timerId = setTimeout(() => dispatch({ type: 'UNSET_ALERT' }), 4500);
+  };
+};

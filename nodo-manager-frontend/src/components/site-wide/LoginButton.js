@@ -1,18 +1,15 @@
-import React from 'react'
+import React from 'react';
 
-import Button from 'react-bootstrap/Button'
+import Button from 'react-bootstrap/Button';
 
-const LoginButton = ({ setShow }) => {
+const LoginButton = ({ setShow }) => (
+  <Button
+    onClick={() => setShow(true)}
+    variant="outline-secondary"
+    size="sm"
+  >
+    Login
+  </Button>
+);
 
-  return (
-    <Button
-      onClick={ () => setShow(true) }
-      variant='outline-secondary'
-      size='sm'
-    >
-      Login
-    </Button>
-  )
-}
-
-export default LoginButton
+export default LoginButton;

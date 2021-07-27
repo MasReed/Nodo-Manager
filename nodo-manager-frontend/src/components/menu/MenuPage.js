@@ -1,37 +1,35 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-import Button from 'react-bootstrap/Button'
-import Container from 'react-bootstrap/Container'
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
 
-import MenuCategoryAccordion from './MenuCategoryAccordion'
-import CustomizeItemModal from './CustomizeItemModal'
+import MenuCategoryAccordion from './MenuCategoryAccordion';
+import CustomizeItemModal from './CustomizeItemModal';
 
 const MenuPage = () => {
+  const history = useHistory();
 
-  const history = useHistory()
-
-  const categories = useSelector(state =>
-    [...new Set(state.items.map(item => item.category))]
+  const categories = useSelector((state) => [...new Set(state.items.map((item) => item.category))],
     // Array of unique item categories
-  )
+  );
 
-  const [selectedItem, setSelectedItem] = useState({})
-  const [showCustomize, setShowCustomize] = useState(false)
+  const [selectedItem, setSelectedItem] = useState({});
+  const [showCustomize, setShowCustomize] = useState(false);
 
   return (
-    <Container className='pt-5'>
+    <Container className="pt-5">
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <h1 className='m-0'>Menu</h1>
-        <Button onClick={() => history.push('/my-order')} variant='outline-secondary'>
+        <h1 className="m-0">Menu</h1>
+        <Button onClick={() => history.push('/my-order')} variant="outline-secondary">
           My Order
         </Button>
       </div>
       <hr />
 
       {
-        categories.map(category => (
+        categories.map((category) => (
           <MenuCategoryAccordion
             key={category}
             category={category}
@@ -50,7 +48,7 @@ const MenuPage = () => {
       />
 
     </Container>
-  )
-}
+  );
+};
 
-export default MenuPage
+export default MenuPage;

@@ -1,13 +1,11 @@
+describe('Register Form Actions', () => {
+  beforeEach(() => {
+    cy.visit('http://localhost:3001');
+  });
 
-describe('Register Form Actions', function() {
-
-  beforeEach(function() {
-    cy.visit('http://localhost:3001')
-  })
-
-  it('exists', function() {
-    cy.get('#register-form').should('exist')
-  })
+  it('exists', () => {
+    cy.get('#register-form').should('exist');
+  });
 
   // it('allows a user to self-register', function() {
   //   cy.get('#register-email').type('new@user')
@@ -20,121 +18,119 @@ describe('Register Form Actions', function() {
   // })
 
   //
-  it.only('errors on register with pre-existing email', function() {
-    cy.get('#register-email').type('new@user')
-    cy.get('#register-username').type('UniqueUser')
-    cy.get('#register-password').type('password')
-    cy.get('#register-passcopy').type('password')
+  it.only('errors on register with pre-existing email', () => {
+    cy.get('#register-email').type('new@user');
+    cy.get('#register-username').type('UniqueUser');
+    cy.get('#register-password').type('password');
+    cy.get('#register-passcopy').type('password');
 
-    cy.get('#register-submit-button').click()
+    cy.get('#register-submit-button').click();
 
-    cy.get('#alert').contains('Email is already in use!')
-  })
-
-  //
-  it.only('errors on register with pre-existing username', function() {
-    cy.get('#register-email').type('this@unique.email')
-    cy.get('#register-username').type('admin')
-    cy.get('#register-password').type('password')
-    cy.get('#register-passcopy').type('password')
-
-    cy.get('#register-submit-button').click()
-
-    cy.get('#alert').contains('Username is already in use!')
-  })
+    cy.get('#alert').contains('Email is already in use!');
+  });
 
   //
-  describe('Email Input', function() {
-    //
-    it('errors with empty email', function() {
-      cy.get('#register-submit-button').click()
-      cy.get('#register-form').contains('Enter an email!')
-    })
+  it.only('errors on register with pre-existing username', () => {
+    cy.get('#register-email').type('this@unique.email');
+    cy.get('#register-username').type('admin');
+    cy.get('#register-password').type('password');
+    cy.get('#register-passcopy').type('password');
 
-    //
-    it('errors with no "@" symbol', function() {
-      cy.get('#register-email').type('thereisnoathere')
-      cy.get('#register-submit-button').click()
-      cy.get('#register-form').contains(`Email must include '@'`)
-    })
+    cy.get('#register-submit-button').click();
 
-    //
-    it('requires a minimum input of 5 characters', function() {
-      cy.get('#register-email').type('@23')
-      cy.get('#register-submit-button').click()
-      cy.get('#register-form').contains('Email is too short')
-    })
-
-    //
-    it('has a maximum input of 50 characters', function() {
-      cy.get('#register-email').type('@2345678901234567890123456789012345678910123456789012345')
-      cy.get('#register-email').should('have.value', '@2345678901234567890123456789012345678910123456789')
-      cy.get('#register-form').contains('0 character(s) remaining')
-    })
-  })
+    cy.get('#alert').contains('Username is already in use!');
+  });
 
   //
-  describe('Username Input', function() {
+  describe('Email Input', () => {
     //
-    it('errors with empty username', function() {
-      cy.get('#register-submit-button').click()
-      cy.get('#register-form').contains('Enter a username!')
-    })
+    it('errors with empty email', () => {
+      cy.get('#register-submit-button').click();
+      cy.get('#register-form').contains('Enter an email!');
+    });
 
     //
-    it('requires a minimum input of 2 characters', function() {
-      cy.get('#register-username').type('1')
-      cy.get('#register-submit-button').click()
-      cy.get('#register-form').contains('Username is too short')
-    })
+    it('errors with no "@" symbol', () => {
+      cy.get('#register-email').type('thereisnoathere');
+      cy.get('#register-submit-button').click();
+      cy.get('#register-form').contains('Email must include \'@\'');
+    });
 
     //
-    it('has a maximum input of 30 characters', function() {
-      cy.get('#register-username').type('12345678901234567890123456789012345')
-      cy.get('#register-username').should('have.value', '123456789012345678901234567890')
-    })
-  })
+    it('requires a minimum input of 5 characters', () => {
+      cy.get('#register-email').type('@23');
+      cy.get('#register-submit-button').click();
+      cy.get('#register-form').contains('Email is too short');
+    });
+
+    //
+    it('has a maximum input of 50 characters', () => {
+      cy.get('#register-email').type('@2345678901234567890123456789012345678910123456789012345');
+      cy.get('#register-email').should('have.value', '@2345678901234567890123456789012345678910123456789');
+      cy.get('#register-form').contains('0 character(s) remaining');
+    });
+  });
 
   //
-  describe('Password Input', function() {
+  describe('Username Input', () => {
+    //
+    it('errors with empty username', () => {
+      cy.get('#register-submit-button').click();
+      cy.get('#register-form').contains('Enter a username!');
+    });
 
     //
-    it('errors with empty password', function() {
-      cy.get('#register-submit-button').click()
-      cy.get('#register-form').contains('Enter a password!')
-    })
+    it('requires a minimum input of 2 characters', () => {
+      cy.get('#register-username').type('1');
+      cy.get('#register-submit-button').click();
+      cy.get('#register-form').contains('Username is too short');
+    });
 
     //
-    it('requires a minimum input of 5 characters', function() {
-      cy.get('#register-password').type('1234')
-      cy.get('#register-submit-button').click()
-      cy.get('#register-form').contains('Password is too short')
-    })
-
-    //
-    it('has a maximum input of 50 characters', function() {
-      cy.get('#register-password').type('12345678901234567890123456789012345678910123456789012345')
-      cy.get('#register-password').should('have.value', '12345678901234567890123456789012345678910123456789')
-      cy.get('#register-form').contains('0 character(s) remaining')
-    })
-  })
+    it('has a maximum input of 30 characters', () => {
+      cy.get('#register-username').type('12345678901234567890123456789012345');
+      cy.get('#register-username').should('have.value', '123456789012345678901234567890');
+    });
+  });
 
   //
-  describe('Passcopy Input', function() {
+  describe('Password Input', () => {
+    //
+    it('errors with empty password', () => {
+      cy.get('#register-submit-button').click();
+      cy.get('#register-form').contains('Enter a password!');
+    });
 
     //
-    it('errors with empty passcopy', function() {
-      cy.get('#register-submit-button').click()
-      cy.get('#register-form').contains('Reenter your password!')
-    })
+    it('requires a minimum input of 5 characters', () => {
+      cy.get('#register-password').type('1234');
+      cy.get('#register-submit-button').click();
+      cy.get('#register-form').contains('Password is too short');
+    });
 
     //
-    it('errors on mismatched passwords', function() {
-      cy.get('#register-password').type('12345')
-      cy.get('#register-passcopy').type('54321')
-      cy.get('#register-submit-button').click()
+    it('has a maximum input of 50 characters', () => {
+      cy.get('#register-password').type('12345678901234567890123456789012345678910123456789012345');
+      cy.get('#register-password').should('have.value', '12345678901234567890123456789012345678910123456789');
+      cy.get('#register-form').contains('0 character(s) remaining');
+    });
+  });
 
-      cy.get('#register-form').contains('Passwords do not match!')
-    })
-  })
-})
+  //
+  describe('Passcopy Input', () => {
+    //
+    it('errors with empty passcopy', () => {
+      cy.get('#register-submit-button').click();
+      cy.get('#register-form').contains('Reenter your password!');
+    });
+
+    //
+    it('errors on mismatched passwords', () => {
+      cy.get('#register-password').type('12345');
+      cy.get('#register-passcopy').type('54321');
+      cy.get('#register-submit-button').click();
+
+      cy.get('#register-form').contains('Passwords do not match!');
+    });
+  });
+});

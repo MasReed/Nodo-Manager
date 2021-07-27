@@ -1,31 +1,35 @@
-import React from 'react'
+import React from 'react';
 
-import Button from 'react-bootstrap/Button'
-import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
-import truncateString from '../../utilities/truncateString'
+import truncateString from '../../utilities/truncateString';
 
-
-const MenuItemCard = ({ item, show, setShow, setSelectedItem }) => {
-
+const MenuItemCard = ({
+  item, show, setShow, setSelectedItem,
+}) => {
   const callCustomizeModal = () => {
-    setSelectedItem(item)
-    setShow(true)
-  }
+    setSelectedItem(item);
+    setShow(true);
+  };
 
   return (
-    <Card key={item._id}
-      className='mx-0 my-0'
+    <Card
+      key={item._id}
+      className="mx-0 my-0"
       style={{
         height: '32rem',
-        minWidth: '18rem'
+        minWidth: '18rem',
       }}
     >
       {/* Item name, category, price, description */}
       <Card.Header style={{ height: '12rem' }}>
-        <Card.Title className='d-flex justify-content-between'>
+        <Card.Title className="d-flex justify-content-between">
           {item.name}
-          <span>${item.price}</span>
+          <span>
+            $
+            {item.price}
+          </span>
         </Card.Title>
 
         <Card.Subtitle className="mb-2 text-muted">
@@ -37,10 +41,10 @@ const MenuItemCard = ({ item, show, setShow, setSelectedItem }) => {
 
       {/* Item Image, Ingredients */}
       <Card.Body>
-        <Card.Img variant='top' src='/assets/burger.svg' height='55%'/>
+        <Card.Img variant="top" src="/assets/burger.svg" height="55%" />
         <hr />
 
-        <Card.Text className='mb-0'>
+        <Card.Text className="mb-0">
           <u>Ingredients:</u>
         </Card.Text>
 
@@ -53,17 +57,17 @@ const MenuItemCard = ({ item, show, setShow, setSelectedItem }) => {
 
       {/* Item availability, Delete and Update Buttons */}
       <Card.Footer>
-        <div className='d-flex justify-content-between'>
-          <h6 className='m-0 py-auto align-self-center'>{item.availability}</h6>
+        <div className="d-flex justify-content-between">
+          <h6 className="m-0 py-auto align-self-center">{item.availability}</h6>
           {
             (item.availability === 'Available')
-              ? <Button onClick={ callCustomizeModal }>Make it Yours</Button>
+              ? <Button onClick={callCustomizeModal}>Make it Yours</Button>
               : <Button disabled>Add to Order</Button>
           }
         </div>
       </Card.Footer>
     </Card>
-  )
-}
+  );
+};
 
-export default MenuItemCard
+export default MenuItemCard;

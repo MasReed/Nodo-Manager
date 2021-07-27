@@ -1,33 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux'
-import { BrowserRouter as Router } from 'react-router-dom'
-import axios from 'axios'
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
+import axios from 'axios';
 
 import App from './App';
-import store from './store'
+import store from './store';
 import './index.css';
 
 import reportWebVitals from './reportWebVitals';
 
-
 // Request logger
-axios.interceptors.request.use(req => {
-  console.log(`AXIOS REQ: ${req.method} ${req.url}`)
-  return req
-})
+axios.interceptors.request.use((req) => {
+  console.log(`AXIOS REQ: ${req.method} ${req.url}`);
+  return req;
+});
 
 // Response/Error logger
 axios.interceptors.response.use(
-  res => {
-    console.log(`AXIOS RES: ${res.method} ${res.url}`)
-    return res
+  (res) => {
+    console.log(`AXIOS RES: ${res.method} ${res.url}`);
+    return res;
   },
-  err => {
-    console.log('AXIOS ERR: ', err.response)
-    throw err
-  }
-)
+  (err) => {
+    console.log('AXIOS ERR: ', err.response);
+    throw err;
+  },
+);
 
 ReactDOM.render(
   <React.StrictMode>
@@ -37,7 +36,7 @@ ReactDOM.render(
       </Provider>
     </Router>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 // If you want to start measuring performance in your app, pass a function

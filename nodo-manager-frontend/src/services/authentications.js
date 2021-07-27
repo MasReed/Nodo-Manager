@@ -1,42 +1,40 @@
-import axios from 'axios'
+import axios from 'axios';
 
-const baseUrl = '/api/authenticate'
+const baseUrl = '/api/authenticate';
 
 // Log user in and get token
 const login = async (username, password) => {
   try {
     const response = await axios.post(`${baseUrl}/signin`, {
       username,
-      password
-    })
+      password,
+    });
 
     if (response.data.accessToken) {
-      localStorage.setItem('user', JSON.stringify(response.data))
+      localStorage.setItem('user', JSON.stringify(response.data));
     }
-    return response.data
-
+    return response.data;
   } catch (err) {
     if (err.response) {
       const loginError = {
         type: 'Login Error',
         message: err.response.data.message,
         variant: 'warning',
-      }
-      throw loginError
-
+      };
+      throw loginError;
     } else if (err.request) {
-      console.log('err.req', err.request)
+      console.log('err.req', err.request);
     } else {
-      console.log(err)
+      console.log(err);
     }
   }
-}
+};
 
 // remove user from local storage
 const logout = async () => {
-  await localStorage.removeItem('user')
-}
+  await localStorage.removeItem('user');
+};
 
-const exps = { login, logout }
+const exps = { login, logout };
 
-export default exps
+export default exps;

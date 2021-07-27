@@ -1,80 +1,67 @@
-import userService from '../services/users'
+import userService from '../services/users';
 
 const userReducer = (state = [], action) => {
   switch (action.type) {
-
     case 'INIT_USERS':
-      return action.data
+      return action.data;
 
     case 'CREATE_USER':
-      return [...state, action.data]
+      return [...state, action.data];
 
     case 'UPDATE_USER':
-      return state.map(user =>
-        (user.id !== action.data.id)
+      return state.map((user) => ((user.id !== action.data.id)
         ? user
-        : action.data
-      )
+        : action.data));
 
-      case 'DELETE_USER':
-        return state.filter(user => user.id !== action.data.id)
+    case 'DELETE_USER':
+      return state.filter((user) => user.id !== action.data.id);
 
-      case 'RESET_USERS':
-        return []
+    case 'RESET_USERS':
+      return [];
 
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default userReducer
+export default userReducer;
 
-export const initializeUsers = () => {
-  return async dispatch => {
-    const users = await userService.getAll()
+export const initializeUsers = () => async (dispatch) => {
+  const users = await userService.getAll();
+  dispatch({
+    type: 'INIT_USERS',
+    data: users,
+  });
+};
+
+export const addUserActionCreator = (newUserObject, currentUser) => async (dispatch) => {
+  const newUser = await userService.create(newUserObject);
+  if (currentUser !== null) {
     dispatch({
-      type: 'INIT_USERS',
-      data: users
-    })
+      type: 'CREATE_USER',
+      data: newUser,
+    });
   }
-}
+};
 
-export const addUserActionCreator = (newUserObject, currentUser) => {
-  return async dispatch => {
-    const newUser = await userService.create(newUserObject)
-    if (currentUser !== null) {
-      dispatch({
-        type: 'CREATE_USER',
-        data: newUser
-      })
-    }
-  }
-}
+export const updateUserActionCreator = (id, updatedUserObject) => async (dispatch) => {
+  const updatedUser = await userService.update(id, updatedUserObject);
+  dispatch({
+    type: 'UPDATE_USER',
+    data: updatedUser,
+  });
+};
 
-export const updateUserActionCreator = (id, updatedUserObject) => {
-  return async dispatch => {
-    const updatedUser = await userService.update(id, updatedUserObject)
-    dispatch({
-      type: 'UPDATE_USER',
-      data: updatedUser
-    })
-  }
-}
+export const deleteUserActionCreator = (id) => async (dispatch) => {
+  await userService.destroy(id);
+  dispatch({
+    type: 'DELETE_USER',
+    data: {
+      id,
+    },
+  });
+};
 
-export const deleteUserActionCreator = (id) => {
-  return async dispatch => {
-    await userService.destroy(id)
-    dispatch({
-      type: 'DELETE_USER',
-      data: {
-        id: id
-      }
-    })
-  }
-}
-
-export const resetUsers = () => {
-  return ({
-    type: 'RESET_USERS'
-  })
-}
+export const resetUsers = () => ({
+  type: 'RESET_USERS',
+});

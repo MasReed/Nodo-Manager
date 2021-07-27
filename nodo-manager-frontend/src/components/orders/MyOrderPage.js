@@ -1,41 +1,40 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-import Button from 'react-bootstrap/Button'
-import Container from 'react-bootstrap/Container'
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
 
-import { resetCart } from '../../reducers/cartReducer'
+import { resetCart } from '../../reducers/cartReducer';
 
-import Costs from './Costs'
-import MyOrderForm from './MyOrderForm'
-import MyOrderItems from './MyOrderItems'
-import PaymentModal from './PaymentModal'
-import UpdateCustomItemModal from './UpdateCustomItemModal'
+import Costs from './Costs';
+import MyOrderForm from './MyOrderForm';
+import MyOrderItems from './MyOrderItems';
+import PaymentModal from './PaymentModal';
+import UpdateCustomItemModal from './UpdateCustomItemModal';
 
 const MyOrderPage = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  const dispatch = useDispatch()
-  const history = useHistory()
+  const [showCustomize, setShowCustomize] = useState(false);
+  const [showPayment, setShowPayment] = useState(false);
+  const [selectedItem, setSelectedItem] = useState({});
 
-  const [showCustomize, setShowCustomize] = useState(false)
-  const [showPayment, setShowPayment] = useState(false)
-  const [selectedItem, setSelectedItem] = useState({})
-
-  const [costs, setCosts] = useState({})
+  const [costs, setCosts] = useState({});
 
   const cancelOrderSequence = () => {
-    dispatch(resetCart())
-    history.push('/menu')
-  }
+    dispatch(resetCart());
+    history.push('/menu');
+  };
 
   return (
-    <Container className='pt-5'>
+    <Container className="pt-5">
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <h1 className='m-0'>Your Order</h1>
+        <h1 className="m-0">Your Order</h1>
         <Button
           onClick={() => history.push('/menu')}
-          variant='outline-secondary'
+          variant="outline-secondary"
         >
           Menu
         </Button>
@@ -54,22 +53,24 @@ const MyOrderPage = () => {
       <hr style={{ marginTop: '8px' }} />
 
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Button
-            variant="outline-warning"
-            onClick={ cancelOrderSequence }
-          >Cancel</Button>
+        <Button
+          variant="outline-warning"
+          onClick={cancelOrderSequence}
+        >
+          Cancel
+        </Button>
         <div>
           <Button
-            onClick={() => history.push('/menu') }
-            className='mx-2'
+            onClick={() => history.push('/menu')}
+            className="mx-2"
             variant="outline-secondary"
           >
             Add More
           </Button>
           <Button
-            className='mx-2'
-            type='submit'
-            form='myOrderForm'
+            className="mx-2"
+            type="submit"
+            form="myOrderForm"
           >
             Checkout
           </Button>
@@ -90,7 +91,7 @@ const MyOrderPage = () => {
       />
 
     </Container>
-  )
-}
+  );
+};
 
-export default MyOrderPage
+export default MyOrderPage;

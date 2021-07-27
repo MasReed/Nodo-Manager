@@ -1,120 +1,114 @@
-import axios from 'axios'
+import axios from 'axios';
 
-const baseUrl = '/api/items'
+const baseUrl = '/api/items';
 
-let token = null
-const setToken = newToken => {
-  token = `${newToken}`
-}
+let token = null;
+const setToken = (newToken) => {
+  token = `${newToken}`;
+};
 
 //
 const getAll = () => {
   try {
     const config = {
-      headers: { 'x-access-token': token }
-    }
+      headers: { 'x-access-token': token },
+    };
 
-    const request = axios.get(baseUrl, config)
-    return request.then(response => response.data)
-
+    const request = axios.get(baseUrl, config);
+    return request.then((response) => response.data);
   } catch (err) {
     if (err.response) {
       const itemError = {
         type: 'Error Gathering Items',
         message: err.response.data.message,
         variant: 'warning',
-      }
-      throw itemError
-
+      };
+      throw itemError;
     } else if (err.request) {
-      console.log('err.req', err.request)
+      console.log('err.req', err.request);
     } else {
-      console.log(err)
+      console.log(err);
     }
   }
-}
+};
 
 //
 const create = async (newObject) => {
   try {
     const config = {
-      headers: { 'x-access-token': token }
-    }
+      headers: { 'x-access-token': token },
+    };
 
-    const response = await axios.post(baseUrl, newObject, config)
-    return response.data
-
+    const response = await axios.post(baseUrl, newObject, config);
+    return response.data;
   } catch (err) {
     if (err.response) {
       const itemError = {
         type: 'Error Creating Menu Item',
         message: err.response.data.message,
         variant: 'warning',
-      }
-      throw itemError
-
+      };
+      throw itemError;
     } else if (err.request) {
-      console.log('err.req', err.request)
+      console.log('err.req', err.request);
     } else {
-      console.log(err)
+      console.log(err);
     }
   }
-}
+};
 
 //
 const update = async (id, updatedObject) => {
   try {
     const config = {
-      headers: { 'x-access-token': token }
-    }
+      headers: { 'x-access-token': token },
+    };
 
-    const response = await axios.put(`${baseUrl}/${id}`, updatedObject, config)
-    return response.data
-
+    const response = await axios.put(`${baseUrl}/${id}`, updatedObject, config);
+    return response.data;
   } catch (err) {
     if (err.response) {
       const itemError = {
         type: 'Error Updating Menu Item',
         message: err.response.data.message,
         variant: 'warning',
-      }
-      throw itemError
-
+      };
+      throw itemError;
     } else if (err.request) {
-      console.log('err.req', err.request)
+      console.log('err.req', err.request);
     } else {
-      console.log(err)
+      console.log(err);
     }
   }
-}
+};
 
 //
 const destroy = async (id) => {
   try {
     const config = {
-      headers: { 'x-access-token': token }
-    }
+      headers: { 'x-access-token': token },
+    };
 
-    const response = await axios.delete(`${baseUrl}/${id}`, config)
-    return response.data
-
+    const response = await axios.delete(`${baseUrl}/${id}`, config);
+    return response.data;
   } catch (err) {
     if (err.response) {
       const itemError = {
         type: 'Error Deleting Menu Item',
         message: err.response.data.message,
         variant: 'warning',
-      }
-      throw itemError
-
+      };
+      throw itemError;
     } else if (err.request) {
-      console.log('err.req', err.request)
+      console.log('err.req', err.request);
     } else {
-      console.log(err)
+      console.log(err);
     }
   }
-}
+};
 
-const exps = { setToken, getAll, create, update, destroy }
+const exps = {
+  setToken, getAll, create, update, destroy,
+};
 
-export default exps
+export default exps;

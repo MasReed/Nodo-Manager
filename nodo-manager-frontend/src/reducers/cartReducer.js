@@ -1,74 +1,61 @@
-import orderService from '../services/orders'
+import orderService from '../services/orders';
 
 const cartReducer = (state = [], action) => {
   switch (action.type) {
-
     case 'RESET_CART':
-      return []
+      return [];
 
     case 'ADD_CART_ITEM':
-      return [...state, action.data]
+      return [...state, action.data];
 
     case 'UPDATE_CART_ITEM':
-      return state.map(item =>
-        item.uniqueId !== action.data.uniqueId
+      return state.map((item) => (item.uniqueId !== action.data.uniqueId
         ? item
-        : action.data
-      )
+        : action.data));
 
     case 'DELETE_CART_ITEM':
-      return state.filter(item => item.uniqueId !== action.data.id)
+      return state.filter((item) => item.uniqueId !== action.data.id);
 
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default cartReducer
+export default cartReducer;
 
-export const initializeCart = () => {
-  return async dispatch => {
-    const cart = await orderService.create()
-    dispatch({
-      type: 'INIT_CART',
-      data: cart
-    })
-  }
-}
+export const initializeCart = () => async (dispatch) => {
+  const cart = await orderService.create();
+  dispatch({
+    type: 'INIT_CART',
+    data: cart,
+  });
+};
 
-export const addItemToCartActionCreator = (customItem) => {
-  return async dispatch => {
-    dispatch({
-      type: 'ADD_CART_ITEM',
-      data: customItem
-    })
-  }
-}
+export const addItemToCartActionCreator = (customItem) => async (dispatch) => {
+  dispatch({
+    type: 'ADD_CART_ITEM',
+    data: customItem,
+  });
+};
 
-export const resetCart = () => {
-  return async dispatch => {
-    dispatch({
-      type: 'RESET_CART'
-    })
-  }
-}
+export const resetCart = () => async (dispatch) => {
+  dispatch({
+    type: 'RESET_CART',
+  });
+};
 
-export const updateCartItemActionCreator = (updatedObject) => {
-  return async dispatch => {
-    dispatch({
-      type: 'UPDATE_CART_ITEM',
-      data: updatedObject
-    })
-  }
-}
+export const updateCartItemActionCreator = (updatedObject) => async (dispatch) => {
+  dispatch({
+    type: 'UPDATE_CART_ITEM',
+    data: updatedObject,
+  });
+};
 
-export const deleteCartItemActionCreator = (id) => {
-  return async dispatch => {
-    dispatch({
-      type: 'DELETE_CART_ITEM',
-      data: {
-        id: id
-      }
-    })
-  }
-}
+export const deleteCartItemActionCreator = (id) => async (dispatch) => {
+  dispatch({
+    type: 'DELETE_CART_ITEM',
+    data: {
+      id,
+    },
+  });
+};

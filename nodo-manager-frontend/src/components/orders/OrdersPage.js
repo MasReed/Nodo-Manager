@@ -1,60 +1,58 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-import Button from 'react-bootstrap/Button'
-import Container from 'react-bootstrap/Container'
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
 
-import CurrentOrderModal from './CurrentOrderModal'
-import OrdersList from './OrdersList'
-import UpdateCustomItemModal from './UpdateCustomItemModal'
+import CurrentOrderModal from './CurrentOrderModal';
+import OrdersList from './OrdersList';
+import UpdateCustomItemModal from './UpdateCustomItemModal';
 
-import { toastAlertCreator } from '../../reducers/alertReducer'
-import { initializeOrders } from '../../reducers/orderReducer'
+import { toastAlertCreator } from '../../reducers/alertReducer';
+import { initializeOrders } from '../../reducers/orderReducer';
 
 const OrdersPage = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  const dispatch = useDispatch()
-  const history = useHistory()
+  const cart = useSelector((state) => state.cart);
 
-  const cart = useSelector(state => state.cart)
-
-  const [showCurrentOrder, setShowCurrentOrder] = useState(false)
-  const [showCustomize, setShowCustomize] = useState(false)
-  const [selectedItem, setSelectedItem] = useState({})
+  const [showCurrentOrder, setShowCurrentOrder] = useState(false);
+  const [showCustomize, setShowCustomize] = useState(false);
+  const [selectedItem, setSelectedItem] = useState({});
 
   useEffect(() => {
     const init = async () => {
-      await dispatch(initializeOrders())
-    }
+      await dispatch(initializeOrders());
+    };
     const onErr = async (err) => {
-      await dispatch(toastAlertCreator(err))
-    }
+      await dispatch(toastAlertCreator(err));
+    };
 
     try {
-      init()
+      init();
     } catch (err) {
-      onErr(err)
+      onErr(err);
     }
-  }, [dispatch])
-
+  }, [dispatch]);
 
   //
   const createNewOrder = () => {
     if (cart.length > 0) {
-      setShowCurrentOrder(true)
+      setShowCurrentOrder(true);
     } else {
-      history.push('/menu')
+      history.push('/menu');
     }
-  }
+  };
 
   return (
-    <Container className='pt-5'>
+    <Container className="pt-5">
 
       {/* Order Page Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <h1 className='m-0'>Orders</h1>
-        <Button onClick={ createNewOrder } variant='outline-secondary'>
+        <h1 className="m-0">Orders</h1>
+        <Button onClick={createNewOrder} variant="outline-secondary">
           {cart.length > 0 ? 'CURRENT ORDER' : 'NEW ORDER'}
         </Button>
       </div>
@@ -81,7 +79,7 @@ const OrdersPage = () => {
       />
 
     </Container>
-  )
-}
+  );
+};
 
-export default OrdersPage
+export default OrdersPage;
