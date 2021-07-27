@@ -7,6 +7,7 @@ import Modal from 'react-bootstrap/Modal'
 
 import AlertBanner from '../site-wide/AlertBanner'
 
+import { userForms } from '../../configurations/formConfigs'
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { updateUserActionCreator } from '../../reducers/userReducer'
 import charactersRemaining from '../../utilities/charactersRemaining'
@@ -23,31 +24,6 @@ const UpdateUserForm = ({ user, show, setShow }) => {
   })
 
   const [errors, setErrors] = useState({})
-
-  // Easy form customization
-  const formConfig = {
-    name: {
-      isEmpty: { errorMessage: 'A Name is required.' },
-      maxLength: { value: 50, errorMessage: 'Name is too long' },
-    },
-    email: {
-      isEmpty: { errorMessage: 'An Email is required.' },
-      noAtSymbol: { errorMessage: 'Email must include \'@\'' },
-      minLength: { value: 5, errorMessage: 'Email is too short' },
-      maxLength: { value: 50, errorMessage: 'Email is too long' },
-    },
-    username: {
-      isEmpty: { errorMessage: 'Enter a username!' },
-      minLength: { value: 2, errorMessage: 'Username is too short' },
-      maxLength: { value: 30, errorMessage: 'Username is too long' },
-    },
-    roleName: {
-      isEmpty: { errorMessage: 'A role must be selected.' },
-      reqAdmin: { errorMessage: 'Requires Admin privileges.' },
-      reqManager: { errorMessage: 'Requires Manager privileges.' },
-      reqEmployee: { errorMessage: 'Requires Employee privileges.' },
-    },
-  }
 
   //
   const setField = (field, value) => {
@@ -72,41 +48,41 @@ const UpdateUserForm = ({ user, show, setShow }) => {
     const newErrors = {}
     // Name errors
     if (!name || name === '') {
-      newErrors.name = formConfig.name.isEmpty.errorMessage
-    } else if (name.length > formConfig.name.maxLength.value) {
-      newErrors.name = formConfig.name.maxLength.errorMessage
+      newErrors.name = userForms.usersName.isEmpty.errorMessage
+    } else if (name.length > userForms.usersName.maxLength.value) {
+      newErrors.name = userForms.usersName.maxLength.errorMessage
     }
 
     // email errors
     if (!email || email === '') {
-      newErrors.email = formConfig.email.isEmpty.errorMessage
+      newErrors.email = userForms.email.isEmpty.errorMessage
     } else if (!email.includes('@')) {
-      newErrors.email = formConfig.email.noAtSymbol.errorMessage
-    } else if (email.length < formConfig.email.minLength.value) {
-      newErrors.email = formConfig.email.minLength.errorMessage
+      newErrors.email = userForms.email.noAtSymbol.errorMessage
+    } else if (email.length < userForms.email.minLength.value) {
+      newErrors.email = userForms.email.minLength.errorMessage
     }
 
     // username errors
     if (!username || username === '') {
-      newErrors.username = formConfig.username.isEmpty.errorMessage
-    } else if (username.length > formConfig.username.maxLength.value) {
-      newErrors.username = formConfig.username.maxLength.errorMessage
-    } else if (username.length < formConfig.username.minLength.value) {
-      newErrors.username = formConfig.username.minLength.errorMessage
+      newErrors.username = userForms.username.isEmpty.errorMessage
+    } else if (username.length > userForms.username.maxLength.value) {
+      newErrors.username = userForms.username.maxLength.errorMessage
+    } else if (username.length < userForms.username.minLength.value) {
+      newErrors.username = userForms.username.minLength.errorMessage
     }
 
     // Role errors
     if (!roleName) {
-      newErrors.roleName = formConfig.roleName.isEmpty.errorMessage
+      newErrors.roleName = userForms.roleName.isEmpty.errorMessage
     } else if (roleName === 'admin'
     && !currentUser.role.encompassedRoles.includes('admin')) {
-      newErrors.roleName = formConfig.reqAdmin.errorMessage
+      newErrors.roleName = userForms.roleName.reqAdmin.errorMessage
     } else if (roleName === 'manager'
     && !currentUser.role.encompassedRoles.includes('manager')) {
-      newErrors.roleName = formConfig.reqManager.errorMessage
+      newErrors.roleName = userForms.roleName.reqManager.errorMessage
     } else if (roleName === 'employee'
     && !currentUser.role.encompassedRoles.includes('manager')) {
-      newErrors.roleName = formConfig.reqManager.errorMessage
+      newErrors.roleName = userForms.roleName.reqManager.errorMessage
     }
 
     return newErrors
@@ -178,14 +154,14 @@ const UpdateUserForm = ({ user, show, setShow }) => {
             <Form.Control
               type='text'
               value={form.name.trim()}
-              maxLength={formConfig.name.maxLength.value.toString()}
+              maxLength={userForms.usersName.maxLength.value.toString()}
               placeholder='Jane Doe'
               onChange={({ target }) => setField('name', target.value)}
               isInvalid={!!errors.name}
             />
             <Form.Text>
               {charactersRemaining(
-                form.name, formConfig.name.maxLength.value,
+                form.name, userForms.usersName.maxLength.value,
               )}
             </Form.Text>
 
@@ -199,15 +175,15 @@ const UpdateUserForm = ({ user, show, setShow }) => {
             <Form.Control
               type='email'
               value={form.email.trim()}
-              minLength={formConfig.email.minLength.value.toString()}
-              maxLength={formConfig.email.maxLength.value.toString()}
+              minLength={userForms.email.minLength.value.toString()}
+              maxLength={userForms.email.maxLength.value.toString()}
               placeholder='abc@123.com'
               onChange={({ target }) => setField('email', target.value)}
               isInvalid={!!errors.email}
             />
             <Form.Text>
               {charactersRemaining(
-                form.email, formConfig.email.maxLength.value,
+                form.email, userForms.email.maxLength.value,
               )}
             </Form.Text>
 
@@ -221,14 +197,14 @@ const UpdateUserForm = ({ user, show, setShow }) => {
             <Form.Control
               type='text'
               value={form.username.trim()}
-              minLength={formConfig.username.minLength.value.toString()}
-              maxLength={formConfig.username.maxLength.value.toString()}
+              minLength={userForms.username.minLength.value.toString()}
+              maxLength={userForms.username.maxLength.value.toString()}
               onChange={({ target }) => setField('username', target.value)}
               isInvalid={!!errors.username}
             />
             <Form.Text>
               {charactersRemaining(
-                form.username, formConfig.username.maxLength.value,
+                form.username, userForms.username.maxLength.value,
               )}
             </Form.Text>
 
