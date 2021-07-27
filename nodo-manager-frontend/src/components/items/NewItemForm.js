@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import Modal from 'react-bootstrap/Modal'
 
-import AlertBanner from '../site-wide/AlertBanner';
+import AlertBanner from '../site-wide/AlertBanner'
 
-import { toastAlertCreator } from '../../reducers/alertReducer';
-import { addItemActionCreator } from '../../reducers/itemReducer';
-import charactersRemaining from '../../utilities/charactersRemaining';
+import { toastAlertCreator } from '../../reducers/alertReducer'
+import { addItemActionCreator } from '../../reducers/itemReducer'
+import charactersRemaining from '../../utilities/charactersRemaining'
 
 const NewItemForm = ({ show, setShow }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const [form, setForm] = useState({
     name: '',
@@ -21,10 +21,10 @@ const NewItemForm = ({ show, setShow }) => {
     ingredients: [],
     price: '',
     availability: 'Unavailable',
-  });
+  })
 
   // Form related errors
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({})
 
   // Easy form customization
   const formConfig = {
@@ -54,22 +54,22 @@ const NewItemForm = ({ show, setShow }) => {
     availability: {
       isEmpty: { errorMessage: 'Choose an availability.' },
     },
-  };
+  }
 
   // Update single form field with value
   const setField = (field, value) => {
     setForm({
       ...form,
       [field]: value,
-    });
+    })
     // Reset any errors
     if (errors[field]) {
       setErrors({
         ...errors,
         [field]: null,
-      });
+      })
     }
-  };
+  }
 
   //
   const findFormErrors = () => {
@@ -80,75 +80,75 @@ const NewItemForm = ({ show, setShow }) => {
       ingredients,
       price,
       availability,
-    } = form;
+    } = form
 
-    const newErrors = {};
+    const newErrors = {}
 
     // Name errors
     if (!name || name === '') {
-      newErrors.name = formConfig.name.isEmpty.errorMessage;
+      newErrors.name = formConfig.name.isEmpty.errorMessage
     } else if (name.length > formConfig.name.maxLength) {
-      newErrors.name = formConfig.name.maxLength.errorMessage;
+      newErrors.name = formConfig.name.maxLength.errorMessage
     }
 
     // Category errors
     if (!category || category === '') {
-      newErrors.category = formConfig.category.isEmpty.errorMessage;
+      newErrors.category = formConfig.category.isEmpty.errorMessage
     } else if (category.length > formConfig.category.maxLength.value) {
-      newErrors.category = formConfig.category.maxLength.value;
+      newErrors.category = formConfig.category.maxLength.value
     }
 
     // Description errors
     if (description.length > formConfig.description.maxLength) {
-      newErrors.description = formConfig.description.maxLength.errorMessage;
+      newErrors.description = formConfig.description.maxLength.errorMessage
     }
 
     // Ingredient errors
     if (ingredients.length > formConfig.ingredients.maxLength) {
-      newErrors.ingredients = formConfig.ingredients.maxLength.errorMessage;
+      newErrors.ingredients = formConfig.ingredients.maxLength.errorMessage
     }
 
     // Price errors
     if (!price || price === '') {
-      newErrors.price = formConfig.price.isEmpty.errorMessage;
+      newErrors.price = formConfig.price.isEmpty.errorMessage
     } else if (typeof price !== 'number') {
       if (Number.isNaN(Number(price))) {
-        newErrors.price = formConfig.price.isNaN.errorMessage;
+        newErrors.price = formConfig.price.isNaN.errorMessage
       } else {
-        setField('price', Number(price));
+        setField('price', Number(price))
 
         if (price < 0) {
-          newErrors.price = formConfig.price.isNegative.errorMessage;
+          newErrors.price = formConfig.price.isNegative.errorMessage
         }
       }
     } else if (price < 0) {
-      newErrors.price = formConfig.price.isNegative.errorMessage;
+      newErrors.price = formConfig.price.isNegative.errorMessage
     } else if (price.length > formConfig.price.maxLength.value) {
-      newErrors.price = formConfig.price.maxLength.errorMessage;
+      newErrors.price = formConfig.price.maxLength.errorMessage
     }
 
     // Availability errors
     if (!availability || availability === '') {
-      newErrors.availability = formConfig.availability.isEmpty.errorMessage;
+      newErrors.availability = formConfig.availability.isEmpty.errorMessage
     }
 
-    return newErrors;
-  };
+    return newErrors
+  }
 
   //
   const callCreateItem = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     // convert comma-separated items into array if neccessary
     const ingredientsArray = Array.isArray(form.ingredients)
       ? form.ingredients
-      : form.ingredients.split(/\s*(?:,|$)\s*/);
+      : form.ingredients.split(/\s*(?:,|$)\s*/)
 
-    const newErrors = findFormErrors();
+    const newErrors = findFormErrors()
 
     // Check for any form errors
     if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+      setErrors(newErrors)
     } else {
       try {
         const newItemObject = {
@@ -158,10 +158,10 @@ const NewItemForm = ({ show, setShow }) => {
           ingredients: ingredientsArray,
           price: form.price,
           availability: form.availability,
-        };
+        }
 
         // Dispatch to item reducer
-        await dispatch(addItemActionCreator(newItemObject));
+        await dispatch(addItemActionCreator(newItemObject))
 
         setForm({
           name: '',
@@ -170,14 +170,14 @@ const NewItemForm = ({ show, setShow }) => {
           ingredients: [],
           price: '',
           availability: 'Unavailable',
-        });
+        })
 
-        setShow(false); // state from parent; closes modal
+        setShow(false) // state from parent; closes modal
       } catch (err) {
-        await dispatch(toastAlertCreator(err));
+        await dispatch(toastAlertCreator(err))
       }
     }
-  };
+  }
 
   //
   const handleCanceledForm = () => {
@@ -188,19 +188,19 @@ const NewItemForm = ({ show, setShow }) => {
       ingredients: [],
       price: '',
       availability: 'Unavailable',
-    });
-    setErrors({});
-    setShow(false); // state from parent; closes modal
-  };
+    })
+    setErrors({})
+    setShow(false) // state from parent; closes modal
+  }
 
   return (
     <>
       <Modal
         show={show}
         onHide={() => handleCanceledForm()}
-        backdrop="static"
+        backdrop='static'
         keyboard={false}
-        dialogClassName="modal-70w"
+        dialogClassName='modal-70w'
       >
         <Modal.Header closeButton>
           <Modal.Title>Make A New Creation</Modal.Title>
@@ -209,7 +209,7 @@ const NewItemForm = ({ show, setShow }) => {
         <AlertBanner />
 
         <Modal.Body>
-          <Form id="newItemForm" onSubmit={callCreateItem}>
+          <Form id='newItemForm' onSubmit={callCreateItem}>
 
             {/* Name */}
             <Form.Group>
@@ -226,7 +226,7 @@ const NewItemForm = ({ show, setShow }) => {
                 )}
               </Form.Text>
 
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type='invalid'>
                 { errors.name }
               </Form.Control.Feedback>
             </Form.Group>
@@ -246,7 +246,7 @@ const NewItemForm = ({ show, setShow }) => {
                 )}
               </Form.Text>
 
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type='invalid'>
                 { errors.category }
               </Form.Control.Feedback>
             </Form.Group>
@@ -266,7 +266,7 @@ const NewItemForm = ({ show, setShow }) => {
                 )}
               </Form.Text>
 
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type='invalid'>
                 { errors.description }
               </Form.Control.Feedback>
             </Form.Group>
@@ -278,7 +278,7 @@ const NewItemForm = ({ show, setShow }) => {
                 value={form.ingredients}
                 maxLength={formConfig.ingredients.maxLength.value.toString()}
                 onChange={({ target }) => setField('ingredients', target.value)}
-                placeholder="Separate with a comma"
+                placeholder='Separate with a comma'
                 isInvalid={!!errors.ingredients}
               />
               <Form.Text>
@@ -287,7 +287,7 @@ const NewItemForm = ({ show, setShow }) => {
                 )}
               </Form.Text>
 
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type='invalid'>
                 { errors.ingredients }
               </Form.Control.Feedback>
             </Form.Group>
@@ -301,7 +301,7 @@ const NewItemForm = ({ show, setShow }) => {
                 onChange={({ target }) => setField('price', target.value)}
                 isInvalid={!!errors.price}
               />
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type='invalid'>
                 { errors.price }
               </Form.Control.Feedback>
             </Form.Group>
@@ -309,26 +309,26 @@ const NewItemForm = ({ show, setShow }) => {
             {/* Availability */}
             <Form.Group>
               <Form.Label>Availability:</Form.Label>
-              <div className="px-4 d-flex justify-content-between">
+              <div className='px-4 d-flex justify-content-between'>
                 <Form.Check
                   inline
-                  label="Available"
-                  name="availability"
-                  type="radio"
-                  id="inline-radio-available"
+                  label='Available'
+                  name='availability'
+                  type='radio'
+                  id='inline-radio-available'
                   checked={form.availability === 'Available'}
-                  value="Available"
+                  value='Available'
                   onChange={({ target }) => setField('availability', target.value)}
                   isInvalid={!!errors.availability}
                 />
                 <Form.Check
                   inline
-                  label="Unavailable"
-                  name="availability"
-                  type="radio"
-                  id="inline-radio-unavailable"
+                  label='Unavailable'
+                  name='availability'
+                  type='radio'
+                  id='inline-radio-unavailable'
                   checked={form.availability === 'Unavailable'}
-                  value="Unavailable"
+                  value='Unavailable'
                   onChange={({ target }) => setField('availability', target.value)}
                   isInvalid={!!errors.availability}
                 />
@@ -339,8 +339,8 @@ const NewItemForm = ({ show, setShow }) => {
             <Form.Group>
               {/* TODO: add functionality */}
               <Form.File
-                id="itemImageFile"
-                label="Upload an item image"
+                id='itemImageFile'
+                label='Upload an item image'
                 onChange={(event) => console.log(event.target.files)}
               />
             </Form.Group>
@@ -348,15 +348,15 @@ const NewItemForm = ({ show, setShow }) => {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button type="submit" form="newItemForm">Create Item</Button>
-          <Button variant="secondary" onClick={handleCanceledForm}>
+          <Button type='submit' form='newItemForm'>Create Item</Button>
+          <Button variant='secondary' onClick={handleCanceledForm}>
             Cancel
           </Button>
         </Modal.Footer>
 
       </Modal>
     </>
-  );
-};
+  )
+}
 
-export default NewItemForm;
+export default NewItemForm

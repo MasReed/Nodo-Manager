@@ -1,28 +1,28 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import Modal from 'react-bootstrap/Modal'
 
-import AlertBanner from '../site-wide/AlertBanner';
+import AlertBanner from '../site-wide/AlertBanner'
 
-import { toastAlertCreator } from '../../reducers/alertReducer';
-import { addUserActionCreator } from '../../reducers/userReducer';
-import charactersRemaining from '../../utilities/charactersRemaining';
+import { toastAlertCreator } from '../../reducers/alertReducer'
+import { addUserActionCreator } from '../../reducers/userReducer'
+import charactersRemaining from '../../utilities/charactersRemaining'
 
 const NewUserForm = ({ show, setShow }) => {
-  const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state.currentUser);
+  const dispatch = useDispatch()
+  const currentUser = useSelector((state) => state.currentUser)
 
   const [form, setForm] = useState({
     name: '',
     email: '',
     username: '',
     roleName: 'user',
-  });
+  })
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({})
 
   // Easy form customization
   const formConfig = {
@@ -47,70 +47,70 @@ const NewUserForm = ({ show, setShow }) => {
       reqManager: { errorMessage: 'Requires Manager privileges.' },
       reqEmployee: { errorMessage: 'Requires Employee privileges.' },
     },
-  };
+  }
 
   //
   const setField = (field, value) => {
     setForm({
       ...form,
       [field]: value,
-    });
+    })
     // Remove any errors from the error object
     if (errors[field]) {
       setErrors({
         ...errors,
         [field]: null,
-      });
+      })
     }
-  };
+  }
 
   //
   const findFormErrors = () => {
     const {
       name, email, username, roleName,
-    } = form;
-    const newErrors = {};
+    } = form
+    const newErrors = {}
     // Name errors
     if (!name || name === '') {
-      newErrors.name = formConfig.name.isEmpty.errorMessage;
+      newErrors.name = formConfig.name.isEmpty.errorMessage
     } else if (name.length > formConfig.name.maxLength.value) {
-      newErrors.name = formConfig.name.maxLength.errorMessage;
+      newErrors.name = formConfig.name.maxLength.errorMessage
     }
 
     // email errors
     if (!email || email === '') {
-      newErrors.email = formConfig.email.isEmpty.errorMessage;
+      newErrors.email = formConfig.email.isEmpty.errorMessage
     } else if (!email.includes('@')) {
-      newErrors.email = formConfig.email.noAtSymbol.errorMessage;
+      newErrors.email = formConfig.email.noAtSymbol.errorMessage
     } else if (email.length < formConfig.email.minLength.value) {
-      newErrors.email = formConfig.email.minLength.errorMessage;
+      newErrors.email = formConfig.email.minLength.errorMessage
     }
 
     // username errors
     if (!username || username === '') {
-      newErrors.username = formConfig.username.isEmpty.errorMessage;
+      newErrors.username = formConfig.username.isEmpty.errorMessage
     } else if (username.length > formConfig.username.maxLength.value) {
-      newErrors.username = formConfig.username.maxLength.errorMessage;
+      newErrors.username = formConfig.username.maxLength.errorMessage
     } else if (username.length < formConfig.username.minLength.value) {
-      newErrors.username = formConfig.username.minLength.errorMessage;
+      newErrors.username = formConfig.username.minLength.errorMessage
     }
 
     // Role errors
     if (!roleName) {
-      newErrors.roleName = formConfig.roleName.isEmpty.errorMessage;
+      newErrors.roleName = formConfig.roleName.isEmpty.errorMessage
     } else if (roleName === 'admin'
     && !currentUser.role.encompassedRoles.includes('admin')) {
-      newErrors.roleName = formConfig.reqAdmin.errorMessage;
+      newErrors.roleName = formConfig.reqAdmin.errorMessage
     } else if (roleName === 'manager'
     && !currentUser.role.encompassedRoles.includes('manager')) {
-      newErrors.roleName = formConfig.reqManager.errorMessage;
+      newErrors.roleName = formConfig.reqManager.errorMessage
     } else if (roleName === 'employee'
     && !currentUser.role.encompassedRoles.includes('manager')) {
-      newErrors.roleName = formConfig.reqManager.errorMessage;
+      newErrors.roleName = formConfig.reqManager.errorMessage
     }
 
-    return newErrors;
-  };
+    return newErrors
+  }
 
   //
   const resetForm = () => {
@@ -119,20 +119,20 @@ const NewUserForm = ({ show, setShow }) => {
       email: '',
       username: '',
       roleName: 'user',
-    });
-    setErrors({});
-    setShow(false);
-  };
+    })
+    setErrors({})
+    setShow(false)
+  }
 
   //
   const createUser = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
-    const newErrors = findFormErrors();
+    const newErrors = findFormErrors()
 
     // Check for any form errors
     if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+      setErrors(newErrors)
     } else {
       try {
         const newUserObject = {
@@ -143,22 +143,22 @@ const NewUserForm = ({ show, setShow }) => {
           role: {
             name: form.roleName,
           },
-        };
+        }
 
-        await dispatch(addUserActionCreator(newUserObject));
+        await dispatch(addUserActionCreator(newUserObject))
 
-        resetForm();
+        resetForm()
       } catch (err) {
-        dispatch(toastAlertCreator(err));
+        dispatch(toastAlertCreator(err))
       }
     }
-  };
+  }
 
   return (
     <Modal
       show={show}
       onHide={resetForm}
-      backdrop="static"
+      backdrop='static'
       keyboard={false}
     >
       <Modal.Header closeButton>
@@ -168,14 +168,14 @@ const NewUserForm = ({ show, setShow }) => {
       <AlertBanner />
 
       <Modal.Body>
-        <Form id="newUserForm">
+        <Form id='newUserForm'>
           <Form.Group>
             <Form.Label>Full Name:</Form.Label>
             <Form.Control
-              type="text"
+              type='text'
               value={form.name.trim()}
               maxLength={formConfig.name.maxLength.value.toString()}
-              placeholder="Jane Doe"
+              placeholder='Jane Doe'
               onChange={({ target }) => setField('name', target.value)}
               isInvalid={!!errors.name}
             />
@@ -185,7 +185,7 @@ const NewUserForm = ({ show, setShow }) => {
               )}
             </Form.Text>
 
-            <Form.Control.Feedback type="invalid">
+            <Form.Control.Feedback type='invalid'>
               { errors.name }
             </Form.Control.Feedback>
           </Form.Group>
@@ -193,11 +193,11 @@ const NewUserForm = ({ show, setShow }) => {
           <Form.Group>
             <Form.Label>Email:</Form.Label>
             <Form.Control
-              type="email"
+              type='email'
               value={form.email.trim()}
               minLength={formConfig.email.minLength.value.toString()}
               maxLength={formConfig.email.maxLength.value.toString()}
-              placeholder="abc@123.com"
+              placeholder='abc@123.com'
               onChange={({ target }) => setField('email', target.value)}
               isInvalid={!!errors.email}
             />
@@ -207,7 +207,7 @@ const NewUserForm = ({ show, setShow }) => {
               )}
             </Form.Text>
 
-            <Form.Control.Feedback type="invalid">
+            <Form.Control.Feedback type='invalid'>
               { errors.email }
             </Form.Control.Feedback>
           </Form.Group>
@@ -215,7 +215,7 @@ const NewUserForm = ({ show, setShow }) => {
           <Form.Group>
             <Form.Label>Username:</Form.Label>
             <Form.Control
-              type="text"
+              type='text'
               value={form.username.trim()}
               minLength={formConfig.username.minLength.value.toString()}
               maxLength={formConfig.username.maxLength.value.toString()}
@@ -228,55 +228,55 @@ const NewUserForm = ({ show, setShow }) => {
               )}
             </Form.Text>
 
-            <Form.Control.Feedback type="invalid">
+            <Form.Control.Feedback type='invalid'>
               { errors.username }
             </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group>
             <Form.Label>Role:</Form.Label>
-            <div className="px-4 d-flex justify-content-between">
+            <div className='px-4 d-flex justify-content-between'>
               <Form.Check
                 inline
-                label="Admin"
-                name="roles"
-                type="radio"
-                id="inline-radio-admin"
+                label='Admin'
+                name='roles'
+                type='radio'
+                id='inline-radio-admin'
                 checked={form.roleName === 'admin'}
-                value="admin"
+                value='admin'
                 onChange={({ target }) => setField('roleName', target.value)}
                 isInvalid={!!errors.roleName}
               />
               <Form.Check
                 inline
-                label="Manager"
-                name="roles"
-                type="radio"
-                id="inline-radio-manager"
+                label='Manager'
+                name='roles'
+                type='radio'
+                id='inline-radio-manager'
                 checked={form.roleName === 'manager'}
-                value="manager"
+                value='manager'
                 onChange={({ target }) => setField('roleName', target.value)}
                 isInvalid={!!errors.roleName}
               />
               <Form.Check
                 inline
-                label="Employee"
-                name="roles"
-                type="radio"
-                id="inline-radio-employee"
+                label='Employee'
+                name='roles'
+                type='radio'
+                id='inline-radio-employee'
                 checked={form.roleName === 'employee'}
-                value="employee"
+                value='employee'
                 onChange={({ target }) => setField('roleName', target.value)}
                 isInvalid={!!errors.roleName}
               />
               <Form.Check
                 inline
-                label="User"
-                name="roles"
-                type="radio"
-                id="inline-radio-user"
+                label='User'
+                name='roles'
+                type='radio'
+                id='inline-radio-user'
                 checked={form.roleName === 'user'}
-                value="user"
+                value='user'
                 onChange={({ target }) => setField('roleName', target.value)}
                 isInvalid={!!errors.roleName}
               />
@@ -290,12 +290,12 @@ const NewUserForm = ({ show, setShow }) => {
       </Modal.Body>
 
       <Modal.Footer>
-        <Button type="submit" onClick={createUser}>Create User</Button>
-        <Button variant="secondary" onClick={resetForm}>Cancel</Button>
+        <Button type='submit' onClick={createUser}>Create User</Button>
+        <Button variant='secondary' onClick={resetForm}>Cancel</Button>
       </Modal.Footer>
 
     </Modal>
-  );
-};
+  )
+}
 
-export default NewUserForm;
+export default NewUserForm

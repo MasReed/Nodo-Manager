@@ -1,15 +1,15 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react'
+import { useSelector } from 'react-redux'
 
-import Container from 'react-bootstrap/Container';
+import Container from 'react-bootstrap/Container'
 
 const MyAccountPage = () => {
-  const currentUser = useSelector((state) => state.currentUser);
+  const currentUser = useSelector((state) => state.currentUser)
 
   return (
-    <Container className="pt-5">
+    <Container className='pt-5'>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <h1 className="m-0">My Account</h1>
+        <h1 className='m-0'>My Account</h1>
         <h1>{currentUser.name}</h1>
       </div>
       <hr />
@@ -22,7 +22,7 @@ const MyAccountPage = () => {
         {currentUser.email}
       </p>
     </Container>
-  );
-};
+  )
+}
 
-export default MyAccountPage;
+export default MyAccountPage

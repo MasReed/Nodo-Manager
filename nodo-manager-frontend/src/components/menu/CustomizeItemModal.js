@@ -1,43 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import Modal from 'react-bootstrap/Modal'
 
-import { toastAlertCreator } from '../../reducers/alertReducer';
-import { addItemToCartActionCreator } from '../../reducers/cartReducer';
-import charactersRemaining from '../../utilities/charactersRemaining';
+import { toastAlertCreator } from '../../reducers/alertReducer'
+import { addItemToCartActionCreator } from '../../reducers/cartReducer'
+import charactersRemaining from '../../utilities/charactersRemaining'
 
 const CustomizeItemModal = ({
   show, setShow, selectedItem, setSelectedItem,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const [checkedMods, setCheckedMods] = useState([]);
-  const [forName, setForName] = useState('');
-  const [notes, setNotes] = useState('');
+  const [checkedMods, setCheckedMods] = useState([])
+  const [forName, setForName] = useState('')
+  const [notes, setNotes] = useState('')
 
   useEffect(() => {
     const ingredientsWithCheck = selectedItem.ingredients
       ? selectedItem.ingredients.map((ingredient) => ({ ingredient, checked: true }))
-      : {};
+      : {}
 
-    setCheckedMods(ingredientsWithCheck);
-  }, [selectedItem]);
+    setCheckedMods(ingredientsWithCheck)
+  }, [selectedItem])
 
   //
   const resetForm = () => {
-    setForName('');
-    setCheckedMods({});
-    setNotes('');
-    setSelectedItem({});
-    setShow(false);
-  };
+    setForName('')
+    setCheckedMods({})
+    setNotes('')
+    setSelectedItem({})
+    setShow(false)
+  }
 
   //
   const addCustomItem = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     try {
       const customItemObject = {
@@ -51,22 +51,22 @@ const CustomizeItemModal = ({
         notes,
         /* eslint-disable-next-line no-underscore-dangle */
         uniqueId: selectedItem.uniqueId || selectedItem._id + forName + Math.random(),
-      };
+      }
 
-      await dispatch(addItemToCartActionCreator(customItemObject));
+      await dispatch(addItemToCartActionCreator(customItemObject))
 
-      resetForm();
+      resetForm()
     } catch (err) {
-      await dispatch(toastAlertCreator(err));
+      await dispatch(toastAlertCreator(err))
     }
-  };
+  }
 
   return (
     <Modal
       show={show}
       onHide={resetForm}
-      dialogClassName="modal-60w"
-      backdrop="static"
+      dialogClassName='modal-60w'
+      backdrop='static'
       keyboard={false}
       scrollable
     >
@@ -78,14 +78,14 @@ const CustomizeItemModal = ({
       </Modal.Header>
 
       <Modal.Body>
-        <Form id="customizeItemForm" onSubmit={addCustomItem}>
+        <Form id='customizeItemForm' onSubmit={addCustomItem}>
 
           {/* Item For Name */}
           <Form.Group>
             <Form.Label>Who is it for?</Form.Label>
             <Form.Control
               value={forName.trim()}
-              maxLength="30"
+              maxLength='30'
               onChange={({ target }) => setForName(target.value)}
             />
             <Form.Text>{charactersRemaining(forName, 30)}</Form.Text>
@@ -100,7 +100,7 @@ const CustomizeItemModal = ({
                 <Form.Check
                   key={ingredient}
                   id={ingredient}
-                  type="checkbox"
+                  type='checkbox'
                   label={ingredient}
                   defaultChecked
                   onChange={(event) => {
@@ -108,7 +108,7 @@ const CustomizeItemModal = ({
                       (object) => (object.ingredient === event.target.id
                         ? { ...object, checked: event.target.checked }
                         : object),
-                    ));
+                    ))
                   }}
                 />
               ))
@@ -120,8 +120,8 @@ const CustomizeItemModal = ({
             <Form.Label>Anything else we should know?</Form.Label>
             <Form.Control
               value={notes.trim()}
-              maxLength="150"
-              placeholder="e.g. peanut allergy"
+              maxLength='150'
+              placeholder='e.g. peanut allergy'
               onChange={({ target }) => setNotes(target.value)}
             />
             <Form.Text>{charactersRemaining(notes, 150)}</Form.Text>
@@ -132,15 +132,15 @@ const CustomizeItemModal = ({
 
       <Modal.Footer style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Button
-          variant="outline-warning"
+          variant='outline-warning'
           onClick={resetForm}
         >
           Cancel
         </Button>
-        <Button type="submit" form="customizeItemForm">Add to Order</Button>
+        <Button type='submit' form='customizeItemForm'>Add to Order</Button>
       </Modal.Footer>
     </Modal>
-  );
-};
+  )
+}
 
-export default CustomizeItemModal;
+export default CustomizeItemModal

@@ -1,68 +1,68 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 
-import Button from 'react-bootstrap/Button';
+import Button from 'react-bootstrap/Button'
 
-import EditOrderModal from './EditOrderModal';
+import EditOrderModal from './EditOrderModal'
 
-import { toastAlertCreator } from '../../reducers/alertReducer';
+import { toastAlertCreator } from '../../reducers/alertReducer'
 import {
   updateOrderActionCreator,
   deleteOrderActionCreator,
-} from '../../reducers/orderReducer';
+} from '../../reducers/orderReducer'
 
 const OrderInfo = ({ order }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const [showUpdateOrderModal, setShowUpdateOrderModal] = useState(false);
+  const [showUpdateOrderModal, setShowUpdateOrderModal] = useState(false)
 
   const orderStatusColor = (status) => {
     const colorMap = {
       'In Progress': '#0062cc',
       Complete: '#28a745',
       Canceled: '#dc3545',
-    };
-    return colorMap[status];
-  };
+    }
+    return colorMap[status]
+  }
 
   const changeOrderStatus = async (orderObject) => {
     try {
-      let newStatusOrder;
+      let newStatusOrder
 
       if (orderObject.status === 'Complete') {
         newStatusOrder = {
           ...orderObject,
           status: 'In Progress',
-        };
+        }
       } else {
         newStatusOrder = {
           ...orderObject,
           status: 'Complete',
-        };
+        }
       }
 
       /* eslint-disable-next-line no-underscore-dangle */
-      await dispatch(updateOrderActionCreator(order._id, newStatusOrder));
+      await dispatch(updateOrderActionCreator(order._id, newStatusOrder))
     } catch (err) {
-      await dispatch(toastAlertCreator(err));
+      await dispatch(toastAlertCreator(err))
     }
-  };
+  }
 
   const deleteOrder = async (id) => {
     try {
-      await dispatch(deleteOrderActionCreator(id));
+      await dispatch(deleteOrderActionCreator(id))
     } catch (err) {
-      await dispatch(toastAlertCreator(err));
+      await dispatch(toastAlertCreator(err))
     }
-  };
+  }
 
   const updateOrderSequence = async () => {
     try {
-      setShowUpdateOrderModal(true);
+      setShowUpdateOrderModal(true)
     } catch (err) {
-      await dispatch(toastAlertCreator(err));
+      await dispatch(toastAlertCreator(err))
     }
-  };
+  }
 
   return (
     <>
@@ -86,7 +86,7 @@ const OrderInfo = ({ order }) => {
           </p>
         </div>
         <div />
-        <div className="text-right">
+        <div className='text-right'>
           <h2>{order.category}</h2>
           <h4>
             Items:
@@ -101,16 +101,16 @@ const OrderInfo = ({ order }) => {
       </p>
 
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <div className="align-self-center">
+        <div className='align-self-center'>
 
           {/* Remove Order */}
           <Button
             /* eslint-disable-next-line no-underscore-dangle */
             onClick={() => deleteOrder(order._id)}
-            variant="outline-danger"
-            size="sm"
+            variant='outline-danger'
+            size='sm'
             style={{ border: 'hidden' }}
-            className="mr-5 px-2"
+            className='mr-5 px-2'
           >
             Remove
           </Button>
@@ -118,10 +118,10 @@ const OrderInfo = ({ order }) => {
           {/* Edit Order */}
           <Button
             onClick={() => updateOrderSequence(order)}
-            variant="outline-secondary"
-            size="sm"
+            variant='outline-secondary'
+            size='sm'
             style={{ border: 'hidden' }}
-            className="mx-2 px-5"
+            className='mx-2 px-5'
             disabled={order.status === 'Complete'}
           >
             Edit
@@ -130,10 +130,10 @@ const OrderInfo = ({ order }) => {
           {/* Update Status */}
           <Button
             onClick={() => changeOrderStatus(order)}
-            variant="outline-success"
-            size="sm"
+            variant='outline-success'
+            size='sm'
             style={{ border: 'hidden' }}
-            className="mx-2 px-5"
+            className='mx-2 px-5'
           >
             {order.status === 'In Progress'
               ? 'Mark as \'Complete\''
@@ -142,12 +142,12 @@ const OrderInfo = ({ order }) => {
         </div>
 
         {/* Order Cost Details */}
-        <div className="mx-2">
-          <p className="m-0">
+        <div className='mx-2'>
+          <p className='m-0'>
             Subtotal:
             {order.costs.subTotal}
           </p>
-          <p className="m-0 text-right">
+          <p className='m-0 text-right'>
             Total:
             {order.costs.total}
           </p>
@@ -163,7 +163,7 @@ const OrderInfo = ({ order }) => {
         setShow={setShowUpdateOrderModal}
       />
     </>
-  );
-};
+  )
+}
 
-export default OrderInfo;
+export default OrderInfo
