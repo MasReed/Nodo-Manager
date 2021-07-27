@@ -6,7 +6,13 @@ const AccordionToggle = ({ children, eventKey }) => {
   const decoratedOnClick = useAccordionToggle(eventKey);
 
   return (
-    <div type="button" onClick={decoratedOnClick}>
+    <div
+      type="button"
+      role="button"
+      tabIndex="0"
+      onClick={decoratedOnClick}
+      onKeyDown={decoratedOnClick}
+    >
       {children}
     </div>
   );

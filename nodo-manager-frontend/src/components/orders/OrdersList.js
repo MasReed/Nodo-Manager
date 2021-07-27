@@ -10,20 +10,13 @@ const OrdersList = () => {
   const [sortedOrders, setSortedOrders] = useState(orders);
 
   //
-  useEffect(() => {
-    const timeSortedOrders = sortByUpdatedTime(orders);
-    const statusSortedOrders = sortByStatus(timeSortedOrders);
-
-    setSortedOrders(statusSortedOrders);
-  }, [orders]);
-
-  //
-  const sortByUpdatedTime = (ordersArray, ascending = true) => ordersArray.slice().sort((a, b) => {
-    if (ascending) {
-      return new Date(b.updatedAt) - new Date(a.updatedAt);
-    }
-    return new Date(a.updatedAt) - new Date(b.updatedAt);
-  });
+  const sortByUpdatedTime = (ordersArray, ascending = true) => ordersArray
+    .slice().sort((a, b) => {
+      if (ascending) {
+        return new Date(b.updatedAt) - new Date(a.updatedAt);
+      }
+      return new Date(a.updatedAt) - new Date(b.updatedAt);
+    });
 
   //
   const sortByStatus = (ordersArray) => {
@@ -33,10 +26,24 @@ const OrdersList = () => {
     ));
   };
 
+  //
+  useEffect(() => {
+    const timeSortedOrders = sortByUpdatedTime(orders);
+    const statusSortedOrders = sortByStatus(timeSortedOrders);
+
+    setSortedOrders(statusSortedOrders);
+  }, [orders]);
+
   return (
     <>
       {
-        orders && sortedOrders.map((order) => <OrderInfo key={order._id} order={order} />)
+        orders && sortedOrders.map((order) => (
+          <OrderInfo
+            /* eslint-disable-next-line no-underscore-dangle */
+            key={order._id}
+            order={order}
+          />
+        ))
       }
     </>
   );

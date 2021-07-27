@@ -28,11 +28,28 @@ const login = async (username, password) => {
       console.log(err);
     }
   }
+  return false;
 };
 
 // remove user from local storage
 const logout = async () => {
-  await localStorage.removeItem('user');
+  try {
+    await localStorage.removeItem('user');
+  } catch (err) {
+    if (err.response) {
+      const logoutError = {
+        type: 'Logout Error',
+        message: err.response.data.message,
+        variant: 'warning',
+      };
+      throw logoutError;
+    } else if (err.request) {
+      console.log('err.req', err.request);
+    } else {
+      console.log(err);
+    }
+  }
+  return false;
 };
 
 const exps = { login, logout };

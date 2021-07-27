@@ -31,6 +31,7 @@ const getAll = () => {
       console.log(err);
     }
   }
+  return false;
 };
 
 //
@@ -56,6 +57,7 @@ const create = async (newObject) => {
       console.log(err);
     }
   }
+  return false;
 };
 
 //
@@ -81,6 +83,7 @@ const update = async (id, updatedObject) => {
       console.log(err);
     }
   }
+  return false;
 };
 
 //
@@ -106,6 +109,7 @@ const destroy = async (id) => {
       console.log(err);
     }
   }
+  return false;
 };
 
 const exps = {

@@ -10,9 +10,10 @@ import NewItemForm from './NewItemForm';
 import CustomAccordion from '../site-wide/CustomAccordion';
 
 const ItemsPage = () => {
-  const categories = useSelector((state) =>
-    // Array of unique item categories
-    [...new Set(state.items.map((item) => item.category))]);
+  // Array of unique item categories
+  const categories = useSelector(
+    (state) => [...new Set(state.items.map((item) => item.category))],
+  );
 
   const [showNewItemForm, setShowNewItemForm] = useState(false);
 

@@ -27,11 +27,21 @@ const CustomizeItemModal = ({
   }, [selectedItem]);
 
   //
+  const resetForm = () => {
+    setForName('');
+    setCheckedMods({});
+    setNotes('');
+    setSelectedItem({});
+    setShow(false);
+  };
+
+  //
   const addCustomItem = async (event) => {
     event.preventDefault();
 
     try {
       const customItemObject = {
+        /* eslint-disable-next-line no-underscore-dangle */
         baseItemId: selectedItem._id,
         baseName: selectedItem.name,
         baseIngredients: selectedItem.ingredients,
@@ -39,6 +49,7 @@ const CustomizeItemModal = ({
         modIngredients: checkedMods,
         whos: forName,
         notes,
+        /* eslint-disable-next-line no-underscore-dangle */
         uniqueId: selectedItem.uniqueId || selectedItem._id + forName + Math.random(),
       };
 
@@ -48,15 +59,6 @@ const CustomizeItemModal = ({
     } catch (err) {
       await dispatch(toastAlertCreator(err));
     }
-  };
-
-  //
-  const resetForm = () => {
-    setForName('');
-    setCheckedMods({});
-    setNotes('');
-    setSelectedItem({});
-    setShow(false);
   };
 
   return (
@@ -80,7 +82,7 @@ const CustomizeItemModal = ({
 
           {/* Item For Name */}
           <Form.Group>
-            <Form.Label>Who's is it?</Form.Label>
+            <Form.Label>Who is it for?</Form.Label>
             <Form.Control
               value={forName.trim()}
               maxLength="30"
@@ -102,9 +104,11 @@ const CustomizeItemModal = ({
                   label={ingredient}
                   defaultChecked
                   onChange={(event) => {
-                    setCheckedMods(checkedMods.map((object) => (object.ingredient === event.target.id
-                      ? { ...object, checked: event.target.checked }
-                      : object)));
+                    setCheckedMods(checkedMods.map(
+                      (object) => (object.ingredient === event.target.id
+                        ? { ...object, checked: event.target.checked }
+                        : object),
+                    ));
                   }}
                 />
               ))

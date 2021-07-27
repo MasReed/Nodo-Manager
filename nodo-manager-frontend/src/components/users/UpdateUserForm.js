@@ -112,6 +112,19 @@ const UpdateUserForm = ({ user, show, setShow }) => {
     return newErrors;
   };
 
+  //
+  const resetForm = () => {
+    setForm({
+      name: user.name,
+      email: user.email,
+      username: user.username,
+      roleName: user.role.name,
+    });
+    setErrors({});
+    setShow(false);
+  };
+
+  //
   const updateUser = async (event) => {
     event.preventDefault();
 
@@ -140,17 +153,6 @@ const UpdateUserForm = ({ user, show, setShow }) => {
         dispatch(toastAlertCreator(err));
       }
     }
-  };
-
-  const resetForm = () => {
-    setForm({
-      name: user.name,
-      email: user.email,
-      username: user.username,
-      roleName: user.role.name,
-    });
-    setErrors({});
-    setShow(false);
   };
 
   return (

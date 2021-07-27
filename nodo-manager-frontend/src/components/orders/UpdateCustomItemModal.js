@@ -25,6 +25,15 @@ const CustomizeItemModal = ({
   }, [selectedItem]);
 
   //
+  const resetForm = () => {
+    setForName('');
+    setNotes('');
+    setModList([]);
+    setSelectedItem({});
+    setShow(false);
+  };
+
+  //
   const updateCustomItem = async (event) => {
     event.preventDefault();
 
@@ -42,15 +51,6 @@ const CustomizeItemModal = ({
     } catch (err) {
       await dispatch(toastAlertCreator(err));
     }
-  };
-
-  //
-  const resetForm = () => {
-    setForName('');
-    setNotes('');
-    setModList([]);
-    setSelectedItem({});
-    setShow(false);
   };
 
   return (
@@ -74,7 +74,7 @@ const CustomizeItemModal = ({
 
           {/* Item For Name */}
           <Form.Group>
-            <Form.Label>Who's is it?</Form.Label>
+            <Form.Label>{'Who\'s is it?'}</Form.Label>
             <Form.Control
               value={forName}
               maxLength="30"

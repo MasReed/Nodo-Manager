@@ -21,6 +21,8 @@ module.exports = {
   ],
   rules: {
     'no-console': 0,
-    'react/prop-types': 0
+    'react/jsx-filename-extension': [1, {'extensions': ['.js', '.jsx'] }],
+    'react/prop-types': 0,
+    'quotes': [2, 'single', { 'avoidEscape': true }]
   },
 };

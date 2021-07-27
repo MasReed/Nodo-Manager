@@ -47,6 +47,32 @@ const LoginForm = ({ ...props }) => {
   };
 
   //
+  const findFormErrors = () => {
+    const { name, password } = form;
+    const newErrors = {};
+
+    // name errors
+    if (!name || name === '') {
+      newErrors.name = formConfig.username.isEmpty.errorMessage;
+    } else if (name.length > formConfig.username.maxLength.value) {
+      newErrors.name = formConfig.username.maxLength.errorMessage;
+    } else if (name.length < formConfig.username.minLength.value) {
+      newErrors.name = formConfig.username.minLength.errorMessage;
+    }
+
+    // password errors
+    if (!password || password === '') {
+      newErrors.password = formConfig.password.isEmpty.errorMessage;
+    } else if (password.length > formConfig.password.maxLength.value) {
+      newErrors.name = formConfig.password.maxLength.errorMessage;
+    } else if (password.length < formConfig.password.minLength.value) {
+      newErrors.password = formConfig.password.minLength.errorMessage;
+    }
+
+    return newErrors;
+  };
+
+  //
   const handleSubmitLogin = async (event) => {
     event.preventDefault();
 
@@ -71,32 +97,6 @@ const LoginForm = ({ ...props }) => {
         await dispatch(toastAlertCreator(err));
       }
     }
-  };
-
-  //
-  const findFormErrors = () => {
-    const { name, password } = form;
-    const newErrors = {};
-
-    // name errors
-    if (!name || name === '') {
-      newErrors.name = formConfig.username.isEmpty.errorMessage;
-    } else if (name.length > formConfig.username.maxLength.value) {
-      newErrors.name = formConfig.username.maxLength.errorMessage;
-    } else if (name.length < formConfig.username.minLength.value) {
-      newErrors.name = formConfig.username.minLength.errorMessage;
-    }
-
-    // password errors
-    if (!password || password === '') {
-      newErrors.password = formConfig.password.isEmpty.errorMessage;
-    } else if (password.length > formConfig.password.maxLength.value) {
-      newErrors.name = formConfig.password.maxLength.errorMessage;
-    } else if (password.length < formConfig.password.minLength.value) {
-      newErrors.password = formConfig.password.minLength.errorMessage;
-    }
-
-    return newErrors;
   };
 
   return (

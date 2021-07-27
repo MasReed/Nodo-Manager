@@ -9,11 +9,13 @@ const itemReducer = (state = [], action) => {
       return [...state, action.data];
 
     case 'UPDATE_ITEM':
+      // eslint-disable-next-line no-underscore-dangle
       return state.map((item) => ((item._id !== action.data._id)
         ? item
         : action.data));
 
     case 'DESTROY_ITEM':
+      // eslint-disable-next-line no-underscore-dangle
       return state.filter((item) => item._id !== action.data.id);
 
     case 'RESET_ITEMS':

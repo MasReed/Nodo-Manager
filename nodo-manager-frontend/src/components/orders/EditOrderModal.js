@@ -99,6 +99,7 @@ const EditOrderModal = ({ order, show, setShow }) => {
         };
 
         await dispatch(
+          /* eslint-disable-next-line no-underscore-dangle */
           updateOrderActionCreator(order._id, updatedOrderObject),
         );
 
@@ -145,12 +146,10 @@ const EditOrderModal = ({ order, show, setShow }) => {
     >
       <Modal.Header closeButton>
         <Modal.Title>
-          Editing
-          {' '}
-          {order.name}
-          's Order
+          {`Editing ${order.name}'s Order`}
           <h6>
             ID:
+            {/* eslint-disable-next-line no-underscore-dangle */}
             {order._id}
           </h6>
         </Modal.Title>

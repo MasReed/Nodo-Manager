@@ -11,8 +11,9 @@ import CustomizeItemModal from './CustomizeItemModal';
 const MenuPage = () => {
   const history = useHistory();
 
-  const categories = useSelector((state) => [...new Set(state.items.map((item) => item.category))],
-    // Array of unique item categories
+  // Array of unique item categories
+  const categories = useSelector(
+    (state) => [...new Set(state.items.map((item) => item.category))],
   );
 
   const [selectedItem, setSelectedItem] = useState({});

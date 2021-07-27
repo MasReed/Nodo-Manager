@@ -9,13 +9,6 @@ const UsersList = () => {
   const [sortedUsers, setSortedUsers] = useState(users);
 
   //
-  useEffect(() => {
-    const roleSortedUsers = sortByRole(users);
-
-    setSortedUsers(roleSortedUsers);
-  }, [users]);
-
-  //
   const sortByRole = (usersArray) => {
     const sortBy = ['admin', 'manager', 'employee', 'user', 'guest'];
 
@@ -26,6 +19,13 @@ const UsersList = () => {
       sortBy.indexOf(a.role.name) - sortBy.indexOf(b.role.name)
     ));
   };
+
+  //
+  useEffect(() => {
+    const roleSortedUsers = sortByRole(users);
+
+    setSortedUsers(roleSortedUsers);
+  }, [users]);
 
   return (
     <div>

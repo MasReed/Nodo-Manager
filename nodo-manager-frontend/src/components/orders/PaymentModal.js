@@ -15,6 +15,7 @@ const PaymentModal = ({
   const handlePaymentSubmission = (event) => {
     event.preventDefault();
     setShow(false);
+    addOrder();
     // history.push('/order-confirmed')
     history.push('/orders');
   };
@@ -32,6 +33,7 @@ const PaymentModal = ({
     >
       <Modal.Header closeButton>
         <Modal.Title>Payment Options</Modal.Title>
+        <Modal.Text>{order && order.name}</Modal.Text>
       </Modal.Header>
 
       <Modal.Body>

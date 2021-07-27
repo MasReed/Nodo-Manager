@@ -9,11 +9,13 @@ const orderReducer = (state = [], action) => {
       return [...state, action.data];
 
     case 'UPDATE_ORDER':
+      // eslint-disable-next-line no-underscore-dangle
       return state.map((order) => ((order._id !== action.data._id)
         ? order
         : action.data));
 
     case 'DELETE_ORDER':
+      // eslint-disable-next-line no-underscore-dangle
       return state.filter((order) => order._id !== action.data.id);
 
     case 'RESET_ORDERS':

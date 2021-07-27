@@ -15,6 +15,7 @@ const getAll = () => {
     };
 
     const request = axios.get(baseUrl, config);
+
     return request.then((response) => response.data);
   } catch (err) {
     if (err.response) {
@@ -30,6 +31,7 @@ const getAll = () => {
       console.log(err);
     }
   }
+  return false;
 };
 
 //
@@ -55,6 +57,7 @@ const create = async (newObject) => {
       console.log(err);
     }
   }
+  return false;
 };
 
 //
@@ -80,6 +83,7 @@ const update = async (id, updatedObject) => {
       console.log(err);
     }
   }
+  return false;
 };
 
 //
@@ -105,6 +109,7 @@ const destroy = async (id) => {
       console.log(err);
     }
   }
+  return false;
 };
 
 const exps = {

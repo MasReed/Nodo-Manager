@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 import truncateString from '../../utilities/truncateString';
 
 const MenuItemCard = ({
-  item, show, setShow, setSelectedItem,
+  item, setShow, setSelectedItem,
 }) => {
   const callCustomizeModal = () => {
     setSelectedItem(item);
@@ -15,6 +15,7 @@ const MenuItemCard = ({
 
   return (
     <Card
+      /* eslint-disable-next-line no-underscore-dangle */
       key={item._id}
       className="mx-0 my-0"
       style={{

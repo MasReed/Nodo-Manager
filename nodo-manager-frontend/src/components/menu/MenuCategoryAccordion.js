@@ -20,6 +20,7 @@ const MenuCategoryAccordion = ({
         <CardDeck>
           {menuItems.map((item) => (item.category === category
             ? (
+              /* eslint-disable-next-line no-underscore-dangle */
               <Col key={item._id} className="container-fluid mb-4 px-2">
                 <MenuItemCard
                   item={item}

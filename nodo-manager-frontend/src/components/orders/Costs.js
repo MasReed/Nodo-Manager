@@ -11,22 +11,22 @@ const Costs = ({ setCosts }) => {
 
   useEffect(() => {
     if (cart.length > 0) {
-      const subTotal = cart.map((item) => item.basePrice).reduce((sum, val) => (sum + val));
-      const taxAmount = Math.round(subTotal * TAX_RATE * 100) / 100;
-      const total = subTotal + taxAmount;
+      const getSubTotal = cart.map((item) => item.basePrice).reduce((sum, val) => (sum + val));
+      const getTaxAmount = Math.round(getSubTotal * TAX_RATE * 100) / 100;
+      const getTotal = getSubTotal + getTaxAmount;
 
-      setSubTotal(subTotal);
-      setTaxAmount(taxAmount);
-      setTotal(total);
+      setSubTotal(getSubTotal);
+      setTaxAmount(getTaxAmount);
+      setTotal(getTotal);
 
       setCosts({
-        subTotal,
+        getSubTotal,
         taxRate: TAX_RATE,
-        taxAmount,
-        total,
+        getTaxAmount,
+        getTotal,
       });
     }
-  }, [cart, subTotal, setCosts]);
+  }, [cart, setCosts]);
 
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>

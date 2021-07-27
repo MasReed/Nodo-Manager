@@ -112,7 +112,7 @@ const UpdateItemForm = ({ item, show, setShow }) => {
     if (!price || price === '') {
       newErrors.price = formConfig.price.isEmpty.errorMessage;
     } else if (typeof price !== 'number') {
-      if (isNaN(Number(price))) {
+      if (Number.isNaN(Number(price))) {
         newErrors.price = formConfig.price.isNaN.errorMessage;
       } else {
         setField('price', Number(price));
@@ -162,6 +162,7 @@ const UpdateItemForm = ({ item, show, setShow }) => {
         };
 
         // Dispatch to item reducer
+        /* eslint-disable-next-line no-underscore-dangle */
         await dispatch(updateItemActionCreator(item._id, updatedItemObject));
 
         setShow(false); // state from parent; closes modal

@@ -112,7 +112,7 @@ const NewItemForm = ({ show, setShow }) => {
     if (!price || price === '') {
       newErrors.price = formConfig.price.isEmpty.errorMessage;
     } else if (typeof price !== 'number') {
-      if (isNaN(Number(price))) {
+      if (Number.isNaN(Number(price))) {
         newErrors.price = formConfig.price.isNaN.errorMessage;
       } else {
         setField('price', Number(price));

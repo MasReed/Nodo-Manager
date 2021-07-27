@@ -25,22 +25,23 @@ const OrderInfo = ({ order }) => {
     return colorMap[status];
   };
 
-  const changeOrderStatus = async (order) => {
+  const changeOrderStatus = async (orderObject) => {
     try {
       let newStatusOrder;
 
-      if (order.status === 'Complete') {
+      if (orderObject.status === 'Complete') {
         newStatusOrder = {
-          ...order,
+          ...orderObject,
           status: 'In Progress',
         };
       } else {
         newStatusOrder = {
-          ...order,
+          ...orderObject,
           status: 'Complete',
         };
       }
 
+      /* eslint-disable-next-line no-underscore-dangle */
       await dispatch(updateOrderActionCreator(order._id, newStatusOrder));
     } catch (err) {
       await dispatch(toastAlertCreator(err));
@@ -55,7 +56,7 @@ const OrderInfo = ({ order }) => {
     }
   };
 
-  const updateOrderSequence = async (order) => {
+  const updateOrderSequence = async () => {
     try {
       setShowUpdateOrderModal(true);
     } catch (err) {
@@ -70,6 +71,7 @@ const OrderInfo = ({ order }) => {
           <h2>{order.name}</h2>
           <h6>
             ID:
+            {/* eslint-disable-next-line no-underscore-dangle */}
             {order._id}
           </h6>
         </div>
@@ -103,6 +105,7 @@ const OrderInfo = ({ order }) => {
 
           {/* Remove Order */}
           <Button
+            /* eslint-disable-next-line no-underscore-dangle */
             onClick={() => deleteOrder(order._id)}
             variant="outline-danger"
             size="sm"

@@ -14,6 +14,7 @@ const MyOrderItems = ({ setSelectedItem, setShowCustomize }) => {
   };
 
   const deleteCartItem = (id) => {
+    // TODO: Add custom confirmation window
     if (window.confirm('OK to confirm removal')) {
       dispatch(deleteCartItemActionCreator(id));
     }

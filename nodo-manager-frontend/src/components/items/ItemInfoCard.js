@@ -29,6 +29,7 @@ const ItemInfoCard = ({ item }) => {
   return (
     <>
       <Card
+        /* eslint-disable-next-line no-underscore-dangle */
         key={item._id}
         className="mx-0 my-0"
         style={{
@@ -76,6 +77,7 @@ const ItemInfoCard = ({ item }) => {
             <h6 className="m-0 py-auto align-self-center">{item.availability}</h6>
 
             <Button
+              /* eslint-disable-next-line no-underscore-dangle */
               onClick={() => callDeleteItem(item._id)}
               size="sm"
               variant="outline-danger"
