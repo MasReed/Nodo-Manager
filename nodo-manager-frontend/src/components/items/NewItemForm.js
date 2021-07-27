@@ -7,6 +7,7 @@ import Modal from 'react-bootstrap/Modal'
 
 import AlertBanner from '../site-wide/AlertBanner'
 
+import { itemForms } from '../../configurations/formConfigs'
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { addItemActionCreator } from '../../reducers/itemReducer'
 import charactersRemaining from '../../utilities/charactersRemaining'
@@ -25,36 +26,6 @@ const NewItemForm = ({ show, setShow }) => {
 
   // Form related errors
   const [errors, setErrors] = useState({})
-
-  // Easy form customization
-  const formConfig = {
-    name: {
-      isEmpty: { errorMessage: 'An item name is required.' },
-      maxLength: { value: 50, errorMessage: 'Item name is too long' },
-    },
-    category: {
-      isEmpty: { errorMessage: 'An item category is required.' },
-      maxLength: { value: 50, errorMessage: 'Category is too long.' },
-    },
-    description: {
-      maxLength: { value: 150, errorMessage: 'Description is too long!' },
-    },
-    ingredients: {
-      maxLength: {
-        value: 250,
-        errorMessage: 'Ingredients list has too many characters.',
-      },
-    },
-    price: {
-      isEmpty: { errorMessage: 'A price is required.' },
-      isNaN: { errorMessage: 'Price must be a number.' },
-      isNegative: { errorMessage: 'Price cannot be negative.' },
-      maxLength: { value: 10, errorMessage: 'Price is too large.' },
-    },
-    availability: {
-      isEmpty: { errorMessage: 'Choose an availability.' },
-    },
-  }
 
   // Update single form field with value
   const setField = (field, value) => {
@@ -86,50 +57,50 @@ const NewItemForm = ({ show, setShow }) => {
 
     // Name errors
     if (!name || name === '') {
-      newErrors.name = formConfig.name.isEmpty.errorMessage
-    } else if (name.length > formConfig.name.maxLength) {
-      newErrors.name = formConfig.name.maxLength.errorMessage
+      newErrors.name = itemForms.itemName.isEmpty.errorMessage
+    } else if (name.length > itemForms.itemName.maxLength) {
+      newErrors.name = itemForms.itemName.maxLength.errorMessage
     }
 
     // Category errors
     if (!category || category === '') {
-      newErrors.category = formConfig.category.isEmpty.errorMessage
-    } else if (category.length > formConfig.category.maxLength.value) {
-      newErrors.category = formConfig.category.maxLength.value
+      newErrors.category = itemForms.itemCategory.isEmpty.errorMessage
+    } else if (category.length > itemForms.itemCategory.maxLength.value) {
+      newErrors.category = itemForms.itemCategory.maxLength.value
     }
 
     // Description errors
-    if (description.length > formConfig.description.maxLength) {
-      newErrors.description = formConfig.description.maxLength.errorMessage
+    if (description.length > itemForms.itemDescription.maxLength) {
+      newErrors.description = itemForms.itemDescription.maxLength.errorMessage
     }
 
     // Ingredient errors
-    if (ingredients.length > formConfig.ingredients.maxLength) {
-      newErrors.ingredients = formConfig.ingredients.maxLength.errorMessage
+    if (ingredients.length > itemForms.itemIngredients.maxLength) {
+      newErrors.ingredients = itemForms.itemIngredients.maxLength.errorMessage
     }
 
     // Price errors
     if (!price || price === '') {
-      newErrors.price = formConfig.price.isEmpty.errorMessage
+      newErrors.price = itemForms.itemPrice.isEmpty.errorMessage
     } else if (typeof price !== 'number') {
       if (Number.isNaN(Number(price))) {
-        newErrors.price = formConfig.price.isNaN.errorMessage
+        newErrors.price = itemForms.itemPrice.isNaN.errorMessage
       } else {
         setField('price', Number(price))
 
         if (price < 0) {
-          newErrors.price = formConfig.price.isNegative.errorMessage
+          newErrors.price = itemForms.itemPrice.isNegative.errorMessage
         }
       }
     } else if (price < 0) {
-      newErrors.price = formConfig.price.isNegative.errorMessage
-    } else if (price.length > formConfig.price.maxLength.value) {
-      newErrors.price = formConfig.price.maxLength.errorMessage
+      newErrors.price = itemForms.itemPrice.isNegative.errorMessage
+    } else if (price.length > itemForms.itemPrice.maxLength.value) {
+      newErrors.price = itemForms.itemPrice.maxLength.errorMessage
     }
 
     // Availability errors
     if (!availability || availability === '') {
-      newErrors.availability = formConfig.availability.isEmpty.errorMessage
+      newErrors.availability = itemForms.itemAvailability.isEmpty.errorMessage
     }
 
     return newErrors
@@ -216,13 +187,13 @@ const NewItemForm = ({ show, setShow }) => {
               <Form.Label>Name:</Form.Label>
               <Form.Control
                 value={form.name.trim()}
-                maxLength={formConfig.name.maxLength.value.toString()}
+                maxLength={itemForms.itemName.maxLength.value.toString()}
                 onChange={({ target }) => setField('name', target.value)}
                 isInvalid={!!errors.name}
               />
               <Form.Text>
                 {charactersRemaining(
-                  form.name, formConfig.name.maxLength.value,
+                  form.name, itemForms.itemName.maxLength.value,
                 )}
               </Form.Text>
 
@@ -236,13 +207,13 @@ const NewItemForm = ({ show, setShow }) => {
               <Form.Label>Category:</Form.Label>
               <Form.Control
                 value={form.category.trim()}
-                maxLength={formConfig.category.maxLength.value.toString()}
+                maxLength={itemForms.itemCategory.maxLength.value.toString()}
                 onChange={({ target }) => setField('category', target.value)}
                 isInvalid={!!errors.category}
               />
               <Form.Text>
                 {charactersRemaining(
-                  form.category, formConfig.category.maxLength.value,
+                  form.category, itemForms.itemCategory.maxLength.value,
                 )}
               </Form.Text>
 
@@ -256,13 +227,13 @@ const NewItemForm = ({ show, setShow }) => {
               <Form.Label>Description:</Form.Label>
               <Form.Control
                 value={form.description.trim()}
-                maxLength={formConfig.description.maxLength.value.toString()}
+                maxLength={itemForms.itemDescription.maxLength.value.toString()}
                 onChange={({ target }) => setField('description', target.value)}
                 isInvalid={!!errors.description}
               />
               <Form.Text>
                 {charactersRemaining(
-                  form.description, formConfig.description.maxLength.value,
+                  form.description, itemForms.itemDescription.maxLength.value,
                 )}
               </Form.Text>
 
@@ -276,14 +247,14 @@ const NewItemForm = ({ show, setShow }) => {
               <Form.Label>Ingredients:</Form.Label>
               <Form.Control
                 value={form.ingredients}
-                maxLength={formConfig.ingredients.maxLength.value.toString()}
+                maxLength={itemForms.itemIngredients.maxLength.value.toString()}
                 onChange={({ target }) => setField('ingredients', target.value)}
                 placeholder='Separate with a comma'
                 isInvalid={!!errors.ingredients}
               />
               <Form.Text>
                 {charactersRemaining(
-                  form.ingredients, formConfig.ingredients.maxLength.value,
+                  form.ingredients, itemForms.itemIngredients.maxLength.value,
                 )}
               </Form.Text>
 
@@ -297,7 +268,7 @@ const NewItemForm = ({ show, setShow }) => {
               <Form.Label>Price:</Form.Label>
               <Form.Control
                 value={form.price}
-                maxLength={formConfig.price.maxLength.value.toString()}
+                maxLength={itemForms.itemPrice.maxLength.value.toString()}
                 onChange={({ target }) => setField('price', target.value)}
                 isInvalid={!!errors.price}
               />
