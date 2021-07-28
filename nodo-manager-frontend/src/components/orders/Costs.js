@@ -29,7 +29,7 @@ const Costs = ({ setCosts }) => {
   }, [cart, setCosts])
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+    <div className='d-flex justify-content-between flex-wrap'>
       <div className='mr-2 text-left'>
         <h6 className='m-0 p-0'>Sub Total:</h6>
         <p className='m-0 p-0'><small>Tax Rate:</small></p>

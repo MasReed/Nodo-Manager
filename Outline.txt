@@ -113,7 +113,7 @@ Procedure / TODOs
   - verify shape of error objects created at frontend service layer
   - verify data initializers on frontend (currently in useEffect)
   - manage cast errors on backend
-  **- reword jwt malformed to user -> happens during checkout w/o orderName
+  **-jwt malformed to user -> happens during checkout as guest
 
 + API TESTING w/ JEST & SUPERTEST
   + Basic Data Validation testing for item, order, user APIs

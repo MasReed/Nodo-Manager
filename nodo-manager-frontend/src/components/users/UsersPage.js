@@ -31,7 +31,7 @@ const UsersPage = () => {
 
   return (
     <Container className='pt-5'>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div className='d-flex justify-content-between'>
         <h1 className='m-0'>Users Page</h1>
         <Button onClick={() => setShow(true)} variant='outline-secondary'>
           NEW USER

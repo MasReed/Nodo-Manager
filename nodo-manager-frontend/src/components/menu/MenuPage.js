@@ -21,7 +21,7 @@ const MenuPage = () => {
 
   return (
     <Container className='pt-5'>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div className='d-flex justify-content-between'>
         <h1 className='m-0'>Menu</h1>
         <Button onClick={() => history.push('/my-order')} variant='outline-secondary'>
           My Order

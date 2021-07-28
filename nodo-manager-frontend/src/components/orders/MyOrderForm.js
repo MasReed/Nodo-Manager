@@ -84,12 +84,12 @@ const MyOrderForm = ({ costs }) => {
 
     const newErrors = findFormErrors()
 
-    // Check for any form errors
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors)
-    } else if (!cartItems.length > 0) {
+    if (!cartItems.length > 0) {
       await dispatch(toastAlertCreator({ message: 'No items in order!' }))
       history.push('/menu')
+    // Check for any form errors
+    } else if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
     } else {
       try {
         const orderObject = {

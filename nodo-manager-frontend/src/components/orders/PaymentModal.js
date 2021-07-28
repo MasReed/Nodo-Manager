@@ -102,7 +102,7 @@ const PaymentModal = ({
         </Form>
       </Modal.Body>
 
-      <Modal.Footer style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Modal.Footer className='d-flex justify-content-between'>
         <Button
           variant='outline-warning'
           onClick={() => {

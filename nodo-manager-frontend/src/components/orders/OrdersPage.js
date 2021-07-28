@@ -50,7 +50,7 @@ const OrdersPage = () => {
     <Container className='pt-5'>
 
       {/* Order Page Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div className='d-flex justify-content-between'>
         <h1 className='m-0'>Orders</h1>
         <Button onClick={createNewOrder} variant='outline-secondary'>
           {cart.length > 0 ? 'CURRENT ORDER' : 'NEW ORDER'}

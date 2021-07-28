@@ -66,7 +66,7 @@ const OrderInfo = ({ order }) => {
 
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'space-between', color: orderStatusColor(order.status) }}>
+      <div className='d-flex justify-content-between' style={{ color: orderStatusColor(order.status) }}>
         <div>
           <h2>{order.name}</h2>
           <h6>
@@ -100,7 +100,7 @@ const OrderInfo = ({ order }) => {
         {order.notes}
       </p>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div className='d-flex justify-content-between'>
         <div className='align-self-center'>
 
           {/* Remove Order */}
