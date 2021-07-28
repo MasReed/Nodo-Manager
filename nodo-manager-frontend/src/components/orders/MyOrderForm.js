@@ -87,9 +87,10 @@ const MyOrderForm = ({ costs }) => {
     // Check for any form errors
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
-    }
-
-    if (cartItems.length > 0) {
+    } else if (!cartItems.length > 0) {
+      await dispatch(toastAlertCreator({ message: 'No items in order!' }))
+      history.push('/menu')
+    } else {
       try {
         const orderObject = {
           category: form.orderCategory,
@@ -110,9 +111,6 @@ const MyOrderForm = ({ costs }) => {
       } catch (err) {
         await dispatch(toastAlertCreator(err))
       }
-    } else {
-      await dispatch(toastAlertCreator({ message: 'No items in order!' }))
-      history.push('/menu')
     }
   }
 
@@ -145,9 +143,7 @@ const MyOrderForm = ({ costs }) => {
         </ButtonGroup>
 
         <Form.Text>
-          {form.orderCategory}
-          {' '}
-          selected.
+          {`${form.orderCategory} selected.`}
         </Form.Text>
 
         <Form.Control.Feedback type='invalid'>

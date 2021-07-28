@@ -5,22 +5,19 @@ import { useHistory } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 
-import { resetCart } from '../../reducers/cartReducer'
-
 import Costs from './Costs'
 import MyOrderForm from './MyOrderForm'
 import MyOrderItems from './MyOrderItems'
-// import PaymentModal from './PaymentModal';
 import UpdateCustomItemModal from './UpdateCustomItemModal'
+
+import { resetCart } from '../../reducers/cartReducer'
 
 const MyOrderPage = () => {
   const dispatch = useDispatch()
   const history = useHistory()
 
   const [showCustomize, setShowCustomize] = useState(false)
-  // const [showPayment, setShowPayment] = useState(false);
   const [selectedItem, setSelectedItem] = useState({})
-
   const [costs, setCosts] = useState({})
 
   const cancelOrderSequence = () => {
@@ -30,7 +27,7 @@ const MyOrderPage = () => {
 
   return (
     <Container className='pt-5'>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div className='d-flex justify-content-between'>
         <h1 className='m-0'>Your Order</h1>
         <Button
           onClick={() => history.push('/menu')}
@@ -41,7 +38,9 @@ const MyOrderPage = () => {
       </div>
 
       <hr />
+
       <MyOrderForm costs={costs} />
+
       <hr />
 
       <MyOrderItems
@@ -52,7 +51,7 @@ const MyOrderPage = () => {
       <Costs setCosts={setCosts} />
       <hr style={{ marginTop: '8px' }} />
 
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div className='d-flex justify-content-between'>
         <Button
           variant='outline-warning'
           onClick={cancelOrderSequence}
@@ -76,14 +75,6 @@ const MyOrderPage = () => {
           </Button>
         </div>
       </div>
-
-      {/*
-        <PaymentModal
-          costs={costs}
-          show={showPayment}
-          setShow={setShowPayment}
-        />
-      */}
 
       <UpdateCustomItemModal
         show={showCustomize}
