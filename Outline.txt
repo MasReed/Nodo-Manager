@@ -76,7 +76,7 @@ Procedure / TODOs
 
 - CUSTOM FORMS & VALIDATION (Frontend)
   + refactor 'remaining characters code' to reusable component
-  - refactor form validation to reusable components?
+  + refactor form validation to reusable hook
 
   + min/max length of form inputs all around
   + strip leading/trailing whitespace from inputs ( .trim() method )
@@ -131,6 +131,7 @@ Procedure / TODOs
   + RegisterForm tests
     - reset user in db between each test
 
+- implement 'undo action' functionality as reusable hook
 - archive orders
 - end of day features
 - sales data features

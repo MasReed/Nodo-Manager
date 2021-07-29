@@ -10,21 +10,41 @@ const useForm = (fields = {}) => {
   const [form, setForm] = useState(fields)
   const [errors, setErrors] = useState({})
 
-  console.log('useFormInternal', form)
+  // console.log('useFormInternal', form)
 
   //
-  const setField = (field, value) => {
-    // TODO: accept object w/ multiple field/value pairs
-    setForm({
-      ...form,
-      [field]: value,
-    })
-    // Remove any errors from the error object
-    if (errors[field]) {
-      setErrors({
-        ...errors,
-        [field]: null,
+  const setFormProps = (field, value) => {
+    // Given single object with key/value pairs, 'maps' to property/value pairs
+    if (typeof field ==='object' && field !== null && !value) {
+      let tempForm = {}
+
+      for (const [fieldKey, fieldValue] of Object.entries(field)) {
+        tempForm[fieldKey] = fieldValue
+      }
+      setForm({...form, ...tempForm})
+
+    // Given array of properties and single value will set all properties to
+    // that one value
+    } else if (Array.isArray(field) && value) {
+      let tempForm = {}
+      
+      for (const property of field) {
+        tempForm[property] = value
+      }
+      setForm({...form, ...tempForm})
+
+    } else {
+      setForm({
+        ...form,
+        [field]: value,
       })
+      // Remove any errors from the error object
+      if (errors[field]) {
+        setErrors({
+          ...errors,
+          [field]: null,
+        })
+      }
     }
   }
 
@@ -51,7 +71,7 @@ const useForm = (fields = {}) => {
 
     const newErrors = {}
 
-    console.log('FORM IN FIND ERR', form)
+    // console.log('FORM IN FIND ERR', form)
 
     Object.keys(form).forEach((property) => {
       switch (property) {
@@ -126,7 +146,8 @@ const useForm = (fields = {}) => {
       }
     })
 
-    console.log('NEW ERRORS IN FIND ERRORS', newErrors)
+    // console.log('NEW ERRORS IN FIND ERRORS', newErrors)
+
     return newErrors
   }
 
@@ -144,7 +165,7 @@ const useForm = (fields = {}) => {
     return true
   }
 
-  return [form, setField, errors, isValidated]
+  return [form, setFormProps, errors, isValidated]
 }
 
 export default useForm
