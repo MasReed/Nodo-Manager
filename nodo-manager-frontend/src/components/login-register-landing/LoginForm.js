@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form'
 
 import { userForms } from '../../configurations/formConfigs'
 import { toastAlertCreator } from '../../reducers/alertReducer'
-import { loginUserActionCreator } from '../../reducers/currentUserReducer'
+import { loginUserActionCreator, logoutUserActionCreator } from '../../reducers/currentUserReducer'
 import charactersRemaining from '../../utilities/charactersRemaining'
 
 const LoginForm = ({ ...props }) => {
@@ -69,6 +69,7 @@ const LoginForm = ({ ...props }) => {
       setErrors(newErrors)
     } else {
       try {
+        await dispatch(logoutUserActionCreator())
         await dispatch(loginUserActionCreator(form.name, form.password))
 
         if (props.setShow) {

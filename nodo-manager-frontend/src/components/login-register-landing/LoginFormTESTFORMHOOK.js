@@ -1,6 +1,4 @@
-/* eslint-disable */
-
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
@@ -18,30 +16,25 @@ const LoginForm = ({ ...props }) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const [form, setForm, errors, validateOnSubmit] = useForm({ username: '', password: '' })
+  const [form, setForm, errors, isValidated] = useForm({ username: '', password: '' })
 
   //
   const handleSubmitLogin = async (event) => {
     event.preventDefault()
 
-    if (validateOnSubmit()) {
+    if (isValidated()) {
       try {
-
         await dispatch(loginUserActionCreator(form.username, form.password))
 
         if (props.setShow) {
           props.setShow(false)
         }
 
-        // setForm({ name: '', password: '' })
-
         history.push('/menu')
       } catch (err) {
-        // setField('password', '')
+        setForm('password', '')
         await dispatch(toastAlertCreator(err))
       }
-    } else {
-      return false
     }
   }
 
@@ -56,7 +49,7 @@ const LoginForm = ({ ...props }) => {
           minLength={userForms.username.minLength.value.toString()}
           maxLength={userForms.username.maxLength.value.toString()}
           placeholder='Username'
-          onChange={setForm}
+          onChange={(event) => setForm('username', event.target.value)}
           isInvalid={!!errors.username}
         />
         <Form.Text>
@@ -77,7 +70,7 @@ const LoginForm = ({ ...props }) => {
           minLength={userForms.password.minLength.value.toString()}
           maxLength={userForms.password.maxLength.value.toString()}
           placeholder='Password'
-          onChange={setForm}
+          onChange={(event) => setForm('password', event.target.value)}
           isInvalid={!!errors.password}
         />
         <Form.Text>
@@ -104,6 +97,3 @@ const LoginForm = ({ ...props }) => {
 }
 
 export default LoginForm
-
-// Form validation built on work from:
-// https://github.com/AlecGrey/demo-form-for-blog
