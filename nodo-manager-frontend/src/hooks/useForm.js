@@ -18,20 +18,26 @@ const useForm = (fields = {}) => {
     if (typeof field === 'object' && field !== null && !value) {
       const tempForm = {}
 
-      for (const [fieldKey, fieldValue] of Object.entries(field)) {
+      Object.entries(field).map(([fieldKey, fieldValue]) => {
         tempForm[fieldKey] = fieldValue
-      }
-      setForm({...form, ...tempForm})
+        return null
+      })
+
+      setForm({ ...form, ...tempForm })
 
     // Given array of properties and single value will set all properties to
     // that one value
     } else if (Array.isArray(field) && value) {
       const tempForm = {}
 
-      for (const property of field) {
+      field.map((property) => {
         tempForm[property] = value
-      }
+        return null
+      })
+
       setForm({ ...form, ...tempForm })
+
+    // Given field, value normally
     } else {
       setForm({
         ...form,
