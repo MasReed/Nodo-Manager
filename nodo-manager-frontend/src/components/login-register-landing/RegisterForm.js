@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 
 import { userForms } from '../../configurations/formConfigs'
+import useForm from '../../hooks/useForm'
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { addUserActionCreator } from '../../reducers/userReducer'
 import charactersRemaining from '../../utilities/charactersRemaining'
@@ -15,84 +16,17 @@ const RegisterForm = () => {
   const history = useHistory()
   const currentUser = useSelector((state) => state.currentUser)
 
-  const [form, setForm] = useState(
+  const [form, setForm, errors, isValidated] = useForm(
     {
       email: '', username: '', password: '', passcopy: '',
     },
   )
-  const [errors, setErrors] = useState({})
-
-  //
-  const setField = (field, value) => {
-    setForm({
-      ...form,
-      [field]: value,
-    })
-    // Remove any errors from the error object
-    if (errors[field]) {
-      setErrors({
-        ...errors,
-        [field]: null,
-      })
-    }
-  }
-
-  //
-  const findFormErrors = () => {
-    const {
-      email, username, password, passcopy,
-    } = form
-    const newErrors = {}
-
-    // email errors
-    if (!email || email === '') {
-      newErrors.email = userForms.email.isEmpty.errorMessage
-    } else if (!email.includes('@')) {
-      newErrors.email = userForms.email.noAtSymbol.errorMessage
-    } else if (email.length < userForms.email.minLength.value) {
-      newErrors.email = userForms.email.minLength.errorMessage
-    } else if (email.length > userForms.email.maxLength.value) {
-      newErrors.email = userForms.email.maxLength.errorMessage
-    }
-
-    // username errors
-    if (!username || username === '') {
-      newErrors.username = userForms.username.isEmpty.errorMessage
-    } else if (username.length > userForms.username.maxLength.value) {
-      newErrors.username = userForms.username.maxLength.errorMessage
-    } else if (username.length < userForms.username.minLength.value) {
-      newErrors.username = userForms.username.minLength.errorMessage
-    }
-
-    // password errors
-    if (!password || password === '') {
-      newErrors.password = userForms.password.isEmpty.errorMessage
-    } else if (password.length > userForms.password.maxLength.value) {
-      newErrors.name = userForms.password.maxLength.errorMessage
-    } else if (password.length < userForms.password.minLength.value) {
-      newErrors.password = userForms.password.minLength.errorMessage
-    }
-
-    // passcopy errors
-    if (!passcopy || passcopy === '') {
-      newErrors.passcopy = userForms.passcopy.isEmpty.errorMessage
-    } else if (password !== passcopy) {
-      newErrors.passcopy = userForms.passcopy.mismatched.errorMessage
-    }
-
-    return newErrors
-  }
 
   //
   const handleSubmitRegister = async (event) => {
     event.preventDefault()
 
-    const newErrors = findFormErrors()
-
-    // Check for any form errors
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors)
-    } else {
+    if (isValidated()) {
       try {
         const newUser = {
           name: form.username,
@@ -103,9 +37,7 @@ const RegisterForm = () => {
 
         await dispatch(addUserActionCreator(newUser, currentUser))
 
-        setForm({
-          email: '', username: '', password: '', passcopy: '',
-        })
+        setForm(['email', 'username', 'password', 'passcopy'], '')
 
         history.push('/menu')
       } catch (err) {
@@ -133,7 +65,7 @@ const RegisterForm = () => {
           minLength={userForms.email.minLength.value.toString()}
           maxLength={userForms.email.maxLength.value.toString()}
           placeholder='Enter email'
-          onChange={({ target }) => setField('email', target.value)}
+          onChange={({ target }) => setForm('email', target.value)}
           isInvalid={!!errors.email}
         />
         <Form.Text>
@@ -156,7 +88,7 @@ const RegisterForm = () => {
           minLength={userForms.username.minLength.value.toString()}
           maxLength={userForms.username.maxLength.value.toString()}
           placeholder='Username'
-          onChange={({ target }) => setField('username', target.value)}
+          onChange={({ target }) => setForm('username', target.value)}
           isInvalid={!!errors.username}
         />
         <Form.Text>
@@ -179,7 +111,7 @@ const RegisterForm = () => {
           minLength={userForms.password.minLength.value.toString()}
           maxLength={userForms.password.maxLength.value.toString()}
           placeholder='Password'
-          onChange={({ target }) => setField('password', target.value)}
+          onChange={({ target }) => setForm('password', target.value)}
           isInvalid={!!errors.password}
         />
         <Form.Text>
@@ -202,7 +134,7 @@ const RegisterForm = () => {
           minLength={userForms.password.minLength.value.toString()}
           maxLength={userForms.password.maxLength.value.toString()}
           placeholder='Password'
-          onChange={({ target }) => setField('passcopy', target.value)}
+          onChange={({ target }) => setForm('passcopy', target.value)}
           isInvalid={!!errors.passcopy}
         />
         <Form.Text>

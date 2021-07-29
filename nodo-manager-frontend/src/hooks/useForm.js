@@ -15,8 +15,8 @@ const useForm = (fields = {}) => {
   //
   const setFormProps = (field, value) => {
     // Given single object with key/value pairs, 'maps' to property/value pairs
-    if (typeof field ==='object' && field !== null && !value) {
-      let tempForm = {}
+    if (typeof field === 'object' && field !== null && !value) {
+      const tempForm = {}
 
       for (const [fieldKey, fieldValue] of Object.entries(field)) {
         tempForm[fieldKey] = fieldValue
@@ -26,13 +26,12 @@ const useForm = (fields = {}) => {
     // Given array of properties and single value will set all properties to
     // that one value
     } else if (Array.isArray(field) && value) {
-      let tempForm = {}
-      
+      const tempForm = {}
+
       for (const property of field) {
         tempForm[property] = value
       }
-      setForm({...form, ...tempForm})
-
+      setForm({ ...form, ...tempForm })
     } else {
       setForm({
         ...form,
