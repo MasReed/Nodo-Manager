@@ -10,7 +10,7 @@ const useForm = (fields = {}) => {
   const [form, setForm] = useState(fields)
   const [errors, setErrors] = useState({})
 
-  // console.log('useFormInternal', form)
+  console.log('useFormInternal', form)
 
   //
   const setFormProps = (field, value) => {
@@ -76,7 +76,7 @@ const useForm = (fields = {}) => {
 
     const newErrors = {}
 
-    // console.log('FORM IN FIND ERR', form)
+    console.log('FORM IN FIND ERR', form)
 
     Object.keys(form).forEach((property) => {
       switch (property) {
@@ -131,10 +131,24 @@ const useForm = (fields = {}) => {
         }
         break
 
+      // Role errors
       case 'roleName':
+        if (!roleName) {
+          newErrors.roleName = userForms.roleName.isEmpty.errorMessage
+        } else if (roleName === 'admin'
+        && !currentUser.role.encompassedRoles.includes('admin')) {
+          newErrors.roleName = userForms.roleName.reqAdmin.errorMessage
+        } else if (roleName === 'manager'
+        && !currentUser.role.encompassedRoles.includes('manager')) {
+          newErrors.roleName = userForms.roleName.reqManager.errorMessage
+        } else if (roleName === 'employee'
+        && !currentUser.role.encompassedRoles.includes('manager')) {
+          newErrors.roleName = userForms.roleName.reqManager.errorMessage
+        }
         break
+
+      // username errors
       case 'username':
-        // username errors
         if (!username || username === '') {
           newErrors.username = userForms.username.isEmpty.errorMessage
         } else if (username.length > userForms.username.maxLength.value) {
@@ -143,7 +157,14 @@ const useForm = (fields = {}) => {
           newErrors.username = userForms.username.minLength.errorMessage
         }
         break
+
+      // usersName errors
       case 'usersName':
+        if (!usersName || usersName === '') {
+          newErrors.usersName = userForms.usersName.isEmpty.errorMessage
+        } else if (usersName.length > userForms.usersName.maxLength.value) {
+          newErrors.usersName = userForms.usersName.maxLength.errorMessage
+        }
         break
 
       default:
@@ -151,7 +172,7 @@ const useForm = (fields = {}) => {
       }
     })
 
-    // console.log('NEW ERRORS IN FIND ERRORS', newErrors)
+    console.log('NEW ERRORS IN FIND ERRORS', newErrors)
 
     return newErrors
   }
