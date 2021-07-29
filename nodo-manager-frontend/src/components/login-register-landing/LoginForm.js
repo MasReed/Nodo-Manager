@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
@@ -7,80 +7,38 @@ import Form from 'react-bootstrap/Form'
 
 import { userForms } from '../../configurations/formConfigs'
 import { toastAlertCreator } from '../../reducers/alertReducer'
-import { loginUserActionCreator, logoutUserActionCreator } from '../../reducers/currentUserReducer'
+import {
+  loginUserActionCreator,
+  logoutUserActionCreator,
+} from '../../reducers/currentUserReducer'
 import charactersRemaining from '../../utilities/charactersRemaining'
+
+import useForm from '../../hooks/useForm'
 
 const LoginForm = ({ ...props }) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const [form, setForm] = useState({ name: '', password: '' })
-  const [errors, setErrors] = useState({})
-
-  //
-  const setField = (field, value) => {
-    setForm({
-      ...form,
-      [field]: value,
-    })
-    // Remove any errors from the error object
-    if (errors[field]) {
-      setErrors({
-        ...errors,
-        [field]: null,
-      })
-    }
-  }
-
-  //
-  const findFormErrors = () => {
-    const { name, password } = form
-    const newErrors = {}
-
-    // name errors
-    if (!name || name === '') {
-      newErrors.name = userForms.username.isEmpty.errorMessage
-    } else if (name.length > userForms.username.maxLength.value) {
-      newErrors.name = userForms.username.maxLength.errorMessage
-    } else if (name.length < userForms.username.minLength.value) {
-      newErrors.name = userForms.username.minLength.errorMessage
-    }
-
-    // password errors
-    if (!password || password === '') {
-      newErrors.password = userForms.password.isEmpty.errorMessage
-    } else if (password.length > userForms.password.maxLength.value) {
-      newErrors.name = userForms.password.maxLength.errorMessage
-    } else if (password.length < userForms.password.minLength.value) {
-      newErrors.password = userForms.password.minLength.errorMessage
-    }
-
-    return newErrors
-  }
+  const [form, setForm, errors, isValidated] = useForm(
+    { username: '', password: '' },
+  )
 
   //
   const handleSubmitLogin = async (event) => {
     event.preventDefault()
 
-    const newErrors = findFormErrors()
-
-    // Check for any form errors
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors)
-    } else {
+    if (isValidated()) {
       try {
         await dispatch(logoutUserActionCreator())
-        await dispatch(loginUserActionCreator(form.name, form.password))
+        await dispatch(loginUserActionCreator(form.username, form.password))
 
         if (props.setShow) {
           props.setShow(false)
         }
 
-        setForm({ name: '', password: '' })
-
         history.push('/menu')
       } catch (err) {
-        setField('password', '')
+        setForm('password', '')
         await dispatch(toastAlertCreator(err))
       }
     }
@@ -89,28 +47,30 @@ const LoginForm = ({ ...props }) => {
   return (
     <Form id='login-form'>
       {/* Login Username */}
-      <Form.Group controlId='login-username'>
+      <Form.Group controlId='username'>
         <Form.Label>Username</Form.Label>
         <Form.Control
           type='text'
-          value={form.name.trim()}
+          value={form.username.trim()}
           minLength={userForms.username.minLength.value.toString()}
           maxLength={userForms.username.maxLength.value.toString()}
           placeholder='Username'
-          onChange={(e) => setField('name', e.target.value)}
-          isInvalid={!!errors.name}
+          onChange={(event) => setForm('username', event.target.value)}
+          isInvalid={!!errors.username}
         />
         <Form.Text>
-          {charactersRemaining(form.name, userForms.username.maxLength.value)}
+          {charactersRemaining(
+            form.username, userForms.username.maxLength.value,
+          )}
         </Form.Text>
 
         <Form.Control.Feedback type='invalid'>
-          { errors.name }
+          { errors.username }
         </Form.Control.Feedback>
       </Form.Group>
 
       {/* Login Password */}
-      <Form.Group controlId='login-password'>
+      <Form.Group controlId='password'>
         <Form.Label>Password</Form.Label>
         <Form.Control
           type='password'
@@ -118,7 +78,7 @@ const LoginForm = ({ ...props }) => {
           minLength={userForms.password.minLength.value.toString()}
           maxLength={userForms.password.maxLength.value.toString()}
           placeholder='Password'
-          onChange={(e) => setField('password', e.target.value)}
+          onChange={(event) => setForm('password', event.target.value)}
           isInvalid={!!errors.password}
         />
         <Form.Text>
@@ -145,6 +105,3 @@ const LoginForm = ({ ...props }) => {
 }
 
 export default LoginForm
-
-// Form validation built on work from:
-// https://github.com/AlecGrey/demo-form-for-blog
