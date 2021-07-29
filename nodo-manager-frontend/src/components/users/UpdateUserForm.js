@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
+import { useDispatch } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 
 import AlertBanner from '../site-wide/AlertBanner'
-
+import useForm from '../../hooks/useForm'
 import { userForms } from '../../configurations/formConfigs'
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { updateUserActionCreator } from '../../reducers/userReducer'
@@ -14,89 +14,22 @@ import charactersRemaining from '../../utilities/charactersRemaining'
 
 const UpdateUserForm = ({ user, show, setShow }) => {
   const dispatch = useDispatch()
-  const currentUser = useSelector((state) => state.currentUser)
 
-  const [form, setForm] = useState({
-    name: user.name,
+  const [form, setForm, errors, isValidated] = useForm({
+    usersName: user.name,
     email: user.email,
     username: user.username,
     roleName: user.role.name,
   })
 
-  const [errors, setErrors] = useState({})
-
-  //
-  const setField = (field, value) => {
-    setForm({
-      ...form,
-      [field]: value,
-    })
-    // Remove any errors from the error object
-    if (errors[field]) {
-      setErrors({
-        ...errors,
-        [field]: null,
-      })
-    }
-  }
-
-  //
-  const findFormErrors = () => {
-    const {
-      name, email, username, roleName,
-    } = form
-    const newErrors = {}
-    // Name errors
-    if (!name || name === '') {
-      newErrors.name = userForms.usersName.isEmpty.errorMessage
-    } else if (name.length > userForms.usersName.maxLength.value) {
-      newErrors.name = userForms.usersName.maxLength.errorMessage
-    }
-
-    // email errors
-    if (!email || email === '') {
-      newErrors.email = userForms.email.isEmpty.errorMessage
-    } else if (!email.includes('@')) {
-      newErrors.email = userForms.email.noAtSymbol.errorMessage
-    } else if (email.length < userForms.email.minLength.value) {
-      newErrors.email = userForms.email.minLength.errorMessage
-    }
-
-    // username errors
-    if (!username || username === '') {
-      newErrors.username = userForms.username.isEmpty.errorMessage
-    } else if (username.length > userForms.username.maxLength.value) {
-      newErrors.username = userForms.username.maxLength.errorMessage
-    } else if (username.length < userForms.username.minLength.value) {
-      newErrors.username = userForms.username.minLength.errorMessage
-    }
-
-    // Role errors
-    if (!roleName) {
-      newErrors.roleName = userForms.roleName.isEmpty.errorMessage
-    } else if (roleName === 'admin'
-    && !currentUser.role.encompassedRoles.includes('admin')) {
-      newErrors.roleName = userForms.roleName.reqAdmin.errorMessage
-    } else if (roleName === 'manager'
-    && !currentUser.role.encompassedRoles.includes('manager')) {
-      newErrors.roleName = userForms.roleName.reqManager.errorMessage
-    } else if (roleName === 'employee'
-    && !currentUser.role.encompassedRoles.includes('manager')) {
-      newErrors.roleName = userForms.roleName.reqManager.errorMessage
-    }
-
-    return newErrors
-  }
-
   //
   const resetForm = () => {
     setForm({
-      name: user.name,
+      usersName: user.name,
       email: user.email,
       username: user.username,
       roleName: user.role.name,
     })
-    setErrors({})
     setShow(false)
   }
 
@@ -104,16 +37,11 @@ const UpdateUserForm = ({ user, show, setShow }) => {
   const updateUser = async (event) => {
     event.preventDefault()
 
-    const newErrors = findFormErrors()
-
-    // Check for any form errors
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors)
-    } else {
+    if (isValidated()) {
       try {
         const updatedUserObject = {
           ...user,
-          name: form.name,
+          name: form.usersName,
           email: form.email,
           username: form.username,
           password: null,
@@ -140,8 +68,7 @@ const UpdateUserForm = ({ user, show, setShow }) => {
     >
       <Modal.Header closeButton>
         <Modal.Title>
-          Update
-          {user.username}
+          {`Update ${user.username}`}
         </Modal.Title>
       </Modal.Header>
 
@@ -153,20 +80,20 @@ const UpdateUserForm = ({ user, show, setShow }) => {
             <Form.Label>Full Name:</Form.Label>
             <Form.Control
               type='text'
-              value={form.name.trim()}
+              value={form.usersName}
               maxLength={userForms.usersName.maxLength.value.toString()}
               placeholder='Jane Doe'
-              onChange={({ target }) => setField('name', target.value)}
-              isInvalid={!!errors.name}
+              onChange={({ target }) => setForm('usersName', target.value)}
+              isInvalid={!!errors.usersName}
             />
             <Form.Text>
               {charactersRemaining(
-                form.name, userForms.usersName.maxLength.value,
+                form.usersName, userForms.usersName.maxLength.value,
               )}
             </Form.Text>
 
             <Form.Control.Feedback type='invalid'>
-              { errors.name }
+              { errors.usersName }
             </Form.Control.Feedback>
           </Form.Group>
 
@@ -178,7 +105,7 @@ const UpdateUserForm = ({ user, show, setShow }) => {
               minLength={userForms.email.minLength.value.toString()}
               maxLength={userForms.email.maxLength.value.toString()}
               placeholder='abc@123.com'
-              onChange={({ target }) => setField('email', target.value)}
+              onChange={({ target }) => setForm('email', target.value)}
               isInvalid={!!errors.email}
             />
             <Form.Text>
@@ -199,7 +126,7 @@ const UpdateUserForm = ({ user, show, setShow }) => {
               value={form.username.trim()}
               minLength={userForms.username.minLength.value.toString()}
               maxLength={userForms.username.maxLength.value.toString()}
-              onChange={({ target }) => setField('username', target.value)}
+              onChange={({ target }) => setForm('username', target.value)}
               isInvalid={!!errors.username}
             />
             <Form.Text>
@@ -224,7 +151,7 @@ const UpdateUserForm = ({ user, show, setShow }) => {
                 id='inline-radio-admin'
                 checked={form.roleName === 'admin'}
                 value='admin'
-                onChange={({ target }) => setField('roleName', target.value)}
+                onChange={({ target }) => setForm('roleName', target.value)}
                 isInvalid={!!errors.roleName}
               />
               <Form.Check
@@ -235,7 +162,7 @@ const UpdateUserForm = ({ user, show, setShow }) => {
                 id='inline-radio-manager'
                 checked={form.roleName === 'manager'}
                 value='manager'
-                onChange={({ target }) => setField('roleName', target.value)}
+                onChange={({ target }) => setForm('roleName', target.value)}
                 isInvalid={!!errors.roleName}
               />
               <Form.Check
@@ -246,7 +173,7 @@ const UpdateUserForm = ({ user, show, setShow }) => {
                 id='inline-radio-employee'
                 checked={form.roleName === 'employee'}
                 value='employee'
-                onChange={({ target }) => setField('roleName', target.value)}
+                onChange={({ target }) => setForm('roleName', target.value)}
                 isInvalid={!!errors.roleName}
               />
               <Form.Check
@@ -257,7 +184,7 @@ const UpdateUserForm = ({ user, show, setShow }) => {
                 id='inline-radio-user'
                 checked={form.roleName === 'user'}
                 value='user'
-                onChange={({ target }) => setField('roleName', target.value)}
+                onChange={({ target }) => setForm('roleName', target.value)}
                 isInvalid={!!errors.roleName}
               />
             </div>

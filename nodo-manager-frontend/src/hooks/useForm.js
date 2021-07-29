@@ -4,9 +4,12 @@
 // https://github.com/AlecGrey/demo-form-for-blog
 
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { userForms } from '../configurations/formConfigs'
 
 const useForm = (fields = {}) => {
+  const currentUser = useSelector((state) => state.currentUser)
+
   const [form, setForm] = useState(fields)
   const [errors, setErrors] = useState({})
 
