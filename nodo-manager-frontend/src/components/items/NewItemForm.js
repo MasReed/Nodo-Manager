@@ -89,7 +89,7 @@ const NewItemForm = ({ show, setShow }) => {
             <Form.Group>
               <Form.Label>Name:</Form.Label>
               <Form.Control
-                value={form.itemName.trim()}
+                value={form.itemName}
                 maxLength={itemForms.itemName.maxLength.value.toString()}
                 onChange={({ target }) => setForm('itemName', target.value)}
                 isInvalid={!!errors.itemName}
@@ -109,7 +109,7 @@ const NewItemForm = ({ show, setShow }) => {
             <Form.Group>
               <Form.Label>Category:</Form.Label>
               <Form.Control
-                value={form.itemCategory.trim()}
+                value={form.itemCategory}
                 maxLength={itemForms.itemCategory.maxLength.value.toString()}
                 onChange={({ target }) => setForm('itemCategory', target.value)}
                 isInvalid={!!errors.itemCategory}
@@ -129,7 +129,7 @@ const NewItemForm = ({ show, setShow }) => {
             <Form.Group>
               <Form.Label>Description:</Form.Label>
               <Form.Control
-                value={form.itemDescription.trim()}
+                value={form.itemDescription}
                 maxLength={itemForms.itemDescription.maxLength.value.toString()}
                 onChange={({ target }) => setForm('itemDescription', target.value)}
                 isInvalid={!!errors.itemDescription}

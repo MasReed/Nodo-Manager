@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 
 import AlertBanner from '../site-wide/AlertBanner'
-
+import useForm from '../../hooks/useForm'
 import { itemForms } from '../../configurations/formConfigs'
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { updateItemActionCreator } from '../../reducers/itemReducer'
@@ -15,160 +15,72 @@ import charactersRemaining from '../../utilities/charactersRemaining'
 const UpdateItemForm = ({ item, show, setShow }) => {
   const dispatch = useDispatch()
 
-  const [form, setForm] = useState({
-    name: item.name,
-    category: item.category,
-    description: item.description,
-    ingredients: item.ingredients,
-    price: item.price,
-    availability: item.availability,
+  const [form, setForm, errors, isValidated] = useForm({
+    itemName: item.name,
+    itemCategory: item.category,
+    itemDescription: item.description,
+    itemIngredients: item.ingredients,
+    itemPrice: item.price,
+    itemAvailability: item.availability,
   })
 
-  // Form related errors
-  const [errors, setErrors] = useState({})
-
-  // Update single form field with value
-  const setField = (field, value) => {
-    setForm({
-      ...form,
-      [field]: value,
-    })
-    // Remove any errors from the error object
-    if (errors[field]) {
-      setErrors({
-        ...errors,
-        [field]: null,
-      })
-    }
-  }
-
   //
-  const findFormErrors = () => {
-    const {
-      name,
-      category,
-      description,
-      ingredients,
-      price,
-      availability,
-    } = form
-
-    const newErrors = {}
-
-    // Name errors
-    if (!name || name === '') {
-      newErrors.name = itemForms.itemName.isEmpty.errorMessage
-    } else if (name.length > itemForms.itemName.maxLength) {
-      newErrors.name = itemForms.itemName.maxLength.errorMessage
-    }
-
-    // Category errors
-    if (!category || category === '') {
-      newErrors.category = itemForms.itemCategory.isEmpty.errorMessage
-    } else if (category.length > itemForms.itemCategory.maxLength.value) {
-      newErrors.category = itemForms.itemCategory.maxLength.value
-    }
-
-    // Description errors
-    if (description.length > itemForms.itemDescription.maxLength) {
-      newErrors.description = itemForms.itemDescription.maxLength.errorMessage
-    }
-
-    // Ingredient errors
-    if (ingredients.length > itemForms.itemIngredients.maxLength) {
-      newErrors.ingredients = itemForms.itemIngredients.maxLength.errorMessage
-    }
-
-    // Price errors
-    if (!price || price === '') {
-      newErrors.price = itemForms.itemPrice.isEmpty.errorMessage
-    } else if (typeof price !== 'number') {
-      if (Number.isNaN(Number(price))) {
-        newErrors.price = itemForms.itemPrice.isNaN.errorMessage
-      } else {
-        setField('price', Number(price))
-
-        if (price < 0) {
-          newErrors.price = itemForms.itemPrice.isNegative.errorMessage
-        }
-      }
-    } else if (price < 0) {
-      newErrors.price = itemForms.itemPrice.isNegative.errorMessage
-    } else if (price.length > itemForms.itemPrice.maxLength.value) {
-      newErrors.price = itemForms.itemPrice.maxLength.errorMessage
-    }
-
-    // Availability errors
-    if (!availability || availability === '') {
-      newErrors.availability = itemForms.itemAvailability.isEmpty.errorMessage
-    }
-
-    return newErrors
+  const resetForm = () => {
+    setForm({
+      itemName: item.name,
+      itemCategory: item.category,
+      itemDescription: item.description,
+      itemIngredients: item.ingredients,
+      itemPrice: item.price,
+      itemAvailability: item.availability,
+    })
+    setShow(false) // state from parent; closes modal
   }
 
   //
   const callUpdateItem = async (event) => {
     event.preventDefault()
 
-    const ingredientsArray = Array.isArray(form.ingredients)
+    const ingredientsArray = Array.isArray(form.itemIngredients)
       // convert comma-separated items into array if neccessary
-      ? form.ingredients
-      : form.ingredients.split(/\s*(?:,|$)\s*/)
-
-    const newErrors = findFormErrors()
+      ? form.itemIngredients
+      : form.itemIngredients.split(/\s*(?:,|$)\s*/)
 
     // Check for any form errors
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors)
-    } else {
+    if (isValidated()) {
       try {
         const updatedItemObject = {
           ...item,
-          name: form.name,
-          category: form.category,
-          description: form.description,
+          name: form.itemName,
+          category: form.itemCategory,
+          description: form.itemDescription,
           ingredients: ingredientsArray,
-          price: form.price,
-          availability: form.availability,
+          price: form.itemPrice,
+          availability: form.itemAvailability,
         }
 
         // Dispatch to item reducer
         /* eslint-disable-next-line no-underscore-dangle */
         await dispatch(updateItemActionCreator(item._id, updatedItemObject))
 
-        setShow(false) // state from parent; closes modal
+        resetForm()
       } catch (err) {
         await dispatch(toastAlertCreator(err))
       }
     }
   }
 
-  //
-  const handleCanceledForm = () => {
-    setForm({
-      name: item.name,
-      category: item.category,
-      description: item.description,
-      ingredients: item.ingredients,
-      price: item.price,
-      availability: item.availability,
-    })
-    setErrors({})
-    setShow(false) // state from parent; closes modal
-  }
-
   return (
     <>
       <Modal
         show={show}
-        onHide={() => handleCanceledForm()}
+        onHide={resetForm}
         backdrop='static'
         keyboard={false}
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            Make Updates to
-            {item.name}
+            {`Make Updates to ${item.name}`}
           </Modal.Title>
         </Modal.Header>
 
@@ -181,19 +93,19 @@ const UpdateItemForm = ({ item, show, setShow }) => {
             <Form.Group>
               <Form.Label>Name:</Form.Label>
               <Form.Control
-                value={form.name.trim()}
+                value={form.itemName}
                 maxLength={itemForms.itemName.maxLength.value.toString()}
-                onChange={({ target }) => setField('name', target.value)}
-                isInvalid={!!errors.name}
+                onChange={({ target }) => setForm('itemName', target.value)}
+                isInvalid={!!errors.itemName}
               />
               <Form.Text>
                 {charactersRemaining(
-                  form.name, itemForms.itemName.maxLength.value,
+                  form.itemName, itemForms.itemName.maxLength.value,
                 )}
               </Form.Text>
 
               <Form.Control.Feedback type='invalid'>
-                { errors.name }
+                { errors.itemName }
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -201,19 +113,19 @@ const UpdateItemForm = ({ item, show, setShow }) => {
             <Form.Group>
               <Form.Label>Category:</Form.Label>
               <Form.Control
-                value={form.category.trim()}
+                value={form.itemCategory}
                 maxLength={itemForms.itemCategory.maxLength.value.toString()}
-                onChange={({ target }) => setField('category', target.value)}
-                isInvalid={!!errors.category}
+                onChange={({ target }) => setForm('itemCategory', target.value)}
+                isInvalid={!!errors.itemCategory}
               />
               <Form.Text>
                 {charactersRemaining(
-                  form.category, itemForms.itemCategory.maxLength.value,
+                  form.itemCategory, itemForms.itemCategory.maxLength.value,
                 )}
               </Form.Text>
 
               <Form.Control.Feedback type='invalid'>
-                { errors.category }
+                { errors.itemCategory }
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -221,19 +133,19 @@ const UpdateItemForm = ({ item, show, setShow }) => {
             <Form.Group>
               <Form.Label>Description:</Form.Label>
               <Form.Control
-                value={form.description.trim()}
+                value={form.itemDescription}
                 maxLength={itemForms.itemDescription.maxLength.value.toString()}
-                onChange={({ target }) => setField('description', target.value)}
-                isInvalid={!!errors.description}
+                onChange={({ target }) => setForm('itemDescription', target.value)}
+                isInvalid={!!errors.itemDescription}
               />
               <Form.Text>
                 {charactersRemaining(
-                  form.description, itemForms.itemDescription.maxLength.value,
+                  form.itemDescription, itemForms.itemDescription.maxLength.value,
                 )}
               </Form.Text>
 
               <Form.Control.Feedback type='invalid'>
-                { errors.description }
+                { errors.itemDescription }
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -241,20 +153,20 @@ const UpdateItemForm = ({ item, show, setShow }) => {
             <Form.Group>
               <Form.Label>Ingredients:</Form.Label>
               <Form.Control
-                value={form.ingredients}
+                value={form.itemIngredients}
                 maxLength={itemForms.itemIngredients.maxLength.value.toString()}
-                onChange={({ target }) => setField('ingredients', target.value)}
+                onChange={({ target }) => setForm('itemIngredients', target.value)}
                 placeholder='Separate with a comma'
-                isInvalid={!!errors.ingredients}
+                isInvalid={!!errors.itemIngredients}
               />
               <Form.Text>
                 {charactersRemaining(
-                  form.ingredients, itemForms.itemIngredients.maxLength.value,
+                  form.itemIngredients, itemForms.itemIngredients.maxLength.value,
                 )}
               </Form.Text>
 
               <Form.Control.Feedback type='invalid'>
-                { errors.ingredients }
+                { errors.itemIngredients }
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -262,13 +174,13 @@ const UpdateItemForm = ({ item, show, setShow }) => {
             <Form.Group>
               <Form.Label>Price:</Form.Label>
               <Form.Control
-                value={form.price}
+                value={form.itemPrice}
                 maxLength={itemForms.itemPrice.maxLength.value.toString()}
-                onChange={({ target }) => setField('price', target.value)}
-                isInvalid={!!errors.price}
+                onChange={({ target }) => setForm('itemPrice', target.value)}
+                isInvalid={!!errors.itemPrice}
               />
               <Form.Control.Feedback type='invalid'>
-                { errors.price }
+                { errors.itemPrice }
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -282,10 +194,10 @@ const UpdateItemForm = ({ item, show, setShow }) => {
                   name='availability'
                   type='radio'
                   id='inline-radio-available'
-                  checked={form.availability === 'Available'}
+                  checked={form.itemAvailability === 'Available'}
                   value='Available'
-                  onChange={({ target }) => setField('availability', target.value)}
-                  isInvalid={!!errors.availability}
+                  onChange={({ target }) => setForm('itemAvailability', target.value)}
+                  isInvalid={!!errors.itemAvailability}
                 />
                 <Form.Check
                   inline
@@ -293,10 +205,10 @@ const UpdateItemForm = ({ item, show, setShow }) => {
                   name='availability'
                   type='radio'
                   id='inline-radio-unavailable'
-                  checked={form.availability === 'Unavailable'}
+                  checked={form.itemAvailability === 'Unavailable'}
                   value='Unavailable'
-                  onChange={({ target }) => setField('availability', target.value)}
-                  isInvalid={!!errors.availability}
+                  onChange={({ target }) => setForm('itemAvailability', target.value)}
+                  isInvalid={!!errors.itemAvailability}
                 />
               </div>
             </Form.Group>
@@ -305,7 +217,7 @@ const UpdateItemForm = ({ item, show, setShow }) => {
 
         <Modal.Footer>
           <Button type='submit' form='updateItemForm'>Save</Button>
-          <Button variant='secondary' onClick={handleCanceledForm}>
+          <Button variant='secondary' onClick={resetForm}>
             Cancel
           </Button>
         </Modal.Footer>
