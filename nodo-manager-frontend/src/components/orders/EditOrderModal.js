@@ -9,6 +9,7 @@ import Modal from 'react-bootstrap/Modal'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 
 import { orderForms } from '../../configurations/formConfigs'
+import useForm from '../../hooks/useForm'
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { updateOrderActionCreator } from '../../reducers/orderReducer'
 import charactersRemaining from '../../utilities/charactersRemaining'
@@ -18,64 +19,18 @@ const EditOrderModal = ({ order, show, setShow }) => {
 
   const [localOrder, setLocalOrder] = useState(order)
 
-  const [form, setForm] = useState({
+  const [form, setForm, errors, isValidated] = useForm({
     orderCategory: localOrder.category,
     orderName: localOrder.name,
     orderNotes: localOrder.notes,
   })
-  const [errors, setErrors] = useState({})
-
-  //
-  const setField = (field, value) => {
-    setForm({
-      ...form,
-      [field]: value,
-    })
-    // Remove any errors from the error object
-    if (errors[field]) {
-      setErrors({
-        ...errors,
-        [field]: null,
-      })
-    }
-  }
-
-  //
-  const findFormErrors = () => {
-    const { orderCategory, orderName, orderNotes } = form
-    const newErrors = {}
-    // orderCategory errors
-    if (!orderCategory) {
-      newErrors.orderCategory = orderForms.orderCategory.errorMessage
-    }
-
-    // orderName errors
-    if (!orderName || orderName === '') {
-      newErrors.orderName = orderForms.orderName.isEmpty.errorMessage
-    } else if (orderName.length < orderForms.orderName.minLength.value) {
-      newErrors.orderName = orderForms.orderName.minLength.errorMessage
-    } else if (orderName.length > orderForms.orderName.maxLength.value) {
-      newErrors.orderName = orderForms.orderName.maxLength.errorMessage
-    }
-
-    // orderNotes errors
-    if (orderNotes.length > orderForms.orderNotes.maxLength.value) {
-      newErrors.orderNotes = orderForms.orderNotes.maxLength.errorMessage
-    }
-
-    return newErrors
-  }
 
   //
   const handleUpdateSubmission = async (event) => {
     event.preventDefault()
 
-    const newErrors = findFormErrors()
-
     // Check for any form errors
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors)
-    } else {
+    if (isValidated()) {
       try {
         const updatedOrderObject = {
           ...localOrder,
@@ -117,7 +72,6 @@ const EditOrderModal = ({ order, show, setShow }) => {
       orderName: order.name,
       orderNotes: order.notes,
     })
-    setErrors({})
     setShow(false)
   }
 
@@ -153,7 +107,7 @@ const EditOrderModal = ({ order, show, setShow }) => {
                 variant='outline-primary'
                 value={form.orderCategory}
                 checked={form.orderCategory === 'Carry Out'}
-                onChange={() => setField('orderCategory', 'Carry Out')}
+                onChange={() => setForm('orderCategory', 'Carry Out')}
               >
                 Carry Out
               </ToggleButton>
@@ -164,7 +118,7 @@ const EditOrderModal = ({ order, show, setShow }) => {
                 variant='outline-primary'
                 value={form.orderCategory}
                 checked={form.orderCategory === 'Delivery'}
-                onChange={() => setField('orderCategory', 'Delivery')}
+                onChange={() => setForm('orderCategory', 'Delivery')}
               >
                 Delivery
               </ToggleButton>
@@ -190,7 +144,7 @@ const EditOrderModal = ({ order, show, setShow }) => {
                   value={form.orderName.trim()}
                   minLength={orderForms.orderName.minLength.value.toString()}
                   maxLength={orderForms.orderName.maxLength.value.toString()}
-                  onChange={({ target }) => setField('orderName', target.value)}
+                  onChange={({ target }) => setForm('orderName', target.value)}
                   placeholder='e.g. Jane Doe'
                   isInvalid={!!errors.orderName}
                 />
@@ -213,7 +167,7 @@ const EditOrderModal = ({ order, show, setShow }) => {
                 <Form.Control
                   value={form.orderNotes.trim()}
                   maxLength={orderForms.orderNotes.maxLength.value.toString()}
-                  onChange={({ target }) => setField('orderNotes', target.value)}
+                  onChange={({ target }) => setForm('orderNotes', target.value)}
                   isInvalid={!!errors.orderNotes}
                 />
                 <Form.Text>
