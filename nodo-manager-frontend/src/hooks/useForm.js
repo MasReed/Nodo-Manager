@@ -5,7 +5,7 @@
 
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { userForms } from '../configurations/formConfigs'
+import { itemForms, orderForms, userForms } from '../configurations/formConfigs'
 
 const useForm = (fields = {}) => {
   const currentUser = useSelector((state) => state.currentUser)
@@ -83,26 +83,58 @@ const useForm = (fields = {}) => {
 
     Object.keys(form).forEach((property) => {
       switch (property) {
+
+      // itemAvailability errors
       case 'itemAvailability':
         break
+
+      // itemCategory errors
       case 'itemCategory':
         break
+
+      // itemDescription errors
       case 'itemDescription':
         break
+
+      // itemIngredients errors
       case 'itemIngredients':
         break
+
+      // itemName errors
       case 'itemName':
         break
+
+      // itemPrice errors
       case 'itemPrice':
         break
+
+      // orderCategory errors
       case 'orderCategory':
+        if (!orderCategory) {
+          newErrors.orderCategory = orderForms.orderCategory.errorMessage
+        }
         break
+
+      // orderName errors
       case 'orderName':
+        if (!orderName || orderName === '') {
+          newErrors.orderName = orderForms.orderName.isEmpty.errorMessage
+        } else if (orderName.length < orderForms.orderName.minLength.value) {
+          newErrors.orderName = orderForms.orderName.minLength.errorMessage
+        } else if (orderName.length > orderForms.orderName.maxLength.value) {
+          newErrors.orderName = orderForms.orderName.maxLength.errorMessage
+        }
         break
+
+      // orderNotes errors
       case 'orderNotes':
+        if (orderNotes.length > orderForms.orderNotes.maxLength.value) {
+          newErrors.orderNotes = orderForms.orderNotes.maxLength.errorMessage
+        }
         break
+
+      // email errors
       case 'email':
-        // email errors
         if (!email || email === '') {
           newErrors.email = userForms.email.isEmpty.errorMessage
         } else if (!email.includes('@')) {
@@ -114,8 +146,8 @@ const useForm = (fields = {}) => {
         }
         break
 
+      // passcopy errors
       case 'passcopy':
-        // passcopy errors
         if (!passcopy || passcopy === '') {
           newErrors.passcopy = userForms.passcopy.isEmpty.errorMessage
         } else if (passcopy !== password) {
@@ -123,8 +155,8 @@ const useForm = (fields = {}) => {
         }
         break
 
+      // password errors
       case 'password':
-        // password errors
         if (!password || password === '') {
           newErrors.password = userForms.password.isEmpty.errorMessage
         } else if (password.length > userForms.password.maxLength.value) {
@@ -134,7 +166,7 @@ const useForm = (fields = {}) => {
         }
         break
 
-      // Role errors
+      // roleName errors
       case 'roleName':
         if (!roleName) {
           newErrors.roleName = userForms.roleName.isEmpty.errorMessage

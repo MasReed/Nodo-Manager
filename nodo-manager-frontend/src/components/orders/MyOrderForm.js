@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
@@ -8,6 +8,7 @@ import Form from 'react-bootstrap/Form'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 
 import { orderForms } from '../../configurations/formConfigs'
+import useForm from '../../hooks/useForm'
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { addOrderActionCreator } from '../../reducers/orderReducer'
 import { resetCart } from '../../reducers/cartReducer'
@@ -24,73 +25,26 @@ const MyOrderForm = ({ costs }) => {
 
     if (currentUser) {
       return currentUser.name
-    } if (itemWhosIndex !== -1) {
+    }
+    if (itemWhosIndex !== -1) {
       return cartItems[itemWhosIndex].whos
     }
     return ''
   }
 
-  const [form, setForm] = useState({
+  const [form, setForm, errors, isValidated] = useForm({
     orderCategory: 'Carry Out',
     orderName: getInitialDefaultOrderName(),
     orderNotes: '',
   })
 
-  const [errors, setErrors] = useState({})
-
-  //
-  const setField = (field, value) => {
-    setForm({
-      ...form,
-      [field]: value,
-    })
-    // Remove any errors from the error object
-    if (errors[field]) {
-      setErrors({
-        ...errors,
-        [field]: null,
-      })
-    }
-  }
-
-  //
-  const findFormErrors = () => {
-    const { orderCategory, orderName, orderNotes } = form
-    const newErrors = {}
-    // orderCategory errors
-    if (!orderCategory) {
-      newErrors.orderCategory = orderForms.orderCategory.errorMessage
-    }
-
-    // orderName errors
-    if (!orderName || orderName === '') {
-      newErrors.orderName = orderForms.orderName.isEmpty.errorMessage
-    } else if (orderName.length < orderForms.orderName.minLength.value) {
-      newErrors.orderName = orderForms.orderName.minLength.errorMessage
-    } else if (orderName.length > orderForms.orderName.maxLength.value) {
-      newErrors.orderName = orderForms.orderName.maxLength.errorMessage
-    }
-
-    // orderNotes errors
-    if (orderNotes.length > orderForms.orderNotes.maxLength.value) {
-      newErrors.orderNotes = orderForms.orderNotes.maxLength.errorMessage
-    }
-
-    return newErrors
-  }
-
   const addOrder = async (event) => {
     event.preventDefault()
 
-    const newErrors = findFormErrors()
-
-    if (!cartItems.length > 0) {
+    if (cartItems.length < 1) {
       await dispatch(toastAlertCreator({ message: 'No items in order!' }))
       history.push('/menu')
-    // Check for any form errors
-    } else if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors)
-    } else {
+    } else if (isValidated()) {
       try {
         const orderObject = {
           category: form.orderCategory,
@@ -125,7 +79,7 @@ const MyOrderForm = ({ costs }) => {
             variant='outline-primary'
             value={form.orderCategory}
             checked={form.orderCategory === 'Carry Out'}
-            onChange={() => setField('orderCategory', 'Carry Out')}
+            onChange={() => setForm('orderCategory', 'Carry Out')}
           >
             Carry Out
           </ToggleButton>
@@ -136,7 +90,7 @@ const MyOrderForm = ({ costs }) => {
             variant='outline-primary'
             value={form.orderCategory}
             checked={form.orderCategory === 'Delivery'}
-            onChange={() => setField('orderCategory', 'Delivery')}
+            onChange={() => setForm('orderCategory', 'Delivery')}
           >
             Delivery
           </ToggleButton>
@@ -161,7 +115,7 @@ const MyOrderForm = ({ costs }) => {
               value={form.orderName.trim()}
               minLength={orderForms.orderName.minLength.value.toString()}
               maxLength={orderForms.orderName.maxLength.value.toString()}
-              onChange={({ target }) => setField('orderName', target.value)}
+              onChange={({ target }) => setForm('orderName', target.value)}
               placeholder='e.g. Jane Doe'
               isInvalid={!!errors.orderName}
             />
@@ -185,7 +139,7 @@ const MyOrderForm = ({ costs }) => {
             <Form.Control
               value={form.orderNotes.trim()}
               maxLength={orderForms.orderNotes.maxLength.value.toString()}
-              onChange={({ target }) => setField('orderNotes', target.value)}
+              onChange={({ target }) => setForm('orderNotes', target.value)}
               isInvalid={!!errors.orderNotes}
             />
             <Form.Text>
