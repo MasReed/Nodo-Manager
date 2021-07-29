@@ -77,6 +77,7 @@ Procedure / TODOs
 - CUSTOM FORMS & VALIDATION (Frontend)
   + refactor 'remaining characters code' to reusable component
   + refactor form validation to reusable hook
+    - add resetForm function???
 
   + min/max length of form inputs all around
   + strip leading/trailing whitespace from inputs ( .trim() method )

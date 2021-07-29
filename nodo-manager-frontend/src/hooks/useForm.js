@@ -86,26 +86,62 @@ const useForm = (fields = {}) => {
 
       // itemAvailability errors
       case 'itemAvailability':
+        if (!itemAvailability || itemAvailability === '') {
+          newErrors.itemAvailability = itemForms.itemAvailability.isEmpty.errorMessage
+        }
         break
 
       // itemCategory errors
       case 'itemCategory':
+        if (!itemCategory || itemCategory === '') {
+          newErrors.itemCategory = itemForms.itemCategory.isEmpty.errorMessage
+        } else if (itemCategory.length > itemForms.itemCategory.maxLength.value) {
+          newErrors.itemCategory = itemForms.itemCategory.maxLength.value
+        }
         break
 
       // itemDescription errors
       case 'itemDescription':
+        if (itemDescription.length > itemForms.itemDescription.maxLength) {
+          newErrors.itemDescription = itemForms.itemDescription.maxLength.errorMessage
+        }
         break
 
       // itemIngredients errors
       case 'itemIngredients':
+        if (itemIngredients.length > itemForms.itemIngredients.maxLength) {
+          newErrors.itemIngredients = itemForms.itemIngredients.maxLength.errorMessage
+        }
         break
 
       // itemName errors
       case 'itemName':
+        if (!itemName || itemName === '') {
+          newErrors.itemName = itemForms.itemName.isEmpty.errorMessage
+        } else if (itemName.length > itemForms.itemName.maxLength) {
+          newErrors.itemName = itemForms.itemName.maxLength.errorMessage
+        }
         break
 
       // itemPrice errors
       case 'itemPrice':
+        if (!itemPrice || itemPrice === '') {
+          newErrors.itemPrice = itemForms.itemPrice.isEmpty.errorMessage
+        } else if (typeof itemPrice !== 'number') {
+          if (Number.isNaN(Number(itemPrice))) {
+            newErrors.itemPrice = itemForms.itemPrice.isNaN.errorMessage
+          } else {
+            setFormProps('itemPrice', Number(itemPrice))
+
+            if (itemPrice < 0) {
+              newErrors.itemPrice = itemForms.itemPrice.isNegative.errorMessage
+            }
+          }
+        } else if (itemPrice < 0) {
+          newErrors.itemPrice = itemForms.itemPrice.isNegative.errorMessage
+        } else if (itemPrice.length > itemForms.itemPrice.maxLength.value) {
+          newErrors.itemPrice = itemForms.itemPrice.maxLength.errorMessage
+        }
         break
 
       // orderCategory errors
