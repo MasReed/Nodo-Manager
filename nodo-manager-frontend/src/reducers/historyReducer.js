@@ -1,11 +1,5 @@
 /* eslint-disable*/
 
-const initialState = {
-  past: [],
-  present: null,
-  future: []
-}
-
 const historyReducer = (state, action) => {
   const { past, present, future } = state
 
