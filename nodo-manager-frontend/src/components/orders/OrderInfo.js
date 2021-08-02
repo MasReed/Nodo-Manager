@@ -1,3 +1,5 @@
+/* eslint no-underscore-dangle: 0 */
+
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
@@ -41,7 +43,6 @@ const OrderInfo = ({ order }) => {
         }
       }
 
-      /* eslint-disable-next-line no-underscore-dangle */
       await dispatch(updateOrderActionCreator(order._id, newStatusOrder))
     } catch (err) {
       await dispatch(toastAlertCreator(err))
@@ -69,35 +70,25 @@ const OrderInfo = ({ order }) => {
       <div className='d-flex justify-content-between' style={{ color: orderStatusColor(order.status) }}>
         <div>
           <h2>{order.name}</h2>
-          <h6>
-            ID:
-            {/* eslint-disable-next-line no-underscore-dangle */}
-            {order._id}
-          </h6>
+          <h6>{`ID: ${order._id}`}</h6>
         </div>
         <div>
           <h2 style={{ color: orderStatusColor(order.status) }}>{order.status}</h2>
-          {/* <p><small>Created: {new Date(order.createdAt).toLocaleString()}</small></p> */}
           <p>
             <small>
-              Updated:
-              {new Date(order.updatedAt).toLocaleString()}
+              {`Updated: ${new Date(order.updatedAt).toLocaleString()}`}
             </small>
           </p>
         </div>
         <div />
         <div className='text-right'>
           <h2>{order.category}</h2>
-          <h4>
-            Items:
-            {order.items && order.items.length}
-          </h4>
+          <h4>{`Items: ${order.items && order.items.length}`}</h4>
         </div>
       </div>
 
       <p>
-        Notes:
-        {order.notes}
+        {`Notes: ${order.notes}`}
       </p>
 
       <div className='d-flex justify-content-between'>
@@ -105,7 +96,6 @@ const OrderInfo = ({ order }) => {
 
           {/* Remove Order */}
           <Button
-            /* eslint-disable-next-line no-underscore-dangle */
             onClick={() => deleteOrder(order._id)}
             variant='outline-danger'
             size='sm'
@@ -144,12 +134,10 @@ const OrderInfo = ({ order }) => {
         {/* Order Cost Details */}
         <div className='mx-2'>
           <p className='m-0'>
-            Subtotal:
-            {order.costs.subTotal}
+            {`Subtotal: ${order.costs.subTotal}`}
           </p>
           <p className='m-0 text-right'>
-            Total:
-            {order.costs.total}
+            {`Total: ${order.costs.total}`}
           </p>
         </div>
       </div>
