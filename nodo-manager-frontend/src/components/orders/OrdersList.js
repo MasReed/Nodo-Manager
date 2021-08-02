@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 
 import OrderInfo from './OrderInfo'
 
-const OrdersList = () => {
-  const orders = useSelector((state) => state.orders)
-
-  //
+const OrdersList = ({ orders }) => {
   const [sortedOrders, setSortedOrders] = useState(orders)
 
   //

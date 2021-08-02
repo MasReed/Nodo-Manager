@@ -17,6 +17,7 @@ const OrdersPage = () => {
   const history = useHistory()
 
   const cart = useSelector((state) => state.cart)
+  const orders = useSelector((state) => state.orders)
 
   const [showCurrentOrder, setShowCurrentOrder] = useState(false)
   const [showCustomize, setShowCustomize] = useState(false)
@@ -60,7 +61,7 @@ const OrdersPage = () => {
       <hr />
 
       {/* All Orders */}
-      <OrdersList />
+      <OrdersList orders={orders} />
 
       {/* Modal Component */}
       <CurrentOrderModal
