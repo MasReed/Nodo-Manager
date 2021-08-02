@@ -2,11 +2,16 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
+// import useUndoRedo from '../../hooks/useUndoRedo'
 import { deleteCartItemActionCreator } from '../../reducers/cartReducer'
 
-const MyOrderItems = ({ setSelectedItem, setShowCustomize }) => {
+const MyOrderItems = ({ items, setSelectedItem, setShowCustomize }) => {
   const dispatch = useDispatch()
   const cartItems = useSelector((state) => state.cart)
+
+  // const { state, set, undo, redo, clear, canUndo, canRedo } = useUndoRedo({})
+
+  const itemSource = items || cartItems
 
   const updateCartItem = (id) => {
     setSelectedItem(cartItems.find((item) => item.uniqueId === id))
@@ -14,16 +19,13 @@ const MyOrderItems = ({ setSelectedItem, setShowCustomize }) => {
   }
 
   const deleteCartItem = (id) => {
-    // TODO: Add custom confirmation window
-    if (window.confirm('OK to confirm removal')) {
-      dispatch(deleteCartItemActionCreator(id))
-    }
+    dispatch(deleteCartItemActionCreator(id))
   }
 
   return (
     <>
       {
-        (cartItems.length > 0) && cartItems.map((item) => (
+        (itemSource.length > 0) && itemSource.map((item) => (
           <div key={item.uniqueId}>
             <div>
               <div className='d-flex justify-content-between'>
