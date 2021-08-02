@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux'
 
 import Container from 'react-bootstrap/Container'
 
+import OrdersList from '../orders/OrdersList'
+
 const MyAccountPage = () => {
   const currentUser = useSelector((state) => state.currentUser)
 
@@ -17,6 +19,12 @@ const MyAccountPage = () => {
       <p>{`Email: ${currentUser.email}`}</p>
       <p>{`Username: ${currentUser.username}`}</p>
       <p>{`Role: ${currentUser.role.name}`}</p>
+
+      <h2 className='pt-5'>Previous Orders</h2>
+
+      <hr />
+
+      <OrdersList orders={currentUser.orders} />
 
     </Container>
   )
