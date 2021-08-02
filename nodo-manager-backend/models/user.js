@@ -18,10 +18,10 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Role'
   },
-  orders: {
+  orders: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Order'
-  }
+  }],
 })
 
 userSchema.set('toJSON', {

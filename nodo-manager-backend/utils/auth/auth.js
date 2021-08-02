@@ -14,6 +14,7 @@ const signup = async (req, res, next) => {
     username: req.body.username,
     email: req.body.email,
     passwordHash: await bcrypt.hash(req.body.password, 10),
+    orders: null
   })
 
   if (req.body.role) {
@@ -62,7 +63,7 @@ const signin = async (req, res, next) => {
     const user = await User
       .findOne({ username: req.body.username })
       .populate('role', '-__v')
-      .populate('order')
+      .populate('orders')
 
     // User not found throws 404 Not Found
     if (!user) {
@@ -93,6 +94,7 @@ const signin = async (req, res, next) => {
         username: user.username,
         email: user.email,
         role: user.role,
+        orders: user.orders,
         accessToken: token
       })
     }

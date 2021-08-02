@@ -1,5 +1,6 @@
 const ordersRouter = require('express').Router()
 const Order = require('../models/order')
+const User = require('../models/user')
 const authJwt = require('../utils/auth/authJWT')
 const orderValidation = require('../utils/validations/orderValidation')
 
@@ -35,6 +36,19 @@ ordersRouter.post('/',
     })
 
     const savedOrder = await newOrderObject.save()
+
+    console.log('SAVED ORDER in CRONTROLLER', savedOrder)
+
+    const orderId = savedOrder._id
+    const orderUserId = savedOrder.user
+
+    const savedUser = await User.findByIdAndUpdate(orderUserId,
+      {$push: {'orders': orderId}},
+      {upsert: true, new: true}
+    )
+
+    console.log('user with order', savedUser)
+
     res.json(savedOrder.toJSON())
 
   } catch (err) {

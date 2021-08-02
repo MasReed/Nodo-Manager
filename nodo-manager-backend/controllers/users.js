@@ -27,7 +27,7 @@ usersRouter.get('/',
   ], async (req, res, next) => {
 
   try {
-    const users = await User.find({}).populate('role')
+    const users = await User.find({}).populate('role').populate('orders')
     res.json(users)
 
   } catch (err) {
@@ -59,6 +59,7 @@ usersRouter.put('/:id',
     const updatedUser = await User
       .findByIdAndUpdate(req.params.id, userWithUpdates, { new: true })
       .populate('role')
+      .populate('orders')
       .exec()
 
     res.json(updatedUser.toJSON())
