@@ -24,6 +24,8 @@ module.exports = {
           "error",
           2
       ],
+      "no-underscore-dangle": 'off',
+
       "linebreak-style": [
           "error",
           "windows"

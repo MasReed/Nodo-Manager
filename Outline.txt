@@ -57,12 +57,12 @@ Procedure / TODOs
     + item sorts same as menu categories?
     + standardize itemsList & MenuItemCard
 
-
   - make itemInfo/card responsive
     - text wrapping, overflow, min/max sizes
 
   + Add MyAccount Page
-    - view previous orders
+    + view previous orders
+    - breakdown OrderList/OrderInfo into reusable components
 
   - Users Page functionality
     + new user button follows registration on backend
