@@ -66,17 +66,15 @@ Procedure / TODOs
   - Users Page functionality
     + new user button follows registration on backend
     + implement restrictions on new user roles setting
-    - default password -> auto-generate?
     + UpdateUserForm created
-      - check update auth scope
     + sorted users by role
       - group under accordions like menu items?
+    - default password -> auto-generate?
 
-  - MOBILE RESPONSIVENESS
-    - login modal
-    - collapse nav-bar on lose focus or item clicked
-    - update truncateString to return truncated + option to expand?
-
+- MOBILE RESPONSIVENESS
+  - login modal
+  - collapse nav-bar on lose focus or item clicked
+  - update truncateString to return truncated + option to expand?
 
 - CUSTOM FORMS & VALIDATION (Frontend)
   + refactor 'remaining characters code' to reusable component
@@ -104,8 +102,8 @@ Procedure / TODOs
 
   - User forms
     + NewUserForm
-      - check auth scope
     + UpdateUserForm
+    - check auth scope
 
 - ERROR HANDLING
   + duplicate username/emails upon registration now throw an error and message

@@ -2,11 +2,10 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import Modal from 'react-bootstrap/Modal'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 
-import LoginForm from '../login-register-landing/LoginForm'
+import LoginModal from './LoginModal'
 
 import LoginButton from './LoginButton'
 import LogoutButton from './LogoutButton'
@@ -65,36 +64,15 @@ const SiteNavBar = () => {
                   <LogoutButton />
                 </>
               )
-              : <LoginButton show={showLoginModal} setShow={setShowLoginModal} />
+              : <LoginButton setShow={setShowLoginModal} />
           }
 
         </Navbar.Collapse>
       </Navbar>
 
-      <Modal
-        show={showLoginModal}
-        onHide={() => {
-          setShowLoginModal(false)
-        }}
-        dialogClassName='modal-20w mr-5'
-        keyboard={false}
-        scrollable
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Login</Modal.Title>
-        </Modal.Header>
+      {/* Modal Login Window */}
+      <LoginModal show={showLoginModal} setShow={setShowLoginModal} />
 
-        <Modal.Body>
-          <LoginForm setShow={setShowLoginModal} />
-        </Modal.Body>
-
-        <Modal.Footer>
-          <p>
-            Not a member?
-            <a href='/'>Register today!</a>
-          </p>
-        </Modal.Footer>
-      </Modal>
     </>
   )
 }
