@@ -35,6 +35,7 @@ const GuestOption = () => {
       <hr className='mb-5' />
 
       <Button
+        disabled
         onClick={handleGuest}
         className='btn-block'
         variant='outline-secondary'
