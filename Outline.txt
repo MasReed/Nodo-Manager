@@ -72,7 +72,7 @@ Procedure / TODOs
     - default password -> auto-generate?
 
 - MOBILE RESPONSIVENESS
-  - login modal
+  + login modal
   - collapse nav-bar on lose focus or item clicked
   - update truncateString to return truncated + option to expand?
 

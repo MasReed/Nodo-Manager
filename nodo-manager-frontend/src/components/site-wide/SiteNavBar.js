@@ -27,14 +27,14 @@ const SiteNavBar = () => {
 
   return (
     <>
-      <Navbar expand='lg' sticky='top' bg='warning' variant='light'>
+      <Navbar collapseOnSelect expand='lg' sticky='top' bg='warning' variant='light'>
         <Navbar.Brand as={Link} to='/'>Nodo-Manager</Navbar.Brand>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='mr-auto'>
-            <Nav.Link as={Link} to='/menu'>Menu</Nav.Link>
-            { currentUser && <Nav.Link as={Link} to='/my-account'>My Account</Nav.Link>}
-            <Nav.Link as={Link} to='/my-order'>My Order</Nav.Link>
+            <Nav.Link eventKey='1' as={Link} to='/menu'>Menu</Nav.Link>
+            { currentUser && <Nav.Link eventKey='2' as={Link} to='/my-account'>My Account</Nav.Link>}
+            <Nav.Link eventKey='3' as={Link} to='/my-order'>My Order</Nav.Link>
           </Nav>
 
           {/* Conditionally render links, if user belongs to one of authGroups */}
@@ -42,9 +42,9 @@ const SiteNavBar = () => {
             authGroups.some((group) => userRoles.includes(group))
               ? (
                 <Nav className='ml-auto border-right border-secondary'>
-                  <Nav.Link as={Link} to='/orders'>Orders</Nav.Link>
-                  <Nav.Link as={Link} to='/items'>Items</Nav.Link>
-                  <Nav.Link as={Link} to='/users'>Users</Nav.Link>
+                  <Nav.Link eventKey='4' as={Link} to='/orders'>Orders</Nav.Link>
+                  <Nav.Link eventKey='5' as={Link} to='/items'>Items</Nav.Link>
+                  <Nav.Link eventKey='6' as={Link} to='/users'>Users</Nav.Link>
                 </Nav>
               )
               : null
