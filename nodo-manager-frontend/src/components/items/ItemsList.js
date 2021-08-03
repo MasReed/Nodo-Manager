@@ -16,8 +16,8 @@ const ItemList = ({ category }) => {
         {/* Items with matching 'category' are rendered */}
         {items.map((item) => (item.category === category
           ? (
-            <Col className='mx-0 mb-4'>
-              <ItemInfoCard key={item._id} item={item} />
+            <Col key={item._id} className='mx-0 mb-4'>
+              <ItemInfoCard item={item} />
             </Col>
 
           )

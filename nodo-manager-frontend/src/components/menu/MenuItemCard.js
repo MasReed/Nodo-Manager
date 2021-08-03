@@ -38,16 +38,14 @@ const MenuItemCard = ({
 
       {/* Ingredients */}
       <Card.Body className='m-0 py-3'>
-        <Card.Text>
-          <p className='m-0 p-0'>
-            <u>Ingredients:</u>
-          </p>
+        <Card.Text className='m-0 p-0'>
+          <u>Ingredients:</u>
+        </Card.Text>
 
-          <p className='m-0 p-0 text-wrap text-break'>
-            {
-              truncateString(item.ingredients.join(', '), 130)
-            }
-          </p>
+        <Card.Text className='m-0 p-0 text-wrap text-break'>
+          {
+            truncateString(item.ingredients.join(', '), 130)
+          }
         </Card.Text>
       </Card.Body>
 

@@ -20,7 +20,7 @@ const MenuCategoryAccordion = ({
         <Row xs={1} md={2} lg={2}>
           {menuItems.map((item) => (item.category === category
             ? (
-              <Col className='mx-0 mb-4'>
+              <Col key={item._id} className='mx-0 mb-4'>
                 <MenuItemCard
                   item={item}
                   show={showCustomize}

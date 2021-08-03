@@ -56,9 +56,8 @@ Procedure / TODOs
     + AccordionToggle separated
     + item sorts same as menu categories?
     + standardize itemsList & MenuItemCard
-
-  - make itemInfo/card responsive
-    - text wrapping, overflow, min/max sizes
+  + make itemInfo/card responsive
+    + text wrapping, overflow, min/max sizes
 
   + Add MyAccount Page
     + view previous orders
