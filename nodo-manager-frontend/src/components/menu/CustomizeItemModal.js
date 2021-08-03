@@ -41,7 +41,6 @@ const CustomizeItemModal = ({
 
     try {
       const customItemObject = {
-        /* eslint-disable-next-line no-underscore-dangle */
         baseItemId: selectedItem._id,
         baseName: selectedItem.name,
         baseIngredients: selectedItem.ingredients,
@@ -49,7 +48,6 @@ const CustomizeItemModal = ({
         modIngredients: checkedMods,
         whos: forName,
         notes,
-        /* eslint-disable-next-line no-underscore-dangle */
         uniqueId: selectedItem.uniqueId || selectedItem._id + forName + Math.random(),
       }
 

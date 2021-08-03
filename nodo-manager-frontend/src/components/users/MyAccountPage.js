@@ -24,7 +24,6 @@ const MyAccountPage = () => {
 
       <hr />
 
-      { /* eslint no-underscore-dangle: 0 */ }
       {
         currentUser.orders && currentUser.orders.map((order) => (
           <div key={order._id}>

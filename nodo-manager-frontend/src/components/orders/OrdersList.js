@@ -35,7 +35,6 @@ const OrdersList = ({ orders }) => {
       {
         orders && sortedOrders.map((order) => (
           <OrderInfo
-            /* eslint-disable-next-line no-underscore-dangle */
             key={order._id}
             order={order}
           />

@@ -17,9 +17,7 @@ const ItemList = ({ category }) => {
         {/* Items with matching 'category' are rendered */}
         {items.map((item) => (item.category === category
           ? (
-            /* eslint-disable-next-line no-underscore-dangle */
             <Col key={item._id} className='container-fluid mb-4 px-2'>
-              {/* eslint-disable-next-line no-underscore-dangle */}
               <ItemInfoCard key={item._id} item={item} />
             </Col>
           )

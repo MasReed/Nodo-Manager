@@ -1,4 +1,4 @@
-/* eslint-disable*/
+/* eslint-disable */
 
 const historyReducer = (state, action) => {
   const { past, present, future } = state
@@ -8,11 +8,11 @@ const historyReducer = (state, action) => {
     const previous = past[past.length - 1]
     const newPast = past.slice(0, past.length - 1)
 
-  return {
-    past: newPast,
-    present: previous,
-    future: [present, ...future]
-  }
+    return {
+      past: newPast,
+      present: previous,
+      future: [present, ...future]
+    }
 
   case 'REDO':
     const next = future[0]
@@ -44,9 +44,10 @@ const historyReducer = (state, action) => {
       ...initialState,
       present: initialPresent,
     }
+
+  default:
+    return null
   }
 }
-
-
 
 export default historyReducer

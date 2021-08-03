@@ -15,7 +15,6 @@ const MenuItemCard = ({
 
   return (
     <Card
-      /* eslint-disable-next-line no-underscore-dangle */
       key={item._id}
       className='mx-0 my-0'
       style={{

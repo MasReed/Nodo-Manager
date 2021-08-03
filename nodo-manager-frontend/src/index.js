@@ -11,22 +11,26 @@ import './index.css'
 import reportWebVitals from './reportWebVitals'
 
 // Request logger
-axios.interceptors.request.use((req) => {
-  console.log(`AXIOS REQ: ${req.method} ${req.url}`)
-  return req
-})
+if (process.env.NODE_ENV !== 'production') {
+  axios.interceptors.request.use((req) => {
+    console.log(`AXIOS REQ: ${req.method} ${req.url}`)
+    return req
+  })
+}
 
 // Response/Error logger
-axios.interceptors.response.use(
-  (res) => {
-    console.log(`AXIOS RES: ${res.method} ${res.url}`)
-    return res
-  },
-  (err) => {
-    console.log('AXIOS ERR: ', err.response)
-    throw err
-  },
-)
+if (process.env.NODE_ENV !== 'production') {
+  axios.interceptors.response.use(
+    (res) => {
+      console.log(`AXIOS RES: ${res.method} ${res.url}`)
+      return res
+    },
+    (err) => {
+      console.log('AXIOS ERR: ', err.response)
+      throw err
+    },
+  )
+}
 
 ReactDOM.render(
   <React.StrictMode>

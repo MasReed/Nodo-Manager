@@ -1,5 +1,3 @@
-/* eslint no-underscore-dangle: 0 */
-
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 

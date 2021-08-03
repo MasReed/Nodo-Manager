@@ -60,7 +60,6 @@ const UpdateItemForm = ({ item, show, setShow }) => {
         }
 
         // Dispatch to item reducer
-        /* eslint-disable-next-line no-underscore-dangle */
         await dispatch(updateItemActionCreator(item._id, updatedItemObject))
 
         resetForm()
