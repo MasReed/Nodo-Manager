@@ -23,9 +23,7 @@ const ItemList = ({ category }) => {
           )
           : null))}
       </Row>
-
       <hr />
-
     </Container>
   )
 }

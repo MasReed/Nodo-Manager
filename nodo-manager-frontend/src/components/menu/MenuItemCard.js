@@ -14,49 +14,45 @@ const MenuItemCard = ({
   }
 
   return (
-    <Card
-      key={item._id}
-      className='mx-0 my-0'
-      style={{
-        height: '32rem',
-        minWidth: '18rem',
-      }}
-    >
+    <Card key={item._id} className='h-100'>
+
       {/* Item name, category, price, description */}
-      <Card.Header style={{ height: '12rem' }}>
+      <Card.Header className='m-0 py-3'>
         <Card.Title className='d-flex justify-content-between'>
-          {item.name}
-          <span>
-            $
-            {item.price}
-          </span>
+          <Card.Text className='mb-0 mr-2 text-wrap text-break'>{item.name}</Card.Text>
+          <Card.Text className='mb-0 ml-2'>{`$${item.price}`}</Card.Text>
         </Card.Title>
 
         <Card.Subtitle className='mb-2 text-muted'>
           {item.category}
         </Card.Subtitle>
 
-        <Card.Text>{item.description}</Card.Text>
+        <Card.Text className='text-wrap text-break'>{item.description}</Card.Text>
       </Card.Header>
 
-      {/* Item Image, Ingredients */}
-      <Card.Body>
-        <Card.Img variant='top' src='/assets/burger.svg' height='55%' />
-        <hr />
+      {/* Item Image */}
+      <Card.Body className='m-0 pt-3 pb-0'>
+        <Card.Img src='/assets/burger.svg' />
+        <hr className='mb-0' />
+      </Card.Body>
 
-        <Card.Text className='mb-0'>
-          <u>Ingredients:</u>
-        </Card.Text>
-
+      {/* Ingredients */}
+      <Card.Body className='m-0 py-3'>
         <Card.Text>
-          {
-            truncateString(item.ingredients.join(', '), 130)
-          }
+          <p className='m-0 p-0'>
+            <u>Ingredients:</u>
+          </p>
+
+          <p className='m-0 p-0 text-wrap text-break'>
+            {
+              truncateString(item.ingredients.join(', '), 130)
+            }
+          </p>
         </Card.Text>
       </Card.Body>
 
       {/* Item availability, Delete and Update Buttons */}
-      <Card.Footer>
+      <Card.Footer className='m-0 py-3'>
         <div className='d-flex justify-content-between'>
           <h6 className='m-0 py-auto align-self-center'>{item.availability}</h6>
           {
