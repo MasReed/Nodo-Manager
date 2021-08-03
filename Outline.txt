@@ -73,6 +73,11 @@ Procedure / TODOs
     + sorted users by role
       - group under accordions like menu items?
 
+  - MOBILE RESPONSIVENESS
+    - login modal
+    - collapse nav-bar on lose focus or item clicked
+    - update truncateString to return truncated + option to expand?
+
 
 - CUSTOM FORMS & VALIDATION (Frontend)
   + refactor 'remaining characters code' to reusable component
