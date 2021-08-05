@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 const Costs = ({ setCosts }) => {
-  const cart = useSelector((state) => state.cart)
+  const currentOrder = useSelector((state) => state.currentOrder)
 
   const [subTotal, setSubTotal] = useState(0)
   const [taxAmount, setTaxAmount] = useState(0)
@@ -10,8 +10,10 @@ const Costs = ({ setCosts }) => {
   const TAX_RATE = 0.07
 
   useEffect(() => {
-    if (cart.length > 0) {
-      const getSubTotal = cart.map((item) => item.basePrice).reduce((sum, val) => (sum + val))
+    if (currentOrder.items && currentOrder.items.length > 0) {
+      const getSubTotal = currentOrder.items
+        .map((item) => item.basePrice)
+        .reduce((sum, val) => (sum + val))
       const getTaxAmount = Math.round(getSubTotal * TAX_RATE * 100) / 100
       const getTotal = getSubTotal + getTaxAmount
 
@@ -26,7 +28,7 @@ const Costs = ({ setCosts }) => {
         getTotal,
       })
     }
-  }, [cart, setCosts])
+  }, [currentOrder.items, setCosts])
 
   return (
     <div className='d-flex justify-content-between flex-wrap'>

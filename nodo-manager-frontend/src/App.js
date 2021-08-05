@@ -16,7 +16,8 @@ import ItemsPage from './components/items/ItemsPage'
 import MenuPage from './components/menu/MenuPage'
 import OrderConfirmationPage from './components/orders/OrderConfirmationPage'
 import OrdersPage from './components/orders/OrdersPage'
-import MyOrderPage from './components/orders/MyOrderPage'
+// import MyOrderPage from './components/orders/MyOrderPage'
+import OrderPage from './components/orders/OrderPage'
 import MyAccountPage from './components/users/MyAccountPage'
 import UsersPage from './components/users/UsersPage'
 import AlertBanner from './components/site-wide/AlertBanner'
@@ -69,7 +70,7 @@ function App() {
           </Route>
 
           <Route path='/my-order'>
-            <MyOrderPage />
+            <OrderPage />
           </Route>
 
           <Route path='/order-confirmed'>

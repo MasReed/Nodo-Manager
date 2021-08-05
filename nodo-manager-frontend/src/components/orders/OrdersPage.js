@@ -16,7 +16,7 @@ const OrdersPage = () => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const cart = useSelector((state) => state.cart)
+  const currentOrder = useSelector((state) => state.currentOrder)
   const orders = useSelector((state) => state.orders)
 
   const [showCurrentOrder, setShowCurrentOrder] = useState(false)
@@ -40,7 +40,7 @@ const OrdersPage = () => {
 
   //
   const createNewOrder = () => {
-    if (cart.length > 0) {
+    if (currentOrder.items.length > 0) {
       setShowCurrentOrder(true)
     } else {
       history.push('/menu')
@@ -54,7 +54,7 @@ const OrdersPage = () => {
       <div className='d-flex justify-content-between'>
         <h1 className='m-0'>Orders</h1>
         <Button onClick={createNewOrder} variant='outline-secondary'>
-          {cart.length > 0 ? 'CURRENT ORDER' : 'NEW ORDER'}
+          {currentOrder.items && currentOrder.items.length > 0 ? 'CURRENT ORDER' : 'NEW ORDER'}
         </Button>
       </div>
 
