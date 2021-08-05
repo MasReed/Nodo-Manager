@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+/* eslint-disable */
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
@@ -10,15 +11,15 @@ import Form from 'react-bootstrap/Form'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 
 import Costs from './Costs'
-// import MyOrderForm from './MyOrderForm'
+import OrderDetailsForm from './OrderDetailsForm'
 // import MyOrderItems from './MyOrderItems'
 import UpdateCustomItemModal from './UpdateCustomItemModal'
 
 import { orderForms } from '../../configurations/formConfigs'
 import useForm from '../../hooks/useForm'
 import { toastAlertCreator } from '../../reducers/alertReducer'
-import { resetCurrentOrder, deleteItemInOrder } from '../../reducers/currentOrderReducer'
-import { addOrderActionCreator } from '../../reducers/orderReducer'
+import { initializeCurrentOrder, resetCurrentOrder, deleteItemInOrder } from '../../reducers/currentOrderReducer'
+import { addOrderActionCreator, updateOrderActionCreator } from '../../reducers/orderReducer'
 import charactersRemaining from '../../utilities/charactersRemaining'
 
 const OrderPage = () => {
@@ -30,6 +31,28 @@ const OrderPage = () => {
   const [showCustomize, setShowCustomize] = useState(false)
   const [selectedItem, setSelectedItem] = useState({})
   const [costs, setCosts] = useState({})
+
+  const getInitialDefaultOrderName = () => {
+    let defaultName
+
+    if (currentUser) {
+      defaultName = currentUser.name
+    } else {
+      const itemWhosIndex = currentOrder.items.findIndex((elem) => elem.whos !== '')
+
+      if (itemWhosIndex !== -1) {
+        defaultName = currentOrder[itemWhosIndex].whos
+      }
+      defaultName = ''
+    }
+  return defaultName
+  }
+
+  const [form, setForm, errors, isValidated] = useForm({
+    orderCategory: 'Carry Out',
+    orderName: getInitialDefaultOrderName(),
+    orderNotes: '',
+  })
 
   const cancelOrderSequence = () => {
     dispatch(resetCurrentOrder())
@@ -44,26 +67,6 @@ const OrderPage = () => {
   const deleteOrderItem = (id) => {
     dispatch(deleteItemInOrder(id))
   }
-
-  const getInitialDefaultOrderName = () => {
-    if (currentUser) {
-      return currentUser.name
-    }
-
-    const itemWhosIndex = currentOrder.items
-    && currentOrder.items.findIndex((elem) => elem.whos !== '')
-
-    if (itemWhosIndex && itemWhosIndex !== -1) {
-      return currentOrder.items[itemWhosIndex].whos
-    }
-    return ''
-  }
-
-  const [form, setForm, errors, isValidated] = useForm({
-    orderCategory: 'Carry Out',
-    orderName: getInitialDefaultOrderName(),
-    orderNotes: '',
-  })
 
   const addOrder = async (event) => {
     event.preventDefault()
@@ -95,6 +98,10 @@ const OrderPage = () => {
     }
   }
 
+  const handleCheckoutSequence = () => {
+    console.log('HANDLING IT')
+  }
+
   return (
     <Container className='pt-5'>
       <div className='d-flex justify-content-between'>
@@ -109,92 +116,11 @@ const OrderPage = () => {
 
       <hr />
 
-      <Form id='myOrderForm' onSubmit={addOrder}>
-        {/* Order Category */}
-        <Form.Group>
-          <ButtonGroup toggle>
-            <ToggleButton
-              type='radio'
-              name='carry-out-toggle'
-              variant='outline-primary'
-              value={form.orderCategory}
-              checked={form.orderCategory === 'Carry Out'}
-              onChange={() => setForm('orderCategory', 'Carry Out')}
-            >
-              Carry Out
-            </ToggleButton>
-
-            <ToggleButton
-              type='radio'
-              name='delivery-toggle'
-              variant='outline-primary'
-              value={form.orderCategory}
-              checked={form.orderCategory === 'Delivery'}
-              onChange={() => setForm('orderCategory', 'Delivery')}
-            >
-              Delivery
-            </ToggleButton>
-          </ButtonGroup>
-
-          <Form.Text>
-            {`${form.orderCategory} selected.`}
-          </Form.Text>
-
-          <Form.Control.Feedback type='invalid'>
-            { errors.orderCategory }
-          </Form.Control.Feedback>
-        </Form.Group>
-
-        <Form.Row className='ml-0 mr-0'>
-          <Col lg='auto' className='pl-0'>
-
-            {/* Order Name */}
-            <Form.Group>
-              <Form.Label>Name: </Form.Label>
-              <Form.Control
-                value={form.orderName.trim()}
-                minLength={orderForms.orderName.minLength.value.toString()}
-                maxLength={orderForms.orderName.maxLength.value.toString()}
-                onChange={({ target }) => setForm('orderName', target.value)}
-                placeholder='e.g. Jane Doe'
-                isInvalid={!!errors.orderName}
-              />
-              <Form.Text>
-                {charactersRemaining(
-                  form.orderName, orderForms.orderName.maxLength.value,
-                )}
-              </Form.Text>
-
-              <Form.Control.Feedback type='invalid'>
-                { errors.orderName }
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Col>
-
-          <Col className='pr-0'>
-
-            {/* Order Notes */}
-            <Form.Group>
-              <Form.Label>Order Notes:</Form.Label>
-              <Form.Control
-                value={form.orderNotes.trim()}
-                maxLength={orderForms.orderNotes.maxLength.value.toString()}
-                onChange={({ target }) => setForm('orderNotes', target.value)}
-                isInvalid={!!errors.orderNotes}
-              />
-              <Form.Text>
-                {charactersRemaining(
-                  form.orderNotes, orderForms.orderNotes.maxLength.value,
-                )}
-              </Form.Text>
-
-              <Form.Control.Feedback type='invalid'>
-                { errors.orderNotes }
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Col>
-        </Form.Row>
-      </Form>
+      <OrderDetailsForm
+        form={form}
+        setForm={setForm}
+        errors={errors}
+      />
 
       <hr />
 
@@ -282,8 +208,7 @@ const OrderPage = () => {
           </Button>
           <Button
             className='mx-2'
-            type='submit'
-            form='myOrderForm'
+            onClick={addOrder}
           >
             Checkout
           </Button>
