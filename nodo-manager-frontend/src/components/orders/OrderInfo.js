@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button'
 import EditOrderModal from './EditOrderModal'
 
 import { toastAlertCreator } from '../../reducers/alertReducer'
+import { setCurrentOrder } from '../../reducers/currentOrderReducer'
 import {
   updateOrderActionCreator,
   deleteOrderActionCreator,
@@ -56,6 +57,9 @@ const OrderInfo = ({ order }) => {
   }
 
   const updateOrderSequence = async () => {
+    console.log('UPDATE ORDER SEQUENCE CALLED')
+    console.log('ORDER IN UPDATE', order)
+    await dispatch(setCurrentOrder(order))
     try {
       setShowUpdateOrderModal(true)
     } catch (err) {
@@ -105,7 +109,7 @@ const OrderInfo = ({ order }) => {
 
           {/* Edit Order */}
           <Button
-            onClick={() => updateOrderSequence(order)}
+            onClick={updateOrderSequence}
             variant='outline-secondary'
             size='sm'
             style={{ border: 'hidden' }}

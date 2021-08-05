@@ -31,8 +31,10 @@ const OrderPage = () => {
   const [showCustomize, setShowCustomize] = useState(false)
   const [selectedItem, setSelectedItem] = useState({})
   const [costs, setCosts] = useState({})
+  const [isUpdating, setIsUpdating] = useState(false)
 
-  const getInitialDefaultOrderName = () => {
+  //
+  const getDefaultOrderName = () => {
     let defaultName
 
     if (currentUser) {
@@ -48,10 +50,11 @@ const OrderPage = () => {
   return defaultName
   }
 
+  //
   const [form, setForm, errors, isValidated] = useForm({
-    orderCategory: 'Carry Out',
-    orderName: getInitialDefaultOrderName(),
-    orderNotes: '',
+    orderCategory: currentOrder.category || 'Carry Out',
+    orderName: getDefaultOrderName(),
+    orderNotes: currentOrder.notes || '',
   })
 
   const cancelOrderSequence = () => {
@@ -210,7 +213,7 @@ const OrderPage = () => {
             className='mx-2'
             onClick={addOrder}
           >
-            Checkout
+            {isUpdating ? 'Save Updates': 'Checkout'}
           </Button>
         </div>
       </div>
