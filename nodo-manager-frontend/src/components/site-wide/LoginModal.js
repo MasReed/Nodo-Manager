@@ -12,6 +12,7 @@ const LoginModal = ({ show, setShow }) => {
     <Modal
       show={show}
       onHide={() => setShow(false)}
+      className='p-0'
       dialogClassName={windowSize.width < 576 ? '' : 'modal-20w mr-5'}
       fullscreen={windowSize.width < 576 ? 'below-sm-down' : ''}
       keyboard={false}
