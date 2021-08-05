@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 
 import { toastAlertCreator } from '../../reducers/alertReducer'
-import { addItemToCartActionCreator } from '../../reducers/cartReducer'
+import { addItemToOrder } from '../../reducers/currentOrderReducer'
 import charactersRemaining from '../../utilities/charactersRemaining'
 
 const CustomizeItemModal = ({
@@ -51,7 +51,7 @@ const CustomizeItemModal = ({
         uniqueId: selectedItem.uniqueId || selectedItem._id + forName + Math.random(),
       }
 
-      await dispatch(addItemToCartActionCreator(customItemObject))
+      await dispatch(addItemToOrder(customItemObject))
 
       await resetForm()
     } catch (err) {

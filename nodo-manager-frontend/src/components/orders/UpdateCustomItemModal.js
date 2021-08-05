@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 
 import { toastAlertCreator } from '../../reducers/alertReducer'
-import { updateCartItemActionCreator } from '../../reducers/cartReducer'
+import { updateItemInOrder } from '../../reducers/currentOrderReducer'
 import charactersRemaining from '../../utilities/charactersRemaining'
 
 const CustomizeItemModal = ({
@@ -45,7 +45,7 @@ const CustomizeItemModal = ({
         notes,
       }
 
-      await dispatch(updateCartItemActionCreator(customItemObject))
+      await dispatch(updateItemInOrder(customItemObject))
 
       resetForm()
     } catch (err) {

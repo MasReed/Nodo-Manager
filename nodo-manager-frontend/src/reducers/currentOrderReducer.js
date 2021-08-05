@@ -1,23 +1,38 @@
 import orderService from '../services/orders'
 
-const currentOrderReducer = (state = [], action) => {
+const currentOrderReducer = (state = { items: [] }, action) => {
   switch (action.type) {
   case 'SET_ORDER':
     return action.data
 
   case 'RESET_ORDER':
-    return []
+    return { items: [] }
 
   case 'ADD_ORDER_ITEM':
-    return [...state, action.data]
+    return {
+      ...state,
+      items: [
+        ...state.items, action.data,
+      ],
+    }
 
   case 'UPDATE_ORDER_ITEM':
-    return state.map((item) => (item.uniqueId !== action.data.uniqueId
-      ? item
-      : action.data))
+    return {
+      ...state,
+      items: [
+        ...state.items.map((item) => (item.uniqueId !== action.data.uniqueId
+          ? item
+          : action.data)),
+      ],
+    }
 
   case 'DELETE_ORDER_ITEM':
-    return state.filter((item) => item.uniqueId !== action.data.id)
+    return {
+      ...state,
+      items: [
+        ...state.items.filter((item) => item.uniqueId !== action.data.id),
+      ],
+    }
 
   default:
     return state
