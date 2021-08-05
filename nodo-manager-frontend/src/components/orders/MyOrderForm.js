@@ -11,23 +11,23 @@ import { orderForms } from '../../configurations/formConfigs'
 import useForm from '../../hooks/useForm'
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { addOrderActionCreator } from '../../reducers/orderReducer'
-import { resetCart } from '../../reducers/cartReducer'
+import { resetCurrentOrder } from '../../reducers/currentOrderReducer'
 import charactersRemaining from '../../utilities/charactersRemaining'
 
 const MyOrderForm = ({ costs }) => {
   const dispatch = useDispatch()
   const history = useHistory()
-  const cartItems = useSelector((state) => state.cart)
+  const currentOrder = useSelector((state) => state.currentOrder)
   const currentUser = useSelector((state) => state.currentUser)
 
   const getInitialDefaultOrderName = () => {
-    const itemWhosIndex = cartItems.findIndex((elem) => elem.whos !== '')
+    const itemWhosIndex = currentOrder.items.findIndex((elem) => elem.whos !== '')
 
     if (currentUser) {
       return currentUser.name
     }
     if (itemWhosIndex !== -1) {
-      return cartItems[itemWhosIndex].whos
+      return currentOrder[itemWhosIndex].whos
     }
     return ''
   }
@@ -41,14 +41,14 @@ const MyOrderForm = ({ costs }) => {
   const addOrder = async (event) => {
     event.preventDefault()
 
-    if (cartItems.length < 1) {
+    if (currentOrder.items.length < 1) {
       await dispatch(toastAlertCreator({ message: 'No items in order!' }))
       history.push('/menu')
     } else if (isValidated()) {
       try {
         const orderObject = {
           category: form.orderCategory,
-          items: cartItems,
+          items: currentOrder.items,
           name: form.orderName,
           notes: form.orderNotes,
           costs: {
@@ -60,7 +60,7 @@ const MyOrderForm = ({ costs }) => {
         }
 
         await dispatch(addOrderActionCreator(orderObject))
-        await dispatch(resetCart())
+        await dispatch(resetCurrentOrder())
         history.push('/order-confirmed')
       } catch (err) {
         await dispatch(toastAlertCreator(err))
