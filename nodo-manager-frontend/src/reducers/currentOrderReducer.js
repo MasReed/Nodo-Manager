@@ -2,6 +2,9 @@ import orderService from '../services/orders'
 
 const currentOrderReducer = (state = { items: [] }, action) => {
   switch (action.type) {
+  case 'INIT_ORDER':
+    return action.data
+
   case 'SET_ORDER':
     return action.data
 
@@ -41,11 +44,18 @@ const currentOrderReducer = (state = { items: [] }, action) => {
 
 export default currentOrderReducer
 
-export const setCurrentOrder = () => async (dispatch) => {
+export const initializeCurrentOrder = () => async (dispatch) => {
   const currentOrder = await orderService.create()
   dispatch({
-    type: 'SET_ORDER',
+    type: 'INIT_ORDER',
     data: currentOrder,
+  })
+}
+
+export const setCurrentOrder = (orderObject) => async (dispatch) => {
+  dispatch({
+    type: 'SET_ORDER',
+    data: orderObject,
   })
 }
 
