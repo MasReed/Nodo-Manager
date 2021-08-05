@@ -57,8 +57,7 @@ const SiteNavBar = () => {
                 <>
                   <Navbar.Text className='px-2'>
                     <small>
-                      Signed in as:
-                      {currentUser.username}
+                      {`Signed in as: ${currentUser.username}`}
                     </small>
                   </Navbar.Text>
                   <LogoutButton />
