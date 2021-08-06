@@ -8,7 +8,7 @@ const OrderItems = ({ setSelectedItem, setShowCustomize }) => {
   const dispatch = useDispatch()
   const items = useSelector((state) => state.currentOrder.items)
 
-  const updateCartItem = (id) => {
+  const updateItem = (id) => {
     setSelectedItem(items.find((item) => item.uniqueId === id))
     setShowCustomize(true)
   }
@@ -72,7 +72,7 @@ const OrderItems = ({ setSelectedItem, setShowCustomize }) => {
 
                   {/* Edit Item Button */}
                   <Button
-                    onClick={() => updateCartItem(item.uniqueId)}
+                    onClick={() => updateItem(item.uniqueId)}
                     variant='outline-secondary'
                     size='sm'
                     style={{ border: 'hidden' }}

@@ -9,7 +9,7 @@ import { toastAlertCreator } from '../../reducers/alertReducer'
 import { updateItemInOrder } from '../../reducers/currentOrderReducer'
 import charactersRemaining from '../../utilities/charactersRemaining'
 
-const CustomizeItemModal = ({
+const UpdateCustomItemModal = ({
   show, setShow, selectedItem, setSelectedItem,
 }) => {
   const dispatch = useDispatch()
@@ -133,4 +133,4 @@ const CustomizeItemModal = ({
   )
 }
 
-export default CustomizeItemModal
+export default UpdateCustomItemModal

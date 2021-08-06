@@ -35,7 +35,7 @@ const OrderPage = () => {
       defaultName = currentOrder.name
     } else if (currentUser) {
       defaultName = currentUser.name
-    } else {
+    } else if (currentOrder) {
       const itemWhosIndex = currentOrder.items.findIndex((elem) => elem.whos !== '')
 
       if (itemWhosIndex !== -1) {
@@ -57,12 +57,6 @@ const OrderPage = () => {
   const cancelOrderSequence = () => {
     dispatch(resetCurrentOrder())
     history.push('/menu')
-  }
-
-  //
-  const updateOrderItem = (id) => {
-    setSelectedItem(currentOrder.items.find((item) => item.uniqueId === id))
-    setShowCustomize(true)
   }
 
   //
@@ -124,7 +118,10 @@ const OrderPage = () => {
       <hr />
 
       {/* List of Items in Order */}
-      <OrderItems />
+      <OrderItems
+        setSelectedItem={setSelectedItem}
+        setShowCustomize={setShowCustomize}
+      />
 
       {/* Order Costs Display */}
       <Costs setCosts={setCosts} />
