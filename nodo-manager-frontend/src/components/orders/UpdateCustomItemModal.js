@@ -64,8 +64,7 @@ const UpdateCustomItemModal = ({
     >
       <Modal.Header closeButton>
         <Modal.Title>
-          Customize Your
-          {selectedItem.baseName}
+          {`Customizing Your ${selectedItem.baseName}`}
         </Modal.Title>
       </Modal.Header>
 

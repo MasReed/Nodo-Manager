@@ -75,7 +75,7 @@ const NewUserForm = ({ show, setShow }) => {
             <Form.Label>Full Name:</Form.Label>
             <Form.Control
               type='text'
-              value={form.usersName.trim()}
+              value={form.usersName.trimStart()}
               maxLength={userForms.usersName.maxLength.value.toString()}
               placeholder='Jane Doe'
               onChange={({ target }) => setForm('usersName', target.value)}
@@ -96,7 +96,7 @@ const NewUserForm = ({ show, setShow }) => {
             <Form.Label>Email:</Form.Label>
             <Form.Control
               type='email'
-              value={form.email.trim()}
+              value={form.email.trimStart()}
               minLength={userForms.email.minLength.value.toString()}
               maxLength={userForms.email.maxLength.value.toString()}
               placeholder='abc@123.com'
@@ -118,7 +118,7 @@ const NewUserForm = ({ show, setShow }) => {
             <Form.Label>Username:</Form.Label>
             <Form.Control
               type='text'
-              value={form.username.trim()}
+              value={form.username.trimStart()}
               minLength={userForms.username.minLength.value.toString()}
               maxLength={userForms.username.maxLength.value.toString()}
               onChange={({ target }) => setForm('username', target.value)}

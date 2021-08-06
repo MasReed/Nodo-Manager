@@ -101,7 +101,7 @@ const UpdateUserForm = ({ user, show, setShow }) => {
             <Form.Label>Email:</Form.Label>
             <Form.Control
               type='email'
-              value={form.email.trim()}
+              value={form.email.trimStart()}
               minLength={userForms.email.minLength.value.toString()}
               maxLength={userForms.email.maxLength.value.toString()}
               placeholder='abc@123.com'
@@ -123,7 +123,7 @@ const UpdateUserForm = ({ user, show, setShow }) => {
             <Form.Label>Username:</Form.Label>
             <Form.Control
               type='text'
-              value={form.username.trim()}
+              value={form.username.trimStart()}
               minLength={userForms.username.minLength.value.toString()}
               maxLength={userForms.username.maxLength.value.toString()}
               onChange={({ target }) => setForm('username', target.value)}

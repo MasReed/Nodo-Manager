@@ -51,7 +51,7 @@ const LoginForm = ({ ...props }) => {
         <Form.Label>Username</Form.Label>
         <Form.Control
           type='text'
-          value={form.username.trim()}
+          value={form.username.trimStart()}
           minLength={userForms.username.minLength.value.toString()}
           maxLength={userForms.username.maxLength.value.toString()}
           placeholder='Username'
@@ -74,7 +74,7 @@ const LoginForm = ({ ...props }) => {
         <Form.Label>Password</Form.Label>
         <Form.Control
           type='password'
-          value={form.password.trim()}
+          value={form.password.trimStart()}
           minLength={userForms.password.minLength.value.toString()}
           maxLength={userForms.password.maxLength.value.toString()}
           placeholder='Password'

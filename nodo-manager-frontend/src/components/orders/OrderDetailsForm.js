@@ -52,7 +52,7 @@ const OrderDetailsForm = ({ form, setForm, errors }) => (
         <Form.Group>
           <Form.Label>Name: </Form.Label>
           <Form.Control
-            value={form.orderName.trim()}
+            value={form.orderName.trimStart()}
             minLength={orderForms.orderName.minLength.value.toString()}
             maxLength={orderForms.orderName.maxLength.value.toString()}
             onChange={({ target }) => setForm('orderName', target.value)}
@@ -77,7 +77,7 @@ const OrderDetailsForm = ({ form, setForm, errors }) => (
         <Form.Group>
           <Form.Label>Order Notes:</Form.Label>
           <Form.Control
-            value={form.orderNotes.trim()}
+            value={form.orderNotes.trimStart()}
             maxLength={orderForms.orderNotes.maxLength.value.toString()}
             onChange={({ target }) => setForm('orderNotes', target.value)}
             isInvalid={!!errors.orderNotes}

@@ -72,6 +72,7 @@ Procedure / TODOs
     - default password -> auto-generate?
 
   - Refactor UpdateCustomItemModal & CustomizeItemModal into one component?
+    - utilize useForm hook
   - Configure site Route for individual order IDs
 
 - MOBILE RESPONSIVENESS

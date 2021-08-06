@@ -82,7 +82,7 @@ const CustomizeItemModal = ({
           <Form.Group>
             <Form.Label>Who is it for?</Form.Label>
             <Form.Control
-              value={forName.trim()}
+              value={forName.trimStart()}
               maxLength='30'
               onChange={({ target }) => setForName(target.value)}
             />
@@ -117,7 +117,7 @@ const CustomizeItemModal = ({
           <Form.Group>
             <Form.Label>Anything else we should know?</Form.Label>
             <Form.Control
-              value={notes.trim()}
+              value={notes.trimStart()}
               maxLength='150'
               placeholder='e.g. peanut allergy'
               onChange={({ target }) => setNotes(target.value)}

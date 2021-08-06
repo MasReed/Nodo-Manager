@@ -162,6 +162,7 @@ const OrderPage = ({ order }) => {
         </div>
       </div>
 
+      {/* Modal Component for Item Customization */}
       <UpdateCustomItemModal
         show={showCustomize}
         setShow={setShowCustomize}

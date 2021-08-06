@@ -61,7 +61,7 @@ const RegisterForm = () => {
         <Form.Label>Email address</Form.Label>
         <Form.Control
           type='email'
-          value={form.email.trim()}
+          value={form.email.trimStart()}
           minLength={userForms.email.minLength.value.toString()}
           maxLength={userForms.email.maxLength.value.toString()}
           placeholder='Enter email'
@@ -84,7 +84,7 @@ const RegisterForm = () => {
         <Form.Label>Username</Form.Label>
         <Form.Control
           type='text'
-          value={form.username.trim()}
+          value={form.username.trimStart()}
           minLength={userForms.username.minLength.value.toString()}
           maxLength={userForms.username.maxLength.value.toString()}
           placeholder='Username'
@@ -107,7 +107,7 @@ const RegisterForm = () => {
         <Form.Label>Password</Form.Label>
         <Form.Control
           type='password'
-          value={form.password.trim()}
+          value={form.password.trimStart()}
           minLength={userForms.password.minLength.value.toString()}
           maxLength={userForms.password.maxLength.value.toString()}
           placeholder='Password'
@@ -130,7 +130,7 @@ const RegisterForm = () => {
         <Form.Label>Confirm Password</Form.Label>
         <Form.Control
           type='password'
-          value={form.passcopy.trim()}
+          value={form.passcopy.trimStart()}
           minLength={userForms.password.minLength.value.toString()}
           maxLength={userForms.password.maxLength.value.toString()}
           placeholder='Password'
