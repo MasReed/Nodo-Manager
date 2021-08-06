@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
-import { deleteCartItemActionCreator } from '../../reducers/cartReducer'
+import { deleteItemInOrder } from '../../reducers/currentOrderReducer'
 
 const OrderItems = ({ setSelectedItem, setShowCustomize }) => {
   const dispatch = useDispatch()
@@ -13,8 +13,8 @@ const OrderItems = ({ setSelectedItem, setShowCustomize }) => {
     setShowCustomize(true)
   }
 
-  const deleteCartItem = (id) => {
-    dispatch(deleteCartItemActionCreator(id))
+  const deleteItem = (id) => {
+    dispatch(deleteItemInOrder(id))
   }
 
   return (
@@ -62,7 +62,7 @@ const OrderItems = ({ setSelectedItem, setShowCustomize }) => {
                 <div className='my-auto'>
                   {/* Remove Item Button */}
                   <Button
-                    onClick={() => deleteCartItem(item.uniqueId)}
+                    onClick={() => deleteItem(item.uniqueId)}
                     variant='outline-danger'
                     size='sm'
                     style={{ border: 'hidden' }}

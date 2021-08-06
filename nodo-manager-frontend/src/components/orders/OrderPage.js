@@ -66,11 +66,6 @@ const OrderPage = () => {
   }
 
   //
-  const deleteOrderItem = (id) => {
-    dispatch(deleteItemInOrder(id))
-  }
-
-  //
   const addOrder = async (event) => {
     event.preventDefault()
 
