@@ -7,7 +7,7 @@ import Container from 'react-bootstrap/Container'
 
 import Costs from './Costs'
 import MyOrderForm from './MyOrderForm'
-import MyOrderItems from './MyOrderItems'
+import OrderItems from './OrderItems'
 import UpdateCustomItemModal from './UpdateCustomItemModal'
 
 import { resetCart } from '../../reducers/cartReducer'
@@ -43,7 +43,7 @@ const MyOrderPage = () => {
 
       <hr />
 
-      <MyOrderItems
+      <OrderItems
         setSelectedItem={setSelectedItem}
         setShowCustomize={setShowCustomize}
       />
