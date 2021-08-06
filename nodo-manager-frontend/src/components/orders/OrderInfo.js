@@ -57,8 +57,6 @@ const OrderInfo = ({ order }) => {
   }
 
   const updateOrderSequence = async () => {
-    console.log('UPDATE ORDER SEQUENCE CALLED')
-    console.log('ORDER IN UPDATE', order)
     await dispatch(setCurrentOrder(order))
     try {
       setShowUpdateOrderModal(true)
