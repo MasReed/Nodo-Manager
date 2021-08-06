@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   Switch,
   Route,
+  // useRouteMatch,
 } from 'react-router-dom'
 
 import { toastAlertCreator } from './reducers/alertReducer'
@@ -28,6 +29,7 @@ import SiteNavBar from './components/site-wide/SiteNavBar'
 function App() {
   const dispatch = useDispatch()
   const currentUser = useSelector((state) => state.currentUser)
+  // const orders = useSelector((state) => state.orders)
 
   useEffect(() => {
     const resets = async () => {
@@ -50,6 +52,12 @@ function App() {
       onErr(err)
     }
   }, [dispatch, currentUser])
+
+  // finds order with id matching route
+  // const orderMatch = useRouteMatch('/orders/:id')
+  // const orderToView = orderMatch
+  //   ? orders.find((order) => order.id === orderMatch.params.id)
+  //   : null
 
   return (
     <>
@@ -75,6 +83,12 @@ function App() {
           <Route path='/order-confirmed'>
             <OrderConfirmationPage />
           </Route>
+
+          {/*
+          <Route path='/orders/:id'>
+            <OrderPage order={orderToView} />
+          </Route>
+          */}
 
           <AuthRoute path='/orders' authGroup='employee'>
             <OrdersPage />

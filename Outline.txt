@@ -61,7 +61,7 @@ Procedure / TODOs
 
   + Add MyAccount Page
     + view previous orders
-    - breakdown OrderList/OrderInfo into reusable components
+    - breakdown OrdersList/OrderInfo into reusable components
 
   - Users Page functionality
     + new user button follows registration on backend
@@ -70,6 +70,9 @@ Procedure / TODOs
     + sorted users by role
       - group under accordions like menu items?
     - default password -> auto-generate?
+
+  - Refactor UpdateCustomItemModal & CustomizeItemModal into one component?
+  - Configure site Route for individual order IDs
 
 - MOBILE RESPONSIVENESS
   + login modal
@@ -97,6 +100,7 @@ Procedure / TODOs
       + conditional redirect to menu or shows current order
     + UpdateOrderForm (modal)-> once built
       + disable edit btn if marked completed
+    + Refactor MyOrder components into reusable Order-based components
     - validate status choices
     - edit item within order, remove item + cancel edit functionality
 
@@ -138,7 +142,7 @@ Procedure / TODOs
 - archive orders
 - end of day features
 - sales data features
-- Cross ref orders and users
++? Cross ref orders and users
 - confirm account registration w/ email?
 - implement OAuth for registration/login
 - login/register page separated from landing page

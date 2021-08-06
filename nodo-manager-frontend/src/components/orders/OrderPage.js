@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
@@ -13,19 +12,23 @@ import UpdateCustomItemModal from './UpdateCustomItemModal'
 
 import useForm from '../../hooks/useForm'
 import { toastAlertCreator } from '../../reducers/alertReducer'
-import { resetCurrentOrder, deleteItemInOrder } from '../../reducers/currentOrderReducer'
-import { addOrderActionCreator, updateOrderActionCreator } from '../../reducers/orderReducer'
+import { resetCurrentOrder } from '../../reducers/currentOrderReducer'
+import { addOrderActionCreator } from '../../reducers/orderReducer'
 
-const OrderPage = () => {
+const OrderPage = ({ order }) => {
   const dispatch = useDispatch()
   const history = useHistory()
-  const currentOrder = useSelector((state) => state.currentOrder)
+  const currentOrder = useSelector((state) => {
+    if (!order) {
+      return state.currentOrder
+    }
+    return order
+  })
   const currentUser = useSelector((state) => state.currentUser)
 
   const [showCustomize, setShowCustomize] = useState(false)
   const [selectedItem, setSelectedItem] = useState({})
   const [costs, setCosts] = useState({})
-  const [isUpdating, setIsUpdating] = useState(false)
 
   //
   const getDefaultOrderName = () => {
@@ -154,7 +157,7 @@ const OrderPage = () => {
             className='mx-2'
             onClick={addOrder}
           >
-            {isUpdating ? 'Save Updates' : 'Checkout'}
+            Checkout
           </Button>
         </div>
       </div>

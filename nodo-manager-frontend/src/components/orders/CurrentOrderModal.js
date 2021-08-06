@@ -5,15 +5,15 @@ import { useHistory } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 
-import OrderItems from './OrderItems'
+import OrderPage from './OrderPage'
 
 import { resetCart } from '../../reducers/cartReducer'
 
 const CurrentOrderModal = ({
   show,
   setShow,
-  setSelectedItem,
-  setShowCustomize,
+  // setSelectedItem,
+  // setShowCustomize,
 }) => {
   const dispatch = useDispatch()
   const history = useHistory()
@@ -56,10 +56,7 @@ const CurrentOrderModal = ({
 
       {/* Current Items in Order */}
       <Modal.Body>
-        <OrderItems
-          setSelectedItem={setSelectedItem}
-          setShowCustomize={setShowCustomize}
-        />
+        <OrderPage />
       </Modal.Body>
 
       {/* Buttons */}
