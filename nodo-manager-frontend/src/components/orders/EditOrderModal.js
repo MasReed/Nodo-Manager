@@ -1,29 +1,31 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
-import ButtonGroup from 'react-bootstrap/ButtonGroup'
-import Col from 'react-bootstrap/Col'
-import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
-import ToggleButton from 'react-bootstrap/ToggleButton'
 
-import { orderForms } from '../../configurations/formConfigs'
+import Costs from './Costs'
+import OrderDetailsForm from './OrderDetailsForm'
+import OrderItems from './OrderItems'
+import UpdateCustomItemModal from './UpdateCustomItemModal'
+
 import useForm from '../../hooks/useForm'
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { updateOrderActionCreator } from '../../reducers/orderReducer'
-import charactersRemaining from '../../utilities/charactersRemaining'
 
 const EditOrderModal = ({ order, show, setShow }) => {
   const dispatch = useDispatch()
-
-  const [localOrder, setLocalOrder] = useState(order)
+  const currentOrder = useSelector((state) => state.currentOrder)
 
   const [form, setForm, errors, isValidated] = useForm({
-    orderCategory: localOrder.category,
-    orderName: localOrder.name,
-    orderNotes: localOrder.notes,
+    orderCategory: order.category,
+    orderName: order.name,
+    orderNotes: order.notes,
   })
+
+  const [showCustomize, setShowCustomize] = useState(false)
+  const [selectedItem, setSelectedItem] = useState({})
+  const [costs, setCosts] = useState(order.costs)
 
   //
   const handleUpdateSubmission = async (event) => {
@@ -33,10 +35,16 @@ const EditOrderModal = ({ order, show, setShow }) => {
     if (isValidated()) {
       try {
         const updatedOrderObject = {
-          ...localOrder,
           category: form.orderCategory,
+          items: currentOrder.items,
           name: form.orderName,
           notes: form.orderNotes,
+          costs: {
+            subTotal: costs.subTotal,
+            taxRate: costs.taxRate,
+            taxAmount: costs.taxAmount,
+            total: costs.total,
+          },
         }
 
         await dispatch(
@@ -57,14 +65,6 @@ const EditOrderModal = ({ order, show, setShow }) => {
   }
 
   //
-  const deleteOrderItem = (id) => {
-    setLocalOrder((prevState) => ({
-      ...prevState,
-      items: prevState.items.filter((item) => item.uniqueId !== id),
-    }))
-  }
-
-  //
   const handleModalClose = () => {
     setForm({
       orderCategory: order.category,
@@ -75,190 +75,66 @@ const EditOrderModal = ({ order, show, setShow }) => {
   }
 
   return (
-    <Modal
-      show={show}
-      onHide={handleModalClose}
-      dialogClassName='modal-60w'
-      backdrop='static'
-      keyboard={false}
-      scrollable
-    >
-      <Modal.Header closeButton>
-        <Modal.Title>
-          {`Editing ${order.name}'s Order`}
-          <h6>
-            ID:
-            {order._id}
-          </h6>
-        </Modal.Title>
-      </Modal.Header>
+    <>
+      <Modal
+        show={show}
+        onHide={handleModalClose}
+        dialogClassName='modal-60w'
+        backdrop='static'
+        keyboard={false}
+        scrollable
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>
+            {`Editing ${order.name}'s Order`}
+            <h6>
+              ID:
+              {order._id}
+            </h6>
+          </Modal.Title>
+        </Modal.Header>
 
-      <Modal.Body>
-        <Form id='updateOrderForm' onSubmit={handleUpdateSubmission}>
+        <Modal.Body>
 
-          {/* Order Category */}
-          <Form.Group>
-            <ButtonGroup toggle>
-              <ToggleButton
-                type='radio'
-                name='carry-out-toggle'
-                variant='outline-primary'
-                value={form.orderCategory}
-                checked={form.orderCategory === 'Carry Out'}
-                onChange={() => setForm('orderCategory', 'Carry Out')}
-              >
-                Carry Out
-              </ToggleButton>
+          {/* Order Form with Category, Name, Notes */}
+          <OrderDetailsForm
+            form={form}
+            setForm={setForm}
+            errors={errors}
+          />
 
-              <ToggleButton
-                type='radio'
-                name='delivery-toggle'
-                variant='outline-primary'
-                value={form.orderCategory}
-                checked={form.orderCategory === 'Delivery'}
-                onChange={() => setForm('orderCategory', 'Delivery')}
-              >
-                Delivery
-              </ToggleButton>
-            </ButtonGroup>
+          <hr />
 
-            <Form.Text>
-              {form.orderCategory}
-              {' '}
-              selected.
-            </Form.Text>
+          {/* List of Items in Order */}
+          <OrderItems
+            setSelectedItem={setSelectedItem}
+            setShowCustomize={setShowCustomize}
+          />
 
-            <Form.Control.Feedback type='invalid'>
-              { errors.orderCategory }
-            </Form.Control.Feedback>
-          </Form.Group>
+          {/* Order Costs Display */}
+          <Costs setCosts={setCosts} />
 
-          <Form.Row className='ml-0 mr-0'>
-            {/* Order Name */}
-            <Col lg='auto' className='pl-0'>
-              <Form.Group>
-                <Form.Label>Name: </Form.Label>
-                <Form.Control
-                  value={form.orderName.trim()}
-                  minLength={orderForms.orderName.minLength.value.toString()}
-                  maxLength={orderForms.orderName.maxLength.value.toString()}
-                  onChange={({ target }) => setForm('orderName', target.value)}
-                  placeholder='e.g. Jane Doe'
-                  isInvalid={!!errors.orderName}
-                />
-                <Form.Text>
-                  {charactersRemaining(
-                    form.orderName, orderForms.orderName.maxLength.value,
-                  )}
-                </Form.Text>
+        </Modal.Body>
 
-                <Form.Control.Feedback type='invalid'>
-                  { errors.orderName }
-                </Form.Control.Feedback>
-              </Form.Group>
-            </Col>
+        <Modal.Footer className='d-flex justify-content-between'>
+          {/* Cancel */}
+          <Button variant='outline-warning' onClick={handleModalClose}>
+            Cancel
+          </Button>
 
-            {/* Order Notes */}
-            <Col className='pr-0'>
-              <Form.Group>
-                <Form.Label>Order Notes:</Form.Label>
-                <Form.Control
-                  value={form.orderNotes.trim()}
-                  maxLength={orderForms.orderNotes.maxLength.value.toString()}
-                  onChange={({ target }) => setForm('orderNotes', target.value)}
-                  isInvalid={!!errors.orderNotes}
-                />
-                <Form.Text>
-                  {charactersRemaining(
-                    form.orderNotes, orderForms.orderNotes.maxLength.value,
-                  )}
-                </Form.Text>
+          {/* Save */}
+          <Button onClick={handleUpdateSubmission}>Save Updates</Button>
+        </Modal.Footer>
 
-                <Form.Control.Feedback type='invalid'>
-                  { errors.orderNotes }
-                </Form.Control.Feedback>
-              </Form.Group>
-            </Col>
+      </Modal>
 
-          </Form.Row>
-        </Form>
-
-        <hr />
-
-        {
-          (localOrder.items.length > 0) && localOrder.items.map((item) => (
-            <div key={item.uniqueId}>
-              <div>
-                <div className='d-flex justify-content-between'>
-                  <h2 className='my-0 py-2'>{item.baseName}</h2>
-                  <h2 className='my-0 py-2 text-capitalize'>{item.whos}</h2>
-                </div>
-
-                <div className='my-0'>
-                  <h6 className='my-0 pt-2 pb-1'>Ingredients:</h6>
-                  <p className='my-0 px-4 py-0'>
-                    {item.modIngredients.filter((obj) => obj.checked).map((obj) => obj.ingredient).join(', ')}
-                  </p>
-                  <p className='my-0 px-4 py-0'>
-                    <small>
-                      Exclusions:&nbsp;
-                      {item.modIngredients.filter((obj) => !obj.checked).map((obj) => obj.ingredient).join(', ')}
-                    </small>
-                  </p>
-                  {
-                    item.notes
-                      && (
-                        <>
-                          <h6 className='my-0 py-2'>Notes:</h6>
-                          <p className='my-0 px-4 py-0'>{item.notes}</p>
-                        </>
-                      )
-                  }
-                </div>
-
-                <div className='d-flex justify-content-between'>
-                  <div className='my-auto'>
-                    <Button
-                      onClick={() => deleteOrderItem(item.uniqueId)}
-                      variant='outline-danger'
-                      size='sm'
-                      style={{ border: 'hidden' }}
-                    >
-                      Remove Item
-                    </Button>
-
-                    <Button
-                      onClick={() => console.log('edit called')}
-                      variant='outline-secondary'
-                      size='sm'
-                      style={{ border: 'hidden' }}
-                    >
-                      Edit
-                    </Button>
-                  </div>
-                  <p className='my-0 py-2'>
-                    Item Total: $
-                    {item.basePrice}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))
-        }
-
-      </Modal.Body>
-
-      <Modal.Footer className='d-flex justify-content-between'>
-        {/* Cancel */}
-        <Button variant='outline-warning' onClick={handleModalClose}>
-          Cancel
-        </Button>
-
-        {/* Save */}
-        <Button type='submit' form='updateOrderForm'>Save Updates</Button>
-      </Modal.Footer>
-
-    </Modal>
+      <UpdateCustomItemModal
+        show={showCustomize}
+        setShow={setShowCustomize}
+        selectedItem={selectedItem}
+        setSelectedItem={setSelectedItem}
+      />
+    </>
   )
 }
 
