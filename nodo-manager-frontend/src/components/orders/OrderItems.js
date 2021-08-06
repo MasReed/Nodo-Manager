@@ -2,19 +2,14 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
-// import useUndoRedo from '../../hooks/useUndoRedo'
 import { deleteCartItemActionCreator } from '../../reducers/cartReducer'
 
-const MyOrderItems = ({ items, setSelectedItem, setShowCustomize }) => {
+const OrderItems = ({ setSelectedItem, setShowCustomize }) => {
   const dispatch = useDispatch()
-  const cartItems = useSelector((state) => state.cart)
-
-  // const { state, set, undo, redo, clear, canUndo, canRedo } = useUndoRedo({})
-
-  const itemSource = items || cartItems
+  const items = useSelector((state) => state.currentOrder.items)
 
   const updateCartItem = (id) => {
-    setSelectedItem(cartItems.find((item) => item.uniqueId === id))
+    setSelectedItem(items.find((item) => item.uniqueId === id))
     setShowCustomize(true)
   }
 
@@ -25,14 +20,17 @@ const MyOrderItems = ({ items, setSelectedItem, setShowCustomize }) => {
   return (
     <>
       {
-        (itemSource.length > 0) && itemSource.map((item) => (
+        (items && items.length > 0) && items.map((item) => (
           <div key={item.uniqueId}>
             <div>
+
+              {/* Item Name, Orderee's Name */}
               <div className='d-flex justify-content-between'>
                 <h2 className='my-0 py-2'>{item.baseName}</h2>
                 <h2 className='my-0 py-2 text-capitalize'>{item.whos}</h2>
               </div>
 
+              {/* Item Ingrediends & Exclusions */}
               <div className='my-0'>
                 <h6 className='my-0 pt-2 pb-1'>Ingredients:</h6>
                 <p className='my-0 px-4 py-0'>
@@ -40,10 +38,14 @@ const MyOrderItems = ({ items, setSelectedItem, setShowCustomize }) => {
                 </p>
                 <p className='my-0 px-4 py-0'>
                   <small>
-                    Exclusions:&nbsp;
-                    {item.modIngredients.filter((obj) => !obj.checked).map((obj) => obj.ingredient).join(', ')}
+                    {`Exclusions: ${item.modIngredients
+                      .filter((obj) => !obj.checked)
+                      .map((obj) => obj.ingredient)
+                      .join(', ')}`}
                   </small>
                 </p>
+
+                {/* Display item notes, if any */}
                 {
                   item.notes
                   && (
@@ -55,8 +57,10 @@ const MyOrderItems = ({ items, setSelectedItem, setShowCustomize }) => {
                 }
               </div>
 
+              {/* Item Modification Buttons & Item Total */}
               <div className='d-flex justify-content-between'>
                 <div className='my-auto'>
+                  {/* Remove Item Button */}
                   <Button
                     onClick={() => deleteCartItem(item.uniqueId)}
                     variant='outline-danger'
@@ -65,6 +69,8 @@ const MyOrderItems = ({ items, setSelectedItem, setShowCustomize }) => {
                   >
                     Remove
                   </Button>
+
+                  {/* Edit Item Button */}
                   <Button
                     onClick={() => updateCartItem(item.uniqueId)}
                     variant='outline-secondary'
@@ -74,9 +80,10 @@ const MyOrderItems = ({ items, setSelectedItem, setShowCustomize }) => {
                     Edit
                   </Button>
                 </div>
+
+                {/* Item Total */}
                 <p className='my-0 py-2'>
-                  Item Total: $
-                  {item.basePrice}
+                  {`Item Total: $${item.basePrice}`}
                 </p>
               </div>
             </div>
@@ -88,4 +95,4 @@ const MyOrderItems = ({ items, setSelectedItem, setShowCustomize }) => {
   )
 }
 
-export default MyOrderItems
+export default OrderItems
