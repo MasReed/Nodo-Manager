@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 
+import AlertBanner from '../site-wide/AlertBanner'
 import Costs from './Costs'
 import OrderDetailsForm from './OrderDetailsForm'
 import OrderItems from './OrderItems'
@@ -12,6 +13,7 @@ import ItemCustomizationModal from '../menu/ItemCustomizationModal'
 import useForm from '../../hooks/useForm'
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { resetCurrentOrder } from '../../reducers/currentOrderReducer'
+import { isVisible } from '../../reducers/modalReducer'
 import { updateOrderActionCreator } from '../../reducers/orderReducer'
 
 const EditOrderModal = ({ order, show, setShow }) => {
@@ -61,6 +63,7 @@ const EditOrderModal = ({ order, show, setShow }) => {
         })
 
         setShow(false)
+        await dispatch(isVisible(false))
       } catch (err) {
         await dispatch(toastAlertCreator(err))
       }
@@ -70,6 +73,7 @@ const EditOrderModal = ({ order, show, setShow }) => {
   //
   const handleModalClose = async () => {
     await dispatch(resetCurrentOrder())
+    await dispatch(isVisible(false))
 
     setForm({
       orderCategory: order.category,
@@ -93,11 +97,12 @@ const EditOrderModal = ({ order, show, setShow }) => {
           <Modal.Title>
             {`Editing ${order.name}'s Order`}
             <h6>
-              ID:
-              {order._id}
+              {`ID: ${order._id}`}
             </h6>
           </Modal.Title>
         </Modal.Header>
+
+        <AlertBanner />
 
         <Modal.Body>
 

@@ -7,6 +7,7 @@ import EditOrderModal from './EditOrderModal'
 
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { setCurrentOrder } from '../../reducers/currentOrderReducer'
+import { isVisible } from '../../reducers/modalReducer'
 import {
   updateOrderActionCreator,
   deleteOrderActionCreator,
@@ -59,7 +60,8 @@ const OrderInfo = ({ order }) => {
   const updateOrderSequence = async () => {
     await dispatch(setCurrentOrder(order))
     try {
-      setShowUpdateOrderModal(true)
+      await setShowUpdateOrderModal(true)
+      await dispatch(isVisible(true))
     } catch (err) {
       await dispatch(toastAlertCreator(err))
     }

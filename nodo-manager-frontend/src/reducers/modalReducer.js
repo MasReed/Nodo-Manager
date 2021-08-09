@@ -10,16 +10,9 @@ const modalReducer = (state = false, action) => {
 
 export default modalReducer
 
-export const setVisible = () => async (dispatch) => {
+export const isVisible = (visBool) => async (dispatch) => {
   dispatch({
     type: 'IS_VISIBLE',
-    data: true,
-  })
-}
-
-export const setHidden = () => async (dispatch) => {
-  dispatch({
-    type: 'IS_VISIBLE',
-    data: false,
+    data: visBool,
   })
 }
