@@ -38,11 +38,13 @@ const OrderPage = ({ order }) => {
       defaultName = currentOrder.name
     } else if (currentUser) {
       defaultName = currentUser.name
-    } else if (currentOrder) {
+    } else if (currentOrder && currentOrder.items.length > 0) {
       const itemWhosIndex = currentOrder.items.findIndex((elem) => elem.whos !== '')
 
+      console.log('itemswhosindex', itemWhosIndex)
+
       if (itemWhosIndex !== -1) {
-        defaultName = currentOrder[itemWhosIndex].whos
+        defaultName = currentOrder.items[itemWhosIndex].whos
       }
       defaultName = ''
     }
@@ -52,7 +54,7 @@ const OrderPage = ({ order }) => {
   //
   const [form, setForm, errors, isValidated] = useForm({
     orderCategory: currentOrder.category || 'Carry Out',
-    orderName: getDefaultOrderName(),
+    orderName: getDefaultOrderName() || '',
     orderNotes: currentOrder.notes || '',
   })
 
@@ -168,6 +170,7 @@ const OrderPage = ({ order }) => {
         setItem={setSelectedItem}
         show={showCustomize}
         setShow={setShowCustomize}
+        isUpdating
       />
 
     </Container>

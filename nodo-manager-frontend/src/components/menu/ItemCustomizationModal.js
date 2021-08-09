@@ -10,7 +10,7 @@ import { addItemToOrder, updateItemInOrder } from '../../reducers/currentOrderRe
 import charactersRemaining from '../../utilities/charactersRemaining'
 
 const ItemCustomizationModal = ({
-  item, setItem, show, setShow,
+  item, setItem, show, setShow, isUpdating,
 }) => {
   const dispatch = useDispatch()
 
@@ -86,15 +86,6 @@ const ItemCustomizationModal = ({
     }
   }
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault()
-
-    console.log('handleFormSubmit called')
-
-    addCustomItem(event)
-    updateCustomItem(event)
-  }
-
   return (
     <Modal
       show={show}
@@ -111,7 +102,7 @@ const ItemCustomizationModal = ({
       </Modal.Header>
 
       <Modal.Body>
-        <Form id='updateCustomItemForm' onSubmit={handleFormSubmit}>
+        <Form id='updateCustomItemForm'>
 
           {/* Item For Name */}
           <Form.Group>
@@ -185,8 +176,11 @@ const ItemCustomizationModal = ({
         >
           Cancel
         </Button>
-        <Button onClick={addCustomItem}>Add to Order</Button>
-        <Button onClick={updateCustomItem}>Update</Button>
+        {
+          isUpdating
+            ? <Button onClick={updateCustomItem}>Update</Button>
+            : <Button onClick={addCustomItem}>Add to Order</Button>
+        }
       </Modal.Footer>
     </Modal>
   )

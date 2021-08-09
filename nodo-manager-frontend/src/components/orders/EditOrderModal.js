@@ -133,6 +133,7 @@ const EditOrderModal = ({ order, show, setShow }) => {
         setItem={setSelectedItem}
         show={showCustomize}
         setShow={setShowCustomize}
+        isUpdating
       />
     </>
   )
