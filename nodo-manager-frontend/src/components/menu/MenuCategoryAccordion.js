@@ -10,7 +10,7 @@ import MenuItemCard from './MenuItemCard'
 import CustomAccordion from '../site-wide/CustomAccordion'
 
 const MenuCategoryAccordion = ({
-  category, showCustomize, setShowCustomize, setSelectedItem,
+  category, setShowCustomize, setSelectedItem,
 }) => {
   const menuItems = useSelector((state) => state.items)
 
@@ -23,8 +23,7 @@ const MenuCategoryAccordion = ({
               <Col key={item._id} className='mx-0 mb-4'>
                 <MenuItemCard
                   item={item}
-                  show={showCustomize}
-                  setShow={setShowCustomize}
+                  setShowCustomize={setShowCustomize}
                   setSelectedItem={setSelectedItem}
                 />
               </Col>

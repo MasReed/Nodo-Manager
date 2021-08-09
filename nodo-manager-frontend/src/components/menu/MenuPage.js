@@ -29,18 +29,19 @@ const MenuPage = () => {
       </div>
       <hr />
 
+      {/* Dropdown accordions for each category */}
       {
         categories.map((category) => (
           <MenuCategoryAccordion
             key={category}
             category={category}
-            showCustomize={showCustomize}
             setShowCustomize={setShowCustomize}
             setSelectedItem={setSelectedItem}
           />
         ))
       }
 
+      {/* Item customization modal component */}
       <CustomizeItemModal
         show={showCustomize}
         setShow={setShowCustomize}

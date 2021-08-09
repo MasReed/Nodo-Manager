@@ -5,12 +5,11 @@ import Card from 'react-bootstrap/Card'
 
 import truncateString from '../../utilities/truncateString'
 
-const MenuItemCard = ({
-  item, setShow, setSelectedItem,
-}) => {
+const MenuItemCard = ({ item, setShowCustomize, setSelectedItem }) => {
+  // call props to display customization modal
   const callCustomizeModal = () => {
     setSelectedItem(item)
-    setShow(true)
+    setShowCustomize(true)
   }
 
   return (

@@ -77,7 +77,9 @@ Procedure / TODOs
 
 - MOBILE RESPONSIVENESS
   + login modal
-  - collapse nav-bar on lose focus or item clicked
+  - collapse nav-bar on
+    - lose focus
+    + item clicked
   - update truncateString to return truncated + option to expand?
 
 - CUSTOM FORMS & VALIDATION (Frontend)
@@ -88,7 +90,6 @@ Procedure / TODOs
   + min/max length of form inputs all around
   + strip leading/trailing whitespace from inputs ( .trim() method )
   + utilize charactersRemaining in all forms if applicable
-  - check custom form validation in rows with more than 1 input
 
   + Item forms
     + NewItemForm
