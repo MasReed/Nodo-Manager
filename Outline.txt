@@ -58,10 +58,9 @@ Procedure / TODOs
     + standardize itemsList & MenuItemCard
   + make itemInfo/card responsive
     + text wrapping, overflow, min/max sizes
-
+  + Refactor UpdateCustomItemModal & CustomizeItemModal into one component?
   + Add MyAccount Page
     + view previous orders
-    - breakdown OrdersList/OrderInfo into reusable components
 
   - Users Page functionality
     + new user button follows registration on backend
@@ -71,9 +70,14 @@ Procedure / TODOs
       - group under accordions like menu items?
     - default password -> auto-generate?
 
-  - Refactor UpdateCustomItemModal & CustomizeItemModal into one component?
-    - utilize useForm hook
+  - breakdown OrdersList/OrderInfo into reusable components
   - Configure site Route for individual order IDs
+
+  - conditional render alertBanner on site vs in modal
+    + functionality exists
+    - abstract into hook?
+    - apply to all modals
+      + EditOrderModal
 
 - MOBILE RESPONSIVENESS
   + login modal
@@ -118,8 +122,6 @@ Procedure / TODOs
   + Api based errors caught at service boundary, contextualized, and rethrown to
     be caught in components and dispatched to alertReducer
   + Implemented item form validations
-  - conditional render alertBanner on site vs in modal
-  - connect error to form component if applicable
   - verify shape of error objects created at frontend service layer
   - verify data initializers on frontend (currently in useEffect)
   - manage cast errors on backend
@@ -141,17 +143,18 @@ Procedure / TODOs
   + RegisterForm tests
     - reset user in db between each test
 
-- implement 'undo action' functionality as reusable hook
-- archive orders
-- end of day features
-- sales data features
-+? Cross ref orders and users
-- confirm account registration w/ email?
-- implement OAuth for registration/login
-- login/register page separated from landing page
-- guest checkout renders/warnings
-- update this list
-- Testing backend
-- Testing frontend
-+ implement linter/rules
-- implement db registration for many users/accounts
+- OTHER
+  - implement 'undo action' functionality as reusable hook
+  - archive orders
+  - end of day features
+  - sales data features
+  +? Cross ref orders and users
+  - confirm account registration w/ email?
+  - implement OAuth for registration/login
+  - login/register page separated from landing page
+  - guest checkout renders/warnings
+  - update this list
+  - Testing backend
+  - Testing frontend
+  + implement linter/rules
+  - implement db registration for many users/accounts

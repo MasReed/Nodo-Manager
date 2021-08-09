@@ -8,6 +8,7 @@ import UpdateItemForm from './UpdateItemForm'
 
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { destroyItemActionCreator } from '../../reducers/itemReducer'
+import { isVisible } from '../../reducers/modalReducer'
 
 import truncateString from '../../utilities/truncateString'
 
@@ -24,6 +25,12 @@ const ItemInfoCard = ({ item }) => {
     } catch (err) {
       dispatch(toastAlertCreator(err))
     }
+  }
+
+  //
+  const openUpdateItemModal = async () => {
+    setShowUpdateForm(true)
+    await dispatch(isVisible(true))
   }
 
   return (
@@ -78,7 +85,7 @@ const ItemInfoCard = ({ item }) => {
             </Button>
 
             <Button
-              onClick={() => setShowUpdateForm(true)}
+              onClick={openUpdateItemModal}
               className='px-4'
               variant='primary'
             >

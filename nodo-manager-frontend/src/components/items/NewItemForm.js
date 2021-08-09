@@ -10,6 +10,7 @@ import useForm from '../../hooks/useForm'
 import { itemForms } from '../../configurations/formConfigs'
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { addItemActionCreator } from '../../reducers/itemReducer'
+import { isVisible } from '../../reducers/modalReducer'
 import charactersRemaining from '../../utilities/charactersRemaining'
 
 const NewItemForm = ({ show, setShow }) => {
@@ -25,7 +26,7 @@ const NewItemForm = ({ show, setShow }) => {
   })
 
   //
-  const resetForm = () => {
+  const resetForm = async () => {
     setForm({
       itemName: '',
       itemCategory: '',
@@ -35,6 +36,7 @@ const NewItemForm = ({ show, setShow }) => {
       itemAvailability: 'Unavailable',
     })
     setShow(false) // state from parent; closes modal
+    await dispatch(isVisible(false))
   }
 
   //

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
@@ -8,14 +8,21 @@ import ItemsList from './ItemsList'
 import NewItemForm from './NewItemForm'
 
 import CustomAccordion from '../site-wide/CustomAccordion'
+import { isVisible } from '../../reducers/modalReducer'
 
 const ItemsPage = () => {
+  const dispatch = useDispatch()
   // Array of unique item categories
   const categories = useSelector(
     (state) => [...new Set(state.items.map((item) => item.category))],
   )
 
   const [showNewItemForm, setShowNewItemForm] = useState(false)
+
+  const openNewItemModal = async () => {
+    setShowNewItemForm(true)
+    await dispatch(isVisible(true))
+  }
 
   return (
     <Container className='pt-5'>
@@ -24,7 +31,7 @@ const ItemsPage = () => {
       <div className='d-flex justify-content-between'>
         <h1 className='m-0'>Cook Book</h1>
         <Button
-          onClick={() => setShowNewItemForm(true)}
+          onClick={openNewItemModal}
           variant='outline-secondary'
         >
           CREATE
