@@ -11,6 +11,7 @@ import ItemCustomizationModal from '../menu/ItemCustomizationModal'
 
 import useForm from '../../hooks/useForm'
 import { toastAlertCreator } from '../../reducers/alertReducer'
+import { resetCurrentOrder } from '../../reducers/currentOrderReducer'
 import { updateOrderActionCreator } from '../../reducers/orderReducer'
 
 const EditOrderModal = ({ order, show, setShow }) => {
@@ -51,6 +52,8 @@ const EditOrderModal = ({ order, show, setShow }) => {
           updateOrderActionCreator(order._id, updatedOrderObject),
         )
 
+        await dispatch(resetCurrentOrder())
+
         setForm({
           orderCategory: form.orderCategory,
           orderName: form.orderName,
@@ -65,7 +68,9 @@ const EditOrderModal = ({ order, show, setShow }) => {
   }
 
   //
-  const handleModalClose = () => {
+  const handleModalClose = async () => {
+    await dispatch(resetCurrentOrder())
+
     setForm({
       orderCategory: order.category,
       orderName: order.name,
