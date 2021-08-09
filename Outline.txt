@@ -103,8 +103,8 @@ Procedure / TODOs
     + UpdateOrderForm (modal)-> once built
       + disable edit btn if marked completed
     + Refactor MyOrder components into reusable Order-based components
+    + edit item within order, remove item + cancel edit functionality
     - validate status choices
-    - edit item within order, remove item + cancel edit functionality
 
   - User forms
     + NewUserForm

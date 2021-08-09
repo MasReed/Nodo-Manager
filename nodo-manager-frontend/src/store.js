@@ -6,6 +6,7 @@ import alertReducer from './reducers/alertReducer'
 import currentOrderReducer from './reducers/currentOrderReducer'
 import currentUserReducer from './reducers/currentUserReducer'
 import itemReducer from './reducers/itemReducer'
+import modalReducer from './reducers/modalReducer'
 import orderReducer from './reducers/orderReducer'
 import userReducer from './reducers/userReducer'
 
@@ -14,6 +15,7 @@ const reducer = combineReducers({
   currentOrder: currentOrderReducer,
   currentUser: currentUserReducer,
   items: itemReducer,
+  modalOpen: modalReducer,
   orders: orderReducer,
   users: userReducer,
 })
