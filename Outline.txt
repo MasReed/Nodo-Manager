@@ -105,6 +105,7 @@ Procedure / TODOs
     + Refactor MyOrder components into reusable Order-based components
     + edit item within order, remove item + cancel edit functionality
     - validate status choices
+    - Update costs on editing updates
 
   - User forms
     + NewUserForm
