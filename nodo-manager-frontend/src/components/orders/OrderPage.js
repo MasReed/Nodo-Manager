@@ -8,7 +8,7 @@ import Container from 'react-bootstrap/Container'
 import Costs from './Costs'
 import OrderDetailsForm from './OrderDetailsForm'
 import OrderItems from './OrderItems'
-import UpdateCustomItemModal from './UpdateCustomItemModal'
+import ItemCustomizationModal from '../menu/ItemCustomizationModal'
 
 import useForm from '../../hooks/useForm'
 import { toastAlertCreator } from '../../reducers/alertReducer'
@@ -163,11 +163,11 @@ const OrderPage = ({ order }) => {
       </div>
 
       {/* Modal Component for Item Customization */}
-      <UpdateCustomItemModal
+      <ItemCustomizationModal
+        item={selectedItem}
+        setItem={setSelectedItem}
         show={showCustomize}
         setShow={setShowCustomize}
-        selectedItem={selectedItem}
-        setSelectedItem={setSelectedItem}
       />
 
     </Container>

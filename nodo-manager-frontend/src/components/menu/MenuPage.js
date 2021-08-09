@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 
 import MenuCategoryAccordion from './MenuCategoryAccordion'
-import CustomizeItemModal from './CustomizeItemModal'
+import ItemCustomizationModal from './ItemCustomizationModal'
 
 const MenuPage = () => {
   const history = useHistory()
@@ -42,11 +42,11 @@ const MenuPage = () => {
       }
 
       {/* Item customization modal component */}
-      <CustomizeItemModal
+      <ItemCustomizationModal
+        item={selectedItem}
+        setItem={setSelectedItem}
         show={showCustomize}
         setShow={setShowCustomize}
-        selectedItem={selectedItem}
-        setSelectedItem={setSelectedItem}
       />
 
     </Container>

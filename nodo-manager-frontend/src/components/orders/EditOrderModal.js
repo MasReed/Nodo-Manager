@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/Modal'
 import Costs from './Costs'
 import OrderDetailsForm from './OrderDetailsForm'
 import OrderItems from './OrderItems'
-import UpdateCustomItemModal from './UpdateCustomItemModal'
+import ItemCustomizationModal from '../menu/ItemCustomizationModal'
 
 import useForm from '../../hooks/useForm'
 import { toastAlertCreator } from '../../reducers/alertReducer'
@@ -128,11 +128,11 @@ const EditOrderModal = ({ order, show, setShow }) => {
 
       </Modal>
 
-      <UpdateCustomItemModal
+      <ItemCustomizationModal
+        item={selectedItem}
+        setItem={setSelectedItem}
         show={showCustomize}
         setShow={setShowCustomize}
-        selectedItem={selectedItem}
-        setSelectedItem={setSelectedItem}
       />
     </>
   )
