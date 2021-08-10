@@ -16,7 +16,7 @@ import charactersRemaining from '../../utilities/charactersRemaining'
 const NewItemForm = ({ show, setShow }) => {
   const dispatch = useDispatch()
 
-  const [form, setForm, errors, isValidated] = useForm({
+  const [form, setForm, errors, isValidated, resetForm] = useForm({
     itemName: '',
     itemCategory: '',
     itemDescription: '',
@@ -26,15 +26,8 @@ const NewItemForm = ({ show, setShow }) => {
   })
 
   //
-  const resetForm = async () => {
-    setForm({
-      itemName: '',
-      itemCategory: '',
-      itemDescription: '',
-      itemIngredients: [],
-      itemPrice: '',
-      itemAvailability: 'Unavailable',
-    })
+  const resetComponent = async () => {
+    resetForm()
     setShow(false) // state from parent; closes modal
     await dispatch(isVisible(false))
   }
@@ -62,7 +55,7 @@ const NewItemForm = ({ show, setShow }) => {
         // Dispatch to item reducer
         await dispatch(addItemActionCreator(newItemObject))
 
-        resetForm()
+        resetComponent()
       } catch (err) {
         await dispatch(toastAlertCreator(err))
       }
@@ -73,7 +66,7 @@ const NewItemForm = ({ show, setShow }) => {
     <>
       <Modal
         show={show}
-        onHide={resetForm}
+        onHide={resetComponent}
         backdrop='static'
         keyboard={false}
         dialogClassName='modal-70w'
@@ -225,7 +218,7 @@ const NewItemForm = ({ show, setShow }) => {
 
         <Modal.Footer>
           <Button type='submit' form='newItemForm'>Create Item</Button>
-          <Button variant='secondary' onClick={resetForm}>
+          <Button variant='secondary' onClick={resetComponent}>
             Cancel
           </Button>
         </Modal.Footer>

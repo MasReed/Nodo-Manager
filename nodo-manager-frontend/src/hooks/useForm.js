@@ -10,6 +10,8 @@ const useForm = (fields = {}) => {
   const [form, setForm] = useState(fields)
   const [errors, setErrors] = useState({})
 
+  const initialState = fields // Used to resetForm
+
   //
   const setFormProps = (field, value) => {
     // Given single object with key/value pairs, 'maps' to property/value pairs
@@ -51,6 +53,12 @@ const useForm = (fields = {}) => {
     }
   }
 
+  const resetForm = () => {
+    // Reset all form fields to the initial state passed in when the useForm
+    // hook is called.
+    setFormProps(initialState)
+  }
+
   //
   const isValidated = (event) => {
     if (event) event.preventDefault()
@@ -65,7 +73,7 @@ const useForm = (fields = {}) => {
     return true
   }
 
-  return [form, setFormProps, errors, isValidated]
+  return [form, setFormProps, errors, isValidated, resetForm]
 }
 
 export default useForm

@@ -16,7 +16,7 @@ import charactersRemaining from '../../utilities/charactersRemaining'
 const UpdateItemForm = ({ item, show, setShow }) => {
   const dispatch = useDispatch()
 
-  const [form, setForm, errors, isValidated] = useForm({
+  const [form, setForm, errors, isValidated, resetForm] = useForm({
     itemName: item.name,
     itemCategory: item.category,
     itemDescription: item.description,
@@ -26,17 +26,9 @@ const UpdateItemForm = ({ item, show, setShow }) => {
   })
 
   //
-  const resetForm = async () => {
-    setForm({
-      itemName: item.name,
-      itemCategory: item.category,
-      itemDescription: item.description,
-      itemIngredients: item.ingredients,
-      itemPrice: item.price,
-      itemAvailability: item.availability,
-    })
+  const resetComponent = async () => {
+    resetForm()
     setShow(false) // state from parent; closes modal
-
     await dispatch(isVisible(false))
   }
 
@@ -65,7 +57,7 @@ const UpdateItemForm = ({ item, show, setShow }) => {
         // Dispatch to item reducer
         await dispatch(updateItemActionCreator(item._id, updatedItemObject))
 
-        resetForm()
+        resetComponent()
       } catch (err) {
         await dispatch(toastAlertCreator(err))
       }
@@ -76,7 +68,7 @@ const UpdateItemForm = ({ item, show, setShow }) => {
     <>
       <Modal
         show={show}
-        onHide={resetForm}
+        onHide={resetComponent}
         backdrop='static'
         keyboard={false}
       >
@@ -219,7 +211,7 @@ const UpdateItemForm = ({ item, show, setShow }) => {
 
         <Modal.Footer>
           <Button type='submit' form='updateItemForm'>Save</Button>
-          <Button variant='secondary' onClick={resetForm}>
+          <Button variant='secondary' onClick={resetComponent}>
             Cancel
           </Button>
         </Modal.Footer>

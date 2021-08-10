@@ -78,6 +78,8 @@ Procedure / TODOs
     - abstract into hook?
     - apply to all modals
       + EditOrderModal
+      + NewItemForm
+      + UpdateItemForm
 
 - MOBILE RESPONSIVENESS
   + login modal
@@ -89,7 +91,7 @@ Procedure / TODOs
 - CUSTOM FORMS & VALIDATION (Frontend)
   + refactor 'remaining characters code' to reusable component
   + refactor form validation to reusable hook
-    - add resetForm function???
+  + resetForm function resets to initial state passed to useForm
 
   + min/max length of form inputs all around
   + strip leading/trailing whitespace from inputs ( .trim() method )
