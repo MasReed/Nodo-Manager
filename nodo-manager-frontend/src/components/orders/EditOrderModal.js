@@ -20,7 +20,7 @@ const EditOrderModal = ({ order, show, setShow }) => {
   const dispatch = useDispatch()
   const currentOrder = useSelector((state) => state.currentOrder)
 
-  const [form, setForm, errors, isValidated] = useForm({
+  const [form, setForm, errors, isValidated, resetForm] = useForm({
     orderCategory: order.category,
     orderName: order.name,
     orderNotes: order.notes,
@@ -56,6 +56,7 @@ const EditOrderModal = ({ order, show, setShow }) => {
 
         await dispatch(resetCurrentOrder())
 
+        // Set to form inputs vs reset to original order properties
         setForm({
           orderCategory: form.orderCategory,
           orderName: form.orderName,
@@ -74,12 +75,7 @@ const EditOrderModal = ({ order, show, setShow }) => {
   const handleModalClose = async () => {
     await dispatch(resetCurrentOrder())
     await dispatch(isVisible(false))
-
-    setForm({
-      orderCategory: order.category,
-      orderName: order.name,
-      orderNotes: order.notes,
-    })
+    resetForm()
     setShow(false)
   }
 

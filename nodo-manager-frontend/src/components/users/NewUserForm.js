@@ -16,18 +16,13 @@ const NewUserForm = ({ show, setShow }) => {
   const dispatch = useDispatch()
   const currentUser = useSelector((state) => state.currentUser)
 
-  const [form, setForm, errors, isValidated] = useForm({
+  const [form, setForm, errors, isValidated, resetForm] = useForm({
     usersName: '', email: '', username: '', roleName: 'user',
   })
 
   //
-  const resetForm = () => {
-    setForm({
-      usersName: '',
-      email: '',
-      username: '',
-      roleName: 'user',
-    })
+  const resetComponent = () => {
+    resetForm()
     setShow(false)
   }
 
@@ -49,7 +44,7 @@ const NewUserForm = ({ show, setShow }) => {
 
         await dispatch(addUserActionCreator(newUserObject, currentUser))
 
-        resetForm()
+        resetComponent()
       } catch (err) {
         dispatch(toastAlertCreator(err))
       }
@@ -59,7 +54,7 @@ const NewUserForm = ({ show, setShow }) => {
   return (
     <Modal
       show={show}
-      onHide={resetForm}
+      onHide={resetComponent}
       backdrop='static'
       keyboard={false}
     >
@@ -193,7 +188,7 @@ const NewUserForm = ({ show, setShow }) => {
 
       <Modal.Footer>
         <Button type='submit' onClick={createUser}>Create User</Button>
-        <Button variant='secondary' onClick={resetForm}>Cancel</Button>
+        <Button variant='secondary' onClick={resetComponent}>Cancel</Button>
       </Modal.Footer>
 
     </Modal>

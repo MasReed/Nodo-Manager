@@ -12,8 +12,6 @@ import { resetCart } from '../../reducers/cartReducer'
 const CurrentOrderModal = ({
   show,
   setShow,
-  // setSelectedItem,
-  // setShowCustomize,
 }) => {
   const dispatch = useDispatch()
   const history = useHistory()
@@ -25,9 +23,9 @@ const CurrentOrderModal = ({
   }
 
   //
-  const handleCancelOrder = () => {
+  const handleCancelOrder = async () => {
     setShow(false)
-    dispatch(resetCart())
+    await dispatch(resetCart())
   }
 
   //

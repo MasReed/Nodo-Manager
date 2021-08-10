@@ -18,6 +18,7 @@ const OrderInfo = ({ order }) => {
 
   const [showUpdateOrderModal, setShowUpdateOrderModal] = useState(false)
 
+  //
   const orderStatusColor = (status) => {
     const colorMap = {
       'In Progress': '#0062cc',
@@ -27,6 +28,7 @@ const OrderInfo = ({ order }) => {
     return colorMap[status]
   }
 
+  //
   const changeOrderStatus = async (orderObject) => {
     try {
       let newStatusOrder
@@ -49,6 +51,7 @@ const OrderInfo = ({ order }) => {
     }
   }
 
+  //
   const deleteOrder = async (id) => {
     try {
       await dispatch(deleteOrderActionCreator(id))
@@ -57,6 +60,7 @@ const OrderInfo = ({ order }) => {
     }
   }
 
+  //
   const updateOrderSequence = async () => {
     await dispatch(setCurrentOrder(order))
     try {

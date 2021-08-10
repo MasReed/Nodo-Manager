@@ -52,7 +52,7 @@ const OrderPage = ({ order }) => {
   }
 
   //
-  const [form, setForm, errors, isValidated] = useForm({
+  const [form, setForm, errors, isValidated, resetForm] = useForm({
     orderCategory: currentOrder.category || 'Carry Out',
     orderName: getDefaultOrderName() || '',
     orderNotes: currentOrder.notes || '',
@@ -61,6 +61,7 @@ const OrderPage = ({ order }) => {
   //
   const cancelOrderSequence = () => {
     dispatch(resetCurrentOrder())
+    resetForm()
     history.push('/menu')
   }
 
@@ -88,6 +89,7 @@ const OrderPage = ({ order }) => {
 
         await dispatch(addOrderActionCreator(orderObject))
         await dispatch(resetCurrentOrder())
+        resetForm()
         history.push('/order-confirmed')
       } catch (err) {
         await dispatch(toastAlertCreator(err))

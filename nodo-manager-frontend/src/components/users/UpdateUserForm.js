@@ -15,7 +15,7 @@ import charactersRemaining from '../../utilities/charactersRemaining'
 const UpdateUserForm = ({ user, show, setShow }) => {
   const dispatch = useDispatch()
 
-  const [form, setForm, errors, isValidated] = useForm({
+  const [form, setForm, errors, isValidated, resetForm] = useForm({
     usersName: user.name,
     email: user.email,
     username: user.username,
@@ -23,13 +23,8 @@ const UpdateUserForm = ({ user, show, setShow }) => {
   })
 
   //
-  const resetForm = () => {
-    setForm({
-      usersName: user.name,
-      email: user.email,
-      username: user.username,
-      roleName: user.role.name,
-    })
+  const resetComponent = () => {
+    resetForm()
     setShow(false)
   }
 
@@ -52,7 +47,7 @@ const UpdateUserForm = ({ user, show, setShow }) => {
 
         await dispatch(updateUserActionCreator(user.id, updatedUserObject))
 
-        resetForm()
+        resetComponent()
       } catch (err) {
         dispatch(toastAlertCreator(err))
       }
@@ -62,7 +57,7 @@ const UpdateUserForm = ({ user, show, setShow }) => {
   return (
     <Modal
       show={show}
-      onHide={resetForm}
+      onHide={resetComponent}
       backdrop='static'
       keyboard={false}
     >
@@ -198,7 +193,7 @@ const UpdateUserForm = ({ user, show, setShow }) => {
 
       <Modal.Footer>
         <Button type='submit' onClick={updateUser}>Save Updates</Button>
-        <Button variant='secondary' onClick={resetForm}>Cancel</Button>
+        <Button variant='secondary' onClick={resetComponent}>Cancel</Button>
       </Modal.Footer>
 
     </Modal>

@@ -8,11 +8,13 @@ const OrderItems = ({ setSelectedItem, setShowCustomize }) => {
   const dispatch = useDispatch()
   const items = useSelector((state) => state.currentOrder.items)
 
+  //
   const updateItem = (id) => {
     setSelectedItem(items.find((item) => item.uniqueId === id))
     setShowCustomize(true)
   }
 
+  //
   const deleteItem = (id) => {
     dispatch(deleteItemInOrder(id))
   }
