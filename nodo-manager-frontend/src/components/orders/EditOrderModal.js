@@ -31,6 +31,16 @@ const EditOrderModal = ({ order, show, setShow }) => {
   const [costs, setCosts] = useState(order.costs)
 
   //
+  const handleModalClose = async (doReset = true) => {
+    await dispatch(resetCurrentOrder())
+    await dispatch(isVisible(false))
+    if (doReset) {
+      resetForm()
+    }
+    setShow(false)
+  }
+
+  //
   const handleUpdateSubmission = async (event) => {
     event.preventDefault()
 
@@ -54,8 +64,6 @@ const EditOrderModal = ({ order, show, setShow }) => {
           updateOrderActionCreator(order._id, updatedOrderObject),
         )
 
-        await dispatch(resetCurrentOrder())
-
         // Set to form inputs vs reset to original order properties
         setForm({
           orderCategory: form.orderCategory,
@@ -63,20 +71,11 @@ const EditOrderModal = ({ order, show, setShow }) => {
           orderNotes: form.orderNotes,
         })
 
-        setShow(false)
-        await dispatch(isVisible(false))
+        handleModalClose(false) // Cleanup all but form
       } catch (err) {
         await dispatch(toastAlertCreator(err))
       }
     }
-  }
-
-  //
-  const handleModalClose = async () => {
-    await dispatch(resetCurrentOrder())
-    await dispatch(isVisible(false))
-    resetForm()
-    setShow(false)
   }
 
   return (

@@ -10,6 +10,7 @@ import OrdersList from './OrdersList'
 import ItemCustomizationModal from '../menu/ItemCustomizationModal'
 
 import { toastAlertCreator } from '../../reducers/alertReducer'
+import { isVisible } from '../../reducers/modalReducer'
 import { initializeOrders } from '../../reducers/orderReducer'
 
 const OrdersPage = () => {
@@ -42,6 +43,7 @@ const OrdersPage = () => {
   const createNewOrder = () => {
     if (currentOrder.items.length > 0) {
       setShowCurrentOrder(true)
+      dispatch(isVisible(true))
     } else {
       history.push('/menu')
     }

@@ -8,6 +8,7 @@ import Modal from 'react-bootstrap/Modal'
 import OrderPage from './OrderPage'
 
 import { resetCart } from '../../reducers/cartReducer'
+import { isVisible } from '../../reducers/modalReducer'
 
 const CurrentOrderModal = ({
   show,
@@ -17,24 +18,26 @@ const CurrentOrderModal = ({
   const history = useHistory()
 
   //
-  const handleAddItem = () => {
+  const handleClose = async () => {
+    await dispatch(isVisible(false))
     setShow(false)
+  }
+
+  //
+  const handleAddItem = async () => {
+    handleClose()
     history.push('/menu')
   }
 
   //
   const handleCancelOrder = async () => {
-    setShow(false)
+    handleClose()
     await dispatch(resetCart())
   }
 
   //
-  const handleClose = () => {
-    setShow(false)
-  }
-
-  //
-  const handleSubmitOrder = () => {
+  const handleSubmitOrder = async () => {
+    handleClose()
     history.push('/my-order')
   }
 

@@ -77,12 +77,12 @@ Procedure / TODOs
     + functionality exists
     - abstract into hook?
     - apply to all modals
-      + item, menu, modals
+      + item, menu, user modals
       - ORDERS
         + EditOrderModal
-      - USERS
 
   - Refactor ItemCustomizationModal to use either ModList or CheckedMods
+  - Remove CurrentOrderModal
 
 - MOBILE RESPONSIVENESS
   + login modal

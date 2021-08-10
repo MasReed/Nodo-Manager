@@ -3,15 +3,17 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
 import { deleteItemInOrder } from '../../reducers/currentOrderReducer'
+import { isVisible } from '../../reducers/modalReducer'
 
 const OrderItems = ({ setSelectedItem, setShowCustomize }) => {
   const dispatch = useDispatch()
   const items = useSelector((state) => state.currentOrder.items)
 
   //
-  const updateItem = (id) => {
+  const updateItem = async (id) => {
     setSelectedItem(items.find((item) => item.uniqueId === id))
     setShowCustomize(true)
+    await dispatch(isVisible(true))
   }
 
   //
