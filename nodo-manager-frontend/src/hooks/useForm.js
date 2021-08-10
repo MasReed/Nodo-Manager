@@ -57,6 +57,7 @@ const useForm = (fields = {}) => {
     // Reset all form fields to the initial state passed in when the useForm
     // hook is called.
     setFormProps(initialState)
+    setErrors({})
   }
 
   //

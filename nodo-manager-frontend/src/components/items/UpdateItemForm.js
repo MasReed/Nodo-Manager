@@ -20,7 +20,7 @@ const UpdateItemForm = ({ item, show, setShow }) => {
     itemName: item.name,
     itemCategory: item.category,
     itemDescription: item.description,
-    itemIngredients: item.ingredients,
+    itemIngredients: item.ingredients.join(', '),
     itemPrice: item.price,
     itemAvailability: item.availability,
   })

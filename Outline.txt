@@ -79,7 +79,6 @@ Procedure / TODOs
     - abstract into hook?
 
   - Refactor ItemCustomizationModal to use either ModList or CheckedMods
-  - Remove CurrentOrderModal
 
 - MOBILE RESPONSIVENESS
   + login modal
