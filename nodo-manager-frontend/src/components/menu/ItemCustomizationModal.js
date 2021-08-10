@@ -7,6 +7,7 @@ import Modal from 'react-bootstrap/Modal'
 
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { addItemToOrder, updateItemInOrder } from '../../reducers/currentOrderReducer'
+import { isVisible } from '../../reducers/modalReducer'
 import charactersRemaining from '../../utilities/charactersRemaining'
 
 const ItemCustomizationModal = ({
@@ -34,12 +35,13 @@ const ItemCustomizationModal = ({
   }, [item])
 
   //
-  const resetForm = () => {
+  const resetComponent = async () => {
     setForName('')
     setNotes('')
     setModList([])
     setItem({})
     setShow(false)
+    await dispatch(isVisible(false))
   }
 
   //
@@ -56,7 +58,7 @@ const ItemCustomizationModal = ({
 
       await dispatch(updateItemInOrder(customItemObject))
 
-      resetForm()
+      resetComponent()
     } catch (err) {
       await dispatch(toastAlertCreator(err))
     }
@@ -80,7 +82,7 @@ const ItemCustomizationModal = ({
 
       await dispatch(addItemToOrder(customItemObject))
 
-      await resetForm()
+      await resetComponent()
     } catch (err) {
       await dispatch(toastAlertCreator(err))
     }
@@ -89,7 +91,7 @@ const ItemCustomizationModal = ({
   return (
     <Modal
       show={show}
-      onHide={resetForm}
+      onHide={resetComponent}
       dialogClassName='modal-60w'
       backdrop='static'
       keyboard={false}
@@ -172,7 +174,7 @@ const ItemCustomizationModal = ({
       <Modal.Footer className='d-flex justify-content-between'>
         <Button
           variant='outline-warning'
-          onClick={resetForm}
+          onClick={resetComponent}
         >
           Cancel
         </Button>

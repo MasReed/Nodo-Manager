@@ -77,9 +77,12 @@ Procedure / TODOs
     + functionality exists
     - abstract into hook?
     - apply to all modals
-      + EditOrderModal
-      + NewItemForm
-      + UpdateItemForm
+      + item, menu, modals
+      - ORDERS
+        + EditOrderModal
+      - USERS
+
+  - Refactor ItemCustomizationModal to use either ModList or CheckedMods
 
 - MOBILE RESPONSIVENESS
   + login modal
@@ -92,9 +95,8 @@ Procedure / TODOs
   + refactor 'remaining characters code' to reusable component
   + refactor form validation to reusable hook
   + resetForm function resets to initial state passed to useForm
-
   + min/max length of form inputs all around
-  + strip leading/trailing whitespace from inputs ( .trim() method )
+  + strip leading/trailing whitespace from inputs ( now .trimStart() method )
   + utilize charactersRemaining in all forms if applicable
 
   + Item forms

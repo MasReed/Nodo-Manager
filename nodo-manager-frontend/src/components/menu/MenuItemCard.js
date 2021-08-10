@@ -1,15 +1,19 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 
+import { isVisible } from '../../reducers/modalReducer'
 import truncateString from '../../utilities/truncateString'
 
 const MenuItemCard = ({ item, setShowCustomize, setSelectedItem }) => {
+  const dispatch = useDispatch()
   // call props to display customization modal
-  const callCustomizeModal = () => {
+  const callCustomizeModal = async () => {
     setSelectedItem(item)
     setShowCustomize(true)
+    await dispatch(isVisible(true))
   }
 
   return (
