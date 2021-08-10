@@ -13,7 +13,7 @@ import ItemCustomizationModal from '../menu/ItemCustomizationModal'
 import useForm from '../../hooks/useForm'
 import { toastAlertCreator } from '../../reducers/alertReducer'
 import { resetCurrentOrder } from '../../reducers/currentOrderReducer'
-import { addOrderActionCreator } from '../../reducers/orderReducer'
+import { addOrderActionCreator, updateOrderActionCreator } from '../../reducers/orderReducer'
 
 const OrderPage = ({ order }) => {
   const dispatch = useDispatch()
@@ -66,7 +66,7 @@ const OrderPage = ({ order }) => {
   }
 
   //
-  const addOrder = async (event) => {
+  const saveOrder = async (event) => {
     event.preventDefault()
 
     if (currentOrder.items.length < 1) {
@@ -87,7 +87,12 @@ const OrderPage = ({ order }) => {
           },
         }
 
-        await dispatch(addOrderActionCreator(orderObject))
+        if (currentOrder.isUpdating) {
+          await dispatch(updateOrderActionCreator(currentOrder._id, orderObject))
+        } else {
+          await dispatch(addOrderActionCreator(orderObject))
+        }
+
         await dispatch(resetCurrentOrder())
         resetForm()
         history.push('/order-confirmed')
@@ -103,6 +108,10 @@ const OrderPage = ({ order }) => {
         <h1 className='m-0'>
           {currentOrder.name ? `${currentOrder.name}'s Order` : 'Your Order'}
         </h1>
+
+        <h6 className='align-self-center m-0'>
+          {currentOrder._id ? `ID: ${currentOrder._id}` : null}
+        </h6>
 
         {/* Menu Button */}
         <Button
@@ -156,12 +165,12 @@ const OrderPage = ({ order }) => {
             Add More
           </Button>
 
-          {/* Checkout or Save Updates Button */}
+          {/* Save Updates or Checkout Button */}
           <Button
             className='mx-2'
-            onClick={addOrder}
+            onClick={saveOrder}
           >
-            Checkout
+            {currentOrder.isUpdating ? 'Save Updates' : 'Checkout'}
           </Button>
         </div>
       </div>

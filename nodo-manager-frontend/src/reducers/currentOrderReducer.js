@@ -9,7 +9,7 @@ const currentOrderReducer = (state = { items: [], isUpdating: false }, action) =
     return action.data
 
   case 'RESET_ORDER':
-    return { items: [] }
+    return { items: [], isUpdating: false }
 
   case 'ADD_ORDER_ITEM':
     return {

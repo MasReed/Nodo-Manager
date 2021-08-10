@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
@@ -12,12 +13,13 @@ import ItemCustomizationModal from '../menu/ItemCustomizationModal'
 
 import useForm from '../../hooks/useForm'
 import { toastAlertCreator } from '../../reducers/alertReducer'
-import { resetCurrentOrder } from '../../reducers/currentOrderReducer'
+import { resetCurrentOrder, setOrderUpdating } from '../../reducers/currentOrderReducer'
 import { isVisible } from '../../reducers/modalReducer'
 import { updateOrderActionCreator } from '../../reducers/orderReducer'
 
 const EditOrderModal = ({ order, show, setShow }) => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const currentOrder = useSelector((state) => state.currentOrder)
 
   const [form, setForm, errors, isValidated, resetForm] = useForm({
@@ -38,6 +40,13 @@ const EditOrderModal = ({ order, show, setShow }) => {
       resetForm()
     }
     setShow(false)
+  }
+
+  //
+  const handleAddingItems = async () => {
+    await dispatch(isVisible(false))
+    await dispatch(setOrderUpdating(true))
+    history.push('/menu')
   }
 
   //
@@ -72,6 +81,7 @@ const EditOrderModal = ({ order, show, setShow }) => {
         })
 
         handleModalClose(false) // Cleanup all but form
+        dispatch(setOrderUpdating(false))
       } catch (err) {
         await dispatch(toastAlertCreator(err))
       }
@@ -127,8 +137,25 @@ const EditOrderModal = ({ order, show, setShow }) => {
             Cancel
           </Button>
 
-          {/* Save */}
-          <Button onClick={handleUpdateSubmission}>Save Updates</Button>
+          <div>
+            {/* Add Items */}
+            <Button
+              className='mx-2'
+              variant='outline-secondary'
+              onClick={handleAddingItems}
+            >
+              Add Items
+            </Button>
+
+            {/* Save */}
+            <Button
+              className='mx-2'
+              onClick={handleUpdateSubmission}
+            >
+              Save Updates
+            </Button>
+          </div>
+
         </Modal.Footer>
 
       </Modal>
