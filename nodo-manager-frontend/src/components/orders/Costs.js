@@ -15,7 +15,7 @@ const Costs = ({ setCosts }) => {
         .map((item) => item.basePrice)
         .reduce((sum, val) => (sum + val))
       const getTaxAmount = Math.round(getSubTotal * TAX_RATE * 100) / 100
-      const getTotal = getSubTotal + getTaxAmount
+      const getTotal = ((getSubTotal + getTaxAmount) * 100) / 100
 
       setSubTotal(getSubTotal)
       setTaxAmount(getTaxAmount)
