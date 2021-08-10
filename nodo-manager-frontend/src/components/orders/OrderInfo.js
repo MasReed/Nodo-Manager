@@ -4,9 +4,8 @@ import { useDispatch } from 'react-redux'
 import Button from 'react-bootstrap/Button'
 
 import EditOrderModal from './EditOrderModal'
-
 import { toastAlertCreator } from '../../reducers/alertReducer'
-import { setCurrentOrder } from '../../reducers/currentOrderReducer'
+import { setCurrentOrder, setOrderUpdating } from '../../reducers/currentOrderReducer'
 import { isVisible } from '../../reducers/modalReducer'
 import {
   updateOrderActionCreator,
@@ -65,6 +64,7 @@ const OrderInfo = ({ order }) => {
     await dispatch(setCurrentOrder(order))
     try {
       await setShowUpdateOrderModal(true)
+      await dispatch(setOrderUpdating(true))
       await dispatch(isVisible(true))
     } catch (err) {
       await dispatch(toastAlertCreator(err))

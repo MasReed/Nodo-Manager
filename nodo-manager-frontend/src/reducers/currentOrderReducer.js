@@ -1,6 +1,6 @@
 import orderService from '../services/orders'
 
-const currentOrderReducer = (state = { items: [] }, action) => {
+const currentOrderReducer = (state = { items: [], isUpdating: false }, action) => {
   switch (action.type) {
   case 'INIT_ORDER':
     return action.data
@@ -35,6 +35,12 @@ const currentOrderReducer = (state = { items: [] }, action) => {
       items: [
         ...state.items.filter((item) => item.uniqueId !== action.data.id),
       ],
+    }
+
+  case 'SET_ORDER_UPDATING':
+    return {
+      ...state,
+      isUpdating: action.data,
     }
 
   default:
@@ -85,5 +91,12 @@ export const deleteItemInOrder = (id) => async (dispatch) => {
     data: {
       id,
     },
+  })
+}
+
+export const setOrderUpdating = (isUpdating) => async (dispatch) => {
+  dispatch({
+    type: 'SET_ORDER_UPDATING',
+    data: isUpdating,
   })
 }
