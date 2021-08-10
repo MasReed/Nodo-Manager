@@ -8,6 +8,7 @@ import NewUserForm from './NewUserForm'
 import UsersList from './UsersList'
 
 import { toastAlertCreator } from '../../reducers/alertReducer'
+import { isVisible } from '../../reducers/modalReducer'
 import { initializeUsers } from '../../reducers/userReducer'
 
 const UsersPage = () => {
@@ -29,11 +30,17 @@ const UsersPage = () => {
     }
   })
 
+  //
+  const handleNewUserClick = async () => {
+    setShow(true)
+    await dispatch(isVisible(true))
+  }
+
   return (
     <Container className='pt-5'>
       <div className='d-flex justify-content-between'>
         <h1 className='m-0'>Users Page</h1>
-        <Button onClick={() => setShow(true)} variant='outline-secondary'>
+        <Button onClick={handleNewUserClick} variant='outline-secondary'>
           NEW USER
         </Button>
       </div>

@@ -9,6 +9,7 @@ import AlertBanner from '../site-wide/AlertBanner'
 import { userForms } from '../../configurations/formConfigs'
 import useForm from '../../hooks/useForm'
 import { toastAlertCreator } from '../../reducers/alertReducer'
+import { isVisible } from '../../reducers/modalReducer'
 import { addUserActionCreator } from '../../reducers/userReducer'
 import charactersRemaining from '../../utilities/charactersRemaining'
 
@@ -21,9 +22,10 @@ const NewUserForm = ({ show, setShow }) => {
   })
 
   //
-  const resetComponent = () => {
+  const resetComponent = async () => {
     resetForm()
     setShow(false)
+    await dispatch(isVisible(false))
   }
 
   //

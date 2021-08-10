@@ -118,6 +118,7 @@ Procedure / TODOs
   - User forms
     + NewUserForm
     + UpdateUserForm
+    - update user to existing username errors
     - check auth scope
 
 - ERROR HANDLING
