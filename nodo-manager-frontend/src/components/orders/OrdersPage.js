@@ -5,12 +5,10 @@ import { useHistory } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 
-import CurrentOrderModal from './CurrentOrderModal'
 import OrdersList from './OrdersList'
 import ItemCustomizationModal from '../menu/ItemCustomizationModal'
 
 import { toastAlertCreator } from '../../reducers/alertReducer'
-import { isVisible } from '../../reducers/modalReducer'
 import { initializeOrders } from '../../reducers/orderReducer'
 
 const OrdersPage = () => {
@@ -20,7 +18,6 @@ const OrdersPage = () => {
   const currentOrder = useSelector((state) => state.currentOrder)
   const orders = useSelector((state) => state.orders)
 
-  const [showCurrentOrder, setShowCurrentOrder] = useState(false)
   const [showCustomize, setShowCustomize] = useState(false)
   const [selectedItem, setSelectedItem] = useState({})
 
@@ -42,8 +39,7 @@ const OrdersPage = () => {
   //
   const createNewOrder = () => {
     if (currentOrder.items.length > 0) {
-      setShowCurrentOrder(true)
-      dispatch(isVisible(true))
+      history.push('/my-order')
     } else {
       history.push('/menu')
     }
@@ -64,14 +60,6 @@ const OrdersPage = () => {
 
       {/* All Orders */}
       <OrdersList orders={orders} />
-
-      {/* Modal Component */}
-      <CurrentOrderModal
-        show={showCurrentOrder}
-        setShow={setShowCurrentOrder}
-        setShowCustomize={setShowCustomize}
-        setSelectedItem={setSelectedItem}
-      />
 
       {/* Modal Component */}
       <ItemCustomizationModal

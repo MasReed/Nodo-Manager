@@ -75,11 +75,8 @@ Procedure / TODOs
 
   - conditional render alertBanner on site vs in modal
     + functionality exists
+    + apply to all modals
     - abstract into hook?
-    - apply to all modals
-      + item, menu, user modals
-      - ORDERS
-        + EditOrderModal
 
   - Refactor ItemCustomizationModal to use either ModList or CheckedMods
   - Remove CurrentOrderModal
