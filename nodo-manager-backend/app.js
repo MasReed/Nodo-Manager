@@ -40,11 +40,13 @@ app.use('/api/orders', ordersRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/authenticate', authenticationsRouter)
 
-// Serve React App
-app.use(express.static(path.join(__dirname, 'client', 'build')))
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
-})
+// Serve React App in production environment
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '/../nodo-manager-frontend', 'build')))
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '/../nodo-manager-frontend', 'build', 'index.html'))
+  })
+}
 
 // Centralized error handler
 app.use(errorHandler.errorHandler)
