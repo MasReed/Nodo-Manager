@@ -7,7 +7,7 @@ module.exports = {
   },
   extends: [
     'plugin:react/recommended',
-    'plugin:cypress/globals',
+    'plugin:cypress/recommended',
     'airbnb',
   ],
   parserOptions: {
