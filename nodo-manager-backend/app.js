@@ -2,6 +2,7 @@ const config = require('./utils/config')
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
+const path = require('path')
 const app = express()
 
 const errorHandler = require('./utils/errorHandling/errorHandler')
@@ -38,6 +39,12 @@ app.use('/api/items', itemsRouter)
 app.use('/api/orders', ordersRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/authenticate', authenticationsRouter)
+
+// Serve React App
+app.use(express.static(path.join(__dirname, 'client', 'build')))
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
+})
 
 // Centralized error handler
 app.use(errorHandler.errorHandler)

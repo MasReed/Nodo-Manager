@@ -9,7 +9,8 @@
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
     "start:test": "cross-env NODE_ENV=test node index.js",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix --ext .js,.jsx ."
+    "lint:fix": "eslint --fix --ext .js,.jsx .",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "author": "MasReed",
   "license": "ISC",
@@ -29,5 +30,8 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.12"
+  },
+  "engines": {
+    "node": "14.15.4"
   }
 }
