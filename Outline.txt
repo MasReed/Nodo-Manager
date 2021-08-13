@@ -138,9 +138,12 @@ Procedure / TODOs
     - reset user in db between each test
 
 - HEROKU DEPLOYMENT
-  - error on order submit, but order goes through?
-  - Update readme with url
-  - Include debug mode as env config
+  + error on order submit, but order goes through?
+  + Update readme with url
+  + Include debug mode as env config
+  - Ingredients list trailing comma
+  - update user form username on users page
+  - orderpage name should update order name if changed from default
 
 - OTHER
   - implement 'undo action' functionality as reusable hook
