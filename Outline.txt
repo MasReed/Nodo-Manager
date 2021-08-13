@@ -139,7 +139,7 @@ Procedure / TODOs
 
 - HEROKU DEPLOYMENT
   + error on order submit, but order goes through?
-  + Update readme with url
+  + Update readme with url/features/challenges
   + Include debug mode as env config
   - Ingredients list trailing comma
   - update user form username on users page
