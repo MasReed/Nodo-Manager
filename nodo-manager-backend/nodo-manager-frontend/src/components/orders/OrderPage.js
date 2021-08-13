@@ -37,7 +37,7 @@ const OrderPage = ({ order }) => {
     if (currentOrder.name) {
       defaultName = currentOrder.name
     } else if (currentUser) {
-      defaultName = currentUser.name
+      defaultName = currentUser.username
     } else if (currentOrder && currentOrder.items.length > 0) {
       const itemWhosIndex = currentOrder.items.findIndex((elem) => elem.whos !== '')
 

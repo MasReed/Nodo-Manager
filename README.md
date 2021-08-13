@@ -2,7 +2,7 @@
 
 ### A simple restaurant management system built within a MERN stack
 
-## Check It out Here 👉 https://nodo-manager.herokuapp.com/ 👈
+## 👉 https://nodo-manager.herokuapp.com/ 👈
 
 Technologies:
 
