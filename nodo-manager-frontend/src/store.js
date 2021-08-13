@@ -27,7 +27,7 @@ const store = createStore(
   ),
 )
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.DEBUG_MODE || process.env.NODE_ENV !== 'production') {
   store.subscribe(() => {
     const storeNow = store.getState()
     console.log('STORENOW', storeNow)

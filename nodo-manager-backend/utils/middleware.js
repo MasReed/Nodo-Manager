@@ -1,6 +1,6 @@
 // Logs api requests to the console.
 const requestLogger = (request, response, next) => {
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.DEBUG_MODE || process.env.NODE_ENV === 'development') {
     console.log('-----------------------------------')
     console.log('----------  NEW REQUEST  ----------')
     console.log('-----------------------------------')

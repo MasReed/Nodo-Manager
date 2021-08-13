@@ -3,7 +3,7 @@
 const errorHandler = (err, req, res, next) => {
 
   try {
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.DEBUG_MODE || process.env.NODE_ENV === 'development') {
       console.log('')
       console.log('-----------------------------------')
       console.log('-------------  ERROR  -------------')

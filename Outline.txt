@@ -137,6 +137,11 @@ Procedure / TODOs
   + RegisterForm tests
     - reset user in db between each test
 
+- HEROKU DEPLOYMENT
+  - error on order submit, but order goes through?
+  - Update readme with url
+  - Include debug mode as env config
+
 - OTHER
   - implement 'undo action' functionality as reusable hook
   - archive orders
