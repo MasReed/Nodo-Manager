@@ -14,7 +14,7 @@ const signup = async (req, res, next) => {
     username: req.body.username,
     email: req.body.email,
     passwordHash: await bcrypt.hash(req.body.password, 10),
-    orders: null
+    orders: []
   })
 
   if (req.body.role) {
