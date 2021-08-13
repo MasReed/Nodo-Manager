@@ -16,15 +16,17 @@
 
 ### Programming Challenges:
 
-- Custom react hook for frontend form use and validation
-- Authorized page routing
-- Mobile Responsive (Work in progress)
-- Modal displays
+- Frontend
+    - Custom react hook for frontend form use and validation
+    - Authorized page routing
+    - Mobile Responsive (Work in progress)
+    - Modal displays
 
-- Custom centralized error-handling middleware in express
-- Custom MongoDB collection validation middleware
-- Custom Role/account authorization validation for requests
-- Account authentication with jsonwebtokens
-- API testing with supertest/jest
+- Backend
+    - Custom centralized error-handling middleware in express
+    - Custom MongoDB collection validation middleware
+    - Custom Role/account authorization validation for requests
+    - Account authentication with jsonwebtokens
+    - API testing with supertest/jest
 
 - Deployment on heroku server
