@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
@@ -13,8 +13,10 @@ import { isVisible } from '../../reducers/modalReducer'
 import { updateUserActionCreator } from '../../reducers/userReducer'
 import charactersRemaining from '../../utilities/charactersRemaining'
 
-const UpdateUserForm = ({ user, show, setShow }) => {
+const UpdateUserForm = ({ userId, show, setShow }) => {
   const dispatch = useDispatch()
+  const user = useSelector((state) => state.users
+    .find((userObject) => userObject.id === userId))
 
   const [form, setForm, errors, isValidated, resetForm] = useForm({
     usersName: user.name,
@@ -24,10 +26,13 @@ const UpdateUserForm = ({ user, show, setShow }) => {
   })
 
   //
-  const resetComponent = async () => {
-    resetForm()
-    setShow(false)
+  const resetComponent = async (formReset = true) => {
+    if (formReset) {
+      resetForm()
+    }
+
     await dispatch(isVisible(false))
+    setShow(false)
   }
 
   //
@@ -49,7 +54,14 @@ const UpdateUserForm = ({ user, show, setShow }) => {
 
         await dispatch(updateUserActionCreator(user.id, updatedUserObject))
 
-        resetComponent()
+        setForm({
+          usersName: form.usersName,
+          email: form.email,
+          username: form.username,
+          roleName: form.roleName,
+        })
+
+        resetComponent(false) // reset all but form
       } catch (err) {
         dispatch(toastAlertCreator(err))
       }

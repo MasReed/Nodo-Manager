@@ -29,7 +29,7 @@ const UsersList = () => {
 
   return (
     <div>
-      {users && sortedUsers.map((user) => <UserInfo key={user.id} user={user} />)}
+      {users && sortedUsers.map((user) => <UserInfo key={user.id} userId={user.id} />)}
     </div>
   )
 }

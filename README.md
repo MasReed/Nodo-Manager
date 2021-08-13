@@ -1,8 +1,8 @@
 # Nodo-Manager
 
-### A simple restaurant management system built within a MERN stack
-
 ## 👉 https://nodo-manager.herokuapp.com/ 👈
+
+### A simple restaurant management system built within a MERN stack
 
 ### Technologies:
 
@@ -11,8 +11,6 @@
 - Frontend Framework: React / Redux / React-Bootstrap
 - Api Testing: Jest / Supertest
 - Authentication middleware: bcrypt, jsonwebtoken
-
-
 
 ### Programming Challenges:
 

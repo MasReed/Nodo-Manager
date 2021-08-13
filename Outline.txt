@@ -142,7 +142,7 @@ Procedure / TODOs
   + Update readme with url/features/challenges
   + Include debug mode as env config
   - Ingredients list trailing comma
-  - update user form username on users page
+  + update user form username on users page
   - orderpage name should update order name if changed from default
 
 - OTHER

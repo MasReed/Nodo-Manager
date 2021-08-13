@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Button from 'react-bootstrap/Button'
 
 import UpdateUserForm from './UpdateUserForm'
@@ -8,8 +8,10 @@ import { toastAlertCreator } from '../../reducers/alertReducer'
 import { isVisible } from '../../reducers/modalReducer'
 import { deleteUserActionCreator } from '../../reducers/userReducer'
 
-const UserInfo = ({ user }) => {
+const UserInfo = ({ userId }) => {
   const dispatch = useDispatch()
+  const user = useSelector((state) => state.users
+    .find((userObject) => userObject.id === userId))
 
   const [showUpdateModal, setShowUpdateModal] = useState(false)
 
@@ -56,7 +58,7 @@ const UserInfo = ({ user }) => {
 
       {/* Modal Component */}
       <UpdateUserForm
-        user={user}
+        userId={userId}
         show={showUpdateModal}
         setShow={setShowUpdateModal}
       />
