@@ -99,7 +99,7 @@ const ItemCustomizationModal = ({
     >
       <Modal.Header closeButton>
         <Modal.Title>
-          {`Customizing Your ${item.baseName}`}
+          {`Customizing Your ${item.baseName || item.name}`}
         </Modal.Title>
       </Modal.Header>
 

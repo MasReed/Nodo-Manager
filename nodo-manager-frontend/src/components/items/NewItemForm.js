@@ -39,7 +39,7 @@ const NewItemForm = ({ show, setShow }) => {
     // convert comma-separated items into array if neccessary
     const ingredientsArray = Array.isArray(form.itemIngredients)
       ? form.itemIngredients
-      : form.itemIngredients.split(/\s*(?:,|$)\s*/)
+      : form.itemIngredients.split(/\s*(?:,|$)\s*/).filter((ingredient) => ingredient !== '')
 
     if (isValidated()) {
       try {

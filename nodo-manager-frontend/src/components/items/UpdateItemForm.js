@@ -39,7 +39,7 @@ const UpdateItemForm = ({ item, show, setShow }) => {
     const ingredientsArray = Array.isArray(form.itemIngredients)
       // convert comma-separated items into array if neccessary
       ? form.itemIngredients
-      : form.itemIngredients.split(/\s*(?:,|$)\s*/)
+      : form.itemIngredients.split(/\s*(?:,|$)\s*/).filter((ingredient) => ingredient !== '')
 
     // Check for any form errors
     if (isValidated()) {
