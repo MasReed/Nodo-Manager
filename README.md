@@ -1,6 +1,6 @@
 # Nodo-Manager
 
-## 👉 https://nodo-manager.herokuapp.com/ 👈
+## 👉 http://restaurant.monsed.com/ 👈
 
 ### A simple restaurant management system built within a MERN stack
 
