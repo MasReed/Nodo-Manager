@@ -37,6 +37,12 @@ const currentOrderReducer = (state = { items: [], isUpdating: false }, action) =
       ],
     }
 
+  case 'SET_ORDER_NAME':
+    return {
+      ...state,
+      name: action.data,
+    }
+
   case 'SET_ORDER_UPDATING':
     return {
       ...state,
@@ -91,6 +97,13 @@ export const deleteItemInOrder = (id) => async (dispatch) => {
     data: {
       id,
     },
+  })
+}
+
+export const setOrderName = (name) => async (dispatch) => {
+  dispatch({
+    type: 'SET_ORDER_NAME',
+    data: name,
   })
 }
 

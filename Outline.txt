@@ -141,9 +141,9 @@ Procedure / TODOs
   + error on order submit, but order goes through?
   + Update readme with url/features/challenges
   + Include debug mode as env config
-  - Ingredients list trailing comma
+  + Ingredients list trailing comma
   + update user form username on users page
-  - orderpage name should update order name if changed from default
+  + orderpage name should update order name if changed from default
   - MyAccount no longer showing previous orders
 
 - OTHER
