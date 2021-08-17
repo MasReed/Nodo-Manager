@@ -15,7 +15,7 @@ const Costs = ({ setCosts }) => {
         .map((item) => item.basePrice)
         .reduce((sum, val) => (sum + val))
       const getTaxAmount = Math.round(getSubTotal * TAX_RATE * 100) / 100
-      const getTotal = ((getSubTotal + getTaxAmount) * 100) / 100
+      const getTotal = Math.round((getSubTotal + getTaxAmount) * 100) / 100
 
       setSubTotal(getSubTotal)
       setTaxAmount(getTaxAmount)
@@ -39,23 +39,19 @@ const Costs = ({ setCosts }) => {
       </div>
       <div className='ml-2 text-right'>
         <h6 className='m-0 p-0'>
-          $
-          {subTotal}
+          {`$${subTotal}`}
         </h6>
         <p className='m-0 p-0'>
           <small>
-            x
-            {TAX_RATE}
+            {`x${TAX_RATE}`}
           </small>
         </p>
         <h6 className='m-0 p-0'>
-          $
-          {taxAmount}
+          {`$${taxAmount}`}
         </h6>
       </div>
       <h4 className='m-0 ml-auto mt-auto pt-auto font-weight-bold text-right'>
-        Total: $
-        {total}
+        {`Total: $${total}`}
       </h4>
     </div>
   )
